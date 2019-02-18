@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/widget_toobar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:text="分类标签"
+        android:textColor="@color/register_font"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/login_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="11dp"
+            android:layout_weight="1"
+            android:background="@color/login_line"
+            android:paddingBottom="10dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="3dp"
+            android:paddingTop="10dp"
+            android:text="功能建议"
+            android:textColor="@color/login_walling_fort" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@color/login_line"
+            android:paddingBottom="9dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="3dp"
+            android:paddingTop="9dp"
+            android:text="体验建议"
+            android:textColor="@color/login_walling_fort" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:background="@color/login_line"
+            android:paddingBottom="9dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="3dp"
+            android:paddingTop="9dp"
+            android:text="内容建议"
+            android:textColor="@color/login_walling_fort" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="11dp"
+            android:layout_weight="1"
+            android:background="@color/login_line"
+            android:paddingBottom="9dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="3dp"
+            android:paddingTop="9dp"
+            android:text="bug反馈"
+            android:textColor="@color/login_walling_fort" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/login_line" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:text="分类标签"
+        android:textColor="@color/register_font"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/login_line" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="149dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="28dp"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="如反馈新增功能问题，请直接在此输入需要的功能,我们会第一时间按处理"
+        android:paddingTop="9dp"
+        android:textColorHint="@color/login_walling_fort" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/login_line" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="9dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add_pictrue" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="9dp"
+        android:background="@color/login_line" />
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="19dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="17dp" />
+
+</LinearLayout>

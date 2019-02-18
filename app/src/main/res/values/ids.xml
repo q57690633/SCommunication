@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id" />
+    <item name="toolbar_title" type="id" />
+    <item name="toolbar_right" type="id" />
+    <item name="toolbar_quxiao" type="id" />
+    <item name="toolbar_bianji" type="id"/>
+
+</resources>

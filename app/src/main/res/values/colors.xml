@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="blank">#000000</color>
+    <color name="blue">#0058FF</color>
+    <color name="white">#ffffff</color>
+
+    <color name="login_line">#CCCCCC</color>
+    <color name="login_walling_fort">#999999</color>
+    <color name="login_forget_password_code_fort">#F2F2F2</color>
+    <color name="register_font">#333333</color>
+    <color name="sell_font">#666666</color>
+
+    <color name="Font_color_title">#313131</color>
+
+    <color name="tabDef">#969798</color>
+    <color name="red">#E60012</color>
+    <color name="red_setting">#F23426</color>
+    <color name="red_pay">#F23426</color>
+
+    <color name="green_domestic">#0CB951</color>
+
+    <color name="white_ticketing">#fefefe</color>
+
+    <color name="ed_phone">#e6e6e6</color>
+
+    <color name="bg_person">#F4F4F4</color>
+
+    <color name="blue_alpha">#330058FF</color>
+
+    <color name="huis">#bfbfbf</color>
+</resources>

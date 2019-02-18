@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toobar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:singleLine="true"
+        android:text="新消息汇总"
+        android:textColor="@color/register_font"
+        android:textSize="15sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/list_message"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="新增"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="置顶"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="出售"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="出租"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="求购"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="求租"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/login_walling_fort" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="高碑店总群"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="36"
+                    android:textColor="@color/red_setting"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="36"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="36"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="36"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="36"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/login_walling_fort" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="本公司总群"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="15"
+                    android:textColor="@color/red_setting"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="58"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="58"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="58"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="58"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/login_walling_fort" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="个人信息"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dp"
+                    android:singleLine="true"
+                    android:text="3"
+                    android:textColor="@color/red_setting"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="6"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="9"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="25"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="1.5dip"
+                    android:layout_height="fill_parent"
+                    android:background="@color/login_walling_fort" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dip"
+                    android:singleLine="true"
+                    android:text="4"
+                    android:textColor="@color/register_font"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+

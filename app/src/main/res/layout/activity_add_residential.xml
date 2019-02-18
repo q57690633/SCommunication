@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <include layout="@layout/widget_toobar"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/login_forget_password_code_fort"
+        android:hint="输入新小区名称"
+        android:padding="9dp"
+        android:textColorHint="@color/login_walling_fort" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="14dp"
+        android:background="@color/login_forget_password_code_fort"
+        android:hint="输入小区地址（选填）"
+        android:padding="9dp"
+        android:textColorHint="@color/login_walling_fort" />
+
+    <TextView
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="19dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>

@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">SCommunication</string>
+
+    <string name="main_tab_home">首页</string>
+    <string name="main_tab_Assortment">通讯录</string>
+    <string name="main_tab_Information">发布</string>
+    <string name="main_tab_ShopCar">会员</string>
+    <string name="main_tab_Users">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_forget_pass_word">ForgetPassWordActivity</string>
+    <string name="title_activity_register_one">RegisterOneActivity</string>
+    <string name="title_activity_register_information">RegisterInformationActivity</string>
+    <string name="title_activity_my">MyActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_my_information">MyInformationActivity</string>
+    <string name="title_activity_new_message">NewMessageActivity</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
+    <string name="title_activity_change_phone">ChangePhoneActivity</string>
+    <string name="title_activity_work_message">WorkMessageActivity</string>
+    <string name="title_activity_change_head">ChangeHeadActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="my_information">个人信息</string>
+    <string name="title_activity_pay">PayActivity</string>
+    <string name="title_activity_sell">SellActivity</string>
+    <string name="title_activity_domestic">DomesticActivity</string>
+    <string name="title_activity_release">ReleaseActivity</string>
+    <string name="title_activity_relese_lase">ReleseLaseActivity</string>
+    <string name="title_activity_release_interface">ReleaseInterfaceActivity</string>
+    <string name="title_activity_release_buy">ReleaseBuyActivity</string>
+    <string name="title_activity_release_rent">ReleaseRentActivity</string>
+    <string name="title_activity_add_residential">AddResidentialActivity</string>
+    <string name="title_activity_overseas_release">OverseasReleaseActivity</string>
+    <string name="title_activity_release_ticketing">ReleaseTicketingActivity</string>
+    <string name="title_activity_release_zhou_boundary">ReleaseZhouBoundaryActivity</string>
+    <string name="title_activity_add_friend">AddFriendActivity</string>
+    <string name="title_activity_detailed_information">DetailedInformationActivity</string>
+    <string name="title_activity_friend_detailed">FriendDetailedActivity</string>
+    <string name="title_activity_invitation">InvitationActivity</string>
+
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_header_hint_success">刷新成功</string>
+    <string name="xlistview_header_hint_failt">刷新失败</string>
+    <string name="no_found">抱歉，没有找到匹配的数据，可尝试在下方手动搜索</string>
+
+    <string name="pull_to_refresh">下拉可以刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="not_updated_yet">暂未更新过</string>
+    <string name="updated_at">上次更新于%1$s前</string>
+    <string name="updated_just_now">刚刚更新</string>
+    <string name="time_error">时间有问题</string>
+    <string name="title_activity_match">MatchActivity</string>
+    <string name="title_activity_collection">CollectionActivity</string>
+    <string name="title_activity_rent">RentActivity</string>
+    <string name="title_activity_qiu_gou">QiuGouActivity</string>
+    <string name="title_activity_qiu_zu">QiuZuActivity</string>
+    <string name="title_activity_top_selection">TopSelectionActivity</string>
+    <string name="title_activity_data_base">DataBaseActivity</string>
+    <string name="caixian"><![CDATA[踩线&甩单]]></string>
+    <string name="title_activity_guo_nei">GuoNeiActivity</string>
+    <string name="title_activity_jing_wai">JingWaiActivity</string>
+    <string name="title_activity_ticketing">TicketingActivity</string>
+    <string name="title_activity_zhou_bian_details">ZhouBianDetailsActivity</string>
+    <string name="title_activity_collect_travel">CollectTravelActivity</string>
+    <string name="title_activity_cai_xian">CaiXianActivity</string>
+    <string name="title_activity_data_base_travel">DataBaseTravelActivity</string>
+    <string name="title_activity_histroy">HistroyActivity</string>
+    <string name="title_activity_ke_fu">KeFuActivity</string>
+    <string name="title_activity_tui_jian">TuiJianActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_provinces">ProvincesActivity</string>
+    <string name="title_activity_city">CityActivity</string>
+    <string name="title_activity_county">CountyActivity</string>
+    <string name="title_activity_provinces_travel">ProvincesTravelActivity</string>
+    <string name="title_activity_city_travel">CityTravelActivity</string>
+    <string name="title_activity_inland_spot">InlandSpotActivity</string>
+    <string name="title_activity_foreign_nation">ForeignNationActivity</string>
+    <string name="title_activity_foreign_city">ForeignCityActivity</string>
+    <string name="title_activity_foreign_spot">ForeignSpotActivity</string>
+
+</resources>

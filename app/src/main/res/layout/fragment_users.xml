@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/blue"
+            >
+
+            <TextView
+                android:id="@id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="我的"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/image_title"
+                android:layout_width="82dp"
+                android:layout_height="82dp"
+                android:scaleType="centerCrop"
+                android:background="@color/blue"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"/>
+
+            <LinearLayout
+                android:layout_toRightOf="@id/image_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="胡二巴"
+                    android:textSize="16dp"
+                    android:textColor="@color/register_font" />
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="创居不动产·五里路店·店员"
+                    android:textSize="14dp"
+                    android:textColor="@color/register_font" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电话：13233220022"
+                    android:textSize="14dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/register_font" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_back2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/login_line"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginLeft="11dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_sql"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/image_sql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_database"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:layout_toRightOf="@id/image_sql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/register_font"
+                android:textSize="16dp"
+                android:text="个人数据库"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_back2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/login_line"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginLeft="11dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_collect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/image_collecting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_collecting"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:layout_toRightOf="@id/image_collecting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/register_font"
+                android:textSize="16dp"
+                android:text="收藏"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_back2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/login_line"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginLeft="11dp"/>
+
+        <RelativeLayout
+            android:id="@+id/rl_opinion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/image_Opinion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_opinion"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:layout_toRightOf="@id/image_Opinion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/register_font"
+                android:textSize="16dp"
+                android:text="意见反馈"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_back2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/login_line" />
+        <RelativeLayout
+            android:id="@+id/rl_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp">
+
+            <ImageView
+                android:id="@+id/image_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_setting"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:layout_toRightOf="@id/image_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/register_font"
+                android:textSize="16dp"
+                android:text="设置"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_back2"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/login_line"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginLeft="11dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+
