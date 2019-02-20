@@ -140,4 +140,9 @@ public class Constanst {
 
     public static final String SPOT_NATION_NAME = "spot_nation_name";
 
+    //腾讯IM
+    public static final int TIMSDKAPPID = 1400167006;
+
+    public static final String TIMAccountType = "36862";
+
 }
