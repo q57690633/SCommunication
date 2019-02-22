@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,13 +29,24 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.cammer.HttpUtil;
+import com.huxin.communication.ui.cammer.ImagePickerAdapter;
+import com.huxin.communication.ui.cammer.MyStringCallBack;
+import com.huxin.communication.ui.cammer.SelectDialog;
+import com.huxin.communication.ui.house.release.ReleseLaseActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ReleaseTicketingActivity extends BaseActivity implements View.OnClickListener {
+import okhttp3.Call;
+
+public class ReleaseTicketingActivity extends BaseActivity implements View.OnClickListener ,ImagePickerAdapter.OnRecyclerViewItemClickListener{
 
     private TextView mTextViewSpot;
     private TextView mTextViewOther;
@@ -108,7 +120,17 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
     private int caixian = 0;
 
+    public static final int IMAGE_ITEM_ADD = -1;
+    public static final int REQUEST_CODE_SELECT = 100;
+    public static final int REQUEST_CODE_PREVIEW = 101;
 
+    private ArrayList<ImageItem> selImageList; //当前选择的所有图片
+    private int maxImgCount = 9;               //允许选择图片最大数
+
+    private RecyclerView mRecyclerViewAddPicture;
+    private ImagePickerAdapter adapter;
+
+    private HttpUtil httpUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,6 +206,9 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
         mTextViewConfirm = (TextView) findViewById(R.id.confirm);
 
+        mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
+
+
         mTextViewSpot.setOnClickListener(this);
         mTextViewOther.setOnClickListener(this);
 
@@ -213,6 +238,14 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
+        httpUtil = new HttpUtil();
+        selImageList = new ArrayList<>();
+        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter.setOnItemClickListener(this);
+
+        mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerViewAddPicture.setHasFixedSize(true);
+        mRecyclerViewAddPicture.setAdapter(adapter);
     }
 
     @Override
@@ -431,5 +464,102 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             recyclerView.setLayoutManager(manager);
             recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
+    }
+
+    /**
+     * 打开相机
+     * @param view
+     * @param position
+     */
+    @Override
+    public void onItemClick(View view, int position) {
+        List<String> names = new ArrayList<>();
+        names.add("拍照");
+        names.add("相册");
+        showDialog(new SelectDialog.SelectDialogListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: // 直接调起相机
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent = new Intent(ReleaseTicketingActivity.this, ImageGridActivity.class);
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        startActivityForResult(intent, REQUEST_CODE_SELECT);
+                        break;
+                    case 1:
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent1 = new Intent(ReleaseTicketingActivity.this, ImageGridActivity.class);
+                        startActivityForResult(intent1, REQUEST_CODE_SELECT);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }, names);
+    }
+
+    /**
+     * 获取返回的图片信息
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KyLog.d(requestCode  + "");
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            //添加图片返回
+            if (data != null && requestCode == REQUEST_CODE_SELECT) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images != null){
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        } else if (resultCode == ImagePicker.RESULT_CODE_BACK) {
+            //预览图片返回
+            if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
+                if (images != null){
+                    selImageList.clear();
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        }
+    }
+
+    private String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
+
+    /**
+     * 上传图片
+     * @param pathList
+     */
+    private void uploadImage(ArrayList<ImageItem> pathList) {
+        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d(e + "");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                //返回图片的地址
+            }
+        });
+    }
+
+    private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
+        SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);
+        if (!this.isFinishing()) {
+            dialog.show();
+        }
+        return dialog;
     }
 }

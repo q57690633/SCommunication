@@ -18,16 +18,25 @@ import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.cammer.HttpUtil;
+import com.huxin.communication.ui.cammer.ImagePickerAdapter;
+import com.huxin.communication.ui.cammer.MyStringCallBack;
+import com.huxin.communication.ui.cammer.SelectDialog;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+
 /**
  * 发布出租
  */
-public class ReleseLaseActivity extends BaseActivity implements View.OnClickListener {
+public class ReleseLaseActivity extends BaseActivity implements View.OnClickListener ,ImagePickerAdapter.OnRecyclerViewItemClickListener{
     private EditText mEditTextVillageName;
     private EditText mEditTextAcreage;
     private TextView mEditTextHouseType;
@@ -77,6 +86,18 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private int keying = 1;
     private int exclusive = 2;
 
+    public static final int IMAGE_ITEM_ADD = -1;
+    public static final int REQUEST_CODE_SELECT = 100;
+    public static final int REQUEST_CODE_PREVIEW = 101;
+
+    private ArrayList<ImageItem> selImageList; //当前选择的所有图片
+    private int maxImgCount = 9;               //允许选择图片最大数
+
+    private RecyclerView mRecyclerViewAddPicture;
+    private ImagePickerAdapter adapter;
+
+    private HttpUtil httpUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +144,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_release_sell);
 
+        mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
+
+
         mTextViewHouseHoldAppliances.setOnClickListener(this);
         mTextViewFitment.setOnClickListener(this);
         mTextViewPermit.setOnClickListener(this);
@@ -145,6 +169,14 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setTabData();
+        httpUtil = new HttpUtil();
+        selImageList = new ArrayList<>();
+        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter.setOnItemClickListener(this);
+
+        mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerViewAddPicture.setHasFixedSize(true);
+        mRecyclerViewAddPicture.setAdapter(adapter);
     }
 
     @Override
@@ -195,8 +227,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewFitment.setText(setOccupation().get(position).getName());
-                        fitment = setOccupation().get(position).getName();
+                        mTextViewFitment.setText(setFitment().get(position).getName());
+                        fitment = setFitment().get(position).getName();
                         mReleaseDialog.cancel();
                     }
                 });
@@ -221,8 +253,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewPermit.setText(setOccupation().get(position).getName());
-                        permit = setOccupation().get(position).getName();
+                        mTextViewPermit.setText(setPermit().get(position).getName());
+                        permit = setPermit().get(position).getName();
                         mReleaseDialog.cancel();
                     }
                 });
@@ -246,8 +278,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewOrientation.setText(setOccupation().get(position).getName());
-                        orientation = setOccupation().get(position).getName();
+                        mTextViewOrientation.setText(setOrientation().get(position).getName());
+                        orientation = setOrientation().get(position).getName();
                         mReleaseDialog.cancel();
                     }
                 });
@@ -272,8 +304,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewPurpose.setText(setOccupation().get(position).getName());
-                        purpose = setOccupation().get(position).getName();
+                        mTextViewPurpose.setText(setPurpose().get(position).getName());
+                        purpose = setPurpose().get(position).getName();
                         mReleaseDialog.cancel();
                     }
                 });
@@ -298,8 +330,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mEditTextHouseType.setText(setOccupation().get(position).getName());
-                        houseType = setOccupation().get(position).getName();
+                        mEditTextHouseType.setText(setHouseType().get(position).getName());
+                        houseType = setHouseType().get(position).getName();
                         mReleaseDialog.cancel();
                     }
                 });
@@ -307,7 +339,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.confirm:
-                addSaleProduct();
+                addRentProduct();
+                uploadImage(selImageList);
                 break;
             case R.id.new_tv_release:
                 mEditTextNewClick.setVisibility(View.VISIBLE);
@@ -375,11 +408,17 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             case R.id.exclusive_ed_release:
                 if (isclicked) {
                     mTextViewExclusive.setBackgroundColor(getResources().getColor(R.color.red_setting));
+                    mTextViewExclusive.setTextColor(getResources().getColor(R.color.white));
+
                     isclicked = false;
+                    exclusive = 1;
 
                 } else {
                     mTextViewExclusive.setBackgroundColor(getResources().getColor(R.color.login_forget_password_code_fort));
-                    isclicked = false;
+                    mTextViewExclusive.setTextColor(getResources().getColor(R.color.register_font));
+
+                    isclicked = true;
+                    exclusive = 2;
                 }
                 break;
 
@@ -409,10 +448,11 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private List<MyPopVlaues> setPermit() {
         Kouweilist = new ArrayList<MyPopVlaues>();
-        Kouweilist.add(new MyPopVlaues("未知"));
-        Kouweilist.add(new MyPopVlaues("不满两年"));
-        Kouweilist.add(new MyPopVlaues("满两年"));
-        Kouweilist.add(new MyPopVlaues("满五年"));
+        Kouweilist.add(new MyPopVlaues("不限"));
+        Kouweilist.add(new MyPopVlaues("押一付一"));
+        Kouweilist.add(new MyPopVlaues("押一付三"));
+        Kouweilist.add(new MyPopVlaues("押一付六"));
+        Kouweilist.add(new MyPopVlaues("押一年付"));
         return Kouweilist;
     }
 
@@ -447,15 +487,15 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private List<MyPopVlaues> setHouseType() {
         Kouweilist = new ArrayList<MyPopVlaues>();
-        Kouweilist.add(new MyPopVlaues("一居室"));
-        Kouweilist.add(new MyPopVlaues("二居室"));
-        Kouweilist.add(new MyPopVlaues("三居室"));
-        Kouweilist.add(new MyPopVlaues("四居室"));
-
+        Kouweilist.add(new MyPopVlaues("一室"));
+        Kouweilist.add(new MyPopVlaues("两室"));
+        Kouweilist.add(new MyPopVlaues("三室"));
+        Kouweilist.add(new MyPopVlaues("四室"));
+        Kouweilist.add(new MyPopVlaues("五室及以上"));
         return Kouweilist;
     }
 
-    private void addSaleProduct() {
+    private void addRentProduct() {
         String VillageName = mEditTextVillageName.getText().toString().trim();
         String Acreage = mEditTextAcreage.getText().toString().trim();
         String totalPrice = mEditTextTotalPrice.getText().toString().trim();
@@ -470,10 +510,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         KyLog.d(keying + "");
 
         showProgressDialog();
-        ApiModule.getInstance().addSaleProduct(VillageName, Acreage, houseType, totalPrice
-                , floorNumber, totalFloorNumber, String.valueOf(NeworOld), String.valueOf(loans), String.valueOf(keying),
-                houseHoldAppliances, fitment, permit, orientation, purpose, title, "2",
-                "2", "2", houseNumber, pdu, floorSize)
+        ApiModule.getInstance().addRentProduct(VillageName,Acreage,"",totalPrice,
+                floorNumber,totalFloorNumber,fitment,String.valueOf(keying),permit,title,"1",
+                "",String.valueOf(exclusive),"",houseHoldAppliances,orientation,houseNumber,floorSize,pdu)
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -507,4 +546,106 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
+
+    /**
+     * 打开相机
+     * @param view
+     * @param position
+     */
+    @Override
+    public void onItemClick(View view, int position) {
+        List<String> names = new ArrayList<>();
+        names.add("拍照");
+        names.add("相册");
+        showDialog(new SelectDialog.SelectDialogListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: // 直接调起相机
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent = new Intent(ReleseLaseActivity.this, ImageGridActivity.class);
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        startActivityForResult(intent, REQUEST_CODE_SELECT);
+                        break;
+                    case 1:
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent1 = new Intent(ReleseLaseActivity.this, ImageGridActivity.class);
+                        startActivityForResult(intent1, REQUEST_CODE_SELECT);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }, names);
+    }
+
+    /**
+     * 获取返回的图片信息
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KyLog.d(requestCode  + "");
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            //添加图片返回
+            if (data != null && requestCode == REQUEST_CODE_SELECT) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images != null){
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        } else if (resultCode == ImagePicker.RESULT_CODE_BACK) {
+            //预览图片返回
+            if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
+                if (images != null){
+                    selImageList.clear();
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        }
+    }
+
+    private String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
+
+    /**
+     * 上传图片
+     * @param pathList
+     */
+    private void uploadImage(ArrayList<ImageItem> pathList) {
+        KyLog.d("uploadImage");
+        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d(e + " cuowu == " +  "call == " + call  );
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                //返回图片的地址
+                KyLog.d(response);
+            }
+        });
+    }
+
+    private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
+        SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);
+        if (!this.isFinishing()) {
+            dialog.show();
+        }
+        return dialog;
+    }
+
+
+
 }

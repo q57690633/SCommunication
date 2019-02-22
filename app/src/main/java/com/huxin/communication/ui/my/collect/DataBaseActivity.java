@@ -42,6 +42,11 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     private DataBaseDuoXuanAdapter mAdpterDuoXuan;
 
     private List<String> list = new ArrayList<>();
+    private TextView mTextViewSell;
+    private TextView mTextViewQiuZhu;
+    private TextView mTextViewQiuGou;
+    private TextView mTextViewChuZhu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +70,24 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         mRelativeLayoutSearch = (RelativeLayout) findViewById(R.id.search_rl);
         mRelativeLayoutDuoxuanBtn = (RelativeLayout) findViewById(R.id.btn_duoxuan);
 
+        mTextViewChuZhu = (TextView) findViewById(R.id.chuzu);
+        mTextViewQiuGou = (TextView) findViewById(R.id.qiugou);
+        mTextViewQiuZhu = (TextView) findViewById(R.id.qiuzhu);
+        mTextViewSell = (TextView) findViewById(R.id.sell);
+
 
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+
+        mTextViewChuZhu.setOnClickListener(this);
+        mTextViewQiuGou.setOnClickListener(this);
+        mTextViewQiuZhu.setOnClickListener(this);
+        mTextViewSell.setOnClickListener(this);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        getPersonProduct();
+        getPersonProduct(1);
     }
 
     @Override
@@ -91,7 +106,50 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
-
+                break;
+            case R.id.chuzu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getPersonProduct(2);
+                break;
+            case R.id.qiugou:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getPersonProduct(3);
+                break;
+            case R.id.qiuzhu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getPersonProduct(4);
+                break;
+            case R.id.sell:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.white));
+                getPersonProduct(1);
                 break;
         }
     }
@@ -120,11 +178,11 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void getPersonProduct() {
+    private void getPersonProduct(int newOrOld) {
 //        pid = getIntent().getStringExtra("pid");
         showProgressDialog();
         ApiModule.getInstance().getPersonProduct("", "", "", "", "",
-                "", "", "1", "",
+                "", "", String.valueOf(newOrOld), "",
                 "", "", "", "", "", "", "0", "1")
                 .subscribe(personProductEntity -> {
                     KyLog.object(personProductEntity + "");

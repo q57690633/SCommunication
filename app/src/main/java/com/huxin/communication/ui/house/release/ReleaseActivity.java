@@ -16,25 +16,38 @@ import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
 import com.huxin.communication.adpter.DetailsTableNameAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.http.service.ApiFactory;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.cammer.HttpUtil;
+import com.huxin.communication.ui.cammer.ImagePickerAdapter;
+import com.huxin.communication.ui.cammer.MyStringCallBack;
+import com.huxin.communication.ui.cammer.SelectDialog;
 import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.huxin.communication.widgets.MyPopWindow;
 import com.huxin.communication.widgets.MyPopWindow1;
 import com.huxin.communication.widgets.MyPopWindow2;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+
 /**
  * 发布出售
  */
-public class ReleaseActivity extends BaseActivity implements View.OnClickListener {
+public class ReleaseActivity extends BaseActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
+
+
     private EditText mEditTextVillageName;
     private EditText mEditTextAcreage;
     private TextView mEditTextHouseType;
@@ -83,6 +96,20 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private int loans = 1;
     private int keying = 1;
     private int exclusive = 2;
+
+    public static final int IMAGE_ITEM_ADD = -1;
+    public static final int REQUEST_CODE_SELECT = 100;
+    public static final int REQUEST_CODE_PREVIEW = 101;
+
+    private ArrayList<ImageItem> selImageList; //当前选择的所有图片
+    private int maxImgCount = 9;               //允许选择图片最大数
+
+    private RecyclerView mRecyclerViewAddPicture;
+    private ImagePickerAdapter adapter;
+
+    private HttpUtil httpUtil;
+
+    private StringBuffer stringBuffer = new StringBuffer();
 
 
     @Override
@@ -133,6 +160,8 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_release_sell);
 
+        mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
+
         mTextViewHouseHoldAppliances.setOnClickListener(this);
         mTextViewFitment.setOnClickListener(this);
         mTextViewPermit.setOnClickListener(this);
@@ -157,6 +186,14 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setTabData();
+        httpUtil = new HttpUtil();
+        selImageList = new ArrayList<>();
+        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter.setOnItemClickListener(this);
+
+        mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerViewAddPicture.setHasFixedSize(true);
+        mRecyclerViewAddPicture.setAdapter(adapter);
     }
 
     @Override
@@ -251,7 +288,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.confirm:
                 addSaleProduct();
-
+                uploadImage(selImageList);
                 break;
             case R.id.new_tv_release:
                 mEditTextNewClick.setVisibility(View.VISIBLE);
@@ -393,10 +430,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
 
     private List<MyPopVlaues> setHouseType() {
         Kouweilist = new ArrayList<MyPopVlaues>();
-        Kouweilist.add(new MyPopVlaues("一居室"));
-        Kouweilist.add(new MyPopVlaues("二居室"));
-        Kouweilist.add(new MyPopVlaues("三居室"));
-        Kouweilist.add(new MyPopVlaues("四居室"));
+        Kouweilist.add(new MyPopVlaues("一室"));
+        Kouweilist.add(new MyPopVlaues("两室"));
+        Kouweilist.add(new MyPopVlaues("三室"));
+        Kouweilist.add(new MyPopVlaues("四室"));
+        Kouweilist.add(new MyPopVlaues("五室及以上"));
 
         return Kouweilist;
     }
@@ -411,21 +449,42 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         String houseNumber = mEditTextHouseNumber.getText().toString().trim();
         String pdu = mEditTextPdu.getText().toString().trim();
         String floorSize = mEditTextFloorSize.getText().toString().trim();
+        String tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
         KyLog.d(loans + "");
         KyLog.d(keying + "");
+        KyLog.d(VillageName + "");
+        KyLog.d(Acreage + "");
+        KyLog.d(totalPrice + "");
+        KyLog.d(floorNumber + "");
+        KyLog.d(totalFloorNumber + "");
+        KyLog.d(title + "");
+        KyLog.d(houseNumber + "");
+        KyLog.d(pdu + "");
+        KyLog.d(floorSize + "");
+
+        KyLog.d(houseHoldAppliances + "");
+        KyLog.d(fitment + "");
+        KyLog.d(permit + "");
+        KyLog.d(orientation + "");
+        KyLog.d(purpose + "");
+        KyLog.d(houseType + "");
+        KyLog.d(tableId.substring(1,tableId.length() - 1) + "");
+
+
+
 
         showProgressDialog();
         ApiModule.getInstance().addSaleProduct(VillageName, Acreage, houseType, totalPrice
                 , floorNumber, totalFloorNumber, String.valueOf(NeworOld), String.valueOf(loans), String.valueOf(keying),
                 houseHoldAppliances, fitment, permit, orientation, purpose, title, "2",
-                "2", "2", houseNumber, pdu, floorSize)
+                "2", "2", pdu, floorSize, tableId.substring(1,tableId.length() - 1))
                 .subscribe(response -> {
 
                     cancelProgressDialog();
                     KyLog.d(response.getResultMsg());
                     Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this,MainActivity.class);
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
 
                 }, throwable -> {
@@ -454,4 +513,86 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 });
     }
 
+
+    @Override
+    public void onItemClick(View view, int position) {
+        List<String> names = new ArrayList<>();
+        names.add("拍照");
+        names.add("相册");
+        showDialog(new SelectDialog.SelectDialogListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: // 直接调起相机
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent = new Intent(ReleaseActivity.this, ImageGridActivity.class);
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        startActivityForResult(intent, REQUEST_CODE_SELECT);
+                        break;
+                    case 1:
+                        //打开选择,本次允许选择的数量
+                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
+                        Intent intent1 = new Intent(ReleaseActivity.this, ImageGridActivity.class);
+                        startActivityForResult(intent1, REQUEST_CODE_SELECT);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }, names);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KyLog.d(requestCode + "");
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            //添加图片返回
+            if (data != null && requestCode == REQUEST_CODE_SELECT) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images != null) {
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        } else if (resultCode == ImagePicker.RESULT_CODE_BACK) {
+            //预览图片返回
+            if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
+                if (images != null) {
+                    selImageList.clear();
+                    selImageList.addAll(images);
+                    adapter.setImages(selImageList);
+                }
+            }
+        }
+    }
+
+    private String url = "http://39.105.203.33/jlkf/mutual-trust/public/addSaleProduct";
+
+    private void uploadImage(ArrayList<ImageItem> pathList) {
+        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                KyLog.d(response);
+                //返回图片的地址
+            }
+        });
+    }
+
+    private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
+        SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);
+        if (!this.isFinishing()) {
+            dialog.show();
+        }
+        return dialog;
+    }
 }

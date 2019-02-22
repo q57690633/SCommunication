@@ -41,11 +41,20 @@ public class Constanst {
 
     public static final String STREET = "street";
 
+
     public static final String PROVINCE_NAME = "province_name";
 
     public static final String CITY_NAME = "city_name";
 
     public static final String DISTRICT_NAME = "district_name";
+
+
+    public static final String PROVINCE_TRAVELS_NAME = "province_travel_name";
+
+    public static final String CITY_TRAVELS_NAME = "city_travel_name";
+
+    public static final String DISTRICT_TRAVEL_NAME = "district_travel_name";
+
 
     public static final String STREET_NAME = "street_name";
 
@@ -89,6 +98,14 @@ public class Constanst {
     public static final String CITY_ID = "city_id";
 
     public static final String CITY_CODE = "city_code";
+
+
+    public static final String PROVINCE_TRAVEL_ID = "province_travel_id";
+
+    public static final String CITY_TRAVEL_ID = "city_travel_id";
+
+    public static final String CITY_TRAVEL_CODE = "city_travel_code";
+
 
     public static final String PROVINCE_CODE = "province_code";
 
@@ -139,5 +156,21 @@ public class Constanst {
     public static final String CITY_NATION_NAME = "city_nation_name";
 
     public static final String SPOT_NATION_NAME = "spot_nation_name";
+
+
+
+    public static final String CHAO_XIANG = "chong_xiang";
+
+    public static final String JIA_JU_JIA_DIAN = "jia_ju_jia_dian";
+
+    public static final String FANG_BEN = "fang_ben";
+
+    public static final String LOU_LING = "lou_ling";
+
+    public static final String YONG_TU = "yong_tu";
+
+    public static final String ZHUANG_XIU = "zhuang_xiu";
+
+    public static final String TAB_NMAE = "tab_name";
 
 }

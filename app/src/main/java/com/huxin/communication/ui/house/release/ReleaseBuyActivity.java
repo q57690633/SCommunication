@@ -256,7 +256,7 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
     private List<MyPopVlaues> setHouseType() {
         Kouweilist = new ArrayList<MyPopVlaues>();
         Kouweilist.add(new MyPopVlaues("一室"));
-        Kouweilist.add(new MyPopVlaues("二室"));
+        Kouweilist.add(new MyPopVlaues("两室"));
         Kouweilist.add(new MyPopVlaues("三室"));
         Kouweilist.add(new MyPopVlaues("四室"));
         Kouweilist.add(new MyPopVlaues("五室及以上"));

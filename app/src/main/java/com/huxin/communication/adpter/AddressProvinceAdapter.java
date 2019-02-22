@@ -18,6 +18,8 @@ import java.util.List;
 
 import static com.huxin.communication.controls.Constanst.PROVINCE_ID;
 import static com.huxin.communication.controls.Constanst.PROVINCE_NAME;
+import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVELS_NAME;
+import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVEL_ID;
 
 
 /**
@@ -42,8 +44,13 @@ public class AddressProvinceAdapter extends RecyclerView.Adapter<AddressProvince
         Hoder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceUtil.putString(PROVINCE_NAME,mList.get(Hoder.getAdapterPosition()).getName());
-                PreferenceUtil.putString(PROVINCE_ID,mList.get(Hoder.getAdapterPosition()).getId());
+                if (PreferenceUtil.getInt("type") == 1) {
+                    PreferenceUtil.putString(PROVINCE_NAME, mList.get(Hoder.getAdapterPosition()).getName());
+                    PreferenceUtil.putString(PROVINCE_ID, mList.get(Hoder.getAdapterPosition()).getId());
+                }else {
+                    PreferenceUtil.putString(PROVINCE_TRAVELS_NAME, mList.get(Hoder.getAdapterPosition()).getName());
+                    PreferenceUtil.putString(PROVINCE_TRAVEL_ID, mList.get(Hoder.getAdapterPosition()).getId());
+                }
                 mActivity.finish();
             }
         });

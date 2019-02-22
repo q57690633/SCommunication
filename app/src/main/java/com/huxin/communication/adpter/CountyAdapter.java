@@ -18,6 +18,7 @@ import com.sky.kylog.KyLog;
 import java.util.List;
 
 import static com.huxin.communication.controls.Constanst.DISTRICT_NAME;
+import static com.huxin.communication.controls.Constanst.DISTRICT_TRAVEL_NAME;
 
 public class CountyAdapter extends RecyclerView.Adapter<CountyAdapter.BodyViewHoder>{
 
@@ -38,7 +39,14 @@ public class CountyAdapter extends RecyclerView.Adapter<CountyAdapter.BodyViewHo
         Hoder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (PreferenceUtil.getInt("type") == 1){
+
+
                 PreferenceUtil.putString(DISTRICT_NAME,mList.get(Hoder.getAdapterPosition()).getName());
+                }else {
+                    PreferenceUtil.putString(DISTRICT_TRAVEL_NAME,mList.get(Hoder.getAdapterPosition()).getName());
+
+                }
                 mActivity.finish();
             }
         });

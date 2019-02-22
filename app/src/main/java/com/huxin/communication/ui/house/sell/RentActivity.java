@@ -74,6 +74,10 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewMore;
     private ImageView mImageViewFangxin;
 
+    private TextView mTextViewQuanBu;
+    private TextView mTextViewErShouFang;
+    private TextView mTextViewXinFang;
+
     private ChuZuAdapter mAdpter;
     private ChuZuDuoXuanAdapter mAdpterDuoXuan;
     private List<String> list = new ArrayList<>();
@@ -123,6 +127,10 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         mTextViewPrice = (TextView) findViewById(R.id.tv_price);
         mTextViewMore = (TextView) findViewById(R.id.tv_more);
 
+        mTextViewQuanBu = (TextView) findViewById(R.id.quanbu);
+        mTextViewErShouFang = (TextView) findViewById(R.id.ershoufang);
+        mTextViewXinFang = (TextView) findViewById(R.id.xinfang);
+
         mTextViewDetermineSort = (TextView) findViewById(R.id.sort_Determine);
         mTextViewDetermineFangXin = (TextView) findViewById(R.id.fangxin_Determine);
         mTextViewDetermineMeasure = (TextView) findViewById(R.id.measure_Determine);
@@ -145,12 +153,16 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
 
+        mTextViewQuanBu.setOnClickListener(this);
+        mTextViewXinFang.setOnClickListener(this);
+        mTextViewErShouFang.setOnClickListener(this);
+
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
 //        setData();
-        getRentalScreening();
+        getRentalScreening(0);
     }
 
     @Override
@@ -262,6 +274,35 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
             case R.id.sort_Determine:
                 updata();
                 break;
+            case R.id.quanbu:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                getRentalScreening(0);
+
+                break;
+            case R.id.ershoufang:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.white));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                getRentalScreening(1);
+
+                break;
+            case R.id.xinfang:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.white));
+                getRentalScreening(2);
+                break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
                 mTextViewGuanLi.setVisibility(View.GONE);
@@ -318,10 +359,10 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void getRentalScreening(){
+    private void getRentalScreening(int newOrOld){
         showProgressDialog();
         ApiModule.getInstance().rentalScreening("0",
-                "0",PreferenceUtil.getString(Constanst.CITY_NAME)+ "市", PreferenceUtil.getString(Constanst.DISTRICT_NAME) +  "市","1")
+                String.valueOf(newOrOld),PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME),"1")
                 .subscribe(rentalScreeningEntities -> {
                     KyLog.object(rentalScreeningEntities + "");
                     if (rentalScreeningEntities != null){

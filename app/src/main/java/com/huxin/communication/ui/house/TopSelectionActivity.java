@@ -20,6 +20,7 @@ import com.huxin.communication.adpter.QiuGouDuoXuanAdapter;
 import com.huxin.communication.adpter.SellAdpter;
 import com.huxin.communication.adpter.TopSelectionAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
@@ -71,6 +72,11 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
     private ImageView mImageViewMore;
     private ImageView mImageViewFangxin;
     private LinearLayout mRelativeLayoutRL;
+
+    private TextView mTextViewSell;
+    private TextView mTextViewQiuZhu;
+    private TextView mTextViewQiuGou;
+    private TextView mTextViewChuZhu;
 
 
     private TopSelectionAdapter mAdpterDuoXuan;
@@ -136,6 +142,11 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
         mImageViewMeasure = (ImageView) findViewById(R.id.image_measure);
         mImageViewMore = (ImageView) findViewById(R.id.image_more);
 
+        mTextViewChuZhu = (TextView) findViewById(R.id.chuzu);
+        mTextViewQiuGou = (TextView) findViewById(R.id.qiugou);
+        mTextViewQiuZhu = (TextView) findViewById(R.id.qiuzhu);
+        mTextViewSell = (TextView) findViewById(R.id.sell);
+
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
         mLinearLayoutMore.setOnClickListener(this);
@@ -149,12 +160,17 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
 
+        mTextViewChuZhu.setOnClickListener(this);
+        mTextViewQiuGou.setOnClickListener(this);
+        mTextViewQiuZhu.setOnClickListener(this);
+        mTextViewSell.setOnClickListener(this);
+
 
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        getselectStick();
+        getselectStick(1);
 //        addCollectTravel();
     }
 
@@ -267,6 +283,50 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
             case R.id.sort_Determine:
                 updata();
                 break;
+            case R.id.chuzu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getselectStick(2);
+                break;
+            case R.id.qiugou:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getselectStick(3);
+                break;
+            case R.id.qiuzhu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getselectStick(4);
+                break;
+            case R.id.sell:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getselectStick(1);
+                break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
                 mTextViewGuanLi.setVisibility(View.GONE);
@@ -321,10 +381,10 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
     }
 
-    private void getselectStick() {
+    private void getselectStick(int newOrOld) {
         showProgressDialog();
-        ApiModule.getInstance().selectStick("1",
-                "0", "石家庄", "鹿泉区", "","","","","","","",
+        ApiModule.getInstance().selectStick(String.valueOf(newOrOld),
+                "0", PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), "","","","","","","",
                 "","","","","","","")
                 .subscribe(topSelectionEntity -> {
                     if (topSelectionEntity != null) {

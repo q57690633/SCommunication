@@ -4,6 +4,8 @@ package com.huxin.communication.http;
 import com.huxin.communication.HuXinApplication;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddUserInformationEntity;
+import com.huxin.communication.entity.AliPayEntity;
+import com.huxin.communication.entity.AppPayEntity;
 import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
@@ -38,6 +40,7 @@ import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TicketStickEntity;
+import com.huxin.communication.entity.ToVipEntity;
 import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.entity.UpdateUserInformationEntity;
 import com.huxin.communication.entity.UpdateUserPhoneEntity;
@@ -174,11 +177,26 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<SaleOfScreeningEntity> SaleOfScreening(int productType,
+    public Observable<SaleOfScreeningEntity> SaleOfScreening(String villageName,
+                                                             String houseType, String minAcreage,
+                                                             String maxAcreage, String minPrice,
+                                                             String maxPrice, String orientation,
+                                                             String permit, String fitment,
+                                                             String element, String floorAge,
+                                                             String purpose, String ownership,
+                                                             String productType,
                                                              String newOrOld,
                                                              String city, String areaOne,
-                                                             int curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().SaleOfScreening(productType, newOrOld, PreferenceUtil.getString(TOKEN), city, areaOne, curPage)
+                                                             String curPage, String houseHoldAppliances) {
+        return ApiFactory.getFactory().BaiHangTongYeService().SaleOfScreening(villageName,
+                houseType, minAcreage,
+                maxAcreage, minPrice, maxPrice, orientation,
+                permit, fitment, element, floorAge,
+                purpose, ownership,
+                productType,
+                newOrOld, PreferenceUtil.getString(TOKEN),
+                city, areaOne,
+                curPage, houseHoldAppliances)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -280,14 +298,14 @@ public class ApiModule {
      * @return
      */
     public Observable<PersonProductEntity> getPersonProduct(String villageName,
-                                                                  String minAcreage, String maxAcreage,
-                                                                  String houseType, String minPrice,
-                                                                  String maxPrice, String element,
-                                                                  String newOrOld, String orientation,
-                                                                  String houseHoldAppliances, String fitment,
-                                                                  String permit, String purpose,
-                                                                  String ownership, String floorAge,
-                                                                  String productType, String curPage) {
+                                                            String minAcreage, String maxAcreage,
+                                                            String houseType, String minPrice,
+                                                            String maxPrice, String element,
+                                                            String newOrOld, String orientation,
+                                                            String houseHoldAppliances, String fitment,
+                                                            String permit, String purpose,
+                                                            String ownership, String floorAge,
+                                                            String productType, String curPage) {
         return ApiFactory.getFactory().BaiHangTongYeService().getPersonProduct(String.valueOf(PreferenceUtil.getInt(UID)), villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
                 permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage)
@@ -470,24 +488,24 @@ public class ApiModule {
                                                String houseType, String price,
                                                String floorNumber, String totalFloorNumber,
                                                String fitment, String keying,
-                                               String paymentType, String files,
-                                               String title, String uid,
+                                               String paymentType,
+                                               String title,
                                                String stick, String tabId,
                                                String exclusive, String purpose,
                                                String houseHoldAppliances, String orientation,
                                                String houseNumber, String floorSize,
-                                               String pdu, String token) {
+                                               String pdu) {
         return ApiFactory.getFactory().BaiHangTongYeService().addRentProduct(villageName, acreage,
                 houseType, price,
                 floorNumber, totalFloorNumber,
                 fitment, keying,
-                paymentType, files,
-                title, uid,
+                paymentType,
+                title, String.valueOf(PreferenceUtil.getInt(UID)),
                 stick, tabId,
                 exclusive, purpose,
                 houseHoldAppliances, orientation,
                 houseNumber, floorSize,
-                pdu, token)
+                pdu, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -603,10 +621,10 @@ public class ApiModule {
                                                               String tAddressId, String tTrafficId,
                                                               String tConsumeId, String minPri_maxPri,
                                                               String numberDays, String keyWord,
-                                                              String curPage, String minDay, String maxDay,String uid) {
+                                                              String curPage, String minDay, String maxDay, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage,minDay, maxDay,uid)
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -625,9 +643,9 @@ public class ApiModule {
                                                                 String t_overseas_id,
                                                                 String t_consume_id, String sort_type,
                                                                 String minPri_maxPri, String number_days,
-                                                                String keyWord, String curPage,String uid) {
+                                                                String keyWord, String curPage, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingForeignTravel(depart_name, min_days,
-                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id, t_traffic_id, t_overseas_id,t_consume_id, sort_type, minPri_maxPri, number_days, PreferenceUtil.getString(TOKEN), keyWord, curPage,uid)
+                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id, t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -642,9 +660,9 @@ public class ApiModule {
                                                       String minPri_maxPri, String ticket_theme_id,
                                                       String ticket_activity_id, String ticket_other_id,
                                                       String sort_type,
-                                                      String keyWord, String curPage,String uid) {
+                                                      String keyWord, String curPage, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().getTicketInfo(ticket_type, ticket_city_name,
-                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type, PreferenceUtil.getString(TOKEN), keyWord, curPage,uid)
+                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type, PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -858,6 +876,7 @@ public class ApiModule {
 
     /**
      * 个人收藏查询-国内和周边
+     *
      * @return
      */
     public Observable<CollectAroundEntity> getCollectAround(String depart_code,
@@ -869,7 +888,7 @@ public class ApiModule {
                                                             String numberDays,
                                                             String keyWord, String curPage,
                                                             String minDay, String maxDay
-                                                            ) {
+    ) {
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code,
                 goalsId, sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId,
                 minPri_maxPri, numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage,
@@ -894,7 +913,7 @@ public class ApiModule {
                                                               String numberDays,
                                                               String keyWord, String curPage,
                                                               String minDay, String maxDay
-                                                              ) {
+    ) {
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectForeign(depart_code, spot_name,
                 goals_name, sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, t_overseas_id,
                 tConsumeId, minPri_maxPri, numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)))
@@ -938,7 +957,7 @@ public class ApiModule {
                                                            String curPage, String minDay, String maxDay, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().selectAroundStick(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage,minDay, maxDay,uid,"1")
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, "1")
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -960,8 +979,8 @@ public class ApiModule {
                                                              String keyWord, String curPage, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().selectForeignStick(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id, t_traffic_id,
-                t_overseas_id,t_consume_id, sort_type, minPri_maxPri, number_days, PreferenceUtil.getString(TOKEN),
-                keyWord, curPage,uid,"1")
+                t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, PreferenceUtil.getString(TOKEN),
+                keyWord, curPage, uid, "1")
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -978,11 +997,66 @@ public class ApiModule {
                                                            String sort_type,
                                                            String keyWord, String curPage, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().selectTicketStick(ticket_type, ticket_city_name,
-                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type, PreferenceUtil.getString(TOKEN), keyWord, curPage,uid,"1")
+                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type, PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, "1")
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 跳转到vip
+     *
+     * @return
+     */
+    public Observable<ToVipEntity> toVip(String productType) {
+        return ApiFactory.getFactory().BaiHangTongYeService().toVip(PreferenceUtil.getString(TOKEN), productType)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 微信支付
+     *
+     * @return
+     */
+    public Observable<AppPayEntity> apppay(String totalMoney, String payment,
+                                           String body, String subjecy,
+                                           String comboId, String comboType,
+                                           String matchingPrice, String matchingMonth,
+                                           String stickNumber, String stickPrice) {
+        return ApiFactory.getFactory().BaiHangTongYeService().apppay(totalMoney, PreferenceUtil.getString(TOKEN),
+                String.valueOf(PreferenceUtil.getInt(UID)), payment,
+                body, subjecy,
+                comboId, comboType,
+                matchingPrice, matchingMonth,
+                stickNumber, stickPrice)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 支付宝支付
+     *
+     * @return
+     */
+    public Observable<AliPayEntity> apppayZhiFuBao(String totalMoney, String payment,
+                                                   String body, String subjecy,
+                                                   String comboId, String comboType,
+                                                   String matchingPrice, String matchingMonth,
+                                                   String stickNumber, String stickPrice) {
+        return ApiFactory.getFactory().BaiHangTongYeService().apppayZhiFuBao(totalMoney, PreferenceUtil.getString(TOKEN),
+                String.valueOf(PreferenceUtil.getInt(UID)), payment,
+                body, subjecy,
+                comboId, comboType,
+                matchingPrice, matchingMonth,
+                stickNumber, stickPrice)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 
     /**
      * Map转换类 (将Response类转换为需要的实体类)

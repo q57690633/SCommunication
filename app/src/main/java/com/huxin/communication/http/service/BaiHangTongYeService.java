@@ -2,6 +2,8 @@ package com.huxin.communication.http.service;
 
 
 import com.huxin.communication.entity.AddUserInformationEntity;
+import com.huxin.communication.entity.AliPayEntity;
+import com.huxin.communication.entity.AppPayEntity;
 import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
@@ -37,6 +39,7 @@ import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TicketStickEntity;
+import com.huxin.communication.entity.ToVipEntity;
 import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.entity.UpdateUserInformationEntity;
 import com.huxin.communication.entity.UpdateUserPhoneEntity;
@@ -132,10 +135,17 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/SaleOfScreening")
-    Observable<Response<SaleOfScreeningEntity>> SaleOfScreening(@Field("productType") int productType,
+    Observable<Response<SaleOfScreeningEntity>> SaleOfScreening(@Field("villageName") String villageName,
+                                                                @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
+                                                                @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
+                                                                @Field("maxPrice") String maxPrice,@Field("orientation") String orientation,
+                                                                @Field("permit") String permit, @Field("fitment") String fitment,
+                                                                @Field("element") String element, @Field("floorAge") String floorAge,
+                                                                @Field("purpose") String purpose,@Field("ownership") String ownership,
+                                                                @Field("productType") String productType,
                                                                 @Field("newOrOld") String newOrOld, @Field("token") String token,
                                                                 @Field("city") String city, @Field("areaOne") String areaOne,
-                                                                @Field("curPage") int curPage);
+                                                                @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
     /**
      * 查看相似房源
@@ -233,14 +243,14 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/getPersonProduct")
     Observable<Response<PersonProductEntity>> getPersonProduct(@Field("uid") String uid, @Field("villageName") String villageName,
-                                                                     @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
-                                                                     @Field("houseType") String houseType, @Field("minPrice") String minPrice,
-                                                                     @Field("maxPrice") String maxPrice, @Field("element") String element,
-                                                                     @Field("newOrOld") String newOrOld, @Field("orientation") String orientation,
-                                                                     @Field("houseHoldAppliances") String houseHoldAppliances, @Field("fitment") String fitment,
-                                                                     @Field("permit") String permit, @Field("purpose") String purpose,
-                                                                     @Field("ownership") String ownership, @Field("floorAge") String floorAge,
-                                                                     @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
+                                                               @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
+                                                               @Field("houseType") String houseType, @Field("minPrice") String minPrice,
+                                                               @Field("maxPrice") String maxPrice, @Field("element") String element,
+                                                               @Field("newOrOld") String newOrOld, @Field("orientation") String orientation,
+                                                               @Field("houseHoldAppliances") String houseHoldAppliances, @Field("fitment") String fitment,
+                                                               @Field("permit") String permit, @Field("purpose") String purpose,
+                                                               @Field("ownership") String ownership, @Field("floorAge") String floorAge,
+                                                               @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
 
 
     /**
@@ -392,13 +402,13 @@ public interface BaiHangTongYeService {
                                         @Field("houseType") String houseType, @Field("price") String price,
                                         @Field("floorNumber") String floorNumber, @Field("totalFloorNumber") String totalFloorNumber,
                                         @Field("fitment") String fitment, @Field("keying") String keying,
-                                        @Field("paymentType") String paymentType, @Field("files") String files,
+                                        @Field("paymentType") String paymentType,
                                         @Field("title") String title, @Field("uid") String uid,
                                         @Field("stick") String stick, @Field("tabId") String tabId,
                                         @Field("exclusive") String exclusive, @Field("purpose") String purpose,
                                         @Field("houseHoldAppliances") String houseHoldAppliances, @Field("orientation") String orientation,
                                         @Field("houseNumber") String houseNumber, @Field("floorSize") String floorSize,
-                                        @Field("pdu") String pdu, @Field("uid") String token);
+                                        @Field("pdu") String pdu, @Field("token") String token);
 
     /**
      * 添加求购信息
@@ -703,7 +713,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/getCollectForeign")
-    Observable<Response<CollectForeignEntity>> getCollectForeign(@Field("depart_code") String depart_code,@Field("spot_name") String spot_name,
+    Observable<Response<CollectForeignEntity>> getCollectForeign(@Field("depart_code") String depart_code, @Field("spot_name") String spot_name,
                                                                  @Field("goals_name") String goals_name, @Field("sort_type") String sort_type,
                                                                  @Field("t_other_id") String tOtherId, @Field("t_activity_id") String tActivityId,
                                                                  @Field("t_stay_id") String tStayId, @Field("t_address_id") String tAddressId,
@@ -738,10 +748,10 @@ public interface BaiHangTongYeService {
                                                               @Field("tStayId") String tStayId, @Field("tAddressId") String tAddressId,
                                                               @Field("tTrafficId") String tTrafficId,
                                                               @Field("tConsumeId") String tConsumeId, @Field("minPri_maxPri") String minPri_maxPri,
-                                                              @Field("numberDays") String numberDays,@Field("token") String token,
+                                                              @Field("numberDays") String numberDays, @Field("token") String token,
                                                               @Field("keyWord") String keyWord, @Field("curPage") String curPage,
-                                                              @Field("uid") String uid,  @Field("minDay") String minDay,
-                                                              @Field("maxDay") String maxDay,@Field("stick") String stick);
+                                                              @Field("uid") String uid, @Field("minDay") String minDay,
+                                                              @Field("maxDay") String maxDay, @Field("stick") String stick);
 
     /**
      * 票务置顶精选
@@ -771,4 +781,36 @@ public interface BaiHangTongYeService {
                                                                 @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                 @Field("token") String token, @Field("keyWord") String keyWord,
                                                                 @Field("curPage") String curPage, @Field("uid") String uid, @Field("stick") String stick);
+
+
+    /**
+     * 跳转到vip
+     */
+    @FormUrlEncoded
+    @POST("user/toVip")
+    Observable<Response<ToVipEntity>> toVip(@Field("token") String token, @Field("productType") String productType);
+
+    /**
+     * 确认支付
+     */
+    @FormUrlEncoded
+    @POST("weixin/apppay")
+    Observable<Response<AppPayEntity>> apppay(@Field("totalMoney") String totalMoney, @Field("token") String token,
+                                              @Field("uid") String uid, @Field("payment") String payment,
+                                              @Field("body") String body, @Field("subjecy") String subjecy,
+                                              @Field("comboId") String comboId, @Field("comboType") String comboType,
+                                              @Field("matchingPrice") String matchingPrice, @Field("matchingMonth") String matchingMonth,
+                                              @Field("stickNumber") String stickNumber, @Field("stickPrice") String stickPrice);
+
+    /**
+     * 确认支付
+     */
+    @FormUrlEncoded
+    @POST("weixin/apppay")
+    Observable<Response<AliPayEntity>> apppayZhiFuBao(@Field("totalMoney") String totalMoney, @Field("token") String token,
+                                              @Field("uid") String uid, @Field("payment") String payment,
+                                              @Field("body") String body, @Field("subjecy") String subjecy,
+                                              @Field("comboId") String comboId, @Field("comboType") String comboType,
+                                              @Field("matchingPrice") String matchingPrice, @Field("matchingMonth") String matchingMonth,
+                                              @Field("stickNumber") String stickNumber, @Field("stickPrice") String stickPrice);
 }

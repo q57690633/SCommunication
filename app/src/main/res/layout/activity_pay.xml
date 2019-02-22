@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context="com.huxin.communication.ui.pay.PayActivity"
-    android:background="@color/white">
+    tools:context="com.huxin.communication.ui.pay.PayActivity">
 
 
     <LinearLayout
@@ -44,6 +44,7 @@
                 android:textSize="16dp" />
 
             <TextView
+                android:id="@+id/matchingVip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -54,6 +55,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/jian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -64,6 +66,7 @@
                 android:textSize="22dp" />
 
             <TextView
+                android:id="@+id/tv_yuefen"
                 android:layout_width="37dp"
                 android:layout_height="32dp"
                 android:layout_alignParentRight="true"
@@ -75,6 +78,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/jia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -90,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
             android:background="@color/login_line" />
 
         <RelativeLayout
@@ -120,6 +124,7 @@
                 android:textSize="16dp" />
 
             <TextView
+                android:id="@+id/stickNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -130,6 +135,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/jian_zhiding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -140,6 +146,7 @@
                 android:textSize="22dp" />
 
             <TextView
+                android:id="@+id/num_day"
                 android:layout_width="37dp"
                 android:layout_height="32dp"
                 android:layout_alignParentRight="true"
@@ -151,6 +158,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/jia_zhiding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -166,8 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
             android:background="@color/login_line" />
 
         <RelativeLayout
@@ -211,8 +219,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
                 android:text="点此联系客服"
                 android:textColor="@color/register_font"
                 android:textSize="16dp" />
@@ -223,8 +231,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
             android:background="@color/login_line" />
 
         <LinearLayout
@@ -243,17 +251,59 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="套餐一"
+                    android:text="半年优享套餐"
                     android:textColor="@color/register_font"
                     android:textSize="16dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="162dp"
-                    android:layout_height="182dp"
+                    android:layout_height="142dp"
                     android:layout_below="@id/tv_taocan1"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="9dp"
-                    android:background="@color/login_forget_password_code_fort" />
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="信息匹配6个月"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="置顶信息12条"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/comboPreference"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="特惠价：180.00元"
+                        android:textColor="@color/red"
+                        android:textSize="16dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/comboOriginal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="原价：300"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -267,23 +317,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="套餐二"
+                    android:text="一年至尊套餐"
                     android:textColor="@color/register_font"
                     android:textSize="16dp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="162dp"
-                    android:layout_height="182dp"
+                    android:layout_height="142dp"
                     android:layout_below="@id/tv_taocan2"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="9dp"
-                    android:background="@color/login_forget_password_code_fort" />
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="信息匹配12个月"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="置顶信息24条"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/comboPreference2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="特惠价：280.00元"
+                        android:textColor="@color/red"
+                        android:textSize="16dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/comboOriginal2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="原价：300"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/register_font"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_weixin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp">
@@ -309,6 +402,7 @@
                 android:textSize="16dp" />
 
             <ImageView
+                android:id="@+id/weixin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -317,6 +411,17 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_circle_normal" />
 
+            <ImageView
+                android:id="@+id/weixin_click"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_circle_selected"
+                android:visibility="gone"/>
+
 
         </RelativeLayout>
 
@@ -324,11 +429,12 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
             android:background="@color/login_line" />
 
         <RelativeLayout
+            android:id="@+id/rl_zhifubao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp">
@@ -354,6 +460,7 @@
                 android:textSize="16dp" />
 
             <ImageView
+                android:id="@+id/zhifubao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -362,6 +469,16 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_circle_normal" />
 
+            <ImageView
+                android:id="@+id/zhifubao_click"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_circle_selected" />
+
 
         </RelativeLayout>
 
@@ -369,8 +486,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
             android:background="@color/login_line" />
 
         <LinearLayout
@@ -388,6 +505,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/zongjia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="234.4"
@@ -403,19 +521,19 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/login"
+            android:id="@+id/qurenzhifu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
             android:layout_marginTop="19dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginBottom="40dp"
             android:background="@color/blue"
             android:gravity="center"
             android:padding="15dp"
             android:text="确认支付"
             android:textColor="@color/white"
-            android:textSize="17dp"
-            android:layout_marginBottom="40dp"/>
+            android:textSize="17dp" />
 
     </LinearLayout>
 

@@ -71,6 +71,11 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
     private ImageView mImageViewFangxin;
     private LinearLayout mRelativeLayoutRL;
 
+    private TextView mTextViewSell;
+    private TextView mTextViewQiuZhu;
+    private TextView mTextViewQiuGou;
+    private TextView mTextViewChuZhu;
+
 
     private CollectDuoXuanAdapter mAdpterDuoXuan;
 
@@ -136,6 +141,11 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mImageViewMeasure = (ImageView) findViewById(R.id.image_measure);
         mImageViewMore = (ImageView) findViewById(R.id.image_more);
 
+        mTextViewChuZhu = (TextView) findViewById(R.id.chuzu);
+        mTextViewQiuGou = (TextView) findViewById(R.id.qiugou);
+        mTextViewQiuZhu = (TextView) findViewById(R.id.qiuzhu);
+        mTextViewSell = (TextView) findViewById(R.id.sell);
+
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
         mLinearLayoutMore.setOnClickListener(this);
@@ -148,11 +158,16 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+
+        mTextViewChuZhu.setOnClickListener(this);
+        mTextViewQiuGou.setOnClickListener(this);
+        mTextViewQiuZhu.setOnClickListener(this);
+        mTextViewSell.setOnClickListener(this);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        getSaleOfScreening();
+        getSaleOfScreening(1);
     }
 
     @Override
@@ -264,6 +279,50 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
             case R.id.sort_Determine:
                 updata();
                 break;
+            case R.id.chuzu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getSaleOfScreening(2);
+                break;
+            case R.id.qiugou:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getSaleOfScreening(3);
+                break;
+            case R.id.qiuzhu:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getSaleOfScreening(4);
+                break;
+            case R.id.sell:
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                getSaleOfScreening(1);
+                break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
                 mTextViewGuanLi.setVisibility(View.GONE);
@@ -279,7 +338,6 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
-
                 break;
         }
     }
@@ -318,11 +376,11 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
     }
 
-    private void getSaleOfScreening(){
+    private void getSaleOfScreening(int newOeOld){
 //        pid = getIntent().getStringExtra("pid");
         showProgressDialog();
         ApiModule.getInstance().getCollectProduct("","","","","",
-                "","","1","",
+                "","",String.valueOf(newOeOld),"",
                 "","","","","","0","0","1")
                 .subscribe(collectEntities -> {
                     KyLog.object(collectEntities + "");

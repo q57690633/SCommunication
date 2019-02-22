@@ -73,9 +73,15 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
     private TextView mTextViewGuanLi;
     private TextView mTextViewQuXiao;
 
+    private TextView mTextViewQuanBu;
+    private TextView mTextViewErShouFang;
+    private TextView mTextViewXinFang;
+
+
     private QiuZuAdapter mAdpter;
     private QiuZuDuoXuanAdapter mAdpterDuoXuan;
     private List<String> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +138,10 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
         mImageViewMeasure = (ImageView) findViewById(R.id.image_measure);
         mImageViewMore = (ImageView) findViewById(R.id.image_more);
 
+        mTextViewQuanBu = (TextView) findViewById(R.id.quanbu);
+        mTextViewErShouFang = (TextView) findViewById(R.id.ershoufang);
+        mTextViewXinFang = (TextView) findViewById(R.id.xinfang);
+
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
         mLinearLayoutMore.setOnClickListener(this);
@@ -144,12 +154,16 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+
+        mTextViewQuanBu.setOnClickListener(this);
+        mTextViewXinFang.setOnClickListener(this);
+        mTextViewErShouFang.setOnClickListener(this);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
 //        setData();
-        getWantedScreening();
+        getWantedScreening(0);
 //        setDuoXuanData();
     }
 
@@ -262,6 +276,36 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
             case R.id.sort_Determine:
                 updata();
                 break;
+            case R.id.quanbu:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                getWantedScreening(0);
+
+                break;
+            case R.id.ershoufang:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.white));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                getWantedScreening(1);
+
+                break;
+            case R.id.xinfang:
+                mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewQuanBu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewErShouFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewXinFang.setTextColor(getResources().getColor(R.color.white));
+
+                getWantedScreening(2);
+                break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
                 mTextViewGuanLi.setVisibility(View.GONE);
@@ -318,10 +362,10 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    private void getWantedScreening(){
+    private void getWantedScreening(int newOrOld){
         showProgressDialog();
         ApiModule.getInstance().wantedScreening("0",
-                "0",PreferenceUtil.getString(Constanst.CITY_NAME)+ "市", PreferenceUtil.getString(Constanst.DISTRICT_NAME) + "市","1")
+                String.valueOf(newOrOld),PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME),"1")
                 .subscribe(wantedScreeningEntity -> {
                     KyLog.object(wantedScreeningEntity + "");
                     if (wantedScreeningEntity != null){

@@ -187,9 +187,16 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 if (mData != null && mData.size() > 0) {
                     for (AddressEntity entity : mData) {
                         if (entity.getList() != null && entity.getList().size() > 0) {
-                            if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_ID))) {
-                                list.addAll(entity.getList());
+                            if (PreferenceUtil.getInt("type") == 1) {
+                                if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_ID))) {
+                                    list.addAll(entity.getList());
+                                }
+                            } else {
+                                if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_ID))) {
+                                    list.addAll(entity.getList());
+                                }
                             }
+
                         }
                     }
                 }
@@ -197,7 +204,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                     EventBus.getDefault().postSticky(new EvnBusCityEntity(list));
                     Intent intentCity = new Intent(this, CityActivity.class);
                     startActivity(intentCity);
-                }else {
+                } else {
                     Toast.makeText(this, "请先选择省", Toast.LENGTH_SHORT).show();
                 }
 
@@ -210,10 +217,21 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 ArrayList<AddressEntity.ListBeanX.ListBean> listCounty = new ArrayList<>();
                 if (mData != null && mData.size() > 0) {
                     for (AddressEntity entity : mData) {
-                        for (AddressEntity.ListBeanX listBean: entity.getList()) {
+                        for (AddressEntity.ListBeanX listBean : entity.getList()) {
                             if (listBean.getList() != null && listBean.getList().size() > 0) {
-                                if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_ID))){
-                                    listCounty.addAll(listBean.getList());
+
+                                if (PreferenceUtil.getInt("type") == 1) {
+                                    if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_ID))) {
+                                        listCounty.addAll(listBean.getList());
+                                    }
+                                } else {
+                                    KyLog.d(entity.getId());
+//                                    KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID));
+
+                                    if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID))) {
+                                        listCounty.addAll(listBean.getList());
+
+                                    }
                                 }
                             }
                         }
@@ -224,88 +242,102 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                     EventBus.getDefault().postSticky(new EvnBusCountyEntity(listCounty));
                     Intent intentCounty = new Intent(this, CountyActivity.class);
                     startActivity(intentCounty);
-                }else {
+                } else {
                     Toast.makeText(this, "请先选择省或者市", Toast.LENGTH_SHORT).show();
                 }
 
-        for (AddressEntity.ListBeanX.ListBean entity : listCounty) {
-            KyLog.d(entity.getName());
+                for (AddressEntity.ListBeanX.ListBean entity : listCounty) {
+                    KyLog.d(entity.getName());
+                }
+                break;
+            case R.id.rl_Occupation_type:
+                if (PreferenceUtil.getInt("type") == 1) {
+                    mReleaseDialog = new ReleaseDialog(this, setOccupation());
+                    mReleaseDialog.setCancelable(true);
+
+                    mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mTextViewOccupationType.setText(setOccupation().get(position).getName());
+                            purpose = setOccupation().get(position).getName();
+                            mReleaseDialog.cancel();
+                        }
+                    });
+
+                } else {
+                    mReleaseDialog = new ReleaseDialog(this, setTravelOccupation());
+                    mReleaseDialog.setCancelable(true);
+
+                    mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mTextViewOccupationType.setText(setTravelOccupation().get(position).getName());
+                            purpose = setTravelOccupation().get(position).getName();
+                            mReleaseDialog.cancel();
+                        }
+                    });
+                }
+                mReleaseDialog.show();
+                break;
+            case R.id.rl_Occupation:
+                if (PreferenceUtil.getInt("type") == 1) {
+                    mReleaseDialog = new ReleaseDialog(this, setFitment());
+                    mReleaseDialog.setCancelable(true);
+
+                    mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mTextViewOccupation.setText(setFitment().get(position).getName());
+                            Fitment = setFitment().get(position).getName();
+                            mReleaseDialog.cancel();
+                        }
+                    });
+                } else {
+                    mReleaseDialog = new ReleaseDialog(this, setTravelFitment());
+                    mReleaseDialog.setCancelable(true);
+
+                    mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            mTextViewOccupation.setText(setTravelFitment().get(position).getName());
+                            Fitment = setTravelFitment().get(position).getName();
+                            mReleaseDialog.cancel();
+                        }
+                    });
+                }
+                mReleaseDialog.show();
+                break;
         }
-        break;
-        case R.id.rl_Occupation_type:
-            if (PreferenceUtil.getInt("type") == 1) {
-                mReleaseDialog = new ReleaseDialog(this, setOccupation());
-                mReleaseDialog.setCancelable(true);
 
-                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewOccupationType.setText(setOccupation().get(position).getName());
-                        purpose = setOccupation().get(position).getName();
-                        mReleaseDialog.cancel();
-                    }
-                });
-
-            }else {
-                mReleaseDialog = new ReleaseDialog(this, setTravelOccupation());
-                mReleaseDialog.setCancelable(true);
-
-                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewOccupationType.setText(setTravelOccupation().get(position).getName());
-                        purpose = setTravelOccupation().get(position).getName();
-                        mReleaseDialog.cancel();
-                    }
-                });
-            }
-            mReleaseDialog.show();
-            break;
-        case R.id.rl_Occupation:
-            if (PreferenceUtil.getInt("type") == 1) {
-                mReleaseDialog = new ReleaseDialog(this, setFitment());
-                mReleaseDialog.setCancelable(true);
-
-                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewOccupation.setText(setFitment().get(position).getName());
-                        Fitment = setFitment().get(position).getName();
-                        mReleaseDialog.cancel();
-                    }
-                });
-            }else {
-                mReleaseDialog = new ReleaseDialog(this, setTravelFitment());
-                mReleaseDialog.setCancelable(true);
-
-                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewOccupation.setText(setTravelFitment().get(position).getName());
-                        Fitment = setTravelFitment().get(position).getName();
-                        mReleaseDialog.cancel();
-                    }
-                });
-            }
-        mReleaseDialog.show();
-        break;
     }
 
-}
-
     public void setDatas() {
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME))) {
-            mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
-        }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
-            mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
-        }
+        if (PreferenceUtil.getInt("type") == 1) {
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME))) {
+                mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
+            }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_NAME))) {
-            mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_NAME));
-        }
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
+                mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
+            }
 
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_NAME))) {
+                mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_NAME));
+            }
+        } else {
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME))) {
+                mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME));
+            }
+
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))) {
+                mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+            }
+
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME))) {
+                mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME));
+            }
+        }
     }
 
     private void getAddUserInformation(String InvitationCode, String CompanyCode, String InvitationCodeTwo, String CompanyName) {

@@ -84,10 +84,6 @@
             android:label="@string/title_activity_about"
             android:theme="@style/Theme.MaterialDesign" />
         <activity
-            android:name=".ui.pay.PayActivity"
-            android:label="@string/title_activity_pay"
-            android:theme="@style/Theme.MaterialDesign" />
-        <activity
             android:name=".ui.house.sell.SellActivity"
             android:label="@string/title_activity_sell"
             android:theme="@style/Theme.MaterialDesign" />
