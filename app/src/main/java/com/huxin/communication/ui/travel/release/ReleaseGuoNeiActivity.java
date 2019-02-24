@@ -33,8 +33,6 @@ import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
-import org.w3c.dom.TypeInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 

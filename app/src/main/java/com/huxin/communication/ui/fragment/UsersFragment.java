@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.DataBaseTravelAdapter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
 import com.huxin.communication.ui.my.collect.CollectionActivity;
@@ -17,7 +16,6 @@ import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
 import com.huxin.communication.ui.my.feedback.FeedbackActivity;
 import com.huxin.communication.ui.my.setting.SettingActivity;
 import com.huxin.communication.ui.travel.CollectTravelActivity;
-import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 
 /**

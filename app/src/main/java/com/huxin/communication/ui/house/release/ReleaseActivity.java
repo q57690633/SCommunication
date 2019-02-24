@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,18 +13,12 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
-import com.huxin.communication.adpter.DetailsTableNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
-import com.huxin.communication.http.service.ApiFactory;
 import com.huxin.communication.ui.MainActivity;
-import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
-import com.huxin.communication.widgets.MyPopWindow;
-import com.huxin.communication.widgets.MyPopWindow1;
-import com.huxin.communication.widgets.MyPopWindow2;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;

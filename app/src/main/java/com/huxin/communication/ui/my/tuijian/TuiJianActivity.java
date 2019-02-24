@@ -1,14 +1,9 @@
 package com.huxin.communication.ui.my.tuijian;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -16,13 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.FamousAdapter;
 import com.huxin.communication.adpter.PhoneRecyclerAdapter;
 import com.huxin.communication.adpter.TuiJianPhoneAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.FamousEntity;
-import com.huxin.communication.ui.house.phone.AddFriendActivity;
-import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 
 import java.util.ArrayList;

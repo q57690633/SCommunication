@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-
 import com.huxin.communication.controls.Constanst;
 
 import static com.huxin.communication.HuXinApplication.mContext;

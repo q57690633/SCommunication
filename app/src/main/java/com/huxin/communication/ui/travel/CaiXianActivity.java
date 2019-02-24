@@ -1,12 +1,8 @@
 package com.huxin.communication.ui.travel;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,9 +15,6 @@ import com.huxin.communication.adpter.CaiXianAdapter;
 import com.huxin.communication.adpter.CaiXianDuoXuanAdapter;
 import com.huxin.communication.adpter.CaiXianDuoXuanForeignAdapter;
 import com.huxin.communication.adpter.CaiXianForeignAdapter;
-import com.huxin.communication.adpter.JingWaiAdapter;
-import com.huxin.communication.adpter.QiuGouAdapter;
-import com.huxin.communication.adpter.QiuGouDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.CaixianForeignTravelEntity;
 import com.huxin.communication.entity.ForeignTraveAroundEntity;

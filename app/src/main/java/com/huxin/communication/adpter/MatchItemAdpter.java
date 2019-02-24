@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.MatchingProductEntity;
-import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.sky.kylog.KyLog;
 
 import java.util.List;

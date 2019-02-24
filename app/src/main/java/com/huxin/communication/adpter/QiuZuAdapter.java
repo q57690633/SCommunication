@@ -12,9 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.WantedScreeningEntity;
-import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
 import com.huxin.communication.ui.house.details.QiuZuDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;

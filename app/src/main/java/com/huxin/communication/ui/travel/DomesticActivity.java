@@ -11,14 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.CaiXianDuoXuanAdapter;
 import com.huxin.communication.adpter.RecylerViewDomesticAdpter;
-import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.http.ApiModule;
-import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 

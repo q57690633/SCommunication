@@ -11,8 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.AroundTravelEntity;
-import com.huxin.communication.entity.CollectTicketEntity;
 import com.huxin.communication.entity.TicketStickEntity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;

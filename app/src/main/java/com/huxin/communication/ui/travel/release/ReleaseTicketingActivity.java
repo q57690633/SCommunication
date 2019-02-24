@@ -2,12 +2,8 @@ package com.huxin.communication.ui.travel.release;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,12 +13,7 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
-import com.huxin.communication.adpter.TableTravelAddressListAdapter;
-import com.huxin.communication.adpter.TableTravelConsAdapter;
-import com.huxin.communication.adpter.TableTravelOtherAdapter;
 import com.huxin.communication.adpter.TableTravelOverseasAdapter;
-import com.huxin.communication.adpter.TableTravelStayAdapter;
-import com.huxin.communication.adpter.TableTravelTrafficAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TabTravelNameEntity;

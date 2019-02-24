@@ -8,7 +8,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.DetailsTableNameAdapter;
 import com.huxin.communication.adpter.QIuZuDetailsAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.InformationDetailEntity;
@@ -18,8 +17,6 @@ import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.huxin.communication.R.id.recycler_qiuzu_details;
 
 /**
  * Created by yangzanxiong on 2018/12/13.

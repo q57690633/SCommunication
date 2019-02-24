@@ -12,10 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
-import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 

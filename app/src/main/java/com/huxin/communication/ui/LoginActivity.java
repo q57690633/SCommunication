@@ -14,7 +14,6 @@ import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
-import com.nostra13.universalimageloader.utils.L;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
@@ -118,8 +117,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ApiModule.getInstance().logins(phone,password)
                 .subscribe(loginEntity -> {
                     KyLog.object(loginEntity);
-                    Intent intentLogin = new Intent(this, MainActivity.class);
-                    startActivity(intentLogin);
+
                     PreferenceUtil.putInt("type", loginEntity.getRegisterType());
                     PreferenceUtil.putString(TOKEN, loginEntity.getToken());
                     PreferenceUtil.putInt(UID, loginEntity.getUid());
@@ -134,7 +132,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                         @Override
                         public void onSuccess() {
-
+                            Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intentLogin);
                         }
                     });
 

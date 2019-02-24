@@ -2,7 +2,6 @@ package com.huxin.communication.http;
 
 
 import com.huxin.communication.HuXinApplication;
-import com.huxin.communication.R;
 import com.huxin.communication.entity.AddUserInformationEntity;
 import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
@@ -49,7 +48,6 @@ import com.sky.kylog.KyLog;
 
 import java.util.List;
 
-import retrofit2.http.Field;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;

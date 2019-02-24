@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.ChuZuDetailsAdpter;
 import com.huxin.communication.adpter.SimilarDetailsAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.view.SpaceItemDecoration;

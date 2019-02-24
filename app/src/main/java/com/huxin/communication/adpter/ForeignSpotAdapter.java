@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.ForeignSpotEntity;
-import com.huxin.communication.entity.InlandSpotEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 

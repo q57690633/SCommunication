@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;

@@ -3,17 +3,13 @@ package com.huxin.communication.ui;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.CityAdapter;
 import com.huxin.communication.adpter.CountyAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AddressEntity;
-import com.huxin.communication.entity.EvnBusCityEntity;
 import com.huxin.communication.entity.EvnBusCountyEntity;
-import com.huxin.communication.http.ApiModule;
 import com.sky.kylog.KyLog;
 
 import org.greenrobot.eventbus.EventBus;

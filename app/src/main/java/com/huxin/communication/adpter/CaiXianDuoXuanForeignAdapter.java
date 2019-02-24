@@ -1,7 +1,6 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.CaixianForeignTravelEntity;
-import com.huxin.communication.entity.ForeignTraveAroundEntity;
-import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
