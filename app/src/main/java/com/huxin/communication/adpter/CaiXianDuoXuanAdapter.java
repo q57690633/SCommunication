@@ -29,12 +29,12 @@ import java.util.List;
 
 public class CaiXianDuoXuanAdapter extends RecyclerView.Adapter<CaiXianDuoXuanAdapter.MyViewHoder>{
 
-    private List<ForeignTraveAroundEntity.ListBean> list;
+    private List<AroundTravelEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public CaiXianDuoXuanAdapter(List<ForeignTraveAroundEntity.ListBean> list, Context mContext) {
+    public CaiXianDuoXuanAdapter(List<AroundTravelEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -120,7 +120,7 @@ public class CaiXianDuoXuanAdapter extends RecyclerView.Adapter<CaiXianDuoXuanAd
         }
     }
 
-    private void setTextView(List<ForeignTraveAroundEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<AroundTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTagName().split(",");
         KyLog.d(list.get(position).getTagName());

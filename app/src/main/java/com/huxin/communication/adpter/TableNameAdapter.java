@@ -11,7 +11,7 @@ import com.huxin.communication.R;
 
 import java.util.List;
 
-public class TableNameAdapter extends RecyclerView.Adapter<TableNameAdapter.MyViewHoder>{
+public class TableNameAdapter extends RecyclerView.Adapter<TableNameAdapter.MyViewHoder> {
 
     private List<String> list;
     private Context mContext;
@@ -38,7 +38,12 @@ public class TableNameAdapter extends RecyclerView.Adapter<TableNameAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list.size() > 3) {
+            return 3;
+        } else {
+            return list.size();
+        }
+
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {

@@ -119,7 +119,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(null, null, null, null
                 , null, null, null, null, null,
-                null, null, null,"1", null, null, null)
+                null, null, null,"1", null, null, null,"","")
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);

@@ -9,6 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        ndk {
+//            abiFilters "armeabi-v7a"
+//        }
     }
     buildTypes {
         release {
@@ -52,10 +55,11 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'org.greenrobot:eventbus:3.1.1'
-
+    api 'com.tencent.imsdk:imsdk:3.5.0.211'
+    // implementation 'com.tencent.imsdk:tuikit:0.0.1.198'
     compile 'com.lzy.widget:imagepicker:0.5.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.zhy:okhttputils:2.6.2'
-    compile (name: 'alipaySdk-15.5.9-20181123210657', ext: 'aar')
+    compile(name: 'alipaySdk-15.5.9-20181123210657', ext: 'aar')
 
 }

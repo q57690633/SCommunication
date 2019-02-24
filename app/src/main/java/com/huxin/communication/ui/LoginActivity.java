@@ -12,9 +12,13 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.nostra13.universalimageloader.utils.L;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewChickbox;
@@ -120,6 +124,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     PreferenceUtil.putInt("type", loginEntity.getRegisterType());
                     PreferenceUtil.putString(TOKEN, loginEntity.getToken());
                     PreferenceUtil.putInt(UID, loginEntity.getUid());
+                    PreferenceUtil.putString("usersig", loginEntity.getUsersig());
+                    PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
+                    PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
+                    PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
+
+                    TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
+                        @Override
+                        public void onError(int i, String s) {
+
+                        }
+
+                        @Override
+                        public void onSuccess() {
+
+                        }
+                    });
+
                     cancelProgressDialog();
 
                     runOnUiThread(new Runnable() {

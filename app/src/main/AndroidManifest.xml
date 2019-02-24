@@ -290,6 +290,22 @@
         <activity
             android:name=".ui.ForeignSpotActivity"
             android:label="@string/title_activity_foreign_spot"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.sell.AreaOneScreenActivity"
+            android:label="@string/title_activity_area_one_screen"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.sell.AreaTwoScreenActivity"
+            android:label="@string/title_activity_area_two_screen"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.sell.SelectPlotActivity"
+            android:label="@string/title_activity_select_plot"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.travel.ShuaiShuanInlandSpotActivity"
+            android:label="@string/title_activity_shuai_shuan_inland_spot"
             android:theme="@style/Theme.MaterialDesign"></activity>
     </application>
 

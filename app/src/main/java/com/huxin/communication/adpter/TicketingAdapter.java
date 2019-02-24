@@ -57,7 +57,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewAddr.setText(list.get(position).getTicket_addr());
         holder.mTextViewName.setText(list.get(position).getTicket_name());
-        holder.mTextViewOriginalPrice.setText(list.get(position).getOriginal_price());
+        holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()));
         setTextView(list, position, holder.mRecyclerView);
 
     }
@@ -97,7 +97,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

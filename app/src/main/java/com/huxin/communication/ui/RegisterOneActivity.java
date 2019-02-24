@@ -89,12 +89,14 @@ public class RegisterOneActivity extends BaseActivity implements View.OnClickLis
             mTextViewHouseLine.setBackgroundResource(R.color.blue);
             mTextViewTravel.setTextColor(getResources().getColor(R.color.register_font));
             mTextViewHouse.setTextColor(getResources().getColor(R.color.blue));
+            PreferenceUtil.putInt("type", 1);
         } else {
             mTextViewTravelLine.setBackgroundResource(R.color.blue);
             mTextViewTravelLine.setVisibility(View.VISIBLE);
             mTextViewHouseLine.setVisibility(View.GONE);
             mTextViewTravel.setTextColor(getResources().getColor(R.color.blue));
             mTextViewHouse.setTextColor(getResources().getColor(R.color.register_font));
+            PreferenceUtil.putInt("type", 2);
         }
     }
 }

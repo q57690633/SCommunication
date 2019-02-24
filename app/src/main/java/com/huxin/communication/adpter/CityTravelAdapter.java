@@ -1,6 +1,7 @@
 package com.huxin.communication.adpter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.InlandCityEntity;
+import com.huxin.communication.ui.InlandSpotActivity;
+import com.huxin.communication.ui.travel.ShuaiShuanInlandSpotActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 
@@ -24,13 +27,13 @@ import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_CODE;
 import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_TRAVEL_NAME;
 import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVEL_NAME;
 
-public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.BodyViewHoder>{
+public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.BodyViewHoder> {
     private Activity mActivity;
     private List<InlandCityEntity> mList;
     private LayoutInflater mInflater;
     private int type;
 
-    public CityTravelAdapter(List<InlandCityEntity> mList, Activity mActivity,int type) {
+    public CityTravelAdapter(List<InlandCityEntity> mList, Activity mActivity, int type) {
         this.mList = mList;
         this.mActivity = mActivity;
         this.type = type;
@@ -53,7 +56,7 @@ public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.Bo
                     PreferenceUtil.putString(CITY_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
                     PreferenceUtil.putString(PROVINCE_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
                     PreferenceUtil.putString(PROVINCE_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
-                }else {
+                } else if (type == 2) {
                     if (mList.get(Hoder.getAdapterPosition()).getCity_name().contains("市")) {
                         PreferenceUtil.putString(CITY_MUDI_TRAVEL_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name());
                     } else {
@@ -63,6 +66,19 @@ public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.Bo
                     PreferenceUtil.putString(CITY_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
                     PreferenceUtil.putString(PROVINCE_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
                     PreferenceUtil.putString(PROVINCE_MUDI_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
+                } else if (type == 3) {
+                    if (mList.get(Hoder.getAdapterPosition()).getCity_name().contains("市")) {
+                        PreferenceUtil.putString(CITY_MUDI_TRAVEL_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name());
+                    } else {
+                        PreferenceUtil.putString(CITY_MUDI_TRAVEL_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name() + "市");
+                    }
+                    KyLog.d(String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
+                    PreferenceUtil.putString(CITY_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
+                    PreferenceUtil.putString(PROVINCE_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
+                    PreferenceUtil.putString(PROVINCE_MUDI_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
+
+                    Intent intent = new Intent(mActivity, ShuaiShuanInlandSpotActivity.class);
+                    mActivity.startActivity(intent);
                 }
                 mActivity.finish();
             }
@@ -76,7 +92,7 @@ public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.Bo
         KyLog.d(mList.get(position).getCity_name());
         holder.mTextViewName.setText(mList.get(position).getCity_name());
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
-        if (position == mList.size()){
+        if (position == mList.size()) {
             holder.mTextViewLine.setVisibility(View.GONE);
         }
     }

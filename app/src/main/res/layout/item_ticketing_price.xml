@@ -22,6 +22,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/price1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
@@ -35,6 +36,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price2"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -48,6 +51,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price3"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -69,6 +74,8 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/price4"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
@@ -82,6 +89,7 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -95,6 +103,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price6"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -116,6 +126,8 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/price7"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
@@ -129,6 +141,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price8"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -142,6 +156,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price9"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -163,6 +179,8 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/price10"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
@@ -176,6 +194,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price11"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -189,6 +209,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/price12"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -211,6 +233,7 @@
         android:background="@color/login_line" />
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
@@ -228,6 +251,8 @@
 
 
         <EditText
+            android:id="@+id/ed_maxMeasure"
+
             android:layout_width="85dp"
             android:layout_height="30dp"
             android:background="@color/login_forget_password_code_fort"
@@ -251,6 +276,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/ed_minMeasure"
             android:layout_width="85dp"
             android:layout_height="30dp"
             android:background="@color/login_forget_password_code_fort"

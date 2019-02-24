@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.huxin.communication.HuXinApplication;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -65,6 +67,10 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getSpotName());
+
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewPhoto);
+        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(),holder.mImageViewHeadUrl);
+
 
         setTextView(list, position, holder.mRecyclerView);
 

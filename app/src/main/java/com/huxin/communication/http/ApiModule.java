@@ -6,6 +6,8 @@ import com.huxin.communication.R;
 import com.huxin.communication.entity.AddUserInformationEntity;
 import com.huxin.communication.entity.AliPayEntity;
 import com.huxin.communication.entity.AppPayEntity;
+import com.huxin.communication.entity.AreaOneScreenEntity;
+import com.huxin.communication.entity.AreaTwoScreenEntity;
 import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
@@ -36,6 +38,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
@@ -208,22 +211,52 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<RentalScreeningEntity> rentalScreening(String productType,
+    public Observable<RentalScreeningEntity> rentalScreening(String villageName,
+                                                             String houseType, String minAcreage,
+                                                             String maxAcreage, String minPrice,
+                                                             String maxPrice, String orientation,
+                                                             String permit, String fitment,
+                                                             String element, String floorAge,
+                                                             String purpose, String ownership,
+                                                             String productType,
                                                              String newOrOld,
                                                              String city, String areaOne,
-                                                             String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().rentalScreening(productType, newOrOld, PreferenceUtil.getString(TOKEN), city, areaOne, curPage)
+                                                             String curPage, String houseHoldAppliances) {
+        return ApiFactory.getFactory().BaiHangTongYeService().rentalScreening(villageName,
+                houseType, minAcreage,
+                maxAcreage, minPrice, maxPrice, orientation,
+                permit, fitment, element, floorAge,
+                purpose, ownership,
+                productType,
+                newOrOld, PreferenceUtil.getString(TOKEN),
+                city, areaOne,
+                curPage, houseHoldAppliances)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
 
-    public Observable<BuyerScreeningEntity> buyerScreening(String productType,
+    public Observable<BuyerScreeningEntity> buyerScreening(String villageName,
+                                                           String houseType, String minAcreage,
+                                                           String maxAcreage, String minPrice,
+                                                           String maxPrice, String orientation,
+                                                           String permit, String fitment,
+                                                           String element, String floorAge,
+                                                           String purpose, String ownership,
+                                                           String productType,
                                                            String newOrOld,
                                                            String city, String areaOne,
-                                                           String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().buyerScreening(productType, newOrOld, PreferenceUtil.getString(TOKEN), city, areaOne, curPage)
+                                                           String curPage, String houseHoldAppliances) {
+        return ApiFactory.getFactory().BaiHangTongYeService().buyerScreening(villageName,
+                houseType, minAcreage,
+                maxAcreage, minPrice, maxPrice, orientation,
+                permit, fitment, element, floorAge,
+                purpose, ownership,
+                productType,
+                newOrOld, PreferenceUtil.getString(TOKEN),
+                city, areaOne,
+                curPage, houseHoldAppliances)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -234,11 +267,26 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<WantedScreeningEntity> wantedScreening(String productType,
+    public Observable<WantedScreeningEntity> wantedScreening(String villageName,
+                                                             String houseType, String minAcreage,
+                                                             String maxAcreage, String minPrice,
+                                                             String maxPrice, String orientation,
+                                                             String permit, String fitment,
+                                                             String element, String floorAge,
+                                                             String purpose, String ownership,
+                                                             String productType,
                                                              String newOrOld,
                                                              String city, String areaOne,
-                                                             String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().wantedScreening(productType, newOrOld, PreferenceUtil.getString(TOKEN), city, areaOne, curPage)
+                                                             String curPage, String houseHoldAppliances) {
+        return ApiFactory.getFactory().BaiHangTongYeService().wantedScreening(villageName,
+                houseType, minAcreage,
+                maxAcreage, minPrice, maxPrice, orientation,
+                permit, fitment, element, floorAge,
+                purpose, ownership,
+                productType,
+                newOrOld, PreferenceUtil.getString(TOKEN),
+                city, areaOne,
+                curPage, houseHoldAppliances)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -621,10 +669,11 @@ public class ApiModule {
                                                               String tAddressId, String tTrafficId,
                                                               String tConsumeId, String minPri_maxPri,
                                                               String numberDays, String keyWord,
-                                                              String curPage, String minDay, String maxDay, String uid) {
+                                                              String curPage, String minDay, String maxDay, String uid,
+                                                               String travel_kind,String lineOrThrow) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid)
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid,travel_kind,lineOrThrow)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -643,9 +692,12 @@ public class ApiModule {
                                                                 String t_overseas_id,
                                                                 String t_consume_id, String sort_type,
                                                                 String minPri_maxPri, String number_days,
-                                                                String keyWord, String curPage, String uid) {
+                                                                String keyWord, String curPage, String uid,
+                                                                String line_or_throw) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingForeignTravel(depart_name, min_days,
-                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id, t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
+                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid,line_or_throw)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -662,7 +714,8 @@ public class ApiModule {
                                                       String sort_type,
                                                       String keyWord, String curPage, String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().getTicketInfo(ticket_type, ticket_city_name,
-                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type, PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
+                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1010,6 +1063,45 @@ public class ApiModule {
      */
     public Observable<ToVipEntity> toVip(String productType) {
         return ApiFactory.getFactory().BaiHangTongYeService().toVip(PreferenceUtil.getString(TOKEN), productType)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 小区搜索
+     *
+     * @return
+     */
+    public Observable<List<SelectPlotEntity>> selectPlot(String areaSecondId, String areaId) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectPlot(areaSecondId, areaId, PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 下属区域筛选
+     *
+     * @return
+     */
+    public Observable<List<AreaTwoScreenEntity>> areaTwoScreen(String areaId) {
+        return ApiFactory.getFactory().BaiHangTongYeService().areaTwoScreen(PreferenceUtil.getString(TOKEN), areaId)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 城区筛选
+     *
+     * @return
+     */
+    public Observable<List<AreaOneScreenEntity>> areaOneScreen(String city) {
+        return ApiFactory.getFactory().BaiHangTongYeService().areaOneScreen(PreferenceUtil.getString(TOKEN), city)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());

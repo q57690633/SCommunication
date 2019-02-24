@@ -22,7 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
     public static final String UID = "uid";
     public static final String PID = "PID";
     public static final String PHONE = "phone";
-    public static final String IS_BINFPHONE = "is_bind_phone";
+    public static final String IS_BINDPHONE = "is_bind_phone";
 
     protected static final int MODE_NOR = 0;
     protected static final int MODE_BACK = 1;

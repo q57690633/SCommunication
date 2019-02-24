@@ -17,6 +17,7 @@ import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, JinWaiDetailsActivity.class);
-                intent.putExtra("position",hoder.getAdapterPosition());
+                intent.putExtra("position", hoder.getAdapterPosition());
                 mContext.startActivity(intent);
             }
         });
@@ -60,12 +61,16 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewUsername.setText(list.get(position).getUsername());
         holder.mTextViewUserCity.setText(list.get(position).getUserCity());
         holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
-        holder.mTextViewNumberDays.setText(list.get(position).getNumber_days());
-        holder.mTextViewTotalPrice.setText(list.get(position).getTotal_price());
-        holder.mTextViewReturnPrice.setText(list.get(position).getReturn_price());
-        holder.mTextViewTotalPriceChild.setText(list.get(position).getTotal_price_child());
-        holder.mTextViewReturnPriceChild.setText(list.get(position).getReturn_price_child());
+        holder.mTextViewNumberDays.setText("行程天数：" + list.get(position).getNumber_days() + "天");
+        holder.mTextViewTotalPrice.setText("成人：" + list.get(position).getTotal_price() + "元");
+        holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");
+        holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotal_price_child() + "元");
+        holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getSort_type());
+
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
+        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
+
 
         setTextView(list, position, holder.mRecyclerView);
 
@@ -124,11 +129,11 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTagName().split(",");
         KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
+        for (int i = 0; i < strings.length; i++) {
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

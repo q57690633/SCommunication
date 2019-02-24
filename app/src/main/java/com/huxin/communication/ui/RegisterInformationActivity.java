@@ -56,7 +56,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
     private EditText mEditTextCompanyCode;
     private EditText mEditTextInvitationCode;
     private EditText mEditTextInvitationCodeTwo;
-    private String cOrP;
+    private int cOrP = 1;
     private ArrayList<AddressEntity> mData;
     private List<MyPopVlaues> Kouweilist;
 
@@ -110,7 +110,8 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 String CompanyCode = mEditTextCompanyCode.getText().toString().trim();
                 String InvitationCodeTwo = mEditTextInvitationCodeTwo.getText().toString().trim();
                 String CompanyName = mEditTextCompanyName.getText().toString().trim();
-                if (cOrP.equals("1")) {
+                KyLog.d(cOrP + "");
+                if (cOrP == 1) {
                     if (!TextUtils.isEmpty(CompanyCode) && !TextUtils.isEmpty(CompanyName)) {
                         getAddUserInformation(InvitationCode, CompanyCode, InvitationCodeTwo, CompanyName);
                     } else {
@@ -156,7 +157,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 mTextViewComPany.setBackgroundResource(R.color.blue);
                 mTextViewComPany.setTextColor(getResources().getColor(R.color.white));
                 mTextViewOnePerson.setTextColor(getResources().getColor(R.color.register_font));
-                cOrP = "1";
+                cOrP = 1;
                 break;
             case R.id.one_person:
                 mRelativeLayoutOccupation.setVisibility(View.GONE);
@@ -166,7 +167,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 mTextViewComPany.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewComPany.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewOnePerson.setTextColor(getResources().getColor(R.color.white));
-                cOrP = "2";
+                cOrP = 2;
                 break;
 
             case R.id.province_rl:
@@ -347,7 +348,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
         ApiModule.getInstance().updatUserInformation(PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), CompanyName,
                 CompanyCode, Fitment, purpose,
                 InvitationCode, InvitationCodeTwo,
-                cOrP, String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN), PreferenceUtil.getString(PHONE))
+                String.valueOf(cOrP), String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN), PreferenceUtil.getString(PHONE))
                 .subscribe(registerEntity -> {
                     runOnUiThread(new Runnable() {
                         @Override

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.CaixianForeignTravelEntity;
 import com.huxin.communication.entity.ForeignTraveAroundEntity;
+import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -23,12 +24,12 @@ import java.util.List;
 
 public class CaiXianForeignAdapter extends RecyclerView.Adapter<CaiXianForeignAdapter.MyViewHoder>{
 
-    private List<CaixianForeignTravelEntity.ListBean> list;
+    private List<ForeignTravelEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public CaiXianForeignAdapter(List<CaixianForeignTravelEntity.ListBean> list, Context mContext) {
+    public CaiXianForeignAdapter(List<ForeignTravelEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -114,7 +115,7 @@ public class CaiXianForeignAdapter extends RecyclerView.Adapter<CaiXianForeignAd
         }
     }
 
-    private void setTextView(List<CaixianForeignTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<ForeignTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTagName().split(",");
         KyLog.d(list.get(position).getTagName());

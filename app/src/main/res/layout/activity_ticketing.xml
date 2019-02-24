@@ -59,7 +59,7 @@
 
 
             <LinearLayout
-                android:id="@+id/spot"
+                android:id="@+id/mudidi_line"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
 

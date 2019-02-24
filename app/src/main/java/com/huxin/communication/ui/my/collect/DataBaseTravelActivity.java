@@ -385,7 +385,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(null, null, null, null
                 , null, null, null, null, null,
-                null, null, null, String.valueOf(PreferenceUtil.getInt(UID)), "1", null, "")
+                null, null, null, String.valueOf(PreferenceUtil.getInt(UID)), "1", null, "","","")
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
@@ -406,7 +406,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel("", "", "", ""
                 , "", "", "", "", "",
-                "", "", String.valueOf(PreferenceUtil.getInt(UID)), "", "", "", "", "", "1")
+                "", "", String.valueOf(PreferenceUtil.getInt(UID)), "", "", "", "", "", "1","")
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);

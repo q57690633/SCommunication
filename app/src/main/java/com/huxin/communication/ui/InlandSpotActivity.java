@@ -23,6 +23,8 @@ public class InlandSpotActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     private InlandSpotAdapter mAdapter;
+
+    private int type ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class InlandSpotActivity extends BaseActivity {
     protected void initViews() {
         setToolbarCenterMode("所选景点", MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_city);
+        type = getIntent().getIntExtra("type",0);
     }
 
     @Override
@@ -50,10 +53,14 @@ public class InlandSpotActivity extends BaseActivity {
         ApiModule.getInstance().getInlandSpot(PreferenceUtil.getString(Constanst.CITY_HOME_CODE)).subscribe(inlandSpotEntities -> {
             cancelProgressDialog();
             if (inlandSpotEntities != null && inlandSpotEntities.size() > 0) {
-                LinearLayoutManager manager = new LinearLayoutManager(this);
-                mAdapter = new InlandSpotAdapter(inlandSpotEntities, this);
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.setLayoutManager(manager);
+                if (type != 3) {
+                    LinearLayoutManager manager = new LinearLayoutManager(this);
+                    mAdapter = new InlandSpotAdapter(inlandSpotEntities, this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setLayoutManager(manager);
+                }else {
+
+                }
 
             }
         }, throwable -> {

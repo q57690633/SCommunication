@@ -16,6 +16,7 @@ import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.ui.house.details.SellDetailsActivity;
 import com.huxin.communication.ui.house.sell.SimilarDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
+
 
     public SellAdpter(List<SaleOfScreeningEntity.ListBean> list, Context mContext) {
         this.list = list;
@@ -69,6 +71,7 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
         holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
+
 
         if (list.get(position).getKeying() == 1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
@@ -141,5 +144,10 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
         }
 
 
+    }
+
+    public void clearList(){
+        list.clear();
+        notifyDataSetChanged();
     }
 }

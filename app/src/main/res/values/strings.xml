@@ -92,5 +92,9 @@
     <string name="pay_failed">支付失败:</string>
     <string name="auth_success">授权成功:</string>
     <string name="auth_failed">授权失败:</string>
+    <string name="title_activity_area_one_screen">AreaOneScreenActivity</string>
+    <string name="title_activity_area_two_screen">AreaTwoScreenActivity</string>
+    <string name="title_activity_select_plot">SelectPlotActivity</string>
+    <string name="title_activity_shuai_shuan_inland_spot">ShuaiShuanInlandSpotActivity</string>
 
 </resources>

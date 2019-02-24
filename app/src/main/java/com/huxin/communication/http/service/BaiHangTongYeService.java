@@ -4,6 +4,8 @@ package com.huxin.communication.http.service;
 import com.huxin.communication.entity.AddUserInformationEntity;
 import com.huxin.communication.entity.AliPayEntity;
 import com.huxin.communication.entity.AppPayEntity;
+import com.huxin.communication.entity.AreaOneScreenEntity;
+import com.huxin.communication.entity.AreaTwoScreenEntity;
 import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
@@ -35,6 +37,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
@@ -159,30 +162,51 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/rentalScreening")
-    Observable<Response<RentalScreeningEntity>> rentalScreening(@Field("productType") String productType,
+    Observable<Response<RentalScreeningEntity>> rentalScreening(@Field("villageName") String villageName,
+                                                                @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
+                                                                @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
+                                                                @Field("maxPrice") String maxPrice,@Field("orientation") String orientation,
+                                                                @Field("permit") String permit, @Field("fitment") String fitment,
+                                                                @Field("element") String element, @Field("floorAge") String floorAge,
+                                                                @Field("purpose") String purpose,@Field("ownership") String ownership,
+                                                                @Field("productType") String productType,
                                                                 @Field("newOrOld") String newOrOld, @Field("token") String token,
                                                                 @Field("city") String city, @Field("areaOne") String areaOne,
-                                                                @Field("curPage") String curPage);
+                                                                @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
     /**
      * 求购筛选
      */
     @FormUrlEncoded
     @POST("houseProduct/buyerScreening")
-    Observable<Response<BuyerScreeningEntity>> buyerScreening(@Field("productType") String productType,
+    Observable<Response<BuyerScreeningEntity>> buyerScreening(@Field("villageName") String villageName,
+                                                              @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
+                                                              @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
+                                                              @Field("maxPrice") String maxPrice,@Field("orientation") String orientation,
+                                                              @Field("permit") String permit, @Field("fitment") String fitment,
+                                                              @Field("element") String element, @Field("floorAge") String floorAge,
+                                                              @Field("purpose") String purpose,@Field("ownership") String ownership,
+                                                              @Field("productType") String productType,
                                                               @Field("newOrOld") String newOrOld, @Field("token") String token,
                                                               @Field("city") String city, @Field("areaOne") String areaOne,
-                                                              @Field("curPage") String curPage);
+                                                              @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
     /**
      * 求租筛选
      */
     @FormUrlEncoded
     @POST("houseProduct/wantedScreening")
-    Observable<Response<WantedScreeningEntity>> wantedScreening(@Field("productType") String productType,
+    Observable<Response<WantedScreeningEntity>> wantedScreening(@Field("villageName") String villageName,
+                                                                @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
+                                                                @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
+                                                                @Field("maxPrice") String maxPrice,@Field("orientation") String orientation,
+                                                                @Field("permit") String permit, @Field("fitment") String fitment,
+                                                                @Field("element") String element, @Field("floorAge") String floorAge,
+                                                                @Field("purpose") String purpose,@Field("ownership") String ownership,
+                                                                @Field("productType") String productType,
                                                                 @Field("newOrOld") String newOrOld, @Field("token") String token,
                                                                 @Field("city") String city, @Field("areaOne") String areaOne,
-                                                                @Field("curPage") String curPage);
+                                                                @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
     /**
      * 出售、出租商品详情
@@ -483,7 +507,8 @@ public interface BaiHangTongYeService {
                                                                  @Field("numberDays") String numberDays,
                                                                  @Field("token") String token, @Field("keyWord") String keyWord,
                                                                  @Field("curPage") String curPage,
-                                                                 @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid);
+                                                                 @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid,
+                                                                 @Field("travel_kind") String travel_kind, @Field("lineOrThrow") String lineOrThrow);
 
     /**
      * 国外游筛选和搜索
@@ -502,7 +527,7 @@ public interface BaiHangTongYeService {
                                                                    @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
                                                                    @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                    @Field("token") String token, @Field("keyWord") String keyWord,
-                                                                   @Field("curPage") String curPage, @Field("uid") String uid);
+                                                                   @Field("curPage") String curPage, @Field("uid") String uid,@Field("line_or_throw") String line_or_throw);
 
     /**
      * 票务筛选
@@ -813,4 +838,26 @@ public interface BaiHangTongYeService {
                                               @Field("comboId") String comboId, @Field("comboType") String comboType,
                                               @Field("matchingPrice") String matchingPrice, @Field("matchingMonth") String matchingMonth,
                                               @Field("stickNumber") String stickNumber, @Field("stickPrice") String stickPrice);
+
+    /**
+     * 小区搜索
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectPlot")
+    Observable<Response<List<SelectPlotEntity>>> selectPlot(@Field("areaSecondId") String areaSecondId,@Field("areaId") String areaId,
+                                                      @Field("token") String token);
+
+    /**
+     * 下属区域筛选
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/areaTwoScreen")
+    Observable<Response<List<AreaTwoScreenEntity>>> areaTwoScreen(@Field("token") String token, @Field("areaId") String areaId);
+
+    /**
+     * 城区筛选
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/areaOneScreen")
+    Observable<Response<List<AreaOneScreenEntity>>> areaOneScreen(@Field("token") String token, @Field("city") String city);
 }

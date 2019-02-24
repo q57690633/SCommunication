@@ -113,7 +113,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel("", "", "", ""
                 , "", "", "", "", "",
-                "", "", "", "", "", "","","1",null)
+                "", "", "", "", "", "","","1",null,"")
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);

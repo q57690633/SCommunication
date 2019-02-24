@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.sell;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.http.ApiModule;
@@ -49,6 +51,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mLinearLayoutPrice;
     private LinearLayout mLinearLayoutMore;
     private LinearLayout mLinearLayoutFangXing;
+    private LinearLayout mLinearLayoutQuYu;
+
 
     private LinearLayout mLinearLayoutSorts;
     private LinearLayout mLinearLayoutMeasures;
@@ -79,6 +83,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTextViewMianji;
     private TextView mTextViewPaixu;
     private TextView mTextViewChaoXiang;
+    private TextView mTextViewQuYu;
+
 
     private TextView mTextViewGuanLi;
     private TextView mTextViewQuXiao;
@@ -141,6 +147,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewMeasure;
     private ImageView mImageViewMore;
     private ImageView mImageViewFangxin;
+    private ImageView mImageViewQuYu;
+
 
     private SellDuoXuanAdapter mAdpterDuoXuan;
     private ShaiXuanTabNameAdapter mAdapterTableName;
@@ -152,6 +160,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private boolean isClicksan = true;
     private boolean isClickFour = true;
     private boolean isClickfive = true;
+    private boolean isClickQuYu = false;
 
 
     private String yishi;
@@ -176,6 +185,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private String yongtu;
     private String zhaungxiu;
 
+    String villageName;
 
 
     private Set<String> setHouseTypeList = new HashSet<>();
@@ -186,6 +196,10 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private StringBuffer stringBuffer = new StringBuffer();
 
     private List<String> Kouweilist;
+
+    private List<AreaOneScreenEntity> mList;
+
+    private SpaceItemDecoration spaceItemDecoration =  new SpaceItemDecoration(0, 15);
 
 
     @Override
@@ -218,6 +232,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mLinearLayoutMore = (LinearLayout) findViewById(R.id.more);
         mLinearLayoutPrice = (LinearLayout) findViewById(R.id.price);
         mLinearLayoutSort = (LinearLayout) findViewById(R.id.sort);
+        mLinearLayoutQuYu = (LinearLayout) findViewById(R.id.quyu);
+
 
         mLinearLayoutFangXings = (LinearLayout) findViewById(R.id.house_fangxin);
         mLinearLayoutMeasures = (LinearLayout) findViewById(R.id.house_measure);
@@ -234,6 +250,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mTextViewMeasure = (TextView) findViewById(R.id.tv_measure);
         mTextViewPrice = (TextView) findViewById(R.id.tv_price);
         mTextViewMore = (TextView) findViewById(R.id.tv_more);
+        mTextViewQuYu = (TextView) findViewById(R.id.quyu_tv);
+
 
         mTextViewDetermineSort = (TextView) findViewById(R.id.sort_Determine);
         mTextViewDetermineFangXin = (TextView) findViewById(R.id.fangxin_Determine);
@@ -256,6 +274,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mImageViewSort = (ImageView) findViewById(R.id.image_sort);
         mImageViewMeasure = (ImageView) findViewById(R.id.image_measure);
         mImageViewMore = (ImageView) findViewById(R.id.image_more);
+        mImageViewQuYu = (ImageView) findViewById(R.id.image_quyu);
+
 
         mTextViewYiShi = (TextView) findViewById(R.id.yishi);
         mTextViewLiangShi = (TextView) findViewById(R.id.liangshi);
@@ -319,6 +339,9 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
+        mLinearLayoutQuYu.setOnClickListener(this);
+
+
         mTextViewDetermineSort.setOnClickListener(this);
         mTextViewDetermineFangXin.setOnClickListener(this);
         mTextViewDetermineMeasure.setOnClickListener(this);
@@ -326,6 +349,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+
         mTextViewCollect.setOnClickListener(this);
 
         mTextViewQuanBu.setOnClickListener(this);
@@ -388,6 +412,35 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isClickQuYu){
+            return;
+        }
+        String areaOne = PreferenceUtil.getString(Constanst.SCREEN_AREAONE_NAME);
+        String areaTwo = PreferenceUtil.getString(Constanst.SCREEN_TWOAONE_NAME);
+        String selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
+                substring(1,PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+        if (!TextUtils.isEmpty(areaOne) && !TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
+            villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + areaOne + ","
+                    + areaTwo + "," + selectName;
+        } else if (!TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
+            villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + "-1" + ","
+                    + areaTwo + "," + selectName;
+        } else if (!TextUtils.isEmpty(selectName)) {
+            villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + "-1" + ","
+                    + "-1" + "," + selectName;
+        } else {
+            villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + "-1" + ","
+                    + "-1" + "," + "-1";
+        }
+        KyLog.d(villageName);
+        getSaleOfScreening(villageName, "", "", "", "", "", "", "", "", "",
+                "", "", "", "0", 0, "",
+                "", "1", "");
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fangxin:
@@ -445,6 +498,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
 
                 setMoreData();
+                setDetleTabData();
                 break;
             case R.id.price:
                 mLinearLayoutSorts.setVisibility(View.GONE);
@@ -483,6 +537,12 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
                 break;
 
+            case R.id.quyu:
+                isClickQuYu = true;
+                Intent intent = new Intent(this, AreaOneScreenActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.fangxin_Determine:
                 KyLog.d(setHouseTypeList.toString());
                 stringBuffer.setLength(0);
@@ -497,27 +557,36 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.measure_Determine:
                 updata();
-                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), minAcreage, maxAcreage,
+                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", minAcreage, maxAcreage,
                         "", "", "", "", "", "",
                         "", "", "", "0", 0, "", "", "1", "");
                 break;
             case R.id.more_Determine:
-                KyLog.d(PreferenceUtil.getString(Constanst.YONG_TU));
                 updata();
-                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
-                        "", "", "", "", "", "",
-                        "", "", "", "0", 0, "", "", "1", "");
+                setTabData();
+                KyLog.d(chaoxiang);
+                KyLog.d(fangben);
+                KyLog.d(louling);
+                KyLog.d(yongtu);
+                KyLog.d(jiajujiadian);
+                KyLog.d(zhaungxiu);
+
+
+                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", "", "",
+                        "", "", chaoxiang, fangben, zhaungxiu, "",
+                        louling, yongtu, "", "0", 0, "", "", "1", jiajujiadian);
+
                 break;
 
             case R.id.sort_Determine:
                 updata();
-                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), minAcreage, maxAcreage,
-                        "", "", chaoxiang, fangben, zhaungxiu, "",
-                        louling, yongtu, "", productType, 0, "", "", "1", jiajujiadian);
+                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", "", "",
+                        "", "", "", "", "", "",
+                        "", "", "", productType, 0, "", "", "1", "");
                 break;
             case R.id.price_Determine:
                 updata();
-                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
+                getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", "", "",
                         minPrice, maxPrice, "", "", "", "",
                         "", "", "", "0", 0, "", "", "1", "");
                 break;
@@ -1081,7 +1150,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.tv8:
                 mTextView1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextView2.setBackgroundResource(R.color.blue);
+                mTextView2.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextView3.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextView4.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextView5.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -1291,41 +1360,74 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void setTabData(){
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))){
-            chaoxiang = PreferenceUtil.getString(Constanst.CHAO_XIANG);
-        }else {
-            chaoxiang  = "";
+    private void setTabData() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))) {
+            chaoxiang = PreferenceUtil.getString(Constanst.CHAO_XIANG)
+                    .substring(1,PreferenceUtil.getString(Constanst.CHAO_XIANG).length() - 1);
+        } else {
+            chaoxiang = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))){
-            fangben = PreferenceUtil.getString(Constanst.FANG_BEN);
-        }else {
-            fangben  = "";
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))) {
+            fangben = PreferenceUtil.getString(Constanst.FANG_BEN)
+                    .substring(1,PreferenceUtil.getString(Constanst.FANG_BEN).length() - 1);
+        } else {
+            fangben = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))){
-            jiajujiadian = PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN);
-        }else {
-            jiajujiadian  = "";
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))) {
+            jiajujiadian = PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN)
+                    .substring(1,PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN).length() - 1);
+        } else {
+            jiajujiadian = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))){
-            louling = PreferenceUtil.getString(Constanst.LOU_LING);
-        }else {
-            louling  = "";
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))) {
+            louling = PreferenceUtil.getString(Constanst.LOU_LING)
+                    .substring(1,PreferenceUtil.getString(Constanst.LOU_LING).length() - 1);
+        } else {
+            louling = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))){
-            yongtu = PreferenceUtil.getString(Constanst.YONG_TU);
-        }else {
-            yongtu  = "";
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))) {
+            yongtu = PreferenceUtil.getString(Constanst.YONG_TU)
+                    .substring(1,PreferenceUtil.getString(Constanst.YONG_TU).length() - 1);
+        } else {
+            yongtu = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))){
-            zhaungxiu = PreferenceUtil.getString(Constanst.ZHUANG_XIU);
-        }else {
-            zhaungxiu  = "";
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))) {
+            zhaungxiu = PreferenceUtil.getString(Constanst.ZHUANG_XIU)
+                    .substring(1,PreferenceUtil.getString(Constanst.ZHUANG_XIU).length() - 1);
+        } else {
+            zhaungxiu = "";
+        }
+    }
+
+    private void setDetleTabData() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))) {
+           PreferenceUtil.removeSp(Constanst.CHAO_XIANG,Constanst.SP_NAME);
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))) {
+            PreferenceUtil.removeSp(Constanst.FANG_BEN,Constanst.SP_NAME);
+
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))) {
+            PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN,Constanst.SP_NAME);
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))) {
+            PreferenceUtil.removeSp(Constanst.LOU_LING,Constanst.SP_NAME);
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))) {
+            PreferenceUtil.removeSp(Constanst.YONG_TU,Constanst.SP_NAME);
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))) {
+            PreferenceUtil.removeSp(Constanst.ZHUANG_XIU,Constanst.SP_NAME);
         }
     }
 
@@ -1385,24 +1487,29 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setDuoXuanData(SaleOfScreeningEntity entity) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpterDuoXuan = new SellDuoXuanAdapter(entity.getList(), this);
-        mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
-        mRecyclerViewDuoXuan.setLayoutManager(manager);
-        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
-        mTextViewGuanLi.setVisibility(View.VISIBLE);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
-
+        if (entity.getList() != null && entity.getList().size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpterDuoXuan = new SellDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(spaceItemDecoration);
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
 
     }
 
     private void setData(SaleOfScreeningEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mAdpter = new SellAdpter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mRecyclerView.addItemDecoration(spaceItemDecoration);
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "该小区没有发布", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -1441,6 +1548,19 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void areaOneScreen() {
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+        ApiModule.getInstance().areaOneScreen(PreferenceUtil.getString(Constanst.CITY_NAME))
+                .subscribe(areaOneScreenEntity -> {
+                    KyLog.object(areaOneScreenEntity + "");
+                    mList = areaOneScreenEntity;
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

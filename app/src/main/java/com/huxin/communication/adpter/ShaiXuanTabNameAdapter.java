@@ -2,17 +2,20 @@ package com.huxin.communication.adpter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +26,40 @@ public class ShaiXuanTabNameAdapter extends RecyclerView.Adapter<ShaiXuanTabName
     private Context mContext;
     private LayoutInflater mInflater;
     private int positions = -1;
+    private int positionsAfater = -1;
+
+    private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
+    private boolean mIsSelectable = false;
+
+    private Set<String> strings = new HashSet<>();
+    private Set<Integer> integers = new HashSet<>();
+    private boolean isClicked = true;
     private int type;
+
+
+    //更新adpter的数据和选择状态
+    public void updateDataSet(ArrayList<String> list) {
+        this.list = list;
+        mSelectedPositions = new SparseBooleanArray();
+//        ab.setTitle("已选择" + 0 + "项");
+    }
+
+
+    //获得选中条目的结果
+    public ArrayList<String> getSelectedItem() {
+        ArrayList<String> selectList = new ArrayList<>();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                if (isItemChecked(i)) {
+                    selectList.add(list.get(i));
+                    strings.add(list.get(i));
+                }else {
+                    strings.remove(list.get(i));
+                }
+            }
+        }
+        return selectList;
+    }
 
 
     public ShaiXuanTabNameAdapter(List<String> list, Context mContext, int type) {
@@ -31,6 +67,9 @@ public class ShaiXuanTabNameAdapter extends RecyclerView.Adapter<ShaiXuanTabName
         this.mContext = mContext;
         this.type = type;
         mInflater = LayoutInflater.from(mContext);
+        if (list == null) {
+            throw new IllegalArgumentException("model Data must not be null");
+        }
     }
 
     @Override
@@ -41,81 +80,102 @@ public class ShaiXuanTabNameAdapter extends RecyclerView.Adapter<ShaiXuanTabName
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (positions == hoder.getAdapterPosition()) {
-                    positions = -1;
+                KyLog.d(hoder.getAdapterPosition() + "");
 
-                    KyLog.d("");
-                    if (type == 1) {
-                        PreferenceUtil.removeSp(Constanst.CHAO_XIANG, Constanst.SP_NAME);
-                    } else if (type == 2) {
-                        PreferenceUtil.removeSp(Constanst.FANG_BEN, Constanst.SP_NAME);
-                    } else if (type == 3) {
-                        PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN, Constanst.SP_NAME);
-
-                    } else if (type == 4) {
-                        PreferenceUtil.removeSp(Constanst.LOU_LING, Constanst.SP_NAME);
-
-                    } else if (type == 5) {
-                        PreferenceUtil.removeSp(Constanst.ZHUANG_XIU, Constanst.SP_NAME);
-
-                    } else if (type == 6) {
-                        PreferenceUtil.removeSp(Constanst.YONG_TU, Constanst.SP_NAME);
-
-                    }
-
-                    notifyDataSetChanged();
-                    return;
+                if (isItemChecked(hoder.getAdapterPosition())) {
+                    setItemChecked(hoder.getAdapterPosition(), false);
+                } else {
+                    setItemChecked(hoder.getAdapterPosition(), true);
                 }
-                KyLog.d(positions + "");
-                hoder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
-                hoder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
-//                name = list.get(hoder.getAdapterPosition());
+                notifyItemChanged(hoder.getAdapterPosition());
+
+                Toast.makeText(mContext, "已选择" + getSelectedItem().size() + "项", Toast.LENGTH_SHORT).show();
 
                 if (type == 1) {
-                    PreferenceUtil.putString(Constanst.CHAO_XIANG, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.CHAO_XIANG, strings.toString());
                 } else if (type == 2) {
-                    PreferenceUtil.putString(Constanst.FANG_BEN, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.FANG_BEN, strings.toString());
                 } else if (type == 3) {
-                    PreferenceUtil.putString(Constanst.JIA_JU_JIA_DIAN, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.JIA_JU_JIA_DIAN, strings.toString());
 
                 } else if (type == 4) {
-                    PreferenceUtil.putString(Constanst.LOU_LING, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.LOU_LING, strings.toString());
 
                 } else if (type == 5) {
-                    PreferenceUtil.putString(Constanst.ZHUANG_XIU, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.ZHUANG_XIU, strings.toString());
 
                 } else if (type == 6) {
-                    PreferenceUtil.putString(Constanst.YONG_TU, list.get(hoder.getAdapterPosition()));
+                    PreferenceUtil.putString(Constanst.YONG_TU, strings.toString());
+
+                } else if (type == 7) {
+                    PreferenceUtil.putString(Constanst.HUO_DONG, strings.toString());
+
+                } else if (type == 8) {
+                    PreferenceUtil.putString(Constanst.ZHU_SHU, strings.toString());
+
+                } else if (type == 9) {
+                    PreferenceUtil.putString(Constanst.XIAO_FEI, strings.toString());
+
+                } else if (type == 10) {
+                    PreferenceUtil.putString(Constanst.QI_TA, strings.toString());
+
+                } else if (type == 11) {
+                    PreferenceUtil.putString(Constanst.JIAO_TONG, strings.toString());
+
+                } else if (type == 12) {
+                    PreferenceUtil.putString(Constanst.DI_DIAN, strings.toString());
 
                 }
-                positions = hoder.getAdapterPosition();
-                notifyDataSetChanged();
-
-
-
             }
         });
         return hoder;
     }
 
+    //设置给定位置条目的选择状态
+    private void setItemChecked(int position, boolean isChecked) {
+        mSelectedPositions.put(position, isChecked);
+    }
+
+    //根据位置判断条目是否选中
+    private boolean isItemChecked(int position) {
+        return mSelectedPositions.get(position);
+    }
+
+    //根据位置判断条目是否可选
+    private boolean isSelectable() {
+        return mIsSelectable;
+    }
+
+    //设置给定位置条目的可选与否的状态
+    private void setSelectable(boolean selectable) {
+        mIsSelectable = selectable;
+    }
+
+
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextView.setText(list.get(position));
-        KyLog.d(positions + " == positions+onBindViewHolder");
-        KyLog.d(position + " == onBindViewHolder");
-        if (positions != position) {
-            holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
-            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
-        } else {
+        KyLog.d(position + " == onBindViewHolder" + "isItemChecked(position) == " + isItemChecked(position));
+
+        if (isItemChecked(position)) {
             holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+//            strings.add(list.get(position));
+
+        } else {
+            holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
+            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
+//            strings.remove(list.get(position));
         }
+
+        KyLog.d(strings.toString());
+
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {

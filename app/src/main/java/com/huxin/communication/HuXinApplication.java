@@ -1,16 +1,19 @@
 package com.huxin.communication;
 
 import android.app.Application;
+import android.os.Environment;
 
 import com.huxin.communication.ui.cammer.GlideImageLoader;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
+import com.huxin.communication.controls.Constanst;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.sky.kylog.KyLog;
 
 
 /**
@@ -60,6 +63,20 @@ public class HuXinApplication extends Application {
 ////        PreferenceUtil.putString("token", "VkhBeTlEeVNJTGNWZlhLQ1N1SCsxNyt3aEpWQnU1d2R3eEc2cWtGdnYrSHZhWkNWc3NZQW9KVEtMa2EzR1ZISw==");
 ////        PreferenceUtil.putString("token", "VkhBeTlEeVNJTGNWZlhLQ1N1SCsxNyt3aEpWQnU1d2R3eEc2cWtGdnYrSEZuTnQwMUNkQmxOYmxuaVJEZFU4Kw==");
 
+
+        //腾讯IM SDK初始化
+        KyLog.d("TIM SDK init start");
+//        TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
+//                .setAccoutType(Constanst.TIMAccountType)
+//                .enableLogPrint(true)              // 是否在控制台打印Log?
+//                .setLogLevel(TIMLogLevel.DEBUG)    // Log输出级别（debug级别会很多）
+//                .setLogPath(Environment.getExternalStorageDirectory().getPath() + "/TIMLog/");
+//        // Log文件存放在哪里？
+//
+//        //初始化 SDK
+//        TIMManager.getInstance().init(getApplicationContext(), TIMConfig);
+        //TUIKit.init(getApplicationContext(), Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
+        KyLog.d("TIM SDK init end");
 
     }
 
