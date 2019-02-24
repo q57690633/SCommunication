@@ -294,7 +294,8 @@
         <activity
             android:name=".ui.ForeignSpotActivity"
             android:label="@string/title_activity_foreign_spot"
-            android:theme="@style/Theme.MaterialDesign"></activity>
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity android:name=".ui.TIMChatActivity"></activity>
     </application>
 
 </manifest>

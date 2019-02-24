@@ -2,6 +2,7 @@ package com.huxin.communication;
 
 import android.app.Application;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 
 import com.huxin.communication.controls.Constanst;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -14,13 +15,15 @@ import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSdkConfig;
+import com.tencent.qcloud.uikit.BaseUIKitConfigs;
+import com.tencent.qcloud.uikit.TUIKit;
 
 
 /**
  * Created by yangzanxiong on 2017/11/24.
  */
 
-public class HuXinApplication extends Application {
+public class HuXinApplication extends MultiDexApplication {
 
     public static HuXinApplication mContext;
     public static String APP_ID;
@@ -73,7 +76,7 @@ public class HuXinApplication extends Application {
 
         //初始化 SDK
         TIMManager.getInstance().init(getApplicationContext(), TIMConfig);
-        //TUIKit.init(getApplicationContext(), Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
+        TUIKit.init(this, Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
         KyLog.d("TIM SDK init end");
 
     }

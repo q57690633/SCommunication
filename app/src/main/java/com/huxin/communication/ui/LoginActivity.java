@@ -134,17 +134,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         public void onSuccess() {
                             Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intentLogin);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
-
                     cancelProgressDialog();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 },throwable -> {
                     cancelProgressDialog();
                     runOnUiThread(new Runnable() {
