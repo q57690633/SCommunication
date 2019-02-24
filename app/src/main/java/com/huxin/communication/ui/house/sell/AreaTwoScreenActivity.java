@@ -1,0 +1,84 @@
+package com.huxin.communication.ui.house.sell;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Toast;
+
+import com.huxin.communication.R;
+import com.huxin.communication.adpter.AreaOneScreenAdapter;
+import com.huxin.communication.adpter.AreaTwoScreenAdapter;
+import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.AreaOneScreenEntity;
+import com.huxin.communication.entity.AreaTwoScreenEntity;
+import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.view.SpaceItemDecoration;
+import com.sky.kylog.KyLog;
+
+import java.util.List;
+
+public class AreaTwoScreenActivity extends BaseActivity {
+    private RecyclerView mRecyclerView;
+    private AreaTwoScreenAdapter mAdapter;
+    private int areaId ;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_area_two_screen);
+
+    }
+
+    @Override
+    protected void initViews() {
+        setToolbarCenterMode("",MODE_BACK);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_areaTwo);
+        areaId = getIntent().getIntExtra(Constanst.SCREEN_AREAONE_NAME,0);
+    }
+
+    @Override
+    protected void loadData(Bundle savedInstanceState) {
+        areaTwoScreen();
+    }
+
+    private void areaTwoScreen() {
+        KyLog.d(areaId + "");
+        showProgressDialog();
+        ApiModule.getInstance().areaTwoScreen(String.valueOf(areaId))
+                .subscribe(areaTwoScreenEntity -> {
+                    KyLog.object(areaTwoScreenEntity + "");
+                    cancelProgressDialog();
+                    setData(areaTwoScreenEntity);
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void setData(List<AreaTwoScreenEntity> list) {
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdapter = new AreaTwoScreenAdapter(list, AreaTwoScreenActivity.this,areaId);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }
+
+    }
+
+
+}
