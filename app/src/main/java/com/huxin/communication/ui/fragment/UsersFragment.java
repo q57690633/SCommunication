@@ -2,14 +2,18 @@ package com.huxin.communication.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.DataBaseTravelAdapter;
 import com.huxin.communication.base.BaseFragment;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
 import com.huxin.communication.ui.my.collect.CollectionActivity;
 import com.huxin.communication.ui.my.collect.DataBaseActivity;
@@ -19,6 +23,8 @@ import com.huxin.communication.ui.my.setting.SettingActivity;
 import com.huxin.communication.ui.travel.CollectTravelActivity;
 import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sky.kylog.KyLog;
 
 /**
  */
@@ -35,6 +41,11 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
     private RelativeLayout mRelativeLayoutCollect;
     private RelativeLayout mRelativeLayoutOpinion;
     private RelativeLayout mRelativeLayoutSetting;
+
+    private ImageView mImageViewHead;
+    private TextView mTextViewUserName;
+    private TextView mTextViewPhone;
+    private TextView mTextViewCompany;
 
 
     public UsersFragment() {
@@ -74,6 +85,13 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
         mRelativeLayoutSetting = (RelativeLayout) view.findViewById(R.id.rl_setting);
         mRelativeLayoutSql = (RelativeLayout) view.findViewById(R.id.rl_sql);
 
+        mTextViewCompany = (TextView) view.findViewById(R.id.company_name);
+        mTextViewPhone = (TextView) view.findViewById(R.id.phone);
+        mTextViewUserName = (TextView) view.findViewById(R.id.username);
+
+        mImageViewHead = (ImageView) view.findViewById(R.id.image_title);
+
+
         mRelativeLayoutSql.setOnClickListener(this);
         mRelativeLayoutMe.setOnClickListener(this);
         mRelativeLayoutCollect.setOnClickListener(this);
@@ -83,12 +101,39 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected void loadData() {
+        setData();
 
     }
 
     @Override
     protected void bindData() {
 
+    }
+
+
+    private void setData() {
+        KyLog.d(PreferenceUtil.getString(Constanst.PHONE));
+        KyLog.d(PreferenceUtil.getString(Constanst.USER_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.COMPANY));
+        KyLog.d(PreferenceUtil.getString(Constanst.IMAGE_URL));
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))) {
+            mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.USER_NAME))) {
+            mTextViewUserName.setText(PreferenceUtil.getString(Constanst.USER_NAME));
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY))) {
+            mTextViewCompany.setText(PreferenceUtil.getString(Constanst.COMPANY));
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
+            ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageViewHead);
+        }else {
+            mImageViewHead.setBackgroundResource(R.drawable.head);
+        }
     }
 
     @Override
@@ -98,7 +143,7 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
                 if (PreferenceUtil.getInt("type") == 1) {
                     Intent intentCollect = new Intent(getContext(), CollectionActivity.class);
                     startActivity(intentCollect);
-                }else {
+                } else {
                     Intent intentCollect = new Intent(getContext(), CollectTravelActivity.class);
                     startActivity(intentCollect);
                 }
@@ -119,7 +164,7 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
                 if (PreferenceUtil.getInt("type") == 1) {
                     Intent intentSql = new Intent(getContext(), DataBaseActivity.class);
                     startActivity(intentSql);
-                }else {
+                } else {
                     Intent intentSql = new Intent(getContext(), DataBaseTravelActivity.class);
                     startActivity(intentSql);
                 }

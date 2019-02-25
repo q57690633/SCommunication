@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,9 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
         } else {
             holder.mTextView.setText("相似房源");
         }
-        setTextView(list, position, holder.mLinearLayoutTabName);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+            setTextView(list, position, holder.mLinearLayoutTabName);
+        }
     }
 
     @Override
@@ -132,9 +135,10 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
         KyLog.d(list.get(position).getTabName());
-        for (int i = 0; i < strings.length; i++){
+        for (int i = 0; i < strings.length; i++) {
             list1.add(strings[i]);
         }
+        KyLog.d(list1.size() + "");
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(mContext, 5);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
@@ -146,7 +150,7 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
 
     }
 
-    public void clearList(){
+    public void clearList() {
         list.clear();
         notifyDataSetChanged();
     }

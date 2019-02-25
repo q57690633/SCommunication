@@ -51,22 +51,22 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="胡二巴"
                     android:textSize="16dp"
                     android:textColor="@color/register_font" />
                 <TextView
+                    android:id="@+id/company_name"
                     android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="创居不动产·五里路店·店员"
                     android:textSize="14dp"
                     android:textColor="@color/register_font" />
                 <TextView
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="电话：13233220022"
                     android:textSize="14dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/register_font" />

@@ -359,7 +359,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3日内浏览次数："
+                        android:text="3日内发布次数："
                         android:textColor="#999999"
                         android:textSize="14sp" />
 

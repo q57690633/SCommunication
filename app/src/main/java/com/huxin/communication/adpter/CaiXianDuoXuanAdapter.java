@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,9 @@ public class CaiXianDuoXuanAdapter extends RecyclerView.Adapter<CaiXianDuoXuanAd
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getSpotName());
 
-        setTextView(list, position, holder.mRecyclerView);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            setTextView(list, position, holder.mRecyclerView);
+        }
 
     }
 

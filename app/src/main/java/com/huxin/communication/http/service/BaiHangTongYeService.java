@@ -241,14 +241,6 @@ public interface BaiHangTongYeService {
                                                                 @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
 
     /**
-     * 添加商品到收藏夹
-     */
-    @FormUrlEncoded
-    @POST("houseProduct/addCollectTravel")
-    Observable<Response> addCollectTravel(@Field("uid") String uid, @Field("pid") String pid,
-                                          @Field("productType") String productType, @Field("token") String token);
-
-    /**
      * 移出收藏夹
      */
     @FormUrlEncoded
@@ -367,8 +359,8 @@ public interface BaiHangTongYeService {
      * @return
      */
     @FormUrlEncoded
-    @POST("travel/addCollectTravel")
-    Observable<Response> addCollectTravel(@Field("uid") int uid, @Field("pid") String pid, @Field("productType") String productType, @Field("token") String token);
+    @POST("houseProduct/addCollectTravel")
+    Observable<Response> addCollectTravel(@Field("uid") int uid, @Field("pid") String pid, @Field("productType") int productType, @Field("token") String token);
 
 
     /**

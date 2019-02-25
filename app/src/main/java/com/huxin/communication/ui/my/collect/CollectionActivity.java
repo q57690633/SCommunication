@@ -97,7 +97,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("", MODE_BACK);
+        setToolbarCenterMode("收藏夹", MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
 
@@ -291,10 +291,10 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getSaleOfScreening(2);
                 break;
             case R.id.qiugou:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
-                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -302,12 +302,12 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getSaleOfScreening(3);
                 break;
             case R.id.qiuzhu:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.white));
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 getSaleOfScreening(4);
@@ -381,7 +381,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         showProgressDialog();
         ApiModule.getInstance().getCollectProduct("","","","","",
                 "","",String.valueOf(newOeOld),"",
-                "","","","","","0","0","1")
+                "","","","","","","1","1")
                 .subscribe(collectEntities -> {
                     KyLog.object(collectEntities + "");
                     if (collectEntities != null){

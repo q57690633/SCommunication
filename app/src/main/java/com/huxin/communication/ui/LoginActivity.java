@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("登录账号", MODE_BACK);
+        setToolbarCenterMode("登录账号", 0);
         mEditTextPhone = (EditText) findViewById(R.id.phone);
         mEditTextPassWord = (EditText) findViewById(R.id.password);
 
@@ -128,6 +128,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
                     PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
                     PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
+
+                    PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
+                    PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
+                    PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
+                    PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
+
 
                     TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                         @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,13 +67,15 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotal_price_child() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
-        holder.mTextViewSpotName.setText(list.get(position).getSort_type());
+        holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getSort_type()));
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
 
 
-        setTextView(list, position, holder.mRecyclerView);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            setTextView(list, position, holder.mRecyclerView);
+        }
 
     }
 

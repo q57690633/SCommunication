@@ -87,7 +87,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="30dp"
                 android:background="@color/login_forget_password_code_fort"
-                android:hint="价格（必填）"
+                android:hint="月租金（必填）"
                 android:paddingBottom="9dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="9dp"

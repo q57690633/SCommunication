@@ -21,6 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:text="天阔三期A区"
+            android:ellipsize="end"
+            android:lines="1"
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
@@ -28,7 +30,7 @@
             android:id="@+id/houseType_sell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
+            android:layout_marginLeft="10dp"
             android:text="3室1厅"
             android:textColor="@color/register_font"
             android:textSize="16dp" />
@@ -50,16 +52,18 @@
             android:text="180万"
             android:textColor="@color/red_setting"
             android:textSize="16dp" />
-
-        <ImageView
-            android:id="@+id/keying_sell"
+        <TextView
+            android:id="@+id/textView_similar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="19dp"
             android:layout_marginRight="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_key" />
+            android:background="@color/red_setting"
+            android:text="233套相似"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+
     </LinearLayout>
 
     <RelativeLayout
@@ -98,17 +102,16 @@
             android:textColor="@color/sell_font"
             android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/textView_similar"
+        <ImageView
+            android:id="@+id/keying_sell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="24dp"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/red_setting"
-            android:text="233套相似"
-            android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:layout_marginRight="18dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_key" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -98,7 +98,7 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("", MODE_BACK);
+        setToolbarCenterMode("置顶精选", MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
 
@@ -404,7 +404,7 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
     private void addCollectTravel() {
         KyLog.d(PreferenceUtil.getString(PID));
         showProgressDialog();
-        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(PID), "1")
+        ApiModule.getInstance().addCollectTravel(String.valueOf(PreferenceUtil.getInt(PID)), 1)
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();

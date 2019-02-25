@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -58,7 +60,10 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         holder.mTextViewAddr.setText(list.get(position).getTicket_addr());
         holder.mTextViewName.setText(list.get(position).getTicket_name());
         holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()));
-        setTextView(list, position, holder.mRecyclerView);
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewAddr);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            setTextView(list, position, holder.mRecyclerView);
+        }
 
     }
 

@@ -120,5 +120,17 @@ public class Constanst {
 
     public static final String SHAIXUAN_SPOT_NAME = "shaixuan_spot_name";
 
+    public static final String PID_COLLECT = "pid_collect";
+
+
+    public static final String USER_NAME = "user_name";
+
+    public static final String IMAGE_URL = "image_url";
+
+    public static final String PHONE = "phone";
+
+    public static final String COMPANY = "company";
+
+
 
 }

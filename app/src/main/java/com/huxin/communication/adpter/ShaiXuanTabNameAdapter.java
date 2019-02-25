@@ -88,8 +88,9 @@ public class ShaiXuanTabNameAdapter extends RecyclerView.Adapter<ShaiXuanTabName
                     setItemChecked(hoder.getAdapterPosition(), true);
                 }
                 notifyItemChanged(hoder.getAdapterPosition());
+                getSelectedItem();
 
-                Toast.makeText(mContext, "已选择" + getSelectedItem().size() + "项", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "已选择" + getSelectedItem().size() + "项", Toast.LENGTH_SHORT).show();
 
                 if (type == 1) {
                     PreferenceUtil.putString(Constanst.CHAO_XIANG, strings.toString());

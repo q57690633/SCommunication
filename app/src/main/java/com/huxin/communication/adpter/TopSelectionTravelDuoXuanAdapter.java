@@ -3,6 +3,7 @@ package com.huxin.communication.adpter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,9 @@ public class TopSelectionTravelDuoXuanAdapter extends RecyclerView.Adapter<TopSe
         holder.mTextViewReturnPriceChild.setText(String.valueOf(list.get(position).getReturnPriceChild()));
         holder.mTextViewSpotName.setText(list.get(position).getSpotName());
 
-        setTextView(list, position, holder.mRecyclerView);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            setTextView(list, position, holder.mRecyclerView);
+        }
 
     }
 

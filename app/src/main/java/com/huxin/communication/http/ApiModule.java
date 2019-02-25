@@ -391,7 +391,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> addCollectTravel(String pid, String productType) {
+    public Observable<Response> addCollectTravel(String pid, int productType) {
         return ApiFactory.getFactory().BaiHangTongYeService().addCollectTravel(PreferenceUtil.getInt(UID), pid, productType, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

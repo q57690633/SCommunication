@@ -114,7 +114,9 @@ public class DataBaseDuoXuanAdapter extends RecyclerView.Adapter<DataBaseDuoXuan
         } else {
             holder.mTextView.setText("相似房源");
         }
-        setTextView(list, position, holder.mLinearLayoutTabName);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+            setTextView(list, position, holder.mLinearLayoutTabName);
+        }
     }
 
     @Override

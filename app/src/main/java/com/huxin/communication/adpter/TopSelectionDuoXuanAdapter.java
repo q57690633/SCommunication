@@ -110,7 +110,9 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
         } else {
             holder.mTextView.setText("相似房源");
         }
-        setTextView(list, position, holder.mLinearLayoutTabName);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+            setTextView(list, position, holder.mLinearLayoutTabName);
+        }
     }
 
     @Override

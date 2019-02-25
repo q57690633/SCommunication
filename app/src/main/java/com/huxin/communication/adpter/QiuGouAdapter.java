@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,9 @@ public class QiuGouAdapter extends RecyclerView.Adapter<QiuGouAdapter.MyViewHode
         }else {
             holder.mTextView.setText("相似房源");
         }
-        setTextView(list,position,holder.mLinearLayoutTabName);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+            setTextView(list, position, holder.mLinearLayoutTabName);
+        }
     }
 
     @Override

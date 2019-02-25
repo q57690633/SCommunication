@@ -175,7 +175,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType = 1;
 
 
     private String chaoxiang;
@@ -582,7 +582,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 updata();
                 getSaleOfScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", "", "",
                         "", "", "", "", "", "",
-                        "", "", "", productType, 0, "", "", "1", "");
+                        "", "", "", String.valueOf(productType), 0, "", "", "1", "");
                 break;
             case R.id.price_Determine:
                 updata();
@@ -602,7 +602,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "0";
+                productType = 0;
                 break;
             case R.id.congdidaogao_zongjia:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -616,7 +616,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.congdidaogao_danjia:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -630,7 +630,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.mianji_congxiaodaoda:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -644,7 +644,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.xiaoqu:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -658,7 +658,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "8";
+                productType = 8;
                 break;
             case R.id.gongshi:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -672,7 +672,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "9";
+                productType = 9;
                 break;
             case R.id.faburen:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -686,7 +686,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.blue));
-                productType = "10";
+                productType = 10;
                 break;
             case R.id.daoxu_time:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -700,7 +700,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.zongjia_conggaodaodi:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -714,7 +714,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "3";
+                productType = 3;
 
                 break;
             case R.id.danjia_conggaodaodi:
@@ -729,7 +729,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.mianji_congdadaoxiao:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -743,7 +743,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "8";
+                productType = 8;
                 break;
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.color.blue);
@@ -1355,7 +1355,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.collect_btn:
-                addCollectTravel();
+                addCollectTravel(productType);
                 break;
         }
     }
@@ -1541,26 +1541,18 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 });
     }
 
-    private void addCollectTravel() {
-        KyLog.d(PreferenceUtil.getString(PID));
+    private void addCollectTravel(int productType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_COLLECT)
+                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1));
         showProgressDialog();
-        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(PID), "1")
+        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(Constanst.PID_COLLECT)
+                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1), productType)
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void areaOneScreen() {
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
-        ApiModule.getInstance().areaOneScreen(PreferenceUtil.getString(Constanst.CITY_NAME))
-                .subscribe(areaOneScreenEntity -> {
-                    KyLog.object(areaOneScreenEntity + "");
-                    mList = areaOneScreenEntity;
+                    Intent intent =  new Intent(this,SellActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

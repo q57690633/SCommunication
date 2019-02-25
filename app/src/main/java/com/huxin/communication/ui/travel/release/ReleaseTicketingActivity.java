@@ -77,11 +77,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     private RecyclerView mRecyclerViewtheme;
     private RecyclerView mRecyclerViewActivity;
 
-    private ImageView mImageViewShuaiWei;
-    private ImageView mImageViewShuaiWeiClick;
-
-    private ImageView mImageViewCaiXian;
-    private ImageView getmImageViewCaiXianClick;
 
     private ImageView mImageViewStickNew;
     private ImageView mImageViewStickNewClick;
@@ -172,12 +167,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mEditTextFinalCar = (EditText) findViewById(R.id.final_car);
         mEditTextOriginalCar = (EditText) findViewById(R.id.original_car);
 
+        mRecyclerViewActivity = (RecyclerView) findViewById(R.id.ticket_activity);
+        mRecyclerViewtheme = (RecyclerView) findViewById(R.id.ticket_theme);
 
-        mImageViewShuaiWei = (ImageView) findViewById(R.id.lineOrThrow_shuaiWei);
-        mImageViewShuaiWeiClick = (ImageView) findViewById(R.id.lineOrThrow_shuaiWei_click);
 
-        mImageViewCaiXian = (ImageView) findViewById(R.id.lineOrThrow_caixian);
-        getmImageViewCaiXianClick = (ImageView) findViewById(R.id.lineOrThrow_caixian_click);
+
 
         mImageViewStickNew = (ImageView) findViewById(R.id.stick_new);
         mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
@@ -212,10 +206,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mTextViewSpot.setOnClickListener(this);
         mTextViewOther.setOnClickListener(this);
 
-        mImageViewShuaiWei.setOnClickListener(this);
-        mImageViewShuaiWeiClick.setOnClickListener(this);
-        mImageViewCaiXian.setOnClickListener(this);
-        getmImageViewCaiXianClick.setOnClickListener(this);
         mImageViewStickNew.setOnClickListener(this);
         mImageViewStickNewClick.setOnClickListener(this);
         mImageViewStickLow.setOnClickListener(this);
@@ -287,20 +277,10 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mImageViewStickHot.setVisibility(View.VISIBLE);
                 hot = 0;
                 break;
-            case R.id.lineOrThrow_shuaiWei:
-                mImageViewShuaiWeiClick.setVisibility(View.VISIBLE);
-                mImageViewShuaiWei.setVisibility(View.GONE);
-                getmImageViewCaiXianClick.setVisibility(View.GONE);
-                mImageViewCaiXian.setVisibility(View.VISIBLE);
-                caixian = 2;
-                break;
-            case R.id.lineOrThrow_caixian:
-                getmImageViewCaiXianClick.setVisibility(View.VISIBLE);
-                mImageViewCaiXian.setVisibility(View.GONE);
-                mImageViewShuaiWeiClick.setVisibility(View.GONE);
-                mImageViewShuaiWei.setVisibility(View.VISIBLE);
-                caixian = 1;
-                break;
+//            case R.id.lineOrThrow_shuaiWei:
+//                break;
+//            case R.id.lineOrThrow_caixian:
+//                break;
             case R.id.stick_new:
                 mImageViewStickNew.setVisibility(View.GONE);
                 mImageViewStickNewClick.setVisibility(View.VISIBLE);

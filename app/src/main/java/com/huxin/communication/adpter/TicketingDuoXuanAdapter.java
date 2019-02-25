@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,9 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
         holder.mTextViewAddr.setText(list.get(position).getTicket_addr());
         holder.mTextViewName.setText(list.get(position).getTicket_name());
         holder.mTextViewOriginalPrice.setText(list.get(position).getOriginal_price());
-        setTextView(list, position, holder.mRecyclerView);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            setTextView(list, position, holder.mRecyclerView);
+        }
 
     }
 

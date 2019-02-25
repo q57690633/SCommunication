@@ -518,6 +518,8 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
                 mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+                setMoreData();
+                setDetleTabData();
                 break;
             case R.id.price:
                 mLinearLayoutSorts.setVisibility(View.GONE);
@@ -1371,7 +1373,7 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
 
                 break;
             case R.id.collect_btn:
-                addCollectTravel();
+                addCollectTravel(Integer.parseInt(productType));
                 break;
         }
     }
@@ -1541,20 +1543,24 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener{
     }
 
 
-    private void addCollectTravel() {
-        KyLog.d(PreferenceUtil.getString(PID));
+    private void addCollectTravel(int productType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_COLLECT)
+                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1));
         showProgressDialog();
-        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(PID), "1")
+        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(Constanst.PID_COLLECT)
+                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1), productType)
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
+                    Intent intent =  new Intent(this,QiuZuActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
-
 
     private List<String> setOccupation() {
         Kouweilist = new ArrayList<String>();
