@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.BuyerScreeningEntity;
-import com.huxin.communication.entity.WantedScreeningEntity;
-import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
 import com.huxin.communication.ui.house.details.QiuGouDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;

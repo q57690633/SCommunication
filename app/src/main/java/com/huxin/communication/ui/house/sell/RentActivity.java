@@ -2,6 +2,7 @@ package com.huxin.communication.ui.house.sell;
 
 import android.content.Intent;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+=======
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+>>>>>>> dev
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,10 +26,13 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.ChuZuAdapter;
 import com.huxin.communication.adpter.ChuZuDuoXuanAdapter;
+<<<<<<< HEAD
 import com.huxin.communication.adpter.QiuGouDuoXuanAdapter;
 import com.huxin.communication.adpter.QiuZuAdapter;
 import com.huxin.communication.adpter.SellAdpter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
+=======
+>>>>>>> dev
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AreaOneScreenEntity;

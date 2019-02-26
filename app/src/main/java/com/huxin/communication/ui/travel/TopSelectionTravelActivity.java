@@ -1,12 +1,8 @@
 package com.huxin.communication.ui.travel;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,24 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.CaiXianDuoXuanAdapter;
-import com.huxin.communication.adpter.CollectTicketAdapter;
-import com.huxin.communication.adpter.CollectTravelAdapter;
-import com.huxin.communication.adpter.CollectTravelDuoXuanAdapter;
-import com.huxin.communication.adpter.CollectTravelJingWaiAdapter;
-import com.huxin.communication.adpter.JingWaiAdapter;
 import com.huxin.communication.adpter.TopSelectionJingWaiAdapter;
 import com.huxin.communication.adpter.TopSelectionTicketAdapter;
 import com.huxin.communication.adpter.TopSelectionTravelAdapter;
 import com.huxin.communication.adpter.TopSelectionTravelDuoXuanAdapter;
 import com.huxin.communication.adpter.TopSelectionTravelJingWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.TopSelectionTravelTicketDuoXuanAdapter;
-import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.AroundStickEntity;
-import com.huxin.communication.entity.CollectAroundEntity;
-import com.huxin.communication.entity.CollectForeignEntity;
-import com.huxin.communication.entity.CollectTicketEntity;
 import com.huxin.communication.entity.ForeignStickEntity;
 import com.huxin.communication.entity.TicketStickEntity;
 import com.huxin.communication.http.ApiModule;

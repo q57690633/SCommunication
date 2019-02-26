@@ -41,8 +41,6 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
-import org.w3c.dom.TypeInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 

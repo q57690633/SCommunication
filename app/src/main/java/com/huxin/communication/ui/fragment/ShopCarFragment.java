@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
+=======
+>>>>>>> dev
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

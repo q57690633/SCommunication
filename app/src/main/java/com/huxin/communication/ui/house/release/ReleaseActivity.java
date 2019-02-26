@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,14 +13,13 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
-import com.huxin.communication.adpter.DetailsTableNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
-import com.huxin.communication.http.service.ApiFactory;
 import com.huxin.communication.ui.MainActivity;
+<<<<<<< HEAD
 import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
@@ -35,6 +33,9 @@ import com.huxin.communication.widgets.MyPopWindow2;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+=======
+import com.huxin.communication.view.SpaceItemDecoration;
+>>>>>>> dev
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;

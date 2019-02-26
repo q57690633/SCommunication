@@ -17,7 +17,6 @@ import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
-import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;

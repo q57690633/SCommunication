@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 

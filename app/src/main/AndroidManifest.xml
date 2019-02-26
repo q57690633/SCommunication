@@ -291,6 +291,7 @@
             android:name=".ui.ForeignSpotActivity"
             android:label="@string/title_activity_foreign_spot"
             android:theme="@style/Theme.MaterialDesign" />
+<<<<<<< HEAD
         <activity
             android:name=".ui.house.sell.AreaOneScreenActivity"
             android:label="@string/title_activity_area_one_screen"
@@ -307,6 +308,9 @@
             android:name=".ui.travel.ShuaiShuanInlandSpotActivity"
             android:label="@string/title_activity_shuai_shuan_inland_spot"
             android:theme="@style/Theme.MaterialDesign"></activity>
+=======
+        <activity android:name=".ui.TIMChatActivity"></activity>
+>>>>>>> dev
     </application>
 
 </manifest>

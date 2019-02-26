@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.CollectEntity;
-import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;

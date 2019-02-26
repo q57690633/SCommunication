@@ -2,19 +2,16 @@ package com.huxin.communication.adpter;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.InformationDetailEntity;
-import com.huxin.communication.ui.house.details.SellDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 

@@ -9,11 +9,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.huxin.communication.adpter.ProvincesTravelAdapter;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.ForeignNationEntity;
-import com.huxin.communication.entity.ProvinceEntity;
-import com.huxin.communication.ui.CityTravelActivity;
 import com.huxin.communication.ui.ForeignCityActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;

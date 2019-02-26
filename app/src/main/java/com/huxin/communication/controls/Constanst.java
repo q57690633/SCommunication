@@ -133,4 +133,9 @@ public class Constanst {
 
 
 
+    //腾讯IM
+    public static final int TIMSDKAPPID = 1400167006;
+
+    public static final String TIMAccountType = "36862";
+
 }

@@ -1,7 +1,6 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;

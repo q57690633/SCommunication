@@ -2,10 +2,15 @@ package com.huxin.communication;
 
 import android.app.Application;
 import android.os.Environment;
+<<<<<<< HEAD
 
 import com.huxin.communication.ui.cammer.GlideImageLoader;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
+=======
+import android.support.multidex.MultiDexApplication;
+
+>>>>>>> dev
 import com.huxin.communication.controls.Constanst;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -14,13 +19,21 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.sky.kylog.KyLog;
+<<<<<<< HEAD
+=======
+import com.tencent.imsdk.TIMLogLevel;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMSdkConfig;
+import com.tencent.qcloud.uikit.BaseUIKitConfigs;
+import com.tencent.qcloud.uikit.TUIKit;
+>>>>>>> dev
 
 
 /**
  * Created by yangzanxiong on 2017/11/24.
  */
 
-public class HuXinApplication extends Application {
+public class HuXinApplication extends MultiDexApplication {
 
     public static HuXinApplication mContext;
     public static String APP_ID;
@@ -66,6 +79,7 @@ public class HuXinApplication extends Application {
 
         //腾讯IM SDK初始化
         KyLog.d("TIM SDK init start");
+<<<<<<< HEAD
 //        TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
 //                .setAccoutType(Constanst.TIMAccountType)
 //                .enableLogPrint(true)              // 是否在控制台打印Log?
@@ -93,5 +107,19 @@ public class HuXinApplication extends Application {
         imagePicker.setFocusHeight(800);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
         imagePicker.setOutPutX(1000);                         //保存文件的宽度。单位像素
         imagePicker.setOutPutY(1000);                         //保存文件的高度。单位像素
+=======
+        TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
+                .setAccoutType(Constanst.TIMAccountType)
+                .enableLogPrint(true)              // 是否在控制台打印Log?
+                .setLogLevel(TIMLogLevel.DEBUG)    // Log输出级别（debug级别会很多）
+                .setLogPath(Environment.getExternalStorageDirectory().getPath() + "/TIMLog/");
+        // Log文件存放在哪里？
+
+        //初始化 SDK
+        TIMManager.getInstance().init(getApplicationContext(), TIMConfig);
+        TUIKit.init(this, Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
+        KyLog.d("TIM SDK init end");
+
+>>>>>>> dev
     }
 }

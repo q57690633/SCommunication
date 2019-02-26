@@ -1,7 +1,7 @@
 package com.huxin.communication.ui;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -11,13 +11,12 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.base.AppManager;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.listener.FragmentBackListener;
 import com.huxin.communication.ui.fragment.AssortmentFragment;
 import com.huxin.communication.ui.fragment.HomeFragment;
 import com.huxin.communication.ui.fragment.InformationFragment;
 import com.huxin.communication.ui.fragment.ShopCarFragment;
 import com.huxin.communication.ui.fragment.UsersFragment;
-import com.huxin.communication.listener.FragmentBackListener;
-import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.widgets.tab.TabLayout;
 
 import java.util.ArrayList;

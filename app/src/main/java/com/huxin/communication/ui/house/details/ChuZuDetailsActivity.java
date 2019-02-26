@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.ChuZuDetailsAdpter;
 import com.huxin.communication.adpter.DetailsTableNameAdapter;
 import com.huxin.communication.adpter.SellDetailsAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;

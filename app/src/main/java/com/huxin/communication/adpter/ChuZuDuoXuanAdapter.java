@@ -4,8 +4,11 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+<<<<<<< HEAD
 import android.util.Log;
 import android.util.SparseBooleanArray;
+=======
+>>>>>>> dev
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
+<<<<<<< HEAD
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.BuyerScreeningEntity;
+=======
+>>>>>>> dev
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.utils.PreferenceUtil;

@@ -2,7 +2,6 @@ package com.huxin.communication.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;

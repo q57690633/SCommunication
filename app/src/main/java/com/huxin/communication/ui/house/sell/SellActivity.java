@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.huxin.communication.adpter.QiuGouDuoXuanAdapter;
 import com.huxin.communication.adpter.SellAdpter;
 import com.huxin.communication.adpter.SellDuoXuanAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;

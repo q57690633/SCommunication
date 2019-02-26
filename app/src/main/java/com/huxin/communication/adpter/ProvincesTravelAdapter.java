@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
-import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.entity.ProvinceEntity;
-import com.huxin.communication.ui.CityActivity;
 import com.huxin.communication.ui.CityTravelActivity;
 import com.sky.kylog.KyLog;
 

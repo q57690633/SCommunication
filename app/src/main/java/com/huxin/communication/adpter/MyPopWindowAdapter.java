@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
 import com.huxin.communication.R;
 import com.huxin.communication.entity.MyPopVlaues;
 

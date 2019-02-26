@@ -10,17 +10,12 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.ForeignCityEntity;
-import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 
 import java.util.List;
 
-import static com.huxin.communication.controls.Constanst.CITY_CODE;
 import static com.huxin.communication.controls.Constanst.CITY_NATION_NAME;
-import static com.huxin.communication.controls.Constanst.CITY_TRAVEL_NAME;
-import static com.huxin.communication.controls.Constanst.PROVINCE_CODE;
-import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVEL_NAME;
 
 public class ForeignCityAdapter extends RecyclerView.Adapter<ForeignCityAdapter.BodyViewHoder> {
 

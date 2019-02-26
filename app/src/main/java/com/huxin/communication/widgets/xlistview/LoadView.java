@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-
 import com.huxin.communication.R;
 
 import java.lang.ref.SoftReference;

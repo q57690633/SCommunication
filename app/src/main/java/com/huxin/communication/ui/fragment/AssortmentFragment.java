@@ -2,19 +2,12 @@ package com.huxin.communication.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.FamousAdapter;
@@ -22,14 +15,9 @@ import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.entity.FamousEntity;
 import com.huxin.communication.ui.house.phone.AddFriendActivity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
-import com.huxin.communication.utils.CharacterParser;
-import com.huxin.communication.utils.PinyinComparator;
-import com.huxin.communication.widgets.SideBar;
-import com.huxin.communication.widgets.xlistview.XListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 /**
  * 通讯录

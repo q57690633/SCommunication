@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;

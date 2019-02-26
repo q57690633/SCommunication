@@ -6,13 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressEntity;
-import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 

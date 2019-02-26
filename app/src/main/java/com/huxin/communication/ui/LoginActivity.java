@@ -119,13 +119,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         ApiModule.getInstance().logins(phone,password)
                 .subscribe(loginEntity -> {
                     KyLog.object(loginEntity);
-                    Intent intentLogin = new Intent(this, MainActivity.class);
-                    startActivity(intentLogin);
+
                     PreferenceUtil.putInt("type", loginEntity.getRegisterType());
                     PreferenceUtil.putString(TOKEN, loginEntity.getToken());
                     PreferenceUtil.putInt(UID, loginEntity.getUid());
                     PreferenceUtil.putString("usersig", loginEntity.getUsersig());
                     PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
+<<<<<<< HEAD
                     PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
                     PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
 
@@ -148,13 +148,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     });
 
                     cancelProgressDialog();
+=======
+>>>>>>> dev
 
-                    runOnUiThread(new Runnable() {
+                    TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                         @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        public void onError(int i, String s) {
+
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intentLogin);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     });
+                    cancelProgressDialog();
                 },throwable -> {
                     cancelProgressDialog();
                     runOnUiThread(new Runnable() {

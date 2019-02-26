@@ -13,11 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.RentalScreeningEntity;
-import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
-import com.huxin.communication.ui.house.details.SellDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
