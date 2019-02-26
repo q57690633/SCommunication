@@ -2,16 +2,12 @@ package com.huxin.communication;
 
 import android.app.Application;
 import android.os.Environment;
-<<<<<<< HEAD
+import android.support.multidex.MultiDexApplication;
 
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.ui.cammer.GlideImageLoader;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
-=======
-import android.support.multidex.MultiDexApplication;
-
->>>>>>> dev
-import com.huxin.communication.controls.Constanst;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -19,14 +15,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.sky.kylog.KyLog;
-<<<<<<< HEAD
-=======
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.qcloud.uikit.BaseUIKitConfigs;
 import com.tencent.qcloud.uikit.TUIKit;
->>>>>>> dev
 
 
 /**
@@ -37,6 +30,7 @@ public class HuXinApplication extends MultiDexApplication {
 
     public static HuXinApplication mContext;
     public static String APP_ID;
+    private int maxImgCount = 9;               //允许选择图片最大数
 
 
     @Override
@@ -46,6 +40,7 @@ public class HuXinApplication extends MultiDexApplication {
 //        APP_ID = "wx90879eb54e7e597c";
 //
 //
+        initImagePicker();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
 //                .memoryCacheExtraOptions(480, 800) //即保存的每个缓存文件的最大长宽
                 .threadPoolSize(3) //线程池内加载的数量
@@ -66,8 +61,6 @@ public class HuXinApplication extends MultiDexApplication {
 
 
         ImageLoader.getInstance().init(config);
-
-        initImagePicker();
 //
 //        AccountUtil.setApiKey("App_Android");
 //        AccountUtil.setTime(String.valueOf(System.currentTimeMillis()).substring(0, 10));
@@ -77,37 +70,10 @@ public class HuXinApplication extends MultiDexApplication {
 ////        PreferenceUtil.putString("token", "VkhBeTlEeVNJTGNWZlhLQ1N1SCsxNyt3aEpWQnU1d2R3eEc2cWtGdnYrSEZuTnQwMUNkQmxOYmxuaVJEZFU4Kw==");
 
 
+
+
         //腾讯IM SDK初始化
         KyLog.d("TIM SDK init start");
-<<<<<<< HEAD
-//        TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
-//                .setAccoutType(Constanst.TIMAccountType)
-//                .enableLogPrint(true)              // 是否在控制台打印Log?
-//                .setLogLevel(TIMLogLevel.DEBUG)    // Log输出级别（debug级别会很多）
-//                .setLogPath(Environment.getExternalStorageDirectory().getPath() + "/TIMLog/");
-//        // Log文件存放在哪里？
-//
-//        //初始化 SDK
-//        TIMManager.getInstance().init(getApplicationContext(), TIMConfig);
-        //TUIKit.init(getApplicationContext(), Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
-        KyLog.d("TIM SDK init end");
-
-    }
-
-    private void initImagePicker() {
-        ImagePicker imagePicker = ImagePicker.getInstance();
-        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
-        imagePicker.setShowCamera(true);                      //显示拍照按钮
-        imagePicker.setCrop(false);                            //允许裁剪（单选才有效）
-        imagePicker.setSaveRectangle(true);                   //是否按矩形区域保存
-        imagePicker.setSelectLimit(9);              //选中数量限制
-        imagePicker.setMultiMode(false);                      //多选
-        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
-        imagePicker.setFocusWidth(800);                       //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setFocusHeight(800);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
-        imagePicker.setOutPutX(1000);                         //保存文件的宽度。单位像素
-        imagePicker.setOutPutY(1000);                         //保存文件的高度。单位像素
-=======
         TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
                 .setAccoutType(Constanst.TIMAccountType)
                 .enableLogPrint(true)              // 是否在控制台打印Log?
@@ -120,6 +86,21 @@ public class HuXinApplication extends MultiDexApplication {
         TUIKit.init(this, Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
         KyLog.d("TIM SDK init end");
 
->>>>>>> dev
+    }
+
+
+    private void initImagePicker() {
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());   //设置图片加载器
+        imagePicker.setShowCamera(true);                      //显示拍照按钮
+        imagePicker.setCrop(false);                            //允许裁剪（单选才有效）
+        imagePicker.setSaveRectangle(true);                   //是否按矩形区域保存
+        imagePicker.setSelectLimit(maxImgCount);              //选中数量限制
+        imagePicker.setMultiMode(false);                      //多选
+        imagePicker.setStyle(CropImageView.Style.RECTANGLE);  //裁剪框的形状
+        imagePicker.setFocusWidth(800);                       //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setFocusHeight(800);                      //裁剪框的高度。单位像素（圆形自动取宽高最小值）
+        imagePicker.setOutPutX(1000);                         //保存文件的宽度。单位像素
+        imagePicker.setOutPutY(1000);                         //保存文件的高度。单位像素
     }
 }

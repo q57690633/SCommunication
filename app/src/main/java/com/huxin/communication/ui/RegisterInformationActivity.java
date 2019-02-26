@@ -134,9 +134,8 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        detetal();
         addjson();
-
-
     }
 
     @Override
@@ -187,15 +186,15 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                 if (mData != null && mData.size() > 0) {
                     for (AddressEntity entity : mData) {
                         if (entity.getList() != null && entity.getList().size() > 0) {
-                            if (PreferenceUtil.getInt("type") == 1) {
+//                            if (PreferenceUtil.getInt("type") == 1) {
                                 if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_ID))) {
                                     list.addAll(entity.getList());
                                 }
-                            } else {
-                                if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_ID))) {
-                                    list.addAll(entity.getList());
-                                }
-                            }
+//                            } else {
+//                                if (entity.getId().equals(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_ID))) {
+//                                    list.addAll(entity.getList());
+//                                }
+//                            }
 
                         }
                     }
@@ -220,19 +219,19 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
                         for (AddressEntity.ListBeanX listBean : entity.getList()) {
                             if (listBean.getList() != null && listBean.getList().size() > 0) {
 
-                                if (PreferenceUtil.getInt("type") == 1) {
+//                                if (PreferenceUtil.getInt("type") == 1) {
                                     if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_ID))) {
                                         listCounty.addAll(listBean.getList());
                                     }
-                                } else {
-                                    KyLog.d(entity.getId());
-//                                    KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID));
-
-                                    if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID))) {
-                                        listCounty.addAll(listBean.getList());
-
-                                    }
-                                }
+//                                } else {
+//                                    KyLog.d(entity.getId());
+                                    KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID));
+//
+//                                    if (listBean.getId().equals(PreferenceUtil.getString(Constanst.CITY_TRAVEL_ID))) {
+//                                        listCounty.addAll(listBean.getList());
+//
+//                                    }
+//                                }
                             }
                         }
 
@@ -313,7 +312,7 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
 
     public void setDatas() {
 
-        if (PreferenceUtil.getInt("type") == 1) {
+//        if (PreferenceUtil.getInt("type") == 1) {
             if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME))) {
                 mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
             }
@@ -325,20 +324,38 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
             if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_NAME))) {
                 mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_NAME));
             }
-        } else {
-            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME))) {
-                mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME));
-            }
+//        } else {
+//            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME))) {
+//                mTextViewProvince.setText(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME));
+//            }
+//
+//            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))) {
+//                mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+//            }
+//
+//            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME))) {
+//                mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME));
+//            }
+//        }
+    }
 
-            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))) {
-                mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
-            }
 
-            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME))) {
-                mTextViewCounty.setText(PreferenceUtil.getString(Constanst.DISTRICT_TRAVEL_NAME));
-            }
+    private void detetal(){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME))) {
+           PreferenceUtil.removeSp(Constanst.PROVINCE_NAME,Constanst.SP_NAME);
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
+            PreferenceUtil.removeSp(Constanst.CITY_NAME,Constanst.SP_NAME);
+
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DISTRICT_NAME))) {
+            PreferenceUtil.removeSp(Constanst.DISTRICT_NAME,Constanst.SP_NAME);
+
         }
     }
+
 
     private void getAddUserInformation(String InvitationCode, String CompanyCode, String InvitationCodeTwo, String CompanyName) {
 

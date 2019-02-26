@@ -331,6 +331,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initData(){
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.DISTRICT_NAME));
+
         showProgressDialog();
         ApiModule.getInstance().getHomes(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME))
                 .subscribe(homeEntity -> {

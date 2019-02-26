@@ -668,7 +668,7 @@ public class ApiModule {
                                                               String tConsumeId, String minPri_maxPri,
                                                               String numberDays, String keyWord,
                                                               String curPage, String minDay, String maxDay, String uid,
-                                                               String travel_kind,String lineOrThrow) {
+                                                              String travel_kind, String lineOrThrow) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid,travel_kind,lineOrThrow)

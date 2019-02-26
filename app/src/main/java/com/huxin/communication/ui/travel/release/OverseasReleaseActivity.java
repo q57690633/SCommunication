@@ -423,6 +423,14 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         String TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
         String finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
         String ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+
+        String activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+        String address = PreferenceUtil.getString(Constanst.TAB_NMAE_ADDRESS);
+        String cons = PreferenceUtil.getString(Constanst.TAB_NMAE_CONS);
+        String other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+        String stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
+        String traffic = PreferenceUtil.getString(Constanst.TAB_NMAE_TRAFFIC);
+
         if (pickupPrice.equals("有周边接送费")) {
             pickupPrices = 1;
         } else {
@@ -441,10 +449,17 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NATION_NAME));
         KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME));
 
-        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_CODE), PreferenceUtil.getString(Constanst.PROVINCE_CODE), PreferenceUtil.getString(Constanst.NATION_NAME),
+
+//        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
+//            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+
+
+        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.NATION_NAME),
                 PreferenceUtil.getString(Constanst.CITY_NATION_NAME), PreferenceUtil.getString(Constanst.SPOT_NATION_NAME), String.valueOf(stick), String.valueOf(caixian), day, TotalPrice, FinalPrice, ReturnPrice, String.valueOf(pickupPrices),
-                TotalPriceChild, finalPriceChild, ReturnPriceChild, null, null, null,
-                null, null, null, TravelTitle, Generalize, null,
+                TotalPriceChild, finalPriceChild, ReturnPriceChild, address, traffic, cons,
+                activity, stay, other, TravelTitle, Generalize, null,
                 String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
                 String.valueOf(zeroC))
                 .subscribe(response -> {

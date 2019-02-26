@@ -84,10 +84,10 @@
             android:id="@+id/unitPrice_sell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_marginLeft="19dp"
-            android:layout_marginRight="155dp"
             android:text="23500元/㎡"
+            android:layout_toLeftOf="@id/orientation_sell"
+
             android:textColor="@color/sell_font"
             android:textSize="16dp" />
 
@@ -95,9 +95,9 @@
             android:id="@+id/orientation_sell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_marginLeft="19dp"
             android:layout_marginRight="98dp"
+            android:layout_alignParentRight="true"
             android:text="东南"
             android:textColor="@color/sell_font"
             android:textSize="16dp" />

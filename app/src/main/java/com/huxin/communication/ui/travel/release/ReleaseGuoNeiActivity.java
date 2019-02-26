@@ -33,7 +33,6 @@ import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
-import com.huxin.communication.ui.house.release.ReleseLaseActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.ImagePicker;

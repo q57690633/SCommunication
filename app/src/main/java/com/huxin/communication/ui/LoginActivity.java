@@ -15,7 +15,6 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
-import com.nostra13.universalimageloader.utils.L;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
@@ -86,10 +85,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.checkBos:
-                if (isClicked){
+                if (isClicked) {
                     mImageViewChicked.setVisibility(View.GONE);
                     isClicked = false;
-                }else {
+                } else {
                     mImageViewChicked.setVisibility(View.VISIBLE);
                     isClicked = true;
                 }
@@ -108,85 +107,73 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
-    public void loginData(){
+    public void loginData() {
         String phone = mEditTextPhone.getText().toString().trim();
-                String password = mEditTextPassWord.getText().toString().trim();
-        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(phone) ){
+        String password = mEditTextPassWord.getText().toString().trim();
+        if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(phone)) {
 
 
-        if (isClicked){
-        showProgressDialog();
-        ApiModule.getInstance().logins(phone,password)
-                .subscribe(loginEntity -> {
-                    KyLog.object(loginEntity);
+            if (isClicked) {
+                showProgressDialog();
+                ApiModule.getInstance().logins(phone, password)
+                        .subscribe(loginEntity -> {
+                            KyLog.object(loginEntity);
+//                            Intent intentLogin = new Intent(this, MainActivity.class);
+//                            startActivity(intentLogin);
+                            PreferenceUtil.putInt("type", loginEntity.getRegisterType());
+                            PreferenceUtil.putString(TOKEN, loginEntity.getToken());
+                            PreferenceUtil.putInt(UID, loginEntity.getUid());
+                            PreferenceUtil.putString("usersig", loginEntity.getUsersig());
+                            PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
+                            PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
+                            PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
+                            if (TextUtils.isEmpty(loginEntity.getProvince())) {
+                                PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
+                            }
 
-                    PreferenceUtil.putInt("type", loginEntity.getRegisterType());
-                    PreferenceUtil.putString(TOKEN, loginEntity.getToken());
-                    PreferenceUtil.putInt(UID, loginEntity.getUid());
-                    PreferenceUtil.putString("usersig", loginEntity.getUsersig());
-                    PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
-<<<<<<< HEAD
-                    PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
-                    PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
-
-                    PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
-                    PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
-                    PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
-                    PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
+                            PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
+                            PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
+                            PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
+                            PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
 
 
-                    TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
-                        @Override
-                        public void onError(int i, String s) {
+                            TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
+                                @Override
+                                public void onError(int i, String s) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onSuccess() {
+                                @Override
+                                public void onSuccess() {
+                                    Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intentLogin);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            });
 
-                        }
-                    });
-
-                    cancelProgressDialog();
-=======
->>>>>>> dev
-
-                    TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
-                        @Override
-                        public void onError(int i, String s) {
-
-                        }
-
-                        @Override
-                        public void onSuccess() {
-                            Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intentLogin);
+                            cancelProgressDialog();
+                        }, throwable -> {
+                            cancelProgressDialog();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                    KyLog.d(throwable.toString());
+
+
                                 }
                             });
-                        }
-                    });
-                    cancelProgressDialog();
-                },throwable -> {
-                    cancelProgressDialog();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                            KyLog.d(throwable.toString());
+                        });
 
-
-                        }
-                    });
-                });
-
-    }else {
-            Toast.makeText(this, "请同意《互信用户服务协议》及《互信隐私权政策》", Toast.LENGTH_SHORT).show();
-        }
-        }else {
+            } else {
+                Toast.makeText(this, "请同意《互信用户服务协议》及《互信隐私权政策》", Toast.LENGTH_SHORT).show();
+            }
+        } else {
             Toast.makeText(this, "请填写手机号码或密码", Toast.LENGTH_SHORT).show();
         }
     }

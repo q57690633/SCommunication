@@ -100,7 +100,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="2dp"
-                android:text="万元"
+                android:text="元"
                 android:textColor="@color/register_font"
                 android:textSize="12dp" />
         </RelativeLayout>

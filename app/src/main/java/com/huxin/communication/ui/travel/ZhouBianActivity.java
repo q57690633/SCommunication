@@ -1,10 +1,8 @@
 package com.huxin.communication.ui.travel;
 
+import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.support.v7.widget.GridLayoutManager;
-=======
->>>>>>> dev
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,21 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
-<<<<<<< HEAD
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
-=======
->>>>>>> dev
 import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.http.ApiModule;
-<<<<<<< HEAD
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
-=======
->>>>>>> dev
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 

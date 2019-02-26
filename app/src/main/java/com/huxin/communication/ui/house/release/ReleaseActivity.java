@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,23 +20,15 @@ import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
-<<<<<<< HEAD
 import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
-import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
-import com.huxin.communication.widgets.MyPopWindow;
-import com.huxin.communication.widgets.MyPopWindow1;
-import com.huxin.communication.widgets.MyPopWindow2;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
-=======
-import com.huxin.communication.view.SpaceItemDecoration;
->>>>>>> dev
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -288,6 +281,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 break;
 
             case R.id.confirm:
+
                 addSaleProduct();
                 uploadImage(selImageList);
                 break;
@@ -450,7 +444,15 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         String houseNumber = mEditTextHouseNumber.getText().toString().trim();
         String pdu = mEditTextPdu.getText().toString().trim();
         String floorSize = mEditTextFloorSize.getText().toString().trim();
-        String tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
+        String tableId ;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE)
+                    .substring(1,PreferenceUtil.getString(Constanst.TAB_NMAE).length() - 1);
+
+        }else {
+            tableId = "";
+
+        }
 
         KyLog.d(loans + "");
         KyLog.d(keying + "");
@@ -470,16 +472,19 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         KyLog.d(orientation + "");
         KyLog.d(purpose + "");
         KyLog.d(houseType + "");
-        KyLog.d(tableId.substring(1,tableId.length() - 1) + "");
+//        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
+
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
+            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
-
-
-        showProgressDialog();
+            showProgressDialog();
         ApiModule.getInstance().addSaleProduct(VillageName, Acreage, houseType, totalPrice
                 , floorNumber, totalFloorNumber, String.valueOf(NeworOld), String.valueOf(loans), String.valueOf(keying),
                 houseHoldAppliances, fitment, permit, orientation, purpose, title, "2",
-                "2", "2", pdu, floorSize, tableId.substring(1,tableId.length() - 1))
+                "2", "2", pdu, floorSize, tableId)
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -528,7 +533,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                         //打开选择,本次允许选择的数量
                         ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                         Intent intent = new Intent(ReleaseActivity.this, ImageGridActivity.class);
-                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
                         startActivityForResult(intent, REQUEST_CODE_SELECT);
                         break;
                     case 1:

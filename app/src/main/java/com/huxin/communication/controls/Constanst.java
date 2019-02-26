@@ -1,7 +1,5 @@
 package com.huxin.communication.controls;
 
-import android.support.v7.widget.RecyclerView;
-
 /**
  * Created by kyosky on 2016/11/29.
  */
@@ -132,10 +130,16 @@ public class Constanst {
     public static final String COMPANY = "company";
 
 
+    public static final String TAB_NMAE_ACTIVITY = "tab_name_Activity";
 
-    //腾讯IM
-    public static final int TIMSDKAPPID = 1400167006;
+    public static final String TAB_NMAE_ADDRESS = "tab_name_address";
 
-    public static final String TIMAccountType = "36862";
+    public static final String TAB_NMAE_CONS = "tab_name_cons";
+
+    public static final String TAB_NMAE_OTHER= "tab_name_other";
+
+    public static final String TAB_NMAE_STAY = "tab_name_stay";
+
+    public static final String TAB_NMAE_TRAFFIC = "tab_name_traffic";
 
 }

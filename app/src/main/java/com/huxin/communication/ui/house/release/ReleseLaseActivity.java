@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
@@ -22,6 +24,7 @@ import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -506,13 +509,28 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         String pdu = mEditTextPdu.getText().toString().trim();
         String floorSize = mEditTextFloorSize.getText().toString().trim();
 
+        String tableId ;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE)
+                    .substring(1,PreferenceUtil.getString(Constanst.TAB_NMAE).length() - 1);
+
+        }else {
+            tableId = "";
+
+        }
+
         KyLog.d(loans + "");
         KyLog.d(keying + "");
 
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
+            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         showProgressDialog();
-        ApiModule.getInstance().addRentProduct(VillageName,Acreage,"",totalPrice,
+        ApiModule.getInstance().addRentProduct(VillageName,Acreage,houseType,totalPrice,
                 floorNumber,totalFloorNumber,fitment,String.valueOf(keying),permit,title,"1",
-                "",String.valueOf(exclusive),"",houseHoldAppliances,orientation,houseNumber,floorSize,pdu)
+                tableId,String.valueOf(exclusive),purpose,houseHoldAppliances,orientation,houseNumber,floorSize,pdu)
                 .subscribe(response -> {
 
                     cancelProgressDialog();

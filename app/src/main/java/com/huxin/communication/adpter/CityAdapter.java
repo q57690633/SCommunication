@@ -2,7 +2,6 @@ package com.huxin.communication.adpter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,6 @@ import java.util.List;
 
 import static com.huxin.communication.controls.Constanst.CITY_ID;
 import static com.huxin.communication.controls.Constanst.CITY_NAME;
-import static com.huxin.communication.controls.Constanst.CITY_TRAVELS_NAME;
-import static com.huxin.communication.controls.Constanst.CITY_TRAVEL_ID;
-import static com.huxin.communication.controls.Constanst.CITY_TRAVEL_NAME;
 
 public class CityAdapter extends RecyclerView.Adapter<CityAdapter.BodyViewHoder>{
 
@@ -43,21 +39,21 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.BodyViewHoder>
             public void onClick(View v) {
 
             KyLog.d(PreferenceUtil.getInt("type") + "");
-                if (PreferenceUtil.getInt("type") == 1) {
+//                if (PreferenceUtil.getInt("type") == 1) {
                     if (mList.get(Hoder.getAdapterPosition()).getName().contains("市")) {
                         PreferenceUtil.putString(CITY_NAME, mList.get(Hoder.getAdapterPosition()).getName());
                     } else {
                         PreferenceUtil.putString(CITY_NAME, mList.get(Hoder.getAdapterPosition()).getName() + "市");
                     }
                     PreferenceUtil.putString(CITY_ID, mList.get(Hoder.getAdapterPosition()).getId());
-                }else {
-                    if (mList.get(Hoder.getAdapterPosition()).getName().contains("市")) {
-                        PreferenceUtil.putString(CITY_TRAVELS_NAME, mList.get(Hoder.getAdapterPosition()).getName());
-                    } else {
-                        PreferenceUtil.putString(CITY_TRAVELS_NAME, mList.get(Hoder.getAdapterPosition()).getName() + "市");
-                    }
-                    PreferenceUtil.putString(CITY_TRAVEL_ID, mList.get(Hoder.getAdapterPosition()).getId());
-                }
+//                }else {
+//                    if (mList.get(Hoder.getAdapterPosition()).getName().contains("市")) {
+//                        PreferenceUtil.putString(CITY_TRAVELS_NAME, mList.get(Hoder.getAdapterPosition()).getName());
+//                    } else {
+//                        PreferenceUtil.putString(CITY_TRAVELS_NAME, mList.get(Hoder.getAdapterPosition()).getName() + "市");
+//                    }
+//                    PreferenceUtil.putString(CITY_TRAVEL_ID, mList.get(Hoder.getAdapterPosition()).getId());
+//                }
                 mActivity.finish();
             }
         });

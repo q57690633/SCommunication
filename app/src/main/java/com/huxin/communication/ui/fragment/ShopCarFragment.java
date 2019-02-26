@@ -6,14 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
-=======
->>>>>>> dev
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +23,11 @@ import com.alipay.sdk.app.PayTask;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.entity.AliPayEntity;
-import com.huxin.communication.entity.AppPayEntity;
 import com.huxin.communication.entity.ToVipEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
 import com.huxin.communication.ui.pay.AuthResult;
 import com.huxin.communication.ui.pay.PayResult;
-import com.huxin.communication.utils.OrderInfoUtil2_0;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 

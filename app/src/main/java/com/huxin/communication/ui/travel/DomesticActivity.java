@@ -16,21 +16,17 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.RecylerViewDomesticAdpter;
-<<<<<<< HEAD
+
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.ZhouBianAdapter;
-=======
->>>>>>> dev
+
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.http.ApiModule;
-<<<<<<< HEAD
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
-=======
->>>>>>> dev
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
