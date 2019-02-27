@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.details;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,8 +22,13 @@ import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +58,7 @@ public class ChuZuDetailsActivity extends BaseActivity {
     private TextView mTextViewTotalFloorNumber;
     private TextView mTextViewPublicTime;
     private TextView mTextViewMoreSimilar;
+    private List<InformationDetailEntity> mList;
     /**
      * 滚动焦点图片
      **/
@@ -96,11 +103,20 @@ public class ChuZuDetailsActivity extends BaseActivity {
                 finish();
             }
         });
+
+        findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userSig = PreferenceUtil.getString("usersig");
+                if (mList != null && mList.size() > 0) {
+                    onRecvUserSig(String.valueOf(mList.get(0).getUid()), userSig);
+                }
+            }
+        });
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-
         initData();
     }
 
@@ -113,6 +129,7 @@ public class ChuZuDetailsActivity extends BaseActivity {
 
                     cancelProgressDialog();
                     KyLog.d(informationDetailEntities.size() + "");
+                    mList = informationDetailEntities;
                     if (informationDetailEntities != null && informationDetailEntities.size() > 0) {
                         setOnBinner(informationDetailEntities);
                         setTableNameAdapter(informationDetailEntities);
@@ -281,5 +298,22 @@ public class ChuZuDetailsActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    private void onRecvUserSig(String userId, String userSig) {
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                KyLog.i("imlogin onSuccess", data);
+                Intent intent = new Intent(ChuZuDetailsActivity.this, TIMChatActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                Toast.makeText(ChuZuDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
+                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                KyLog.e("imlogin fail", errMsg);
+            }
+        });
     }
 }

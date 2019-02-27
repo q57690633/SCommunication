@@ -306,14 +306,14 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getSaleOfScreening(4);
                 break;
             case R.id.sell:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.white));
                 getSaleOfScreening(1);
                 break;
             case R.id.toolbar_right:

@@ -446,8 +446,8 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         String floorSize = mEditTextFloorSize.getText().toString().trim();
         String tableId ;
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
-            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE)
-                    .substring(1,PreferenceUtil.getString(Constanst.TAB_NMAE).length() - 1);
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
+
 
         }else {
             tableId = "";

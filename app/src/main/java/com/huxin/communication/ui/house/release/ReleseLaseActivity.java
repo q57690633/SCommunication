@@ -511,8 +511,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
         String tableId ;
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
-            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE)
-                    .substring(1,PreferenceUtil.getString(Constanst.TAB_NMAE).length() - 1);
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
         }else {
             tableId = "";
