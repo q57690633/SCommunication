@@ -120,6 +120,8 @@ public class Constanst {
 
     public static final String PID_COLLECT = "pid_collect";
 
+    public static final String PID_TRAVEL_COLLECT = "pid_travel_collect";
+
 
     public static final String USER_NAME = "user_name";
 
