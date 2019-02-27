@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.CollectTicketEntity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class CollectTicketAdapter extends RecyclerView.Adapter<CollectTicketAdap
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getOriginal_price_child() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getTicket_name());
+
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
+        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
 
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);

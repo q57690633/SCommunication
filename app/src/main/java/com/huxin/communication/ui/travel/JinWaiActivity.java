@@ -14,10 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.JingWaiAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
+import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
@@ -30,6 +33,8 @@ import java.util.List;
 
 public class JinWaiActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewDuoXuan;
+
 
     private LinearLayout mLinearLayoutSort;
     private LinearLayout mLinearLayoutPrice;
@@ -40,6 +45,14 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     private LinearLayout mLinearLayoutMores;
 
     private RelativeLayout mRelativeLayoutSearch;
+    private RelativeLayout mRelativeLayoutDuoxuanBtn;
+    private LinearLayout mRelativeLayoutRL;
+
+
+    private TextView mTextViewGuanLi;
+    private TextView mTextViewQuXiao;
+
+
 
     private TextView mTextViewSort;
     private TextView mTextViewPrice;
@@ -49,6 +62,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     private TextView mTextViewDeterminePrice;
     private TextView mTextViewDetermineMore;
 
+    private JinWaiDuoXuanAdapter mJinWaiDuoXuanAdapter;
     private JingWaiAdapter mAdpter;
     private List<String> list = new ArrayList<>();
 
@@ -62,6 +76,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
 
     private ShaiXuanTabNameAdapter mAdapterTableName;
+
 
     private LinearLayout mLinearLayoutChuFa;
     private LinearLayout mLinearLayoutMuDi;
@@ -152,6 +167,12 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mRecyclerViewQiTa = (RecyclerView) findViewById(R.id.QiTa_recycler);
         mRecyclerViewJiaoTong = (RecyclerView) findViewById(R.id.jiaotong);
 
+        mTextViewGuanLi = (TextView) findViewById(R.id.toolbar_right);
+        mTextViewQuXiao = (TextView) findViewById(R.id.toolbar_quxiao);
+
+        mRelativeLayoutDuoxuanBtn = (RelativeLayout) findViewById(R.id.btn_duoxuan);
+        mRelativeLayoutRL = (LinearLayout) findViewById(R.id.rl_recyler_sell);
+
 
         mLinearLayoutChuFa = (LinearLayout) findViewById(R.id.chufadi_line);
         mLinearLayoutMuDi = (LinearLayout) findViewById(R.id.mudidi_line);
@@ -219,7 +240,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        gettingForeignTravel("", "", "", "", "", "", "", qita,
+        gettingForeignTravel("", "", "", "", "", "", "", "",
                 "", "", "", "", "", "", "", "",
                 "1", null, "");
     }
@@ -777,6 +798,22 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.blue));
                 productType = "8";
                 break;
+            case R.id.toolbar_right:
+                mTextViewQuXiao.setVisibility(View.VISIBLE);
+                mTextViewGuanLi.setVisibility(View.GONE);
+                mRecyclerViewDuoXuan.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                mRelativeLayoutRL.setVisibility(View.VISIBLE);
+                mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+                break;
+            case R.id.toolbar_quxiao:
+                mTextViewQuXiao.setVisibility(View.GONE);
+                mTextViewGuanLi.setVisibility(View.VISIBLE);
+                mRecyclerViewDuoXuan.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -789,6 +826,23 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+    }
+
+    private void setDuoXuanData(ForeignTravelEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mJinWaiDuoXuanAdapter = new JinWaiDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mJinWaiDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+        } else {
+
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private void setData(ForeignTravelEntity entity) {
@@ -826,6 +880,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                     KyLog.object(foreignTravelEntity);
                     if (foreignTravelEntity != null) {
                         setData(foreignTravelEntity);
+                        setDuoXuanData(foreignTravelEntity);
                     }
 
                 }, throwable -> {

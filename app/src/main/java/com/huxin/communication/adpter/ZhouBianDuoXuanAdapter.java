@@ -21,6 +21,7 @@ import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -122,12 +123,15 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
         holder.mTextViewUsername.setText(list.get(position).getUsername());
         holder.mTextViewUserCity.setText(list.get(position).getUserCity());
         holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
-        holder.mTextViewNumberDays.setText(String.valueOf(list.get(position).getNumberDays()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewReturnPrice.setText(String.valueOf(list.get(position).getReturnPrice()));
-        holder.mTextViewTotalPriceChild.setText(String.valueOf(list.get(position).getTotalPriceChild()));
-        holder.mTextViewReturnPriceChild.setText(String.valueOf(list.get(position).getReturnPriceChild()));
+        holder.mTextViewNumberDays.setText("行程天数：" + list.get(position).getNumberDays() + "天");
+        holder.mTextViewTotalPrice.setText("成人：" + list.get(position).getTotalPrice() + "元");
+        holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturnPrice() + "元");
+        holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
+        holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getSpotName());
+
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
+        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
 
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
@@ -172,7 +176,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
         public MyViewHoder(View itemView) {
             super(itemView);
-            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.zou_bian_line);
+            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.jin_wai_line);
             mImageViewPhoto = (ImageView) itemView.findViewById(R.id.image_photo_url);
             mImageViewStickName = (ImageView) itemView.findViewById(R.id.stick_name);
             mImageViewHeadUrl = (ImageView) itemView.findViewById(R.id.headUrl);

@@ -226,6 +226,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
+        deteledData();
     }
 
     @Override
@@ -393,6 +394,23 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         }
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
             mTextViewHotType.setText(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME));
+        }
+    }
+
+    private void deteledData() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME))
+                && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))) {
+            PreferenceUtil.removeSp(Constanst.PROVINCE_TRAVEL_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.CITY_TRAVEL_NAME,Constanst.SP_NAME);
+
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NATION_NAME)) && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.NATION_NAME))) {
+            PreferenceUtil.removeSp(Constanst.CITY_NATION_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.NATION_NAME,Constanst.SP_NAME);
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
+            PreferenceUtil.removeSp(Constanst.SPOT_NATION_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.SPOT_NATION_NAME,Constanst.SP_NAME);
         }
     }
 

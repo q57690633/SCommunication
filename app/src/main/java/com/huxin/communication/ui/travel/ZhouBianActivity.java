@@ -277,7 +277,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         gettingAroundTravel("", "", "", ""
                 , "", "", "", "", "",
                 "", "", "",
-                "1", "", "", "", String.valueOf(1), "");
+                "1", "", "", null, String.valueOf(1), "");
     }
 
     @Override
@@ -295,22 +295,22 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), "", ""
                     , "", "", "", "", "",
                     "", "", "",
-                    "1", "", "", "", String.valueOf(1), "");
+                    "1", "", "", null, String.valueOf(1), "");
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
             gettingAroundTravel(ChufaCityCode, "", "", ""
                     , "", "", "", "", "",
                     "", "", "",
-                    "1", "", "", "", String.valueOf(1), "");
+                    "1", "", "", null, String.valueOf(1), "");
         } else  if (!TextUtils.isEmpty(MuDi)) {
             gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), "", ""
                     , "", "", "", "", "",
                     "", "", "",
-                    "1", "", "", "", String.valueOf(1), "");
+                    "1", "", "", null, String.valueOf(1), "");
         } else {
             gettingAroundTravel("", "", "", ""
                     , "", "", "", "", "",
                     "", "", "",
-                    "1", "", "", "", String.valueOf(1), "");
+                    "1", "", "", null, String.valueOf(1), "");
         }
 
     }
@@ -421,7 +421,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 gettingAroundTravel("", "", "", qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
                         "", "", "",
-                        "1", "", "", "", String.valueOf(1), "");
+                        "1", "", "", null, String.valueOf(1), "");
                 break;
             case R.id.price_Determine:
                 updata();
@@ -429,17 +429,17 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                     gettingAroundTravel("", "", "", ""
                             , "", "", "", "", "",
                             0 + "," + maxPrice, "", "",
-                            "1", "", "", "", String.valueOf(1), "");
+                            "1", "", "", null, String.valueOf(1), "");
                 } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
                     gettingAroundTravel("", "", "", ""
                             , "", "", "", "", "",
                             minPrice + "," + maxPrice, "", "",
-                            "1", "", "", "", String.valueOf(1), "");
+                            "1", "", "", null, String.valueOf(1), "");
                 } else if (Integer.parseInt(minPrice) > 7000) {
                     gettingAroundTravel("", "", "", ""
                             , "", "", "", "", "",
                             7000 + "," + 1000000, "", "",
-                            "1", "", "", "", String.valueOf(1), "");
+                            "1", "", "", null, String.valueOf(1), "");
                 }
                 break;
             case R.id.sort_Determine:
@@ -447,7 +447,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "", "",
-                        "1", "", "", "", String.valueOf(1), "");
+                        "1", "", "", null, String.valueOf(1), "");
                 break;
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.color.blue);
@@ -898,7 +898,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "1", "",
-                        "1", "", "", "", String.valueOf(1), "");
+                        "1", "", "", null, String.valueOf(1), "");
                 break;
             case R.id.liangriyou:
                 mTextViewYiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -910,7 +910,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "2", "",
-                        "1", "", "", "", String.valueOf(1), "");
+                        "1", "", "", null, String.valueOf(1), "");
 
                 break;
             case R.id.sansiriyou:
@@ -923,7 +923,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "3", "",
-                        "1", "", "", "", String.valueOf(1), "");
+                        "1", "", "", null, String.valueOf(1), "");
                 break;
 
             case R.id.toolbar_right:

@@ -371,14 +371,17 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
      */
     private void gettingAroundTravel() {
         showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel(null, null, null, null
-                , null, null, null, null, null,
-                null, null, null, String.valueOf(PreferenceUtil.getInt(UID)), "1", null, "","","")
+        ApiModule.getInstance().updatePersonageTravel("", "", "", ""
+                , "", "", "", "", "",
+                "", "", "", "1",
+                "", "","","","1", "", "","",
+                "","","", "","","","","", "",
+                "","","","","")
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
-                    setData(aroundTravelEntity);
-                    setDuoXuanData(aroundTravelEntity);
+//                    setData(aroundTravelEntity);
+//                    setDuoXuanData(aroundTravelEntity);
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());

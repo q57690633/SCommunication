@@ -42,9 +42,9 @@ public class InlandSpotActivity extends BaseActivity {
         getInlandSpot();
     }
     public void getInlandSpot() {
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_HOME_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         showProgressDialog();
-        ApiModule.getInstance().getInlandSpot(PreferenceUtil.getString(Constanst.CITY_HOME_CODE)).subscribe(inlandSpotEntities -> {
+        ApiModule.getInstance().getInlandSpot(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)).subscribe(inlandSpotEntities -> {
             cancelProgressDialog();
             if (inlandSpotEntities != null && inlandSpotEntities.size() > 0) {
                 if (type != 3) {

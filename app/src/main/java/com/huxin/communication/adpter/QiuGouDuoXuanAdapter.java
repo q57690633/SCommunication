@@ -22,6 +22,7 @@ import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -97,7 +98,13 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
                 notifyItemChanged(hoder.getAdapterPosition());
                 getSelectedItem();
 
-                PreferenceUtil.putString(Constanst.PID_COLLECT, strings.toString());
+                Iterator<String> iterator=strings.iterator();
+                String userStr = null;
+                while(iterator.hasNext()){
+                    userStr += iterator.next() + ",";
+                }
+
+                PreferenceUtil.putString(Constanst.PID_COLLECT,  userStr.substring(4,userStr.length() - 1).trim());
             }
         });
         return hoder;
