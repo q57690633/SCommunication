@@ -36,7 +36,7 @@ public class PersonalChatFragment extends BaseFragment {
         Bundle datas = getArguments();
         //由会话列表传入的会话ID
         if(datas != null) {
-            chatId = datas.getString("INTENT_DATA");
+            chatId = datas.getString("TARGET_ID");
         }
         initView();
         return mBaseView;
@@ -58,6 +58,7 @@ public class PersonalChatFragment extends BaseFragment {
         if("".equalsIgnoreCase(chatId)) {
             chatId = "Ljh2001";
         }
+        KyLog.i("TARGETID = " + chatId);
         chatPanel.setBaseChatId(chatId);
         chatPanel.setMoreOperaUnits(units, false);
 

@@ -107,9 +107,13 @@ public class ChuZuDetailsActivity extends BaseActivity {
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userSig = PreferenceUtil.getString("usersig");
+                //String userSig = PreferenceUtil.getString("usersig");
                 if (mList != null && mList.size() > 0) {
-                    onRecvUserSig(String.valueOf(mList.get(0).getUid()), userSig);
+                    //KyLog.i("uid = " + mList.get(0).getUid());
+                    //KyLog.i("usersig = " + userSig);
+                    String userId = PreferenceUtil.getInt(UID) + "";
+                    String userSig = PreferenceUtil.getString("usersig");
+                    onRecvUserSig(userId, userSig, String.valueOf(mList.get(0).getUid()));
                 }
             }
         });
@@ -300,12 +304,13 @@ public class ChuZuDetailsActivity extends BaseActivity {
         }
     }
 
-    private void onRecvUserSig(String userId, String userSig) {
+    private void onRecvUserSig(String userId, String userSig, String targetId) {
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(ChuZuDetailsActivity.this, TIMChatActivity.class);
+                intent.putExtra("TARGET_ID", targetId);
                 startActivity(intent);
             }
             @Override
