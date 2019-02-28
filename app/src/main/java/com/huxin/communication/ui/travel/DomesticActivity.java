@@ -26,6 +26,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -138,6 +139,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     private List<String> Kouweilist;
 
     private boolean isClickQuYu = false;
+
+    private TextView mTextViewCollect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,6 +194,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewErRiYou = (TextView) findViewById(R.id.liangriyou);
         mTextViewSanSiRiYou = (TextView) findViewById(R.id.sansiriyou);
 
+        mTextViewCollect = (TextView) findViewById(R.id.collect_btn);
+
 
         mRecyclerViewDiDian = (RecyclerView) findViewById(R.id.didian);
         mRecyclerViewHuoDong = (RecyclerView) findViewById(R.id.huodong_recycler);
@@ -237,6 +243,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+
+        mTextViewCollect.setOnClickListener(this);
 
         mTextViewYiRiYou.setOnClickListener(this);
         mTextViewErRiYou.setOnClickListener(this);
@@ -943,7 +951,11 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 break;
+            case R.id.collect_btn:
+                addTravelCollect(1);
+                break;
         }
+
     }
 
     public void updata() {
@@ -1007,6 +1019,23 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addTravelCollect(int travelType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent =  new Intent(this,DomesticActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

@@ -1,28 +1,27 @@
-package com.huxin.communication.adpter;
+package com.huxin.communication;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.huxin.communication.entity.HomeEntity;
+import com.huxin.communication.entity.HomeTravelEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewPagerAdapter extends PagerAdapter {
+public class HomeViewPagerTravelAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<HomeEntity.CarouselBean> mlist; // 图片资源ID数组
+    private List<HomeTravelEntity.CarouselBean> mlist; // 图片资源ID数组
     private List<ImageView> mImageViews; // ImageView集合
 
-    public HomeViewPagerAdapter(Context context, List<HomeEntity.CarouselBean> list){
+    public HomeViewPagerTravelAdapter(Context context, List<HomeTravelEntity.CarouselBean> list){
         mContext = context;
         mlist = list;
         mImageViews = new ArrayList<>();
@@ -32,20 +31,14 @@ public class HomeViewPagerAdapter extends PagerAdapter {
     /**
      * 初始化ImageViews集合
      */
-    private void initImageViews(List<HomeEntity.CarouselBean> list) {
+    private void initImageViews(List<HomeTravelEntity.CarouselBean> list) {
 
         // 根据图片资源数组填充ImageViews集合
         for(int i = 0 ; i < list.size() ; i++){
             ImageView mImageView = new ImageView(mContext);
 //            mImageView.setImageResource(imageIds[i]);
             KyLog.d(list.get(i).getImg_url());
-//            ImageLoader.getInstance().displayImage( list.get(i).getImg_url(),mImageView);
-            Glide.with(mContext)                             //配置上下文
-                    .load(list.get(i).getImg_url())      //设置图片路径(fix #8,文件名包含%符号 无法识别和显示)
-//               .error(R.mipmap.default_image)      //设置错误图片
-//                .placeholder(R.mipmap.default_image)     //设置占位图片
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
-                    .into(mImageView);
+            ImageLoader.getInstance().displayImage( list.get(i).getImg_url(),mImageView);
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mImageViews.add(mImageView);
         }
@@ -78,4 +71,5 @@ public class HomeViewPagerAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View)object);
     }
+
 }

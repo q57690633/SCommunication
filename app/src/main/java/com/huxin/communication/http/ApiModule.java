@@ -322,7 +322,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<List<CollectEntity>> getCollectProduct(String villageName,
+    public Observable<CollectEntity> getCollectProduct(String villageName,
                                                              String minAcreage, String maxAcreage,
                                                              String houseType, String minPrice,
                                                              String maxPrice, String element,
@@ -819,7 +819,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> issueForeignRoute(String depart_code, String depart_pro_code,
+    public Observable<ResponseUntil> issueForeignRoute(String depart_name, String depart_pro_name,
                                                   String goals_nat_name, String goals_name,
                                                   String spot_name, String stick, String line_or_throw,
                                                   String number_days, String total_price,
@@ -835,7 +835,7 @@ public class ApiModule {
                                                   String stick_throw, String stick_rate,
                                                   String stick_return, String stick_hot,
                                                   String stick_zeroC) {
-        return ApiFactory.getFactory().BaiHangTongYeService().issueForeignRoute(depart_code, depart_pro_code,
+        return ApiFactory.getFactory().BaiHangTongYeService().issueForeignRoute(depart_name, depart_pro_name,
                 goals_nat_name, goals_name, spot_name, stick, String.valueOf(PreferenceUtil.getInt(UID)), line_or_throw, PreferenceUtil.getString(TOKEN), number_days, total_price, final_price, return_price,
                 pickup_price, total_price_child, final_price_child, return_price_child, t_address_id, t_traffic_id, t_consume_id, t_activity_id, t_stay_id, t_other_id, travel_title, generalize,
                 files, stick_new, stick_low, stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC)
@@ -848,7 +848,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> issueTicketForeignRoute(String ticket_pro_name, String ticket_city_name,
+    public Observable<ResponseUntil> issueTicketForeignRoute(String ticket_pro_name, String ticket_city_name,
                                                         String ticket_name, String ticket_addr,
                                                         String ticket_type, String open_time,
                                                         String original_price, String final_price,
@@ -1002,6 +1002,16 @@ public class ApiModule {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 旅游-添加到收藏夹
+     *
+     * @return
+     */
+    public Observable<ResponseUntil> addTravelCollect(String ids, int travelType) {
+        return ApiFactory.getFactory().BaiHangTongYeService().addTravelCollect(PreferenceUtil.getInt(UID), ids, travelType, PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     /**
      * 周边游和国内游置顶精选
@@ -1120,7 +1130,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> updatePersonageTravel(String depart_code, String depart_pro_code,
+    public Observable<Response<AroundTravelEntity>> updatePersonageTravel(String depart_code, String depart_pro_code,
                                                       String goalsId, String spotName,
                                                       String numberDays, String totalPrice,
                                                       String finalPrice, String returnPrice,
@@ -1141,7 +1151,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().updatePersonageTravel(depart_code, depart_pro_code,
                 goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild,
                 returnPriceChild, tAddressId, tTrafficId, tConsumeId, tActivityId, tStayId,
-                final_boat, travelTitle, final_car, generalize, stick, PreferenceUtil.getString(UID), lineOrThrow,
+                final_boat, travelTitle, final_car, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow,
                 PreferenceUtil.getString(TOKEN), stick_new, stick_low, stick_better, stick_throw, stick_rate,
                 stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, id)
                 .subscribeOn(Schedulers.io())

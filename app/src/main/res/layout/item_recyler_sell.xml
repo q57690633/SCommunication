@@ -59,6 +59,8 @@
             android:layout_marginLeft="19dp"
             android:layout_marginRight="8dp"
             android:background="@color/red_setting"
+            android:lines="1"
+            android:ellipsize="end"
             android:text="233套相似"
             android:textColor="@color/white"
             android:textSize="16dp" />

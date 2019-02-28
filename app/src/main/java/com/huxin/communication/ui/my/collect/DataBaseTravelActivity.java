@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.my.collect;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.JingWaiAdapter;
 import com.huxin.communication.adpter.TicketingAdapter;
 import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
@@ -22,6 +24,7 @@ import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -69,14 +72,21 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private TicketingAdapter mTicketAdapter;
 
     private ZhouBianDuoXuanAdapter mZhouBianDuoXuanAdapter;
-    private JingWaiAdapter mJingWaiAdapter;
     private TicketingDuoXuanAdapter mTicketingDuoXuanAdapter;
+
+
+    private JinWaiDuoXuanAdapter mJinWaiDuoXuanAdapter;
+    private JingWaiAdapter mJinWaiAdpter;
 
     private TextView mTextViewDuanTuYou;
     private TextView mTextViewGuoNeiYou;
     private TextView mTextViewGuoWaiYou;
     private TextView mTextViewPiaoWu;
+    private TextView mTextViewCollect;
+
     private List<String> list = new ArrayList<>();
+
+    private int productType = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +142,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewGuoWaiYou = (TextView) findViewById(R.id.jingwaiyou);
         mTextViewPiaoWu = (TextView) findViewById(R.id.piaowu);
 
+        mTextViewCollect = (TextView) findViewById(R.id.collect_btn);
+
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -146,12 +159,17 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewGuoWaiYou.setOnClickListener(this);
         mTextViewPiaoWu.setOnClickListener(this);
 
+        mTextViewCollect.setOnClickListener(this);
+
         mRelativeLayoutSearch.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        gettingAroundTravel();
+       gettingAroundTravel("", "", "", ""
+                , "", "", "", "", "",
+                "", "", "",
+                "1", "", "", String.valueOf(1), "");
     }
 
     @Override
@@ -248,7 +266,11 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel();
+                productType = 1;
+                gettingAroundTravel("", "", "", ""
+                        , "", "", "", "", "",
+                        "", "", "",
+                        "1", "", "", String.valueOf(1), "");
                 break;
             case R.id.guoneiyou:
                 mTextViewDuanTuYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -259,7 +281,12 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel();
+                productType = 1;
+
+                gettingAroundTravel("", "", "", ""
+                        , "", "", "", "", "",
+                        "", "", "",
+                        "1", "", "", String.valueOf(2), "");
                 break;
             case R.id.jingwaiyou:
                 mTextViewDuanTuYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -270,7 +297,11 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingForeignTravel();
+                productType = 2;
+
+                gettingForeignTravel("", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "1", "");
                 break;
             case R.id.piaowu:
                 mTextViewDuanTuYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -281,7 +312,10 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.white));
-                getTicketInfo();
+                productType = 3;
+
+                getTicketInfo("1", "", "", "",
+                        "", "", "", "", "1");
                 break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
@@ -298,6 +332,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+                break;
+            case R.id.collect_btn:
+                addTravelCollect(productType);
                 break;
         }
     }
@@ -327,6 +364,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private void setData(AroundTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
+
             mAdpter = new ZhouBianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
@@ -334,11 +372,23 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    private void setJinWaiData(ForeignTravelEntity entity){
+    private void setJinWaiDuoXuanData(ForeignTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mJingWaiAdapter = new JingWaiAdapter(entity.getList(), this);
-            mRecyclerView.setAdapter(mJingWaiAdapter);
+            mJinWaiDuoXuanAdapter = new JinWaiDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mJinWaiDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setJinWaiData(ForeignTravelEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
+
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this);
+            mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         }
@@ -369,19 +419,23 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     /**
      * 国内和周边
      */
-    private void gettingAroundTravel() {
+    private void gettingAroundTravel(String depart_code, String goalsId,
+                                     String sort_type, String tOtherId,
+                                     String tActivityId, String tStayId,
+                                     String tAddressId, String tTrafficId,
+                                     String tConsumeId, String minPri_maxPri,
+                                     String numberDays, String keyWord,
+                                     String curPage, String minDay, String maxDay,
+                                     String travel_kind, String lineOrThrows) {
         showProgressDialog();
-        ApiModule.getInstance().updatePersonageTravel("", "", "", ""
-                , "", "", "", "", "",
-                "", "", "", "1",
-                "", "","","","1", "", "","",
-                "","","", "","","","","", "",
-                "","","","","")
+        ApiModule.getInstance().gettingAroundTravel(depart_code, goalsId,
+                sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
+                numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind, lineOrThrows)
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
-//                    setData(aroundTravelEntity);
-//                    setDuoXuanData(aroundTravelEntity);
+                    setData(aroundTravelEntity);
+                    setDuoXuanData(aroundTravelEntity);
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -390,18 +444,27 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 });
     }
 
-    /**
-     * 境外
-     */
-    private void gettingForeignTravel() {
+    private void gettingForeignTravel(String depart_name, String min_days,
+                                      String max_days, String spot_name,
+                                      String goals_name, String t_activity_id,
+                                      String t_stay_id, String t_other_id,
+                                      String t_address_id, String t_traffic_id,
+                                      String t_overseas_id,
+                                      String t_consume_id, String sort_type,
+                                      String minPri_maxPri, String number_days,
+                                      String keyWord, String curPage,
+                                      String line_or_throw) {
         showProgressDialog();
-        ApiModule.getInstance().gettingForeignTravel("", "", "", ""
-                , "", "", "", "", "",
-                "", "", String.valueOf(PreferenceUtil.getInt(UID)), "", "", "", "", "", "1","")
+        ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
+                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)), line_or_throw)
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
+                    if (foreignTravelEntity != null) {
                         setJinWaiData(foreignTravelEntity);
+                        setJinWaiDuoXuanData(foreignTravelEntity);
+                    }
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -414,16 +477,40 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     /**
      * 票务
      */
-    private void getTicketInfo() {
+    private void getTicketInfo(String ticket_type, String ticket_city_name,
+                               String minPri_maxPri, String ticket_theme_id,
+                               String ticket_activity_id, String ticket_other_id,
+                               String sort_type,
+                               String keyWord, String curPage) {
         showProgressDialog();
-        ApiModule.getInstance().getTicketInfo("1", PreferenceUtil.getString(Constanst.CITY_NATION_NAME), "", ""
-                , "", "", "", String.valueOf(PreferenceUtil.getInt(UID)), "1", "")
+        ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
+                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
+                keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
+                    if (ticketInfoEntity != null) {
                         KyLog.object(ticketInfoEntity);
                         setTicketData(ticketInfoEntity);
                         setTicketDuoXuanData(ticketInfoEntity);
+                    }
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addTravelCollect(int productType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), productType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent =  new Intent(this,SellActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

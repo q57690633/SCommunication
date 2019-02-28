@@ -16,12 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huxin.communication.HomeViewPagerTravelAdapter;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.HomeViewPagerAdapter;
 import com.huxin.communication.adpter.RecyclerHomeAdpter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.HomeEntity;
+import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.entity.ProvinceEntity;
 import com.huxin.communication.http.ApiModule;
@@ -107,6 +109,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private HomeViewPagerAdapter mViewPagerAdapter;
 
+    private HomeViewPagerTravelAdapter mTravelViewPagerAdapter;
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -178,12 +183,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     protected void loadData() {
         if (PreferenceUtil.getInt("type") == 1) {
             initData();
-            LinearLayoutManager manager = new LinearLayoutManager(getContext());
-            mAdpter = new RecyclerHomeAdpter(list, getContext());
-            mRecyclerView.setAdapter(mAdpter);
-            mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//            mAdpter = new RecyclerHomeAdpter(list, getContext());
+//            mRecyclerView.setAdapter(mAdpter);
+//            mRecyclerView.setLayoutManager(manager);
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }else {
+            initDataTravel();
             getProvinces();
         }
 
@@ -351,18 +357,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void initDataTravel(){
-        showProgressDialog();
-        ApiModule.getInstance().getHomes(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME))
-                .subscribe(homeEntity -> {
-                    cancelProgressDialog();
-                    if (homeEntity != null){
-                        KyLog.d(homeEntity.getCarousel().size() + "");
-                        setOnBinner(homeEntity.getCarousel());
+//        showProgressDialog();
+        ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME))
+                .subscribe(homeTravelEntity -> {
+//                    cancelProgressDialog();
+                    if (homeTravelEntity != null){
+                        KyLog.d(homeTravelEntity.getCarousel().size() + "");
+                        setTravelOnBinner(homeTravelEntity.getCarousel());
                     }
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
+//                    cancelProgressDialog();
                     Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -456,8 +462,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
             if (imageList.size() > 1) {
                 mViewPager.setCurrentItem(((Short.MAX_VALUE / 2) / imageList.size()) * imageList.size(), false);
+                setCurPage(0 % imageList.size(), imageList.size());
             }
-            setCurPage(0 % imageList.size(), imageList.size());
 
             mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -467,7 +473,49 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onPageSelected(int position) {
                     big_index = position;
-                    setCurPage(position % imageList.size(), imageList.size());
+                    if (imageList.size() >1) {
+                        setCurPage(position % imageList.size(), imageList.size());
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+    }
+
+
+    private void setTravelOnBinner(List<HomeTravelEntity.CarouselBean> list) {
+//        imageList = new ArrayList<>();
+////        if (!TextUtils.isEmpty(list.get(0).getPhotoUrl())) {
+////            String[] str = list.get(0).getPhotoUrl().split(",");
+////            for (String strs : str) {
+////                imageList.add(strs);
+////            }
+////        }
+//        KyLog.d(imageList.size() + "");
+        if (list != null && list.size() > 0) {
+            mTravelViewPagerAdapter = new HomeViewPagerTravelAdapter(getContext(), list);
+            mViewPager.setAdapter(mTravelViewPagerAdapter);
+
+            if (imageList.size() > 1) {
+                mViewPager.setCurrentItem(((Short.MAX_VALUE / 2) / imageList.size()) * imageList.size(), false);
+                setCurPage(0 % imageList.size(), imageList.size());
+            }
+
+            mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    big_index = position;
+                    if (imageList.size() >1) {
+                        setCurPage(position % imageList.size(), imageList.size());
+                    }
                 }
 
                 @Override
@@ -481,9 +529,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     public void getProvinces(){
         KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
 
-        showProgressDialog();
+//        showProgressDialog();
         ApiModule.getInstance().getProvinces().subscribe(provinceEntities -> {
-            cancelProgressDialog();
+//            cancelProgressDialog();
             if (provinceEntities != null && provinceEntities.size() > 0) {
                    for (ProvinceEntity entity : provinceEntities){
                        if (entity.getProvince_name().equals(PreferenceUtil.getString(Constanst.PROVINCE_NAME))){
@@ -496,15 +544,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         },throwable -> {
             KyLog.d(throwable.toString());
-            cancelProgressDialog();
+//            cancelProgressDialog();
             Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
     public void getInlandCity(String provinceCode) {
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
-        showProgressDialog();
+//        showProgressDialog();
         ApiModule.getInstance().getInlandCity(provinceCode).subscribe(inlandCityEntities -> {
-            cancelProgressDialog();
+//            cancelProgressDialog();
             if (inlandCityEntities != null && inlandCityEntities.size() > 0) {
                 for (InlandCityEntity entity : inlandCityEntities){
                     if (entity.getCity_name().equals(PreferenceUtil.getString(Constanst.CITY_NAME))){
@@ -516,7 +564,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             }
         }, throwable -> {
             KyLog.d(throwable.toString());
-            cancelProgressDialog();
+//            cancelProgressDialog();
             Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }

@@ -350,40 +350,45 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
     }
 
-    private void setDuoXuanData(List<CollectEntity> list) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpterDuoXuan = new CollectDuoXuanAdapter(list, this);
-        mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
-        mRecyclerViewDuoXuan.setLayoutManager(manager);
-        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
-        mTextViewGuanLi.setVisibility(View.VISIBLE);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+    private void setDuoXuanData(CollectEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpterDuoXuan = new CollectDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
 
     }
 
-    private void setData(List<CollectEntity> list) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpter = new CollectAdapter(list, this);
-        mRecyclerView.setAdapter(mAdpter);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+    private void setData(CollectEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
+
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpter = new CollectAdapter(entity.getList(), this);
+            mRecyclerView.setAdapter(mAdpter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }
     }
 
-    private void getSaleOfScreening(int newOeOld){
+    private void getSaleOfScreening(int newOeOld) {
 //        pid = getIntent().getStringExtra("pid");
         showProgressDialog();
-        ApiModule.getInstance().getCollectProduct("","","","","",
-                "","",String.valueOf(newOeOld),"",
-                "","","","","","","1","1")
+        ApiModule.getInstance().getCollectProduct("", "", "", "", "",
+                "", "", String.valueOf(newOeOld), "",
+                "", "", "", "", "", "", "1", "1")
                 .subscribe(collectEntities -> {
                     KyLog.object(collectEntities + "");
-                    if (collectEntities != null){
+                    if (collectEntities != null) {
                         setData(collectEntities);
                         setDuoXuanData(collectEntities);
                     }
 
                     cancelProgressDialog();
-                },throwable -> {
+                }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();

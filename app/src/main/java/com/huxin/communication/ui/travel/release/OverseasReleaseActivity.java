@@ -460,8 +460,8 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             stick = 1;
         }
         showProgressDialog();
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_CODE));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
 
         KyLog.d(PreferenceUtil.getString(Constanst.NATION_NAME));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NATION_NAME));
@@ -474,7 +474,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 //        }
 
 
-        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_CODE), PreferenceUtil.getString(Constanst.PROVINCE_CODE), PreferenceUtil.getString(Constanst.NATION_NAME),
+        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.NATION_NAME),
                 PreferenceUtil.getString(Constanst.CITY_NATION_NAME), PreferenceUtil.getString(Constanst.SPOT_NATION_NAME), String.valueOf(stick), String.valueOf(caixian), day, TotalPrice, FinalPrice, ReturnPrice, String.valueOf(pickupPrices),
                 TotalPriceChild, finalPriceChild, ReturnPriceChild, address, traffic, cons,
                 activity, stay, other, TravelTitle, Generalize, null,

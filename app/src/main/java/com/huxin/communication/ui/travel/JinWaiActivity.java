@@ -25,6 +25,7 @@ import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ForeignNationActivity;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -124,6 +125,8 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     private boolean isClickQuYu = false;
 
+    private TextView mTextViewCollect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +143,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     protected void initViews() {
         setToolbarCenterMode("", MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_domestic);
+
+        mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_domestic_duoxuan);
+
 
         mLinearLayoutMore = (LinearLayout) findViewById(R.id.more);
         mLinearLayoutPrice = (LinearLayout) findViewById(R.id.price);
@@ -204,6 +210,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mTextViewChongGaoDaoDiFanXian = (TextView) findViewById(R.id.conggaodaodi_fanxian);
         mTextViewChongDuoDaoShaoDay = (TextView) findViewById(R.id.day_congduodaoshao);
 
+        mTextViewCollect = (TextView) findViewById(R.id.collect_btn);
+
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -233,10 +242,14 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mTextViewChongGaoDaoDi.setOnClickListener(this);
         mTextViewChongGaoDaoDiFanXian.setOnClickListener(this);
         mTextViewChongDuoDaoShaoDay.setOnClickListener(this);
+        mTextViewCollect.setOnClickListener(this);
 
 
         mLinearLayoutMuDi.setOnClickListener(this);
         mLinearLayoutChuFa.setOnClickListener(this);
+
+        mTextViewGuanLi.setOnClickListener(this);
+        mTextViewQuXiao.setOnClickListener(this);
     }
 
     @Override
@@ -815,6 +828,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 break;
+            case R.id.collect_btn:
+                addTravelCollect(2);
+                break;
         }
     }
 
@@ -884,6 +900,23 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                         setDuoXuanData(foreignTravelEntity);
                     }
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addTravelCollect(int travelType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent =  new Intent(this,JinWaiActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

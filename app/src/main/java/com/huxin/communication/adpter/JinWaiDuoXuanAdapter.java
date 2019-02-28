@@ -175,7 +175,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
 
         public MyViewHoder(View itemView) {
             super(itemView);
-            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.zou_bian_line);
+            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.jin_wai_line);
             mImageViewPhoto = (ImageView) itemView.findViewById(R.id.image_photo_url);
             mImageViewStickName = (ImageView) itemView.findViewById(R.id.stick_name);
             mImageViewHeadUrl = (ImageView) itemView.findViewById(R.id.headUrl);
@@ -205,7 +205,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

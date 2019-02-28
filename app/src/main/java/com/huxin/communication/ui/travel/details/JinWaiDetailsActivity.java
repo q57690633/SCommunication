@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.travel.details;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,9 +19,14 @@ import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +53,10 @@ public class JinWaiDetailsActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
 
     private TableNameAdapter mAdapterTableName;
+
+    private List<ForeignTravelEntity.ListBean> mList;
+
+
 
     /**
      * 滚动焦点图片
@@ -100,6 +111,20 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
 
         position = getIntent().getIntExtra("position", 0);
+
+        findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String userSig = PreferenceUtil.getString("usersig");
+                if (mList != null && mList.size() > 0) {
+                    //KyLog.i("uid = " + mList.get(0).getUid());
+                    //KyLog.i("usersig = " + userSig);
+                    String userId = PreferenceUtil.getInt(UID) + "";
+                    String userSig = PreferenceUtil.getString("usersig");
+                    onRecvUserSig(userId, userSig, String.valueOf(mList.get(0).getUid()));
+                }
+            }
+        });
     }
 
     @Override
@@ -113,6 +138,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 , "", "", "", "", "",
                 "", "", "", "", "", "","","1",null,"")
                 .subscribe(foreignTravelEntity -> {
+                    mList = foreignTravelEntity.getList();
+
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
                     setData(foreignTravelEntity);
@@ -273,6 +300,24 @@ public class JinWaiDetailsActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void onRecvUserSig(String userId, String userSig, String targetId) {
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                KyLog.i("imlogin onSuccess", data);
+                Intent intent = new Intent(JinWaiDetailsActivity.this, TIMChatActivity.class);
+                intent.putExtra("TARGET_ID", targetId);
+                startActivity(intent);
+            }
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                Toast.makeText(JinWaiDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
+                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                KyLog.e("imlogin fail", errMsg);
+            }
+        });
     }
 
 }

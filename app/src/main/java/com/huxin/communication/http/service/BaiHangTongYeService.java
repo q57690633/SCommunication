@@ -230,7 +230,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/getCollectProduct")
-    Observable<Response<List<CollectEntity>>> getCollectProduct(@Field("uid") String uid, @Field("villageName") String villageName,
+    Observable<Response<CollectEntity>> getCollectProduct(@Field("uid") String uid, @Field("villageName") String villageName,
                                                                 @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
                                                                 @Field("houseType") String houseType, @Field("minPrice") String minPrice,
                                                                 @Field("maxPrice") String maxPrice, @Field("element") String element,
@@ -374,6 +374,7 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectHome")
     Observable<Response<HomeEntity>> getHome(@Field("city") String city, @Field("areaOne") String areaOne, @Field("token") String token);
+
 
 
     /**
@@ -605,7 +606,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
-    Observable<Response> issueForeignRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
+    Observable<ResponseUntil> issueForeignRoute(@Field("depart_name") String depart_name, @Field("depart_pro_name") String depart_pro_name,
                                            @Field("goals_nat_name") String goals_nat_name, @Field("goals_name") String goals_name,
                                            @Field("spot_name") String spot_name, @Field("stick") String stick,
                                            @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
@@ -632,7 +633,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
-    Observable<Response> issueTicketForeignRoute(@Field("ticket_pro_name") String ticket_pro_name, @Field("ticket_city_name") String ticket_city_name,
+    Observable<ResponseUntil> issueTicketForeignRoute(@Field("ticket_pro_name") String ticket_pro_name, @Field("ticket_city_name") String ticket_city_name,
                                                  @Field("ticket_name") String ticket_name, @Field("ticket_addr") String ticket_addr,
                                                  @Field("ticket_type") String ticket_type, @Field("open_time") String open_time,
                                                  @Field("original_price") String original_price, @Field("final_price") String final_price,
@@ -756,6 +757,18 @@ public interface BaiHangTongYeService {
                                                                @Field("keyWord") String keyWord, @Field("uid") String uid,
                                                                @Field("curPage") String curPage);
 
+
+    /**
+     * 添加到收藏夹
+     *
+     * @param ids
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("travel/addCollectTravel")
+    Observable<ResponseUntil> addTravelCollect(@Field("uid") int uid, @Field("ids") String ids, @Field("travelType") int travelType, @Field("token") String token);
+
     /**
      * 周边游和国内游置顶精选
      */
@@ -802,35 +815,70 @@ public interface BaiHangTongYeService {
                                                                 @Field("curPage") String curPage, @Field("uid") String uid, @Field("stick") String stick);
 
     /**
-     * 旅游个人数据库查询
+     * 周边游个人数据库查询
      *
      * @param token
      * @return
      */
     @FormUrlEncoded
     @POST("travel/updatePersonageTravel")
-    Observable<Response> updatePersonageTravel(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
-                                                 @Field("goalsId") String goalsId, @Field("spotName") String spotName,
-                                                 @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
-                                                 @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
-                                                 @Field("pickupPrice") String pickupPrice,
-                                                 @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
-                                                 @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
-                                                 @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
-                                                 @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
+    Observable<Response<AroundTravelEntity>> updatePersonageTravel(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
+                                                                             @Field("goalsId") String goalsId, @Field("spotName") String spotName,
+                                                                             @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
+                                                                             @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
+                                                                             @Field("pickupPrice") String pickupPrice,
+                                                                             @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
+                                                                             @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
+                                                                             @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
+                                                                             @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
 
-                                                 @Field("final_boat") String final_boat, @Field("travelTitle") String travelTitle,
-                                                 @Field("generalize") String final_car, @Field("ticket_theme_id") String generalize,
+                                                                             @Field("final_boat") String final_boat, @Field("travelTitle") String travelTitle,
+                                                                             @Field("generalize") String final_car, @Field("ticket_theme_id") String generalize,
 
-                                                 @Field("stick") String stick,
-                                                 @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
-                                                 @Field("token") String token, @Field("stick_new") String stick_new,
-                                                 @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
-                                                 @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
-                                                 @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
-                                                 @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                                 @Field("goals_city_code") String goals_city_code, @Field("id") String id);
+                                                                             @Field("stick") String stick,
+                                                                             @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
+                                                                             @Field("token") String token, @Field("stick_new") String stick_new,
+                                                                             @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
+                                                                             @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
+                                                                             @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
+                                                                             @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
+                                                                             @Field("goals_city_code") String goals_city_code, @Field("id") String id);
 
+
+    /**
+     * 国外游个人数据库查询
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("travel/updatePersonageForiegn")
+    Observable<Response<ForeignTravelEntity>> updatePersonageForiegn(@Field("depart_name") String depart_name, @Field("min_days") String min_days,
+                                                @Field("max_days") String max_days, @Field("spot_name") String spot_name,
+                                                @Field("goals_name") String goals_name, @Field("t_activity_id") String t_activity_id,
+                                                @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
+                                                @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
+                                                @Field("t_overseas_id") String t_overseas_id,
+                                                @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
+                                                @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
+                                                @Field("token") String token, @Field("keyWord") String keyWord,
+                                                @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw);
+
+
+    /**
+     * 票务筛选
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("travel/updatePersonageTicket")
+    Observable<Response<TicketInfoEntity>> updatePersonageTicket(@Field("ticket_type") String ticket_type, @Field("ticket_city_name") String ticket_city_name,
+                                                         @Field("minPri_maxPri") String minPri_maxPri, @Field("ticket_theme_id") String ticket_theme_id,
+                                                         @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
+                                                         @Field("sort_type") String sort_type, @Field("token") String token,
+                                                         @Field("keyWord") String keyWord,
+                                                         @Field("curPage") String curPage, @Field("uid") String uid);
     /**
      * 跳转到vip
      */

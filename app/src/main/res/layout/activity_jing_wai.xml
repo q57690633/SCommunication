@@ -184,16 +184,49 @@
             </LinearLayout>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyler_domestic"
+        <LinearLayout
+            android:id="@+id/rl_recyler_sell"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
-            android:overScrollMode="never"
-            android:paddingLeft="11dp"
-            android:paddingRight="12dp"
-            android:scrollbars="none"
-            android:nestedScrollingEnabled="false"/>
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyler_domestic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:overScrollMode="never"
+                android:paddingLeft="11dp"
+                android:paddingRight="12dp"
+                android:scrollbars="none"
+                android:nestedScrollingEnabled="false"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyler_domestic_duoxuan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:overScrollMode="never"
+                android:paddingLeft="11dp"
+                android:paddingRight="12dp"
+                android:scrollbars="none"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:text="没有更多数据了"
+                android:textColor="@color/sell_font"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
 
         <include
             android:id="@+id/travel_price"
@@ -215,5 +248,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/btn_duoxuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="9dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/collect_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/btn_blue"
+                android:paddingLeft="30dp"
+                android:paddingTop="9dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="9dp"
+                android:text="收藏"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/delete_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/collect_btn"
+                android:background="@drawable/btn_green"
+                android:paddingLeft="30dp"
+                android:paddingTop="9dp"
+                android:paddingRight="30dp"
+                android:paddingBottom="9dp"
+                android:text="转发"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

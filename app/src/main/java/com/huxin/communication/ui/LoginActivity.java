@@ -127,7 +127,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
                             PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
                             PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getCounty());
-                            if (TextUtils.isEmpty(loginEntity.getProvince())) {
+                            if (!TextUtils.isEmpty(loginEntity.getProvince())) {
                                 PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
                             }
 

@@ -70,7 +70,7 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile(name: 'alipaySdk-15.5.9-20181123210657', ext: 'aar')
 
-    //api 'com.tencent.imsdk:tuikit:0.0.1.213'
+//    api 'com.tencent.imsdk:tuikit:0.0.1.213'
     compile 'com.android.support:multidex:1.0.3'
     implementation project(':tuikit')
 
