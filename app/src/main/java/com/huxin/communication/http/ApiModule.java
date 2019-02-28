@@ -54,6 +54,7 @@ import com.sky.kylog.KyLog;
 
 import java.util.List;
 
+import retrofit2.http.Field;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -423,18 +424,26 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<List<TopSelectionEntity>> selectStick(String newOrOld, String productType, String city,
-                                                            String areaOne, String villageName,
-                                                            String minAcreage, String maxAcreage,
-                                                            String houseType, String minPrice,
-                                                            String maxPrice, String element,
-                                                            String orientation, String houseHoldAppliances,
-                                                            String fitment, String permit,
+    public Observable<List<TopSelectionEntity>> selectStick(String villageName,
+                                                            String houseType, String minAcreage,
+                                                            String maxAcreage, String minPrice,
+                                                            String maxPrice, String orientation,
+                                                            String permit, String fitment,
+                                                            String element, String floorAge,
                                                             String purpose, String ownership,
-                                                            String floorAge) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectStick(newOrOld, productType, PreferenceUtil.getString(TOKEN), city,
-                areaOne, villageName, minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, orientation, houseHoldAppliances,
-                fitment, permit, purpose, ownership, floorAge)
+                                                            String productType,
+                                                            String newOrOld,
+                                                            String city, String areaOne,
+                                                            String curPage, String houseHoldAppliances) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectStick(villageName,
+                houseType, minAcreage,
+                maxAcreage, minPrice, maxPrice, orientation,
+                permit, fitment, element, floorAge,
+                purpose, ownership,
+                productType,
+                newOrOld, PreferenceUtil.getString(TOKEN),
+                city, areaOne,
+                curPage, houseHoldAppliances)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -671,7 +680,7 @@ public class ApiModule {
                                                               String travel_kind, String lineOrThrow) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid,travel_kind,lineOrThrow)
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrow)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -695,7 +704,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingForeignTravel(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
-                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid,line_or_throw)
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, line_or_throw)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -778,27 +787,27 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> issueAroundRoute(String depart_code, String depart_pro_code,
-                                                 String goalsId, String spotName,
-                                                 String numberDays, String totalPrice,
-                                                 String finalPrice, String returnPrice,
-                                                 String pickupPrice,
-                                                 String totalPriceChild, String finalPriceChild,
-                                                 String returnPriceChild, String tAddressId,
-                                                 String tTrafficId, String tConsumeId,
-                                                 String tActivityId, String tStayId,
-                                                 String tOtherId, String travelTitle,
-                                                 String generalize, String stick, String lineOrThrow, String files,
-                                                 String stick_new, String stick_low,
-                                                 String stick_better, String stick_throw,
-                                                 String stick_rate, String stick_return,
-                                                 String stick_hot, String stick_zeroC,
-                                                 String goals_city, String goals_pro,
-                                                 String goals_city_code, String depart_name) {
+    public Observable<ResponseUntil> issueAroundRoute(String depart_code, String depart_pro_code,
+                                                      String goalsId, String spotName,
+                                                      String numberDays, String totalPrice,
+                                                      String finalPrice, String returnPrice,
+                                                      String pickupPrice,
+                                                      String totalPriceChild, String finalPriceChild,
+                                                      String returnPriceChild, String tAddressId,
+                                                      String tTrafficId, String tConsumeId,
+                                                      String tActivityId, String tStayId,
+                                                      String tOtherId, String travelTitle,
+                                                      String generalize, String stick, String lineOrThrow, String files,
+                                                      String stick_new, String stick_low,
+                                                      String stick_better, String stick_throw,
+                                                      String stick_rate, String stick_return,
+                                                      String stick_hot, String stick_zeroC,
+                                                      String goals_city, String goals_pro,
+                                                      String goals_city_code, String depart_name,String travel_kind) {
         return ApiFactory.getFactory().BaiHangTongYeService().issueAroundRoute(depart_code, depart_pro_code,
                 goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild, returnPriceChild, tAddressId, tTrafficId, tConsumeId,
                 tActivityId, tStayId, tOtherId, travelTitle, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow, PreferenceUtil.getString(TOKEN), files, stick_new, stick_low,
-                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name)
+                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name,travel_kind)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
@@ -1102,6 +1111,40 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().areaOneScreen(PreferenceUtil.getString(TOKEN), city)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 更新个人数据库
+     *
+     * @return
+     */
+    public Observable<Response> updatePersonageTravel(String depart_code, String depart_pro_code,
+                                                      String goalsId, String spotName,
+                                                      String numberDays, String totalPrice,
+                                                      String finalPrice, String returnPrice,
+                                                      String pickupPrice,
+                                                      String totalPriceChild, String finalPriceChild,
+                                                      String returnPriceChild, String tAddressId,
+                                                      String tTrafficId, String tConsumeId,
+                                                      String tActivityId, String tStayId,
+                                                      String final_boat, String travelTitle,
+                                                      String final_car, String generalize,
+                                                      String stick,
+                                                      String lineOrThrow, String stick_new,
+                                                      String stick_low, String stick_better,
+                                                      String stick_throw, String stick_rate,
+                                                      String stick_return, String stick_hot, String stick_zeroC,
+                                                      String goals_city, String goals_pro,
+                                                      String goals_city_code, String id) {
+        return ApiFactory.getFactory().BaiHangTongYeService().updatePersonageTravel(depart_code, depart_pro_code,
+                goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild,
+                returnPriceChild, tAddressId, tTrafficId, tConsumeId, tActivityId, tStayId,
+                final_boat, travelTitle, final_car, generalize, stick, PreferenceUtil.getString(UID), lineOrThrow,
+                PreferenceUtil.getString(TOKEN), stick_new, stick_low, stick_better, stick_throw, stick_rate,
+                stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, id)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

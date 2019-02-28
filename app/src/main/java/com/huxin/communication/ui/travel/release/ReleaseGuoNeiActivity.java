@@ -484,7 +484,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 null, null, null, null, null, null,
                 TravelTitle, Generalize, String.valueOf(stick),String.valueOf(caixian), null, String.valueOf(news),
                 String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME),"2")
                 .subscribe(response -> {
 
                     cancelProgressDialog();

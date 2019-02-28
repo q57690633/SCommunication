@@ -226,6 +226,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
+        deteledData();
     }
 
     @Override
@@ -396,6 +397,23 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    private void deteledData() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_TRAVEL_NAME))
+                && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))) {
+            PreferenceUtil.removeSp(Constanst.PROVINCE_TRAVEL_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.CITY_TRAVEL_NAME,Constanst.SP_NAME);
+
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NATION_NAME)) && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.NATION_NAME))) {
+            PreferenceUtil.removeSp(Constanst.CITY_NATION_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.NATION_NAME,Constanst.SP_NAME);
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
+            PreferenceUtil.removeSp(Constanst.SPOT_NATION_NAME,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.SPOT_NATION_NAME,Constanst.SP_NAME);
+        }
+    }
+
     private List<MyPopVlaues> setDayType() {
         Kouweilist = new ArrayList<MyPopVlaues>();
         Kouweilist.add(new MyPopVlaues("1"));
@@ -456,7 +474,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 //        }
 
 
-        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.NATION_NAME),
+        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_CODE), PreferenceUtil.getString(Constanst.PROVINCE_CODE), PreferenceUtil.getString(Constanst.NATION_NAME),
                 PreferenceUtil.getString(Constanst.CITY_NATION_NAME), PreferenceUtil.getString(Constanst.SPOT_NATION_NAME), String.valueOf(stick), String.valueOf(caixian), day, TotalPrice, FinalPrice, ReturnPrice, String.valueOf(pickupPrices),
                 TotalPriceChild, finalPriceChild, ReturnPriceChild, address, traffic, cons,
                 activity, stay, other, TravelTitle, Generalize, null,

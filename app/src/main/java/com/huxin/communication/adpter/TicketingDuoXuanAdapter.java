@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -55,7 +56,8 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewAddr.setText(list.get(position).getTicket_addr());
         holder.mTextViewName.setText(list.get(position).getTicket_name());
-        holder.mTextViewOriginalPrice.setText(list.get(position).getOriginal_price());
+        holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()));
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewAddr);
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
         }

@@ -283,16 +283,17 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/selectStick")
-    Observable<Response<List<TopSelectionEntity>>> selectStick(@Field("newOrOld") String newOrOld, @Field("productType") String productType,
-                                                               @Field("token") String token, @Field("city") String city,
-                                                               @Field("areaOne") String areaOne, @Field("villageName") String villageName,
-                                                               @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
-                                                               @Field("houseType") String houseType, @Field("minPrice") String minPrice,
-                                                               @Field("maxPrice") String maxPrice, @Field("element") String element,
-                                                               @Field("orientation") String orientation, @Field("houseHoldAppliances") String houseHoldAppliances,
-                                                               @Field("fitment") String fitment, @Field("permit") String permit,
+    Observable<Response<List<TopSelectionEntity>>> selectStick(@Field("villageName") String villageName,
+                                                               @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
+                                                               @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
+                                                               @Field("maxPrice") String maxPrice, @Field("orientation") String orientation,
+                                                               @Field("permit") String permit, @Field("fitment") String fitment,
+                                                               @Field("element") String element, @Field("floorAge") String floorAge,
                                                                @Field("purpose") String purpose, @Field("ownership") String ownership,
-                                                               @Field("floorAge") String floorAge);
+                                                               @Field("productType") String productType,
+                                                               @Field("newOrOld") String newOrOld, @Field("token") String token,
+                                                               @Field("city") String city, @Field("areaOne") String areaOne,
+                                                               @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
     /**
      * 个人数据库修改
@@ -575,7 +576,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueAroundRoute")
-    Observable<Response> issueAroundRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
+    Observable<ResponseUntil> issueAroundRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
                                           @Field("goalsId") String goalsId, @Field("spotName") String spotName,
                                           @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
                                           @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
@@ -593,7 +594,8 @@ public interface BaiHangTongYeService {
                                           @Field("stick_rate") String stick_rate, @Field("stick_return") String stick_return,
                                           @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                           @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                          @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name);
+                                          @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
+                                               @Field("travel_kind") String travel_kind);
 
     /**
      * 发布国外游
@@ -799,6 +801,35 @@ public interface BaiHangTongYeService {
                                                                 @Field("token") String token, @Field("keyWord") String keyWord,
                                                                 @Field("curPage") String curPage, @Field("uid") String uid, @Field("stick") String stick);
 
+    /**
+     * 旅游个人数据库查询
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("travel/updatePersonageTravel")
+    Observable<Response> updatePersonageTravel(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
+                                                 @Field("goalsId") String goalsId, @Field("spotName") String spotName,
+                                                 @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
+                                                 @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
+                                                 @Field("pickupPrice") String pickupPrice,
+                                                 @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
+                                                 @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
+                                                 @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
+                                                 @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
+
+                                                 @Field("final_boat") String final_boat, @Field("travelTitle") String travelTitle,
+                                                 @Field("generalize") String final_car, @Field("ticket_theme_id") String generalize,
+
+                                                 @Field("stick") String stick,
+                                                 @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
+                                                 @Field("token") String token, @Field("stick_new") String stick_new,
+                                                 @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
+                                                 @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
+                                                 @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
+                                                 @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
+                                                 @Field("goals_city_code") String goals_city_code, @Field("id") String id);
 
     /**
      * 跳转到vip

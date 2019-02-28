@@ -131,15 +131,15 @@ public class TicketingDetailsActivity extends BaseActivity {
     private void setData(TicketInfoEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             mTextViewTravelTitle.setText(entity.getList().get(position).getTicket_name());
-            mTextViewOriginalPrice.setText(entity.getList().get(position).getOriginal_price());
-            mTextViewReturnPrice.setText(entity.getList().get(position).getReturn_price());
-            mTextViewReturnPriceChild.setText(entity.getList().get(position).getReturn_price_child());
-            mTextViewViewCount.setText(entity.getList().get(position).getView_count());
-            mTextViewIssueCount.setText(entity.getList().get(position).getIssue_count());
+            mTextViewOriginalPrice.setText(String.valueOf(entity.getList().get(position).getOriginal_price()));
+            mTextViewReturnPrice.setText(String.valueOf(entity.getList().get(position).getReturn_price()));
+            mTextViewReturnPriceChild.setText(String.valueOf(entity.getList().get(position).getReturn_price_child()));
+            mTextViewViewCount.setText(String.valueOf(entity.getList().get(position).getView_count()));
+            mTextViewIssueCount.setText(String.valueOf(entity.getList().get(position).getIssue_count()));
             mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
             mTextViewUsername.setText(entity.getList().get(position).getUsername());
             mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
-            mTextViewOriginalPriceChild.setText(entity.getList().get(position).getOriginal_price_child());
+            mTextViewOriginalPriceChild.setText(String.valueOf(entity.getList().get(position).getOriginal_price_child()));
             mTextViewOriginalPriceEvening.setText(String.valueOf(entity.getList().get(position).getOriginal_price_evening()));
 
             mTextViewTicketAddr.setText(entity.getList().get(position).getTicket_addr());

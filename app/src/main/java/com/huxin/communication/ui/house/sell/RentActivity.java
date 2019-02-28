@@ -173,7 +173,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType = 1;
 
 
     private String chaoxiang;
@@ -591,7 +591,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 updata();
                 getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
                         "", "", "", "", "", "",
-                        "", "", "", productType, 0, "", "", "1", "");
+                        "", "", "", String.valueOf(productType), 0, "", "", "1", "");
                 break;
             case R.id.price_Determine:
                 updata();
@@ -611,7 +611,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "0";
+                productType = 0;
                 break;
             case R.id.congdidaogao_zongjia:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -625,7 +625,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.congdidaogao_danjia:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -639,7 +639,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.mianji_congxiaodaoda:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -653,7 +653,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.xiaoqu:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -667,7 +667,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "8";
+                productType = 8;
                 break;
             case R.id.gongshi:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -681,7 +681,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "9";
+                productType = 9;
                 break;
             case R.id.faburen:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -695,7 +695,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.blue));
-                productType = "10";
+                productType = 10;
                 break;
             case R.id.daoxu_time:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -709,7 +709,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.zongjia_conggaodaodi:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -723,7 +723,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "3";
+                productType = 3;
 
                 break;
             case R.id.danjia_conggaodaodi:
@@ -738,7 +738,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.mianji_congdadaoxiao:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.register_font));
@@ -752,7 +752,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewdanjiaGD.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewmianjiBD.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewfaburen.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "8";
+                productType = 8;
                 break;
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.color.blue);
@@ -1363,7 +1363,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.collect_btn:
-                addCollectTravel(Integer.parseInt(productType));
+                addCollectTravel(productType);
                 break;
         }
     }

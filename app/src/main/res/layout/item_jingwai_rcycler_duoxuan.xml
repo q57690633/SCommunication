@@ -112,23 +112,25 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp">
+                    android:layout_marginTop="9dp"
+                    >
 
                     <TextView
                         android:id="@+id/depart_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/list_divider"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:text="保定"
                         android:textColor="@color/register_font"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
 
                     <ImageView
+                        android:layout_toRightOf="@id/depart_name"
                         android:layout_width="18dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_height="16dp"
-                        android:layout_centerHorizontal="true"
                         android:background="@drawable/icon_travel_arrows"
                         android:scaleType="centerCrop" />
 
@@ -139,11 +141,11 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:background="@drawable/list_divider"
-                        android:paddingLeft="13dp"
-                        android:paddingRight="13dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:text="哈尔滨"
                         android:textColor="@color/register_font"
-                        android:textSize="14dp" />
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
                 <TextView
@@ -232,10 +234,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:orientation="horizontal">
-
-
                     <TextView
                         android:id="@+id/kanxingcheng"
                         android:layout_width="0dp"
@@ -243,10 +243,9 @@
                         android:layout_weight="1"
                         android:background="@color/green_domestic"
                         android:gravity="center"
-                        android:padding="10dp"
                         android:text="看行程"
                         android:textColor="@color/white"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/sendMessage"
@@ -257,10 +256,9 @@
                         android:layout_weight="1"
                         android:background="@color/blue"
                         android:gravity="center"
-                        android:padding="10dp"
                         android:text="发消息"
                         android:textColor="@color/white"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>

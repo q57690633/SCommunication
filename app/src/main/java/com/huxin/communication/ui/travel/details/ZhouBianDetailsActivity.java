@@ -110,7 +110,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(null, null, null, null
                 , null, null, null, null, null,
-                null, null, null,"1", null, null, null,"","")
+                null, null, null,"1", null, null, null,"1","")
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
@@ -130,14 +130,14 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             mTextViewTravelTitle.setText(entity.getList().get(position).getTravelTitle());
             mTextViewDepartName.setText(entity.getList().get(position).getDepart_name());
             mTextViewGoalsCity.setText(entity.getList().get(position).getGoals_city());
-            mTextViewNumberDays.setText(entity.getList().get(position).getNumberDays());
-            mTextViewTotalPrice.setText(entity.getList().get(position).getTotalPrice());
-            mTextViewReturnPrice.setText(entity.getList().get(position).getReturnPrice());
-            mTextViewTotalPriceChild.setText(entity.getList().get(position).getTotalPriceChild());
-            mTextViewReturnPriceChild.setText(entity.getList().get(position).getReturnPriceChild());
-            mTextViewSpotName.setText(entity.getList().get(position).getSpotName());
-            mTextViewViewCount.setText(entity.getList().get(position).getView_count());
-            mTextViewIssueCount.setText(entity.getList().get(position).getIssue_count());
+            mTextViewNumberDays.setText(String.valueOf(entity.getList().get(position).getNumberDays()));
+            mTextViewTotalPrice.setText(String.valueOf(entity.getList().get(position).getTotalPrice()));
+            mTextViewReturnPrice.setText(String.valueOf(entity.getList().get(position).getReturnPrice()));
+            mTextViewTotalPriceChild.setText(String.valueOf(entity.getList().get(position).getTotalPriceChild()));
+            mTextViewReturnPriceChild.setText(String.valueOf(entity.getList().get(position).getReturnPriceChild()));
+            mTextViewSpotName.setText(String.valueOf(entity.getList().get(position).getSpotName()));
+            mTextViewViewCount.setText(String.valueOf(entity.getList().get(position).getView_count()));
+            mTextViewIssueCount.setText(String.valueOf(entity.getList().get(position).getIssue_count()));
             mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
             mTextViewUsername.setText(entity.getList().get(position).getUsername());
             mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
