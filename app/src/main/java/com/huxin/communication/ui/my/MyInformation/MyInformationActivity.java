@@ -74,6 +74,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
             case R.id.tui_button:
                 String userId = PreferenceUtil.getInt(UID) + "";
                 String userSig = PreferenceUtil.getString("usersig");
+                KyLog.i("uid = " + userId);
+                KyLog.i("userSig = " + userSig);
                 onRecvUserSig(userId, userSig);
                 break;
         }
