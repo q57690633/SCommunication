@@ -23,6 +23,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.ForeignNationActivity;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -318,7 +319,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
 
             case R.id.mudidi_line:
-                Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
+                Intent intentMudDi = new Intent(this, ForeignNationActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
                 break;

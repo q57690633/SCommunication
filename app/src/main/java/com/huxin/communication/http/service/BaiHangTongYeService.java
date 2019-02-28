@@ -594,7 +594,8 @@ public interface BaiHangTongYeService {
                                           @Field("stick_rate") String stick_rate, @Field("stick_return") String stick_return,
                                           @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                           @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                          @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name);
+                                          @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
+                                               @Field("travel_kind") String travel_kind);
 
     /**
      * 发布国外游

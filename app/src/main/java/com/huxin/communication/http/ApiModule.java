@@ -803,11 +803,11 @@ public class ApiModule {
                                                       String stick_rate, String stick_return,
                                                       String stick_hot, String stick_zeroC,
                                                       String goals_city, String goals_pro,
-                                                      String goals_city_code, String depart_name) {
+                                                      String goals_city_code, String depart_name,String travel_kind) {
         return ApiFactory.getFactory().BaiHangTongYeService().issueAroundRoute(depart_code, depart_pro_code,
                 goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild, returnPriceChild, tAddressId, tTrafficId, tConsumeId,
                 tActivityId, tStayId, tOtherId, travelTitle, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow, PreferenceUtil.getString(TOKEN), files, stick_new, stick_low,
-                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name)
+                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name,travel_kind)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
