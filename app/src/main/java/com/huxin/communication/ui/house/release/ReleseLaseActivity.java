@@ -3,17 +3,22 @@ package com.huxin.communication.ui.house.release;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
+import com.huxin.communication.adpter.SelectByLikeAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
@@ -101,6 +106,12 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private HttpUtil httpUtil;
 
+    private RecyclerView mRecyclerViewSearch;
+    private LinearLayout mLinearLayoutVillageNameSearch;
+    private LinearLayout mLinearLayoutVillageName;
+    private TextView mTextViewAddVillageName;
+    private SelectByLikeAdapter mSelectBylikeAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +160,11 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
         mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
 
+        mRecyclerViewSearch = (RecyclerView) findViewById(R.id.villagename_search_recycler);
+        mLinearLayoutVillageName = (LinearLayout) findViewById(R.id.village_search_layout);
+        mLinearLayoutVillageNameSearch = (LinearLayout) findViewById(R.id.villageName_search);
+        mTextViewAddVillageName = (TextView) findViewById(R.id.add_village_name);
+
 
         mTextViewHouseHoldAppliances.setOnClickListener(this);
         mTextViewFitment.setOnClickListener(this);
@@ -167,6 +183,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         mEditTextLoansClick.setOnClickListener(this);
         mEditTextKeyingClick.setOnClickListener(this);
         mTextViewExclusive.setOnClickListener(this);
+
+        mTextViewAddVillageName.setOnClickListener(this);
+
     }
 
     @Override
@@ -180,6 +199,35 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
         mRecyclerViewAddPicture.setAdapter(adapter);
+
+        mEditTextVillageName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String villageName = mEditTextVillageName.getText().toString().trim();
+                Toast.makeText(ReleseLaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(villageName)) {
+                    mLinearLayoutVillageName.setVisibility(View.GONE);
+                    mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
+
+                } else {
+                    Toast.makeText(ReleseLaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
+                    mLinearLayoutVillageName.setVisibility(View.VISIBLE);
+                    mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
+                    selectByLike(villageName);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     @Override
@@ -424,6 +472,10 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                     exclusive = 2;
                 }
                 break;
+            case R.id.add_village_name:
+                Intent intent = new Intent(this, AddVillageNameActivity.class);
+                startActivity(intent);
+                break;
 
         }
     }
@@ -663,6 +715,34 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         return dialog;
     }
 
+    private void selectByLike(String villageName) {
+        KyLog.d(villageName);
+        showProgressDialog();
+        ApiModule.getInstance().selectByLike(villageName)
+                .subscribe(selectByLikeEntities -> {
+                    cancelProgressDialog();
+                    if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
+                        LinearLayoutManager manager = new LinearLayoutManager(ReleseLaseActivity.this);
+                        mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
+                        mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
+                        mRecyclerViewSearch.setLayoutManager(manager);
+                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
+                            @Override
+                            public void myClick(View v, int pos) {
+                                Toast.makeText(ReleseLaseActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
+                                mEditTextVillageName.setText(selectByLikeEntities.get(pos).getVillageName());
+                                mLinearLayoutVillageName.setVisibility(View.GONE);
+                                mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
 }

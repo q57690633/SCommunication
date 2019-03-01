@@ -20,6 +20,7 @@ import java.util.List;
 public class AreaOneScreenActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private AreaOneScreenAdapter mAdapter;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class AreaOneScreenActivity extends BaseActivity {
     protected void initViews() {
         setToolbarCenterMode("",MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_areaOne);
+        type = getIntent().getIntExtra("type",0);
 
     }
 
@@ -63,7 +65,7 @@ public class AreaOneScreenActivity extends BaseActivity {
     private void setData(List<AreaOneScreenEntity> list) {
         if (list != null && list.size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdapter = new AreaOneScreenAdapter(list, AreaOneScreenActivity.this);
+            mAdapter = new AreaOneScreenAdapter(list, AreaOneScreenActivity.this,type);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/widget_toobar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="小区名称"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/register_font"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/villageName_ed_add"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/biaoqian_radius"
+        android:hint="添加新小区"
+        android:paddingBottom="9dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="9dp"
+        android:textColorHint="@color/register_font"
+        android:textSize="14dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="小区地址"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/register_font"
+        android:textSize="18dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:id="@+id/city"
+            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="城市"
+            android:textColor="@color/login_walling_fort"
+            android:textSize="14dp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_areaone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/login_forget_password_code_fort"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/areaone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="城市区域"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/areaone"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_areotwo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/login_forget_password_code_fort"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/areotwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="下属区域"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/areotwo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="19dp"
+        android:background="@color/blue"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="17dp" />
+
+</LinearLayout>

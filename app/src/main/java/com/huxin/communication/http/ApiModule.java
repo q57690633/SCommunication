@@ -37,6 +37,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
@@ -1095,6 +1096,30 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().selectPlot(areaSecondId, areaId, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 灏忓尯妯＄硦鏌ヨ
+     *
+     * @return
+     */
+    public Observable<List<SelectByLikeEntity>> selectByLike(String villageName) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectByLike(villageName,PreferenceUtil.getString(TOKEN),String.valueOf(PreferenceUtil.getInt(UID)))
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 娣诲姞灏忓尯
+     *
+     * @return
+     */
+    public Observable<Response> addPlot( String city, String areaOne,
+                                         String areaTwo, String villageName) {
+        return ApiFactory.getFactory().BaiHangTongYeService().addPlot(city, areaOne, areaTwo,villageName,PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

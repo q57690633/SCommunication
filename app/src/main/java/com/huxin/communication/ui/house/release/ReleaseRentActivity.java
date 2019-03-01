@@ -3,18 +3,23 @@ package com.huxin.communication.ui.house.release;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
+import com.huxin.communication.adpter.SelectByLikeAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
@@ -71,6 +76,12 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
     private int stick = 0;
 
+    private RecyclerView mRecyclerViewSearch;
+    private LinearLayout mLinearLayoutVillageNameSearch;
+    private LinearLayout mLinearLayoutVillageName;
+    private TextView mTextViewAddVillageName;
+    private SelectByLikeAdapter mSelectBylikeAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +133,11 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
         mImageViewUnlimitedEstateClick = (ImageView) findViewById(R.id.unlimitedEstate_rent_release_click);
 
+        mRecyclerViewSearch = (RecyclerView) findViewById(R.id.villagename_search_recycler);
+        mLinearLayoutVillageName = (LinearLayout) findViewById(R.id.village_search_layout);
+        mLinearLayoutVillageNameSearch = (LinearLayout) findViewById(R.id.villageName_search);
+        mTextViewAddVillageName = (TextView) findViewById(R.id.add_village_name);
+
         mRelativeLayoutFitment.setOnClickListener(this);
         mRelativeLayoutHouseType.setOnClickListener(this);
         mRelativeLayoutPaymentType.setOnClickListener(this);
@@ -133,6 +149,8 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
         mImageViewUnlimitedEstate.setOnClickListener(this);
         mImageViewUnlimitedEstateClick.setOnClickListener(this);
 
+        mTextViewAddVillageName.setOnClickListener(this);
+
     }
 
     @Override
@@ -143,6 +161,34 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setTabData();
+
+        mEditTextvillageNam.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String villageName = mEditTextvillageNam.getText().toString().trim();
+                Toast.makeText(ReleaseRentActivity.this, villageName, Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(villageName)) {
+                    mLinearLayoutVillageName.setVisibility(View.GONE);
+                    mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
+
+                } else {
+                    Toast.makeText(ReleaseRentActivity.this, villageName, Toast.LENGTH_SHORT).show();
+                    mLinearLayoutVillageName.setVisibility(View.VISIBLE);
+                    mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
+                    selectByLike(villageName);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -232,6 +278,10 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                 unlimitedEstate = 1;
                 mImageViewUnlimitedEstateClick.setVisibility(View.GONE);
                 mImageViewUnlimitedEstate.setVisibility(View.VISIBLE);
+                break;
+            case R.id.add_village_name:
+                Intent intent = new Intent(this, AddVillageNameActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -327,6 +377,36 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                         mRecyclerView.setAdapter(mTabAdapter);
                         mRecyclerView.setLayoutManager(manager);
                         mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+                    }
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void selectByLike(String villageName) {
+        KyLog.d(villageName);
+        showProgressDialog();
+        ApiModule.getInstance().selectByLike(villageName)
+                .subscribe(selectByLikeEntities -> {
+                    cancelProgressDialog();
+                    if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
+                        LinearLayoutManager manager = new LinearLayoutManager(ReleaseRentActivity.this);
+                        mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
+                        mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
+                        mRecyclerViewSearch.setLayoutManager(manager);
+                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
+                            @Override
+                            public void myClick(View v, int pos) {
+                                Toast.makeText(ReleaseRentActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
+                                mEditTextvillageNam.setText(selectByLikeEntities.get(pos).getVillageName());
+                                mLinearLayoutVillageName.setVisibility(View.GONE);
+                                mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
+                            }
+                        });
                     }
 
                 }, throwable -> {

@@ -37,6 +37,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
@@ -917,6 +918,25 @@ public interface BaiHangTongYeService {
     @POST("houseProduct/selectPlot")
     Observable<Response<List<SelectPlotEntity>>> selectPlot(@Field("areaSecondId") String areaSecondId, @Field("areaId") String areaId,
                                                             @Field("token") String token);
+
+    /**
+     * 灏忓尯妯＄硦鏌ヨ
+     */
+    @FormUrlEncoded
+    @POST("public/selectByLike")
+    Observable<Response<List<SelectByLikeEntity>>> selectByLike(@Field("villageName") String villageName, @Field("token") String token,
+                                                                @Field("uid") String uid);
+
+
+    /**
+     * 娣诲姞灏忓尯
+     */
+    @FormUrlEncoded
+    @POST("public/addPlot")
+    Observable<Response> addPlot(@Field("city") String city, @Field("areaOne") String areaOne,
+                                 @Field("areaTwo") String areaTwo, @Field("villageName") String villageName,
+                                 @Field("token") String token);
+
 
     /**
      * 下属区域筛选
