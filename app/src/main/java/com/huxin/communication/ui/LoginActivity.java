@@ -17,9 +17,12 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 
 import java.util.List;
 
@@ -164,8 +167,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                             KyLog.i("----------收到新消息---------");
                                             for(TIMMessage message : msgs) {
                                                 String sender = message.getSender();
-                                                long elementCount = message.getElementCount();
-                                                KyLog.i("sender = " + sender + " and count = " + elementCount);
+                                                TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+                                                TIMConversationExt conExt = new TIMConversationExt(con);
+                                                long count = conExt.getUnreadMessageNum();
+                                                KyLog.i("sender = " + sender + " and count = " + count);
                                             }
                                             return true;
                                         }
