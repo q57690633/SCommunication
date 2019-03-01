@@ -123,7 +123,7 @@ public interface BaiHangTongYeService {
     Observable<Response<UpdateUserInformationEntity>> updateUserInformation(@Field("username") String username, @Field("area") String area,
                                                                             @Field("storeName") String storeName, @Field("position") String position,
                                                                             @Field("industryType") String industryType, @Field("uid") String uid,
-                                                                            @Field("token") String token);
+                                                                            @Field("token") String token,@Field("companyName") String companyName);
 
     /**
      * 更新注册电话
@@ -133,6 +133,21 @@ public interface BaiHangTongYeService {
     Observable<Response<UpdateUserPhoneEntity>> updateUserPhone(@Field("phone") String phone, @Field("authCode") String authCode,
                                                                 @Field("secondPhone") String secondPhone, @Field("secondAuthCode") String secondAuthCode,
                                                                 @Field("uid") String uid, @Field("token") String token);
+
+    /**
+     * 用户信息反馈
+     */
+    @FormUrlEncoded
+    @POST("user/returnAdvice")
+    Observable<Response> returnAdvice(@Field("advice") String advice, @Field("adviceType") int adviceType,
+                                      @Field("uid") String uid, @Field("token") String token);
+
+    /**
+     * 头像上传
+     */
+    @FormUrlEncoded
+    @POST("user/uploadHeadPhoto")
+    Observable<Response> uploadHeadPhoto(@Field("uid") String uid, @Field("token") String token);
 
     /**
      * 出售筛选
@@ -232,14 +247,14 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/getCollectProduct")
     Observable<Response<CollectEntity>> getCollectProduct(@Field("uid") String uid, @Field("villageName") String villageName,
-                                                                @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
-                                                                @Field("houseType") String houseType, @Field("minPrice") String minPrice,
-                                                                @Field("maxPrice") String maxPrice, @Field("element") String element,
-                                                                @Field("newOrOld") String newOrOld, @Field("orientation") String orientation,
-                                                                @Field("houseHoldAppliances") String houseHoldAppliances, @Field("fitment") String fitment,
-                                                                @Field("permit") String permit, @Field("purpose") String purpose,
-                                                                @Field("ownership") String ownership, @Field("floorAge") String floorAge,
-                                                                @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
+                                                          @Field("minAcreage") String minAcreage, @Field("maxAcreage") String maxAcreage,
+                                                          @Field("houseType") String houseType, @Field("minPrice") String minPrice,
+                                                          @Field("maxPrice") String maxPrice, @Field("element") String element,
+                                                          @Field("newOrOld") String newOrOld, @Field("orientation") String orientation,
+                                                          @Field("houseHoldAppliances") String houseHoldAppliances, @Field("fitment") String fitment,
+                                                          @Field("permit") String permit, @Field("purpose") String purpose,
+                                                          @Field("ownership") String ownership, @Field("floorAge") String floorAge,
+                                                          @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
 
     /**
      * 移出收藏夹
@@ -375,7 +390,6 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectHome")
     Observable<Response<HomeEntity>> getHome(@Field("city") String city, @Field("areaOne") String areaOne, @Field("token") String token);
-
 
 
     /**
@@ -579,24 +593,24 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/issueAroundRoute")
     Observable<ResponseUntil> issueAroundRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
-                                          @Field("goalsId") String goalsId, @Field("spotName") String spotName,
-                                          @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
-                                          @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
-                                          @Field("pickupPrice") String pickupPrice,
-                                          @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
-                                          @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
-                                          @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
-                                          @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
-                                          @Field("tOtherId") String tOtherId, @Field("travelTitle") String travelTitle,
-                                          @Field("generalize") String generalize, @Field("stick") String stick,
-                                          @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
-                                          @Field("token") String token, @Field("files") String files,
-                                          @Field("stick_new") String stick_new, @Field("stick_low") String stick_low,
-                                          @Field("stick_better") String stick_better, @Field("stick_throw") String stick_throw,
-                                          @Field("stick_rate") String stick_rate, @Field("stick_return") String stick_return,
-                                          @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
-                                          @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                          @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
+                                               @Field("goalsId") String goalsId, @Field("spotName") String spotName,
+                                               @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
+                                               @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
+                                               @Field("pickupPrice") String pickupPrice,
+                                               @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
+                                               @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
+                                               @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
+                                               @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
+                                               @Field("tOtherId") String tOtherId, @Field("travelTitle") String travelTitle,
+                                               @Field("generalize") String generalize, @Field("stick") String stick,
+                                               @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
+                                               @Field("token") String token, @Field("files") String files,
+                                               @Field("stick_new") String stick_new, @Field("stick_low") String stick_low,
+                                               @Field("stick_better") String stick_better, @Field("stick_throw") String stick_throw,
+                                               @Field("stick_rate") String stick_rate, @Field("stick_return") String stick_return,
+                                               @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
+                                               @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
+                                               @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
                                                @Field("travel_kind") String travel_kind);
 
     /**
@@ -608,23 +622,23 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
     Observable<ResponseUntil> issueForeignRoute(@Field("depart_name") String depart_name, @Field("depart_pro_name") String depart_pro_name,
-                                           @Field("goals_nat_name") String goals_nat_name, @Field("goals_name") String goals_name,
-                                           @Field("spot_name") String spot_name, @Field("stick") String stick,
-                                           @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
-                                           @Field("token") String token,
-                                           @Field("number_days") String number_days, @Field("total_price") String total_price,
-                                           @Field("final_price") String final_price, @Field("return_price") String return_price,
-                                           @Field("pickup_price") String pickup_price, @Field("total_price_child") String total_price_child,
-                                           @Field("final_price_child") String final_price_child, @Field("return_price_child") String return_price_child,
-                                           @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
-                                           @Field("t_consume_id") String t_consume_id, @Field("t_activity_id") String t_activity_id,
-                                           @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
-                                           @Field("travel_title") String travel_title, @Field("generalize") String generalize,
-                                           @Field("files") String files, @Field("stick_new") String stick_new,
-                                           @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
-                                           @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
-                                           @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot,
-                                           @Field("stick_zeroC") String stick_zeroC);
+                                                @Field("goals_nat_name") String goals_nat_name, @Field("goals_name") String goals_name,
+                                                @Field("spot_name") String spot_name, @Field("stick") String stick,
+                                                @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
+                                                @Field("token") String token,
+                                                @Field("number_days") String number_days, @Field("total_price") String total_price,
+                                                @Field("final_price") String final_price, @Field("return_price") String return_price,
+                                                @Field("pickup_price") String pickup_price, @Field("total_price_child") String total_price_child,
+                                                @Field("final_price_child") String final_price_child, @Field("return_price_child") String return_price_child,
+                                                @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
+                                                @Field("t_consume_id") String t_consume_id, @Field("t_activity_id") String t_activity_id,
+                                                @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
+                                                @Field("travel_title") String travel_title, @Field("generalize") String generalize,
+                                                @Field("files") String files, @Field("stick_new") String stick_new,
+                                                @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
+                                                @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
+                                                @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot,
+                                                @Field("stick_zeroC") String stick_zeroC);
 
     /**
      * 发布票务
@@ -635,25 +649,25 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
     Observable<ResponseUntil> issueTicketForeignRoute(@Field("ticket_pro_name") String ticket_pro_name, @Field("ticket_city_name") String ticket_city_name,
-                                                 @Field("ticket_name") String ticket_name, @Field("ticket_addr") String ticket_addr,
-                                                 @Field("ticket_type") String ticket_type, @Field("open_time") String open_time,
-                                                 @Field("original_price") String original_price, @Field("final_price") String final_price,
-                                                 @Field("original_price_child") String original_price_child,
-                                                 @Field("final_price_child") String final_price_child, @Field("original_price_evening") String original_price_evening,
-                                                 @Field("final_price_evening") String final_price_evening, @Field("original_price_parent_child") String original_price_parent_child,
-                                                 @Field("final_price_parent_child") String final_price_parent_child, @Field("original_price_family") String original_price_family,
-                                                 @Field("final_price_family") String final_price_family, @Field("original_boat") String original_boat,
-                                                 @Field("final_boat") String final_boat, @Field("original_car") String original_car,
-                                                 @Field("final_car") String final_car, @Field("ticket_theme_id") String ticket_theme_id,
-                                                 @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
-                                                 @Field("uid") String uid, @Field("stick") String stick,
-                                                 @Field("line_or_throw") String line_or_throw, @Field("files") String files,
-                                                 @Field("token") String token, @Field("stick_new") String stick_new,
-                                                 @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
-                                                 @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
-                                                 @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
-                                                 @Field("generalize") String generalize, @Field("original_price_total") String original_price_total,
-                                                 @Field("final_price_total") String final_price_total, @Field("ticket_pro_code") String ticket_pro_code);
+                                                      @Field("ticket_name") String ticket_name, @Field("ticket_addr") String ticket_addr,
+                                                      @Field("ticket_type") String ticket_type, @Field("open_time") String open_time,
+                                                      @Field("original_price") String original_price, @Field("final_price") String final_price,
+                                                      @Field("original_price_child") String original_price_child,
+                                                      @Field("final_price_child") String final_price_child, @Field("original_price_evening") String original_price_evening,
+                                                      @Field("final_price_evening") String final_price_evening, @Field("original_price_parent_child") String original_price_parent_child,
+                                                      @Field("final_price_parent_child") String final_price_parent_child, @Field("original_price_family") String original_price_family,
+                                                      @Field("final_price_family") String final_price_family, @Field("original_boat") String original_boat,
+                                                      @Field("final_boat") String final_boat, @Field("original_car") String original_car,
+                                                      @Field("final_car") String final_car, @Field("ticket_theme_id") String ticket_theme_id,
+                                                      @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
+                                                      @Field("uid") String uid, @Field("stick") String stick,
+                                                      @Field("line_or_throw") String line_or_throw, @Field("files") String files,
+                                                      @Field("token") String token, @Field("stick_new") String stick_new,
+                                                      @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
+                                                      @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
+                                                      @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
+                                                      @Field("generalize") String generalize, @Field("original_price_total") String original_price_total,
+                                                      @Field("final_price_total") String final_price_total, @Field("ticket_pro_code") String ticket_pro_code);
 
 
     /**
@@ -824,26 +838,26 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/updatePersonageTravel")
     Observable<Response<AroundTravelEntity>> updatePersonageTravel(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
-                                                                             @Field("goalsId") String goalsId, @Field("spotName") String spotName,
-                                                                             @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
-                                                                             @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
-                                                                             @Field("pickupPrice") String pickupPrice,
-                                                                             @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
-                                                                             @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
-                                                                             @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
-                                                                             @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
+                                                                   @Field("goalsId") String goalsId, @Field("spotName") String spotName,
+                                                                   @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
+                                                                   @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
+                                                                   @Field("pickupPrice") String pickupPrice,
+                                                                   @Field("totalPriceChild") String totalPriceChild, @Field("finalPriceChild") String finalPriceChild,
+                                                                   @Field("returnPriceChild") String returnPriceChild, @Field("tAddressId") String tAddressId,
+                                                                   @Field("tTrafficId") String tTrafficId, @Field("tConsumeId") String tConsumeId,
+                                                                   @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
 
-                                                                             @Field("final_boat") String final_boat, @Field("travelTitle") String travelTitle,
-                                                                             @Field("generalize") String final_car, @Field("ticket_theme_id") String generalize,
+                                                                   @Field("final_boat") String final_boat, @Field("travelTitle") String travelTitle,
+                                                                   @Field("generalize") String final_car, @Field("ticket_theme_id") String generalize,
 
-                                                                             @Field("stick") String stick,
-                                                                             @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
-                                                                             @Field("token") String token, @Field("stick_new") String stick_new,
-                                                                             @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
-                                                                             @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
-                                                                             @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
-                                                                             @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                                                             @Field("goals_city_code") String goals_city_code, @Field("id") String id);
+                                                                   @Field("stick") String stick,
+                                                                   @Field("uid") String uid, @Field("lineOrThrow") String lineOrThrow,
+                                                                   @Field("token") String token, @Field("stick_new") String stick_new,
+                                                                   @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
+                                                                   @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
+                                                                   @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
+                                                                   @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
+                                                                   @Field("goals_city_code") String goals_city_code, @Field("id") String id);
 
 
     /**
@@ -855,15 +869,15 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/updatePersonageForiegn")
     Observable<Response<ForeignTravelEntity>> updatePersonageForiegn(@Field("depart_name") String depart_name, @Field("min_days") String min_days,
-                                                @Field("max_days") String max_days, @Field("spot_name") String spot_name,
-                                                @Field("goals_name") String goals_name, @Field("t_activity_id") String t_activity_id,
-                                                @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
-                                                @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
-                                                @Field("t_overseas_id") String t_overseas_id,
-                                                @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
-                                                @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
-                                                @Field("token") String token, @Field("keyWord") String keyWord,
-                                                @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw);
+                                                                     @Field("max_days") String max_days, @Field("spot_name") String spot_name,
+                                                                     @Field("goals_name") String goals_name, @Field("t_activity_id") String t_activity_id,
+                                                                     @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
+                                                                     @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
+                                                                     @Field("t_overseas_id") String t_overseas_id,
+                                                                     @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
+                                                                     @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
+                                                                     @Field("token") String token, @Field("keyWord") String keyWord,
+                                                                     @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw);
 
 
     /**
@@ -875,11 +889,12 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/updatePersonageTicket")
     Observable<Response<TicketInfoEntity>> updatePersonageTicket(@Field("ticket_type") String ticket_type, @Field("ticket_city_name") String ticket_city_name,
-                                                         @Field("minPri_maxPri") String minPri_maxPri, @Field("ticket_theme_id") String ticket_theme_id,
-                                                         @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
-                                                         @Field("sort_type") String sort_type, @Field("token") String token,
-                                                         @Field("keyWord") String keyWord,
-                                                         @Field("curPage") String curPage, @Field("uid") String uid);
+                                                                 @Field("minPri_maxPri") String minPri_maxPri, @Field("ticket_theme_id") String ticket_theme_id,
+                                                                 @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
+                                                                 @Field("sort_type") String sort_type, @Field("token") String token,
+                                                                 @Field("keyWord") String keyWord,
+                                                                 @Field("curPage") String curPage, @Field("uid") String uid);
+
     /**
      * 跳转到vip
      */
