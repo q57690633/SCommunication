@@ -77,7 +77,7 @@ public class HuXinApplication extends MultiDexApplication {
         TIMSdkConfig TIMConfig = new TIMSdkConfig(Constanst.TIMSDKAPPID)
                 .setAccoutType(Constanst.TIMAccountType)
                 .enableLogPrint(true)              // 是否在控制台打印Log?
-                .setLogLevel(TIMLogLevel.DEBUG)    // Log输出级别（debug级别会很多）
+                .setLogLevel(TIMLogLevel.INFO)    // Log输出级别（debug级别会很多）
                 .setLogPath(Environment.getExternalStorageDirectory().getPath() + "/TIMLog/");
         // Log文件存放在哪里？
 

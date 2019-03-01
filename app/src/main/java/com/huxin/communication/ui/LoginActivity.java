@@ -18,6 +18,10 @@ import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
+
+import java.util.List;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewChickbox;
@@ -117,6 +121,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 showProgressDialog();
                 ApiModule.getInstance().logins(phone, password)
                         .subscribe(loginEntity -> {
+                            KyLog.i("----------登录---------");
                             KyLog.object(loginEntity);
 //                            Intent intentLogin = new Intent(this, MainActivity.class);
 //                            startActivity(intentLogin);
@@ -151,6 +156,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                         @Override
                                         public void run() {
                                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+                                        @Override
+                                        public boolean onNewMessages(List<TIMMessage> msgs) {
+                                            KyLog.i("----------收到新消息---------");
+                                            for(TIMMessage message : msgs) {
+                                                String sender = message.getSender();
+                                                long elementCount = message.getElementCount();
+                                                KyLog.i("sender = " + sender + " and count = " + elementCount);
+                                            }
+                                            return true;
                                         }
                                     });
                                 }

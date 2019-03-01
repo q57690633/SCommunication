@@ -59,6 +59,7 @@ public class PersonalChatFragment extends BaseFragment {
             chatId = "Ljh2001";
         }
         KyLog.i("TARGETID = " + chatId);
+        //chatId = "122";// lbh 113,  yzx  122
         chatPanel.setBaseChatId(chatId);
         chatPanel.setMoreOperaUnits(units, false);
 
