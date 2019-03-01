@@ -144,4 +144,6 @@ public class Constanst {
 
     public static final String TAB_NMAE_TRAFFIC = "tab_name_traffic";
 
+    public static final String SCREEN_AREAONE_CODE = "areaOne_id";
+
 }

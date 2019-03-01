@@ -11,6 +11,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AreaTwoScreenEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
@@ -20,6 +21,7 @@ public class AreaTwoScreenActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private AreaTwoScreenAdapter mAdapter;
     private int areaId ;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class AreaTwoScreenActivity extends BaseActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_areaTwo);
         areaId = getIntent().getIntExtra(Constanst.SCREEN_AREAONE_NAME,0);
+        type = getIntent().getIntExtra("type",0);
     }
 
     @Override
@@ -47,9 +50,9 @@ public class AreaTwoScreenActivity extends BaseActivity {
     }
 
     private void areaTwoScreen() {
-        KyLog.d(areaId + "");
+        KyLog.d(PreferenceUtil.getInt(Constanst.SCREEN_AREAONE_CODE) + "");
         showProgressDialog();
-        ApiModule.getInstance().areaTwoScreen(String.valueOf(areaId))
+        ApiModule.getInstance().areaTwoScreen(String.valueOf(PreferenceUtil.getInt(Constanst.SCREEN_AREAONE_CODE)))
                 .subscribe(areaTwoScreenEntity -> {
                     KyLog.object(areaTwoScreenEntity + "");
                     cancelProgressDialog();
@@ -64,7 +67,7 @@ public class AreaTwoScreenActivity extends BaseActivity {
     private void setData(List<AreaTwoScreenEntity> list) {
         if (list != null && list.size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdapter = new AreaTwoScreenAdapter(list, AreaTwoScreenActivity.this,areaId);
+            mAdapter = new AreaTwoScreenAdapter(list, AreaTwoScreenActivity.this,areaId,type);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));

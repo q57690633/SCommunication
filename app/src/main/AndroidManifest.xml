@@ -317,6 +317,8 @@
 
         <activity android:name=".ui.TIMChatActivity"/>
 
+        <activity android:name=".ui.house.release.AddVillageNameActivity"/>
+
     </application>
 
 </manifest>

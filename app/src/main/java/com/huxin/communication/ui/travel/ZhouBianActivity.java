@@ -23,6 +23,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -132,6 +133,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     private List<String> Kouweilist;
 
+    private TextView mTextViewCollect;
+
+
     private boolean isClickQuYu = false;
 
 
@@ -186,6 +190,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
         mTextViewGuanLi = (TextView) findViewById(R.id.toolbar_right);
         mTextViewQuXiao = (TextView) findViewById(R.id.toolbar_quxiao);
+
+        mTextViewCollect = (TextView) findViewById(R.id.collect_btn);
+
 
         //***************************************
 
@@ -265,6 +272,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewChongGaoDaoDiFanXian.setOnClickListener(this);
         mTextViewChongDuoDaoShaoDay.setOnClickListener(this);
 
+        mTextViewCollect.setOnClickListener(this);
 
         mLinearLayoutMuDi.setOnClickListener(this);
         mLinearLayoutChuFa.setOnClickListener(this);
@@ -942,6 +950,10 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 break;
+
+            case R.id.collect_btn:
+                addTravelCollect(1);
+                break;
         }
     }
 
@@ -1009,6 +1021,24 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    private void addTravelCollect(int travelType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent =  new Intent(this,ZhouBianActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

@@ -1,15 +1,18 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.huxin.communication.entity.HomeEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +39,13 @@ public class HomeViewPagerAdapter extends PagerAdapter {
             ImageView mImageView = new ImageView(mContext);
 //            mImageView.setImageResource(imageIds[i]);
             KyLog.d(list.get(i).getImg_url());
-            ImageLoader.getInstance().displayImage( list.get(i).getImg_url(),mImageView);
+//            ImageLoader.getInstance().displayImage( list.get(i).getImg_url(),mImageView);
+            Glide.with(mContext)                             //配置上下文
+                    .load(list.get(i).getImg_url())      //设置图片路径(fix #8,文件名包含%符号 无法识别和显示)
+//               .error(R.mipmap.default_image)      //设置错误图片
+//                .placeholder(R.mipmap.default_image)     //设置占位图片
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存全尺寸
+                    .into(mImageView);
             mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             mImageViews.add(mImageView);
         }

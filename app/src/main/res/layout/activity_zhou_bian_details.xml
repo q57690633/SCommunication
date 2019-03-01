@@ -381,12 +381,12 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/huifu"
+                android:id="@+id/zaixianwen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_green"
                 android:gravity="center"
-                android:text="回复"
+                android:text="在线问"
                 android:textColor="#f8f8f8"
                 android:textSize="16sp" />
 

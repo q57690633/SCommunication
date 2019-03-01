@@ -24,10 +24,13 @@ public class AreaOneScreenAdapter extends  RecyclerView.Adapter<AreaOneScreenAda
     private Activity mActivity;
     private List<AreaOneScreenEntity> mList;
     private LayoutInflater mInflater;
+    private int type;
 
-    public AreaOneScreenAdapter(List<AreaOneScreenEntity> mList, Activity mActivity) {
+    public AreaOneScreenAdapter(List<AreaOneScreenEntity> mList, Activity mActivity,int type) {
         this.mList = mList;
         this.mActivity = mActivity;
+        this.type = type;
+
         mInflater = LayoutInflater.from(mActivity);
     }
 
@@ -38,11 +41,13 @@ public class AreaOneScreenAdapter extends  RecyclerView.Adapter<AreaOneScreenAda
         Hoder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity,AreaTwoScreenActivity.class);
-                intent.putExtra(Constanst.SCREEN_AREAONE_NAME,mList.get(Hoder.getAdapterPosition()).getId());
-                PreferenceUtil.putString(Constanst.SCREEN_AREAONE_NAME,mList.get(Hoder.getAdapterPosition()).getCounty());
-
-                mActivity.startActivity(intent);
+                if (type != 1) {
+                    Intent intent = new Intent(mActivity, AreaTwoScreenActivity.class);
+                    intent.putExtra(Constanst.SCREEN_AREAONE_NAME, mList.get(Hoder.getAdapterPosition()).getId());
+                    mActivity.startActivity(intent);
+                }
+                PreferenceUtil.putString(Constanst.SCREEN_AREAONE_NAME, mList.get(Hoder.getAdapterPosition()).getCounty());
+                PreferenceUtil.putInt(Constanst.SCREEN_AREAONE_CODE, mList.get(Hoder.getAdapterPosition()).getId());
                 mActivity.finish();
             }
         });

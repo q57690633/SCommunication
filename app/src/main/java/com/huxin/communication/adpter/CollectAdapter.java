@@ -28,12 +28,12 @@ import java.util.List;
 
 public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.MyViewHoder>{
 
-    private List<CollectEntity> list;
+    private List<CollectEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public CollectAdapter(List<CollectEntity> list, Context mContext) {
+    public CollectAdapter(List<CollectEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -71,7 +71,7 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.MyViewHo
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
-        if (list.get(position).getKeying().equals("1")) {
+        if (list.get(position).getKeying()==1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
         } else {
             holder.mImageViewKeying.setVisibility(View.GONE);
@@ -128,7 +128,7 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.MyViewHo
         }
     }
 
-    private void setTextView(List<CollectEntity> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<CollectEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
         KyLog.d(list.get(position).getTabName());

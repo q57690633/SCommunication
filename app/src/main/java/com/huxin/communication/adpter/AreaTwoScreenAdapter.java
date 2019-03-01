@@ -26,11 +26,13 @@ public class AreaTwoScreenAdapter extends RecyclerView.Adapter<AreaTwoScreenAdap
     private List<AreaTwoScreenEntity> mList;
     private LayoutInflater mInflater;
     private int areaId;
+    private int type;
 
-    public AreaTwoScreenAdapter(List<AreaTwoScreenEntity> mList, Activity mActivity, int areaId) {
+    public AreaTwoScreenAdapter(List<AreaTwoScreenEntity> mList, Activity mActivity, int areaId,int type) {
         this.mList = mList;
         this.mActivity = mActivity;
         this.areaId = areaId;
+        this.type = type;
 
         mInflater = LayoutInflater.from(mActivity);
     }
@@ -42,13 +44,13 @@ public class AreaTwoScreenAdapter extends RecyclerView.Adapter<AreaTwoScreenAdap
         Hoder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, SelectPlotActivity.class);
-                intent.putExtra(Constanst.SCREEN_TWOAONE_NAME, mList.get(Hoder.getAdapterPosition()).getAreaId());
-                intent.putExtra(Constanst.SCREEN_TWOAONE_ID, areaId);
+                if (type != 1) {
+                    Intent intent = new Intent(mActivity, SelectPlotActivity.class);
+                    intent.putExtra(Constanst.SCREEN_TWOAONE_NAME, mList.get(Hoder.getAdapterPosition()).getAreaId());
+                    intent.putExtra(Constanst.SCREEN_TWOAONE_ID, areaId);
+                    mActivity.startActivity(intent);
+                }
                 PreferenceUtil.putString(Constanst.SCREEN_TWOAONE_NAME, mList.get(Hoder.getAdapterPosition()).getSecondName());
-
-
-                mActivity.startActivity(intent);
                 mActivity.finish();
             }
         });

@@ -23,6 +23,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -124,6 +125,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     private int TicketType = 1;
 
+    private TextView mTextViewCollect;
+
+
 
 
     @Override
@@ -212,6 +216,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mTextViewChongGaoDaoDiFanXian = (TextView) findViewById(R.id.conggaodaodi_fanxian);
         mTextViewChongDuoDaoShaoDay = (TextView) findViewById(R.id.day_congduodaoshao);
 
+        mTextViewCollect = (TextView) findViewById(R.id.collect_btn);
+
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -246,6 +253,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mTextViewChongGaoDaoDi.setOnClickListener(this);
         mTextViewChongGaoDaoDiFanXian.setOnClickListener(this);
         mTextViewChongDuoDaoShaoDay.setOnClickListener(this);
+        mTextViewCollect.setOnClickListener(this);
 
 
         mLinearLayoutMuDi.setOnClickListener(this);
@@ -832,6 +840,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 break;
+            case R.id.collect_btn:
+                addTravelCollect(3);
+                break;
         }
     }
 
@@ -897,6 +908,23 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                         setDuoXuanData(ticketInfoEntity);
                     }
 
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addTravelCollect(int travelType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent =  new Intent(this,TicketingActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
