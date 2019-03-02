@@ -170,8 +170,9 @@ public class ApiModule {
      */
     public Observable<UpdateUserInformationEntity> updateUserInformation(String username, String area,
                                                                          String storeName, String position,
-                                                                         String industryType, String uid, String token) {
-        return ApiFactory.getFactory().BaiHangTongYeService().updateUserInformation(username, area, storeName, position, industryType, uid, token)
+                                                                         String industryType, String companyName) {
+        return ApiFactory.getFactory().BaiHangTongYeService().updateUserInformation(username, area, storeName, position, industryType,
+                String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN),companyName)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -658,15 +659,36 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<UpdateUserPhoneEntity> updateUserPhone(String phone, String authCode,
-                                                             String secondPhone, String secondAuthCode,
-                                                             String uid, String token) {
-        return ApiFactory.getFactory().BaiHangTongYeService().updateUserPhone(phone, authCode, secondPhone, secondAuthCode, uid, token)
+    public Observable<UpdateUserPhoneEntity> updateUserPhone(String phone, String authCode, String secondPhone, String secondAuthCode
+                                                             ) {
+        return ApiFactory.getFactory().BaiHangTongYeService().updateUserPhone(phone, authCode, secondPhone, secondAuthCode,
+                String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 用户信息反馈
+     *
+     * @return
+     */
+    public Observable<Response> returnAdvice(String advice,  int adviceType) {
+        return ApiFactory.getFactory().BaiHangTongYeService().returnAdvice( advice, adviceType, String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 头像上传
+     *
+     * @return
+     */
+    public Observable<Response> uploadHeadPhoto() {
+        return ApiFactory.getFactory().BaiHangTongYeService().uploadHeadPhoto( String.valueOf(PreferenceUtil.getInt(UID)), PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     /**
      * 周边游和国内游筛选和搜索
