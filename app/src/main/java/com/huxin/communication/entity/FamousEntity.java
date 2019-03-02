@@ -13,6 +13,8 @@ public class FamousEntity extends DataSupport{
     private String authorAvatar;
     private int id;
     private String phone;
+    private String industryType;
+    private String starFriend;
 
     public String getFirstLetter() {
         return firstLetter;
@@ -68,5 +70,21 @@ public class FamousEntity extends DataSupport{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getIndustryType() {
+        return industryType;
+    }
+
+    public void setIndustryType(String industryType) {
+        this.industryType = industryType;
+    }
+
+    public String getStarFriend() {
+        return starFriend;
+    }
+
+    public void setStarFriend(String starFriend) {
+        this.starFriend = starFriend;
     }
 }

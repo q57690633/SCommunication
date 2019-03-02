@@ -36,34 +36,39 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="胡八二"
+                    android:text=""
                     android:textColor="@color/register_font"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="百姓房产·五里路店"
+                    android:text=""
                     android:textColor="@color/register_font"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/industry_type_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="置业顾问"
+                    android:text=""
                     android:textColor="@color/register_font"
                     android:textSize="14sp" />
 
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/star_rl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="20dp">
+                android:layout_marginRight="20dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -86,15 +91,17 @@
             android:background="@color/login_line" />
 
         <RelativeLayout
+            android:id="@+id/phone_rl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp">
 
             <TextView
+                android:id="@+id/phone_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="电话：13233220022"
+                android:text=""
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
@@ -104,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="12dp"
-                android:text="直接拨打"
+                android:text="@string/call"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
@@ -140,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="把他（她）推荐给朋友"
+                android:text="@string/share_to_friend"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
@@ -176,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="查看他（她）7日内发布的信息"
+                android:text="@string/check_information"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
@@ -210,12 +217,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="消息免打扰2"
+                android:text="@string/message_no_alert"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
 
             <ImageView
+                android:id="@+id/message_alert_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -245,12 +253,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="置顶"
+                android:text="@string/set_to_top"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
 
             <ImageView
+                android:id="@+id/set_top_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -279,12 +288,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:text="星标朋友"
+                android:text="@string/star_friend"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
 
             <ImageView
+                android:id="@+id/star_friend_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -316,7 +326,7 @@
             android:background="@color/blue"
             android:gravity="center"
             android:padding="15dp"
-            android:text="发消息"
+            android:text="@string/send_message"
             android:textColor="@color/white"
             android:textSize="17dp" />
     </LinearLayout>

@@ -29,6 +29,12 @@ import java.util.List;
  * 通讯录
  */
 public class AssortmentFragment extends BaseFragment implements View.OnClickListener {
+    public static final String NAME_TAG = "name";
+    public static final String ADDRESS_TAG = "address";
+    public static final String INDUSTRY_TAG = "industry";
+    public static final String PHONE_TAG = "phone";
+    public static final String STAR_FRIEND_TAG = "starFriend";
+    public static final String UID_TAG = "uid";
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -80,12 +86,24 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void loadData() {
         initData();
-        mAdapter = new FamousAdapter(getContext(), setData());
+        //mAdapter = new FamousAdapter(getContext(), setData());
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String name = list.get(position).getName();
+                String industry = list.get(position).getIndustryType();
+                String phone = list.get(position).getPhone();
+                String starFriend = list.get(position).getStarFriend();
+                int uid = list.get(position).getId();
                 Intent intent = new Intent(getContext(), FriendDetailedActivity.class);
+                intent.putExtra(NAME_TAG, name);
+                intent.putExtra(ADDRESS_TAG, "");
+                intent.putExtra(INDUSTRY_TAG, industry);
+                intent.putExtra(PHONE_TAG, phone);
+                intent.putExtra(STAR_FRIEND_TAG, starFriend);
+                intent.putExtra(UID_TAG, uid);
                 getContext().startActivity(intent);
             }
         });
@@ -113,6 +131,9 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                             famousEntity.setName(friendListBean.getUsername());
                             famousEntity.setImage(friendListBean.getHeadUrl());
                             famousEntity.setPhone(friendListBean.getPhone());
+                            famousEntity.setIndustryType(friendListBean.getIndustryType());
+                            famousEntity.setStarFriend(friendListBean.getStarFriend());
+                            famousEntity.setId(friendListBean.getId());
                             list.add(famousEntity);
                         }
                         mAdapter = new FamousAdapter(getContext(), list);

@@ -98,6 +98,8 @@
     <string name="title_activity_select_plot">SelectPlotActivity</string>
     <string name="title_activity_shuai_shuan_inland_spot">ShuaiShuanInlandSpotActivity</string>
 
+    <string name="detailed_information">详细资料</string>
+
     <string name="title_tab_icon_sell">出售</string>
     <string name="title_tab_icon_rent">出租</string>
     <string name="title_tab_icon_qiugou">求购</string>
@@ -105,5 +107,14 @@
     <string name="title_tab_icon_photo">照片</string>
     <string name="title_tab_icon_database">个人数据</string>
     <string name="title_tab_icon_favorite">收藏夹</string>
+
+    <string name="phone">电话：</string>
+    <string name="call">直接拨打</string>
+    <string name="share_to_friend">把他（她）推荐给朋友</string>
+    <string name="check_information">查看他（她）7日内发布的信息</string>
+    <string name="message_no_alert">消息免打扰</string>
+    <string name="set_to_top">置顶</string>
+    <string name="star_friend">星标朋友</string>
+    <string name="send_message">发消息</string>
 
 </resources>
