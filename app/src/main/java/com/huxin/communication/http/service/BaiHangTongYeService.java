@@ -2,6 +2,7 @@ package com.huxin.communication.http.service;
 
 
 import com.huxin.communication.entity.AddUserInformationEntity;
+import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.AliPayEntity;
 import com.huxin.communication.entity.AppPayEntity;
 import com.huxin.communication.entity.AreaOneScreenEntity;
@@ -951,4 +952,12 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/areaOneScreen")
     Observable<Response<List<AreaOneScreenEntity>>> areaOneScreen(@Field("token") String token, @Field("city") String city);
+    //user/toAddressBook
+
+    /**
+     * 跳转到通讯录页
+     */
+    @FormUrlEncoded
+    @POST("user/toAddressBook")
+    Observable<Response<AddressBookEntity>> addressBook(@Field("uid") String uid, @Field("token") String token);
 }

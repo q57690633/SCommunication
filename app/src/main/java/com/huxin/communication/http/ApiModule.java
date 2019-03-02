@@ -3,6 +3,7 @@ package com.huxin.communication.http;
 
 import com.huxin.communication.HuXinApplication;
 import com.huxin.communication.entity.AddUserInformationEntity;
+import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.AliPayEntity;
 import com.huxin.communication.entity.AppPayEntity;
 import com.huxin.communication.entity.AreaOneScreenEntity;
@@ -57,6 +58,7 @@ import java.util.List;
 
 import retrofit2.http.Field;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -1220,6 +1222,18 @@ public class ApiModule {
                 comboId, comboType,
                 matchingPrice, matchingMonth,
                 stickNumber, stickPrice)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 跳转到通讯录页
+     *
+     * @return
+     */
+    public Observable<AddressBookEntity> addressBook(String uid, String token) {
+        return ApiFactory.getFactory().BaiHangTongYeService().addressBook(uid, token)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());

@@ -12,6 +12,7 @@ public class FamousEntity extends DataSupport{
     private String firstLetter;
     private String authorAvatar;
     private int id;
+    private String phone;
 
     public String getFirstLetter() {
         return firstLetter;
@@ -59,5 +60,13 @@ public class FamousEntity extends DataSupport{
 
     public void setSortLetters(String sortLetters) {
         this.sortLetters = sortLetters;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

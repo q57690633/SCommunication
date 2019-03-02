@@ -12,9 +12,15 @@ import android.widget.ListView;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.FamousAdapter;
 import com.huxin.communication.base.BaseFragment;
+import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.FamousEntity;
+import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.house.phone.AddFriendActivity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
+import com.huxin.communication.utils.PreferenceUtil;
+import com.sky.kylog.KyLog;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +38,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private ListView mListView;
     private FamousAdapter mAdapter;
     private ImageView mImageView;
+
+    private List<FamousEntity> list = new ArrayList<>();
 
     public AssortmentFragment() {
         // Required empty public constructor
@@ -71,6 +79,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void loadData() {
+        initData();
         mAdapter = new FamousAdapter(getContext(), setData());
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,6 +95,32 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void bindData() {
 
+    }
+
+    private void initData() {
+        int uid = PreferenceUtil.getInt("uid");
+        String token = PreferenceUtil.getString("token");
+        ApiModule.getInstance().addressBook(uid + "", token)
+                .subscribe(AddressBookEntity -> {
+                    KyLog.i("----------加载通讯录---------");
+                    KyLog.object(AddressBookEntity);
+
+                    List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
+
+                    if(beanList != null) {
+                        for(com.huxin.communication.entity.AddressBookEntity.CompanyBean friendListBean : AddressBookEntity.getCompany()) {
+                            FamousEntity famousEntity = new FamousEntity();
+                            famousEntity.setName(friendListBean.getUsername());
+                            famousEntity.setImage(friendListBean.getHeadUrl());
+                            famousEntity.setPhone(friendListBean.getPhone());
+                            list.add(famousEntity);
+                        }
+                        mAdapter = new FamousAdapter(getContext(), list);
+                    }else {
+                        mAdapter = new FamousAdapter(getContext(), setData());
+                    }
+                    mListView.setAdapter(mAdapter);
+                });
     }
 
     private List<FamousEntity> setData() {

@@ -1,11 +1,14 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -54,6 +57,8 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             view = mInflater.inflate(R.layout.activity_group_member_item, arg2, false);
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.name_famous);
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
+            viewHolder.tvLl = (LinearLayout) view.findViewById(R.id.tel_ll);
+            viewHolder.tvPhone = (TextView) view.findViewById(R.id.tel);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -61,6 +66,15 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         viewHolder.image = (ImageView) view.findViewById(R.id.image);
         setinte(viewHolder.tvLetter,position,mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
+        viewHolder.tvPhone.setText(list.get(position).getPhone());
+        viewHolder.tvLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = list.get(position).getPhone();
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                mContext.startActivity(intent);
+            }
+        });
         return view;
 
     }
@@ -69,6 +83,8 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         TextView tvLetter;
         TextView tvTitle;
         ImageView image;
+        LinearLayout tvLl;
+        TextView tvPhone;
     }
 
     public int getSectionForPosition(int position) {
@@ -123,9 +139,11 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         ints = new int[s.size()];
         for (int i = 0; i < s.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
-                if (list.get(j).getFirstLetter().equals(s.get(i))) {
-                    ints[i] = j;
-                    break;
+                if(list.get(j).getFirstLetter() != null) {
+                    if (list.get(j).getFirstLetter().equals(s.get(i))) {
+                        ints[i] = j;
+                        break;
+                    }
                 }
             }
         }
@@ -134,7 +152,9 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         for (int num : ints) {
             if (position == num) {
                 dot.setVisibility(View.VISIBLE);
-                dot.setText(entity.getFirstLetter().toUpperCase());
+                if(entity.getFirstLetter() != null) {
+                    dot.setText(entity.getFirstLetter().toUpperCase());
+                }
 
                 break;
             } else {

@@ -76,6 +76,7 @@
 
 
             <LinearLayout
+                android:id="@+id/tel_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -90,6 +91,7 @@
                     android:src="@drawable/icon_tel2" />
 
                 <TextView
+                    android:id="@+id/tel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15440343241"
