@@ -38,7 +38,6 @@
                 android:layout_width="82dp"
                 android:layout_height="82dp"
                 android:scaleType="centerCrop"
-                android:background="@color/blue"
                 android:layout_marginLeft="11dp"
                 android:layout_marginTop="18dp"/>
 

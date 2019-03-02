@@ -11,18 +11,17 @@
     <include layout="@layout/widget_toobar" />
 
     <ImageView
+        android:id="@+id/image_head"
         android:layout_width="match_parent"
         android:layout_height="377dp"
-        android:scaleType="centerCrop"
-        android:src="@color/blue" />
+        android:scaleType="centerCrop" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/paizhao"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="17dp"
+        android:gravity="center"
+        android:paddingTop="17dp"
         android:text="拍照"
         android:textColor="@color/register_font"
         android:textSize="16dp" />
@@ -35,11 +34,11 @@
         android:background="@color/login_line" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/xiangcexuanze"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
+        android:gravity="center"
         android:layout_marginTop="17dp"
         android:text="从手机相册选择"
         android:textColor="@color/register_font"
@@ -52,11 +51,11 @@
         android:layout_marginTop="10dp"
         android:background="@color/login_line" />
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/quxiao"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
+        android:gravity="center"
         android:layout_marginTop="17dp"
         android:text="取消"
         android:textColor="@color/register_font"

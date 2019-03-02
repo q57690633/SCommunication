@@ -86,6 +86,7 @@
             android:paddingTop="13dp">
 
             <LinearLayout
+                android:id="@+id/chufadi_line"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="11dp"
@@ -109,7 +110,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/fangxin"
+                android:id="@+id/mudidi_line"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="9dp"

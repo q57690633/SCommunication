@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,11 +22,18 @@ import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AreaOneScreenEntity;
+import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMValueCallBack;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +41,8 @@ import java.util.List;
 import java.util.Set;
 
 public class SellActivity extends BaseActivity implements View.OnClickListener {
+
+
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
     private RecyclerView mRecyclerViewChaoXaing;
@@ -146,6 +156,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewFangxin;
     private ImageView mImageViewQuYu;
 
+    private TextView mTextViewZhuanFa;
+
 
     private SellDuoXuanAdapter mAdpterDuoXuan;
     private ShaiXuanTabNameAdapter mAdapterTableName;
@@ -196,7 +208,12 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 
     private List<AreaOneScreenEntity> mList;
 
-    private SpaceItemDecoration spaceItemDecoration =  new SpaceItemDecoration(0, 15);
+    private static TIMConversation conversation;
+    private String peer;
+    private String type;
+
+
+    private SpaceItemDecoration spaceItemDecoration = new SpaceItemDecoration(0, 15);
 
 
     @Override
@@ -213,6 +230,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initViews() {
         setToolbarCenterMode("", MODE_BACK);
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
 
@@ -328,6 +347,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
         mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
 
+        mTextViewZhuanFa = findViewById(R.id.delete_collect);
+
         mImageViewWuShi.setOnClickListener(this);
 
 
@@ -396,6 +417,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mTextViewdanjiaGD.setOnClickListener(this);
         mTextViewmianjiBD.setOnClickListener(this);
         mTextViewfaburen.setOnClickListener(this);
+        mTextViewZhuanFa.setOnClickListener(this);
 
     }
 
@@ -411,13 +433,13 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isClickQuYu){
+        if (!isClickQuYu) {
             return;
         }
         String areaOne = PreferenceUtil.getString(Constanst.SCREEN_AREAONE_NAME);
         String areaTwo = PreferenceUtil.getString(Constanst.SCREEN_TWOAONE_NAME);
         String selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
-                substring(1,PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+                substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
         if (!TextUtils.isEmpty(areaOne) && !TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
             villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + areaOne + ","
                     + areaTwo + "," + selectName;
@@ -1354,48 +1376,56 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
             case R.id.collect_btn:
                 addCollectTravel(productType);
                 break;
+            case R.id.delete_collect:
+//                addCollectTravel(productType);
+                if (mAdpterDuoXuan.getSelectedItem().size() > 0) {
+                    zhuanfa(mAdpterDuoXuan);
+                } else {
+                    Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
     private void setTabData() {
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))) {
             chaoxiang = PreferenceUtil.getString(Constanst.CHAO_XIANG)
-                    .substring(1,PreferenceUtil.getString(Constanst.CHAO_XIANG).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.CHAO_XIANG).length() - 1);
         } else {
             chaoxiang = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))) {
             fangben = PreferenceUtil.getString(Constanst.FANG_BEN)
-                    .substring(1,PreferenceUtil.getString(Constanst.FANG_BEN).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.FANG_BEN).length() - 1);
         } else {
             fangben = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))) {
             jiajujiadian = PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN)
-                    .substring(1,PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN).length() - 1);
         } else {
             jiajujiadian = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))) {
             louling = PreferenceUtil.getString(Constanst.LOU_LING)
-                    .substring(1,PreferenceUtil.getString(Constanst.LOU_LING).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.LOU_LING).length() - 1);
         } else {
             louling = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))) {
             yongtu = PreferenceUtil.getString(Constanst.YONG_TU)
-                    .substring(1,PreferenceUtil.getString(Constanst.YONG_TU).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.YONG_TU).length() - 1);
         } else {
             yongtu = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))) {
             zhaungxiu = PreferenceUtil.getString(Constanst.ZHUANG_XIU)
-                    .substring(1,PreferenceUtil.getString(Constanst.ZHUANG_XIU).length() - 1);
+                    .substring(1, PreferenceUtil.getString(Constanst.ZHUANG_XIU).length() - 1);
         } else {
             zhaungxiu = "";
         }
@@ -1403,28 +1433,28 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 
     private void setDetleTabData() {
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))) {
-           PreferenceUtil.removeSp(Constanst.CHAO_XIANG,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.CHAO_XIANG, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))) {
-            PreferenceUtil.removeSp(Constanst.FANG_BEN,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.FANG_BEN, Constanst.SP_NAME);
 
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))) {
-            PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))) {
-            PreferenceUtil.removeSp(Constanst.LOU_LING,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.LOU_LING, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))) {
-            PreferenceUtil.removeSp(Constanst.YONG_TU,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.YONG_TU, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))) {
-            PreferenceUtil.removeSp(Constanst.ZHUANG_XIU,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.ZHUANG_XIU, Constanst.SP_NAME);
         }
     }
 
@@ -1504,7 +1534,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(spaceItemDecoration);
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "该小区没有发布", Toast.LENGTH_SHORT).show();
         }
@@ -1540,14 +1570,14 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 
     private void addCollectTravel(int productType) {
         KyLog.d(PreferenceUtil.getString(Constanst.PID_COLLECT)
-                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1));
+                .substring(1, PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1));
         showProgressDialog();
         ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(Constanst.PID_COLLECT)
-                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1), productType)
+                .substring(1, PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1), productType)
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,SellActivity.class);
+                    Intent intent = new Intent(this, SellActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
@@ -1622,5 +1652,102 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         return Kouweilist;
     }
 
+    private void zhuanfa(SellDuoXuanAdapter adapter) {
+        type = getIntent().getStringExtra("type");
+        peer = getIntent().getStringExtra("peer");
+
+        if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
+            return;
+        }
+        //获取单聊会话
+        if (type.equalsIgnoreCase("C2C")) {
+            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
+        } else {
+            conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
+        }
+        TIMMessage msg = new TIMMessage();
+
+        TIMCustomElem elem = new TIMCustomElem();
+        elem.setData(getData(adapter.getSelectedItem(), 1).getBytes());      //自定义 byte[]
+        elem.setDesc("sell message"); //自定义描述信息
+
+        //将 elem 添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d("failed", "addElement failed");
+            return;
+        }
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 含义请参见错误码表
+                Log.d("failed", "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e("failed", "SendMsg ok");
+                Toast.makeText(SellActivity.this, "success", Toast.LENGTH_SHORT).show();
+                KyLog.d(msg.toString());
+                finish();
+
+            }
+        });
+
+    }
+
+    public static String getData(ArrayList<SaleOfScreeningEntity.ListBean> Salelist, int houseType) {
+        List<HouseEntity> list = new ArrayList<>();
+        List<HouseEntity.ListBean> listBeans = new ArrayList<>();
+        HouseEntity entityHouse = new HouseEntity();
+
+        if (Salelist != null && Salelist.size() > 0) {
+            for (SaleOfScreeningEntity.ListBean SaleEntity : Salelist) {
+                HouseEntity.ListBean entity = new HouseEntity.ListBean();
+                entity.setHouseType(SaleEntity.getHouseType());
+                entity.setExclusive(SaleEntity.getExclusive());
+                entity.setId(SaleEntity.getId());
+                entity.setKeying(SaleEntity.getKeying());
+                entity.setOrientation(SaleEntity.getOrientation());
+                entity.setStick(SaleEntity.getStick());
+                entity.setTabName(SaleEntity.getTabName());
+                entity.setTotalPrice(SaleEntity.getTotalPrice());
+                entity.setTitle(SaleEntity.getTitle());
+                entity.setUnitPrice(SaleEntity.getUnitPrice());
+                entity.setVillageName(SaleEntity.getVillageName());
+                listBeans.add(entity);
+            }
+            entityHouse.setList(listBeans);
+            entityHouse.setHouseType(houseType);//出售
+            entityHouse.setType(1);
+            list.add(entityHouse);
+        }
+        KyLog.object(list);
+        return ListToString(list);
+    }
+
+    /**
+     * List转换String
+     *
+     * @param list :需要转换的List
+     * @return String转换后的字符串
+     */
+    public static String ListToString(List<HouseEntity> list) {
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sblist = new StringBuffer();
+
+        if (list != null && list.size() > 0) {
+            for (HouseEntity entity : list) {
+                for (HouseEntity.ListBean listBean : entity.getList()) {
+                    sblist.append("{").append(listBean).append("}");
+                }
+                sb.append(entity).append("[").append(sblist).append("]");
+            }
+            stringBuffer.append("{").append(sb).append("}");
+        }
+        return "L" + sb.toString();
+    }
 
 }

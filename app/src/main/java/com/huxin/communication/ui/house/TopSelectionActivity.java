@@ -1325,10 +1325,10 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
                         , PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
                 break;
             case R.id.qiugou:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
-                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuGou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1339,12 +1339,12 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
                         , PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
                 break;
             case R.id.qiuzhu:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.white));
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 selectStick("", "", "", "", "",
@@ -1353,14 +1353,14 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
                         , PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
                 break;
             case R.id.sell:
-                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
-                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.white));
+                mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
+                mTextViewChuZhu.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuGou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuGou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewQiuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiuZhu.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
-                mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+                mTextViewSell.setTextColor(getResources().getColor(R.color.white));
                 selectStick("", "", "", "", "",
                         "", "", "", "", "",
                         "", "", "", "0", 1, PreferenceUtil.getString(Constanst.CITY_NAME)
@@ -1522,11 +1522,17 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setData(List<TopSelectionEntity> list) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpter = new TopSelectionAdapter(list, this);
-        mRecyclerView.setAdapter(mAdpter);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        if (list != null && list.size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpter = new TopSelectionAdapter(list, this);
+            mRecyclerView.setAdapter(mAdpter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void selectStick(String villageName,

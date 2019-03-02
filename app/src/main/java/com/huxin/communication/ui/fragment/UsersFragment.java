@@ -130,7 +130,7 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
             ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageViewHead);
         }else {
-            mImageViewHead.setBackgroundResource(R.drawable.head);
+            mImageViewHead.setBackgroundResource(R.drawable.head2);
         }
     }
 

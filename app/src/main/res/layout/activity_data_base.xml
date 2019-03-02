@@ -81,10 +81,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp">
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp">
 
             <LinearLayout
+                android:id="@+id/quyu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="11dp"
@@ -92,6 +93,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/quyu_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="区域"
@@ -99,6 +101,7 @@
                     android:textSize="14dp" />
 
                 <ImageView
+                    android:id="@+id/image_quyu"
                     android:layout_width="11dp"
                     android:layout_height="6dp"
                     android:layout_gravity="center"
@@ -273,7 +276,40 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <include
+            android:id="@+id/house_fangxin"
+            layout="@layout/item_house_fangxin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
+        <include
+            android:id="@+id/house_more"
+            layout="@layout/item_house_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/house_price"
+            layout="@layout/item_house_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/house_measure"
+            layout="@layout/item_house_measure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/house_sort"
+            layout="@layout/item_house_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
         <RelativeLayout
             android:id="@+id/btn_duoxuan"
             android:layout_width="wrap_content"

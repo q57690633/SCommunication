@@ -189,6 +189,9 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         FamousEntity famousEntity13 = new FamousEntity();
         famousEntity13.setFirstLetter("f");
         famousEntity13.setName("店面经理·李宁");
+        FamousEntity famousEntity14 = new FamousEntity();
+        famousEntity14.setFirstLetter("星标朋友");
+        famousEntity14.setName("店面经理·李宁");
         list.add(famousEntity);
         list.add(famousEntity1);
         list.add(famousEntity2);
@@ -203,6 +206,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         list.add(famousEntity11);
         list.add(famousEntity12);
         list.add(famousEntity13);
+        list.add(famousEntity14);
+
         return list;
     }
 

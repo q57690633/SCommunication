@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.RegisterActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 
 public class ChangePhoneActivity extends BaseActivity implements View.OnClickListener {
@@ -26,6 +28,9 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
 
     private TextView mTextViewGetPhoneCode;
     private TextView mTextViewGetSecondPhoneCode;
+    private TextView mTextViewPhone;
+    private TextView mTextViewSecondPhone;
+
 
     private TimeCount mTimeCount;
     private TimeSecondCount mTimeSecondCount;
@@ -54,6 +59,10 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
         mTextViewGetPhoneCode = findViewById(R.id.get_phone_code);
         mTextViewGetSecondPhoneCode = findViewById(R.id.get_second_phone);
 
+        mTextViewPhone = findViewById(R.id.phone);
+        mTextViewSecondPhone = findViewById(R.id.second_phone);
+
+
         mTextViewGetSecondPhoneCode.setOnClickListener(this);
         mTextViewGetPhoneCode.setOnClickListener(this);
         mTextViewWanCheng.setOnClickListener(this);
@@ -67,6 +76,16 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
             mTextViewBianJi.setVisibility(View.VISIBLE);
             mTextViewWanCheng.setVisibility(View.GONE);
         }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))){
+              mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
+        }
+
+         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SECOND_PHONE))){
+               mTextViewSecondPhone.setText(PreferenceUtil.getString(Constanst.SECOND_PHONE));
+         }
+        
+
     }
 
     @Override

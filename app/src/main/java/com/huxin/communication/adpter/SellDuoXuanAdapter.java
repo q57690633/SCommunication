@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -91,12 +92,12 @@ public class SellDuoXuanAdapter extends RecyclerView.Adapter<SellDuoXuanAdapter.
                 }
                 notifyItemChanged(hoder.getAdapterPosition());
                 getSelectedItem();
-                Iterator<String> iterator=strings.iterator();
+                Iterator<String> iterator = strings.iterator();
                 String userStr = null;
-                while(iterator.hasNext()){
+                while (iterator.hasNext()) {
                     userStr += iterator.next() + ",";
                 }
-                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4,userStr.length() - 1).trim());
+                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
             }
         });
         return hoder;
@@ -222,14 +223,6 @@ public class SellDuoXuanAdapter extends RecyclerView.Adapter<SellDuoXuanAdapter.
 
     }
 
-    private void addPosition(int position) {
-        String pid;
 
-        buffer.append(list.get(position).getId()).append(",");
-        pid = buffer.toString();
 
-        KyLog.d(pid);
-        PreferenceUtil.putString(PID, pid);
-
-    }
 }

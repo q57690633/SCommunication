@@ -1,9 +1,13 @@
 package com.huxin.communication.ui.my.MyInformation;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.huxin.communication.R;
@@ -16,11 +20,17 @@ import com.tencent.qcloud.uikit.BaseUIKitConfigs;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
+import java.io.File;
+
+import static com.huxin.communication.utils.FileUtil.getRealFilePathFromUri;
+
 public class MyInformationActivity extends BaseActivity implements View.OnClickListener {
     private RelativeLayout mRelativeLayoutHead;
     private RelativeLayout mRelativeLayoutPhone;
     private RelativeLayout mRelativeLayoutWork;
-    private Button mTUIButton;
+    private Uri uri;
+
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +49,11 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         mRelativeLayoutHead = (RelativeLayout) findViewById(R.id.rl_change_head);
         mRelativeLayoutPhone = (RelativeLayout) findViewById(R.id.rl_change_phone);
         mRelativeLayoutWork = (RelativeLayout) findViewById(R.id.rl_work_message);
-        mTUIButton = (Button) findViewById(R.id.tui_button);
+        mImageView = findViewById(R.id.image_title);
 
         mRelativeLayoutHead.setOnClickListener(this);
         mRelativeLayoutPhone.setOnClickListener(this);
         mRelativeLayoutWork.setOnClickListener(this);
-        mTUIButton.setOnClickListener(this);
 
     }
 
@@ -71,28 +80,37 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
                 Intent intentPhone = new Intent(this, ChangePhoneActivity.class);
                 startActivity(intentPhone);
                 break;
-            case R.id.tui_button:
-                String userId = PreferenceUtil.getInt(UID) + "";
-                String userSig = PreferenceUtil.getString("usersig");
-                KyLog.i("uid = " + userId);
-                KyLog.i("userSig = " + userSig);
-                onRecvUserSig(userId, userSig);
-                break;
+//            case R.id.tui_button:
+//                String userId = PreferenceUtil.getInt(UID) + "";
+//                String userSig = PreferenceUtil.getString("usersig");
+//                KyLog.i("uid = " + userId);
+//                KyLog.i("userSig = " + userSig);
+//                onRecvUserSig(userId, userSig);
+//                break;
         }
     }
 
-    private void onRecvUserSig(String userId, String userSig) {
-        TUIKit.login(userId, userSig, new IUIKitCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                KyLog.i("imlogin onSuccess", data);
-                Intent intent = new Intent(MyInformationActivity.this, TIMChatActivity.class);
-                startActivity(intent);
-            }
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                KyLog.e("imlogin fail", errMsg);
-            }
-        });
-    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        KyLog.d(requestCode + "ss");
+//                if (resultCode == RESULT_OK) {
+//                    Uri mSaveUri = Uri.fromFile(new File(getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+//                    uri = data.getData();
+//                    if (uri == null) {
+//                        return;
+//                    }
+//                    String cropImagePath = getRealFilePathFromUri(getApplicationContext(), mSaveUri);
+//                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+////                    if (type == 1) {
+////                        headImage1.setImageBitmap(bitMap);
+////                    } else {
+//                    mImageView.setImageBitmap(bitMap);
+////                    }
+//
+//                }
+//
+//    }
+
 }

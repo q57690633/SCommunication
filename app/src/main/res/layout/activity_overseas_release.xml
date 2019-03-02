@@ -331,7 +331,8 @@
                 android:paddingTop="9dp"
                 android:text="添加多个国家"
                 android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/add_countrys"
@@ -341,7 +342,8 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_moare2" />
+                android:src="@drawable/icon_moare2"
+                android:visibility="gone"/>
 
 
             <TextView

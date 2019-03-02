@@ -84,6 +84,7 @@
             android:paddingTop="13dp">
 
             <LinearLayout
+                android:id="@+id/quyu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="11dp"
@@ -91,6 +92,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/quyu_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="区域"
@@ -98,6 +100,7 @@
                     android:textSize="14dp" />
 
                 <ImageView
+                    android:id="@+id/image_quyu"
                     android:layout_width="11dp"
                     android:layout_height="6dp"
                     android:layout_gravity="center"

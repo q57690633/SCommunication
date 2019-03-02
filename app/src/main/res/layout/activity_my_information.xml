@@ -20,7 +20,7 @@
             android:layout_height="82dp"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="18dp"
-            android:background="@drawable/head"
+            android:background="@drawable/head2"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -147,11 +147,6 @@
         android:layout_marginTop="10dp"
         android:background="@color/login_line" />
 
-    <Button
-        android:id="@+id/tui_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 
 </LinearLayout>

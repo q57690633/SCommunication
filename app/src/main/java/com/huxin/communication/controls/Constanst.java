@@ -129,6 +129,8 @@ public class Constanst {
 
     public static final String PHONE = "phone";
 
+    public static final String SECOND_PHONE = "second_phone";
+
     public static final String COMPANY = "company";
 
 

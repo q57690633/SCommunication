@@ -964,20 +964,17 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<CollectAroundEntity> getCollectAround(String depart_code,
-                                                            String goalsId, String sort_type,
-                                                            String tOtherId, String tActivityId,
-                                                            String tStayId, String tAddressId,
-                                                            String tTrafficId,
+    public Observable<AroundTravelEntity> getCollectAround(String depart_code, String goalsId,
+                                                            String sort_type, String tOtherId,
+                                                            String tActivityId, String tStayId,
+                                                            String tAddressId, String tTrafficId,
                                                             String tConsumeId, String minPri_maxPri,
-                                                            String numberDays,
-                                                            String keyWord, String curPage,
-                                                            String minDay, String maxDay
-    ) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code,
-                goalsId, sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId,
-                minPri_maxPri, numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage,
-                minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)))
+                                                            String numberDays, String keyWord,
+                                                            String curPage, String minDay, String maxDay, String uid,
+                                                            String travel_kind) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goalsId,
+                sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -989,19 +986,20 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<CollectForeignEntity> getCollectForeign(String depart_code, String spot_name,
-                                                              String goals_name, String sort_type,
-                                                              String tOtherId, String tActivityId,
-                                                              String tStayId, String tAddressId,
-                                                              String tTrafficId, String t_overseas_id,
-                                                              String tConsumeId, String minPri_maxPri,
-                                                              String numberDays,
-                                                              String keyWord, String curPage,
-                                                              String minDay, String maxDay
+    public Observable<ForeignTravelEntity> getCollectForeign(String depart_name, String min_days,
+                                                              String max_days, String spot_name,
+                                                              String goals_name, String t_activity_id,
+                                                              String t_stay_id, String t_other_id,
+                                                              String t_address_id, String t_traffic_id,
+                                                              String t_overseas_id,
+                                                              String t_consume_id, String sort_type,
+                                                              String minPri_maxPri, String number_days,
+                                                              String keyWord, String curPage, String uid
     ) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getCollectForeign(depart_code, spot_name,
-                goals_name, sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, t_overseas_id,
-                tConsumeId, minPri_maxPri, numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)))
+        return ApiFactory.getFactory().BaiHangTongYeService().getCollectForeign(depart_name, min_days,
+                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1013,15 +1011,14 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<CollectTicketEntity> getCollectTicket(String ticket_type,
-                                                            String ticket_city_name, String minPri_maxPri,
-                                                            String ticket_theme_id, String ticket_activity_id,
-                                                            String ticket_other_id, String sort_type,
-                                                            String keyWord,
-                                                            String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getCollectTicket(ticket_type,
-                ticket_city_name, minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                PreferenceUtil.getString(TOKEN), keyWord, String.valueOf(PreferenceUtil.getInt(UID)), curPage)
+    public Observable<TicketInfoEntity> getCollectTicket(String ticket_type, String ticket_city_name,
+                                                            String minPri_maxPri, String ticket_theme_id,
+                                                            String ticket_activity_id, String ticket_other_id,
+                                                            String sort_type,
+                                                            String keyWord, String curPage, String uid) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getCollectTicket(ticket_type, ticket_city_name,
+                minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());

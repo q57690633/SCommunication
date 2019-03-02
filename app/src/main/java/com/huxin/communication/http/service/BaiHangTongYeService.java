@@ -733,45 +733,44 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/getCollectAround")
-    Observable<Response<CollectAroundEntity>> getCollectAround(@Field("depart_code") String depart_code,
-                                                               @Field("goalsId") String goalsId, @Field("sort_type") String sort_type,
-                                                               @Field("tOtherId") String tOtherId, @Field("tActivityId") String tActivityId,
-                                                               @Field("tStayId") String tStayId, @Field("tAddressId") String tAddressId,
-                                                               @Field("tTrafficId") String tTrafficId,
+    Observable<Response<AroundTravelEntity>> getCollectAround(@Field("depart_code") String depart_code, @Field("goalsId") String goalsId,
+                                                               @Field("sort_type") String sort_type, @Field("tOtherId") String tOtherId,
+                                                               @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
+                                                               @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,
                                                                @Field("tConsumeId") String tConsumeId, @Field("minPri_maxPri") String minPri_maxPri,
-                                                               @Field("numberDays") String numberDays, @Field("token") String token,
-                                                               @Field("keyWord") String keyWord, @Field("curPage") String curPage,
-                                                               @Field("minDay") String minDay, @Field("maxDay") String maxDay,
-                                                               @Field("uid") String uid);
+                                                               @Field("numberDays") String numberDays,
+                                                               @Field("token") String token, @Field("keyWord") String keyWord,
+                                                               @Field("curPage") String curPage,
+                                                               @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid,
+                                                               @Field("travel_kind") String travel_kind);
 
     /**
      * 个人收藏查询-境外
      */
     @FormUrlEncoded
     @POST("travel/getCollectForeign")
-    Observable<Response<CollectForeignEntity>> getCollectForeign(@Field("depart_code") String depart_code, @Field("spot_name") String spot_name,
-                                                                 @Field("goals_name") String goals_name, @Field("sort_type") String sort_type,
-                                                                 @Field("t_other_id") String tOtherId, @Field("t_activity_id") String tActivityId,
-                                                                 @Field("t_stay_id") String tStayId, @Field("t_address_id") String tAddressId,
-                                                                 @Field("t_traffic_id") String tTrafficId, @Field("t_overseas_id") String t_overseas_id,
-                                                                 @Field("t_consume_id") String tConsumeId, @Field("minPri_maxPri") String minPri_maxPri,
-                                                                 @Field("number_days") String numberDays, @Field("token") String token,
-                                                                 @Field("keyWord") String keyWord, @Field("curPage") String curPage,
-                                                                 @Field("min_days") String minDay, @Field("max_days") String maxDay,
-                                                                 @Field("uid") String uid);
+    Observable<Response<ForeignTravelEntity>> getCollectForeign(@Field("depart_name") String depart_name, @Field("min_days") String min_days,
+                                                                 @Field("max_days") String max_days, @Field("spot_name") String spot_name,
+                                                                 @Field("goals_name") String goals_name, @Field("t_activity_id") String t_activity_id,
+                                                                 @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
+                                                                 @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
+                                                                 @Field("t_overseas_id") String t_overseas_id,
+                                                                 @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
+                                                                 @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
+                                                                 @Field("token") String token, @Field("keyWord") String keyWord,
+                                                                 @Field("curPage") String curPage, @Field("uid") String uid);
 
     /**
      * 个人收藏查询-票务
      */
     @FormUrlEncoded
     @POST("travel/getCollectTicket")
-    Observable<Response<CollectTicketEntity>> getCollectTicket(@Field("ticket_type") String ticket_type,
-                                                               @Field("ticket_city_name") String ticket_city_name, @Field("minPri_maxPri") String minPri_maxPri,
-                                                               @Field("ticket_theme_id") String ticket_theme_id, @Field("ticket_activity_id") String ticket_activity_id,
-                                                               @Field("ticket_other_id") String ticket_other_id, @Field("sort_type") String sort_type,
-                                                               @Field("token") String token,
-                                                               @Field("keyWord") String keyWord, @Field("uid") String uid,
-                                                               @Field("curPage") String curPage);
+    Observable<Response<TicketInfoEntity>> getCollectTicket(@Field("ticket_type") String ticket_type, @Field("ticket_city_name") String ticket_city_name,
+                                                               @Field("minPri_maxPri") String minPri_maxPri, @Field("ticket_theme_id") String ticket_theme_id,
+                                                               @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
+                                                               @Field("sort_type") String sort_type, @Field("token") String token,
+                                                               @Field("keyWord") String keyWord,
+                                                               @Field("curPage") String curPage, @Field("uid") String uid);
 
 
     /**

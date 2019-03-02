@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.CollectEntity;
+import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAdapter.MyViewHoder>{
     private static final String PID = "pid";
@@ -31,11 +37,44 @@ public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAd
     private int position = -1;
     private TableNameAdapter mAdapterTableName;
 
+    private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
+    private boolean mIsSelectable = false;
+
+    private Set<String> strings = new HashSet<>();
+
+    //更新adpter的数据和选择状态
+    public void updateDataSet(ArrayList<CollectEntity.ListBean> list) {
+        this.list = list;
+        mSelectedPositions = new SparseBooleanArray();
+//        ab.setTitle("已选择" + 0 + "项");
+    }
+
+
+    //获得选中条目的结果
+    public ArrayList<CollectEntity.ListBean> getSelectedItem() {
+        ArrayList<CollectEntity.ListBean> selectList = new ArrayList<>();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                if (isItemChecked(i)) {
+                    selectList.add(list.get(i));
+                    strings.add(String.valueOf(list.get(i).getId()));
+                } else {
+                    strings.remove(String.valueOf(list.get(i).getId()));
+                }
+            }
+        }
+        return selectList;
+    }
+
+
     public CollectDuoXuanAdapter(List<CollectEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
         buffer = new StringBuffer();
+        if (list == null) {
+            throw new IllegalArgumentException("model Data must not be null");
+        }
     }
 
     @Override
@@ -47,44 +86,42 @@ public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAd
             @Override
             public void onClick(View v) {
                 KyLog.d(isClicked + "" + position + "" + hoder.getAdapterPosition());
-                if (position < hoder.getAdapterPosition()) {
-                    position = hoder.getAdapterPosition();
-                    isClicked = false;
+                if (isItemChecked(hoder.getAdapterPosition())) {
+                    setItemChecked(hoder.getAdapterPosition(), false);
                 } else {
-                    if (hoder.getAdapterPosition() == 0) {
-                        position = -1;
-                    }
-                    isClicked = true;
+                    setItemChecked(hoder.getAdapterPosition(), true);
                 }
-                if (isClicked) {
-                    isClicked = false;
-                    hoder.mImageViewClicked.setVisibility(View.GONE);
-                    hoder.mImageView.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(buffer.toString())) {
-                        if (list.get(hoder.getAdapterPosition()).getId() < 10){
-                            buffer.delete(buffer.length() - 2, buffer.length());
-                        }else if (list.get(hoder.getAdapterPosition()).getId() > 10
-                                && list.get(hoder.getAdapterPosition()).getId() < 100){
-                            buffer.delete(buffer.length() - 3, buffer.length());
-                        }else if (list.get(hoder.getAdapterPosition()).getId() > 100
-                                && list.get(hoder.getAdapterPosition()).getId() < 1000){
-                            buffer.delete(buffer.length() - 4, buffer.length());
-                        }else if (list.get(hoder.getAdapterPosition()).getId() > 1000
-                                && list.get(hoder.getAdapterPosition()).getId() < 10000){
-                            buffer.delete(buffer.length() - 5, buffer.length());
-                        }
-                    }
-                    KyLog.d(buffer.toString());
-                } else {
-                    addPosition(hoder.getAdapterPosition());
-                    isClicked = true;
-                    hoder.mImageViewClicked.setVisibility(View.VISIBLE);
-                    hoder.mImageView.setVisibility(View.GONE);
+                notifyItemChanged(hoder.getAdapterPosition());
+                getSelectedItem();
+                Iterator<String> iterator = strings.iterator();
+                String userStr = null;
+                while (iterator.hasNext()) {
+                    userStr += iterator.next() + ",";
                 }
-                notifyDataSetChanged();
+                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
             }
         });
         return hoder;
+    }
+
+    //设置给定位置条目的选择状态
+    private void setItemChecked(int position, boolean isChecked) {
+        mSelectedPositions.put(position, isChecked);
+    }
+
+    //根据位置判断条目是否选中
+    private boolean isItemChecked(int position) {
+        return mSelectedPositions.get(position);
+    }
+
+    //根据位置判断条目是否可选
+    private boolean isSelectable() {
+        return mIsSelectable;
+    }
+
+    //设置给定位置条目的可选与否的状态
+    private void setSelectable(boolean selectable) {
+        mIsSelectable = selectable;
     }
 
     @Override
@@ -107,6 +144,16 @@ public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAd
             holder.mTextViewStick.setVisibility(View.VISIBLE);
         } else {
             holder.mTextViewStick.setVisibility(View.GONE);
+        }
+
+        if (isItemChecked(position)) {
+            holder.mImageViewClicked.setVisibility(View.VISIBLE);
+            holder.mImageView.setVisibility(View.GONE);
+//            strings.add(list.get(position));
+
+        } else {
+            holder.mImageViewClicked.setVisibility(View.GONE);
+            holder.mImageView.setVisibility(View.VISIBLE);
         }
 
 //        if (list.get(position).getExclusive() == 1) {
@@ -171,17 +218,6 @@ public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAd
             linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
-
-    }
-
-    private void addPosition(int position) {
-        String pid;
-
-        buffer.append(list.get(position).getId()).append(",");
-        pid = buffer.toString();
-
-        KyLog.d(pid);
-        PreferenceUtil.putString(PID, pid);
 
     }
 }

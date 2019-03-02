@@ -27,7 +27,7 @@ import java.util.List;
 public class WorkMessageActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTextViewWanCheng;
     private TextView mTextViewBianJi;
-    private boolean isClicked = false;
+    private boolean isClicked = true;
 
     private EditText mEditTextUserName;
     private EditText mEditTextArea;
@@ -47,9 +47,6 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     private String positions;
     private String industryType;
-
-
-
 
 
     @Override
@@ -72,7 +69,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
         mEditTextArea = findViewById(R.id.city);
         mEditTextUserName = findViewById(R.id.username);
         mEditTextcompanyCode = findViewById(R.id.company_code);
-        mEditTextcompanyName = findViewById(R.id.company_name);
+        mEditTextcompanyName = findViewById(R.id.companyNmae);
         mEditTextstoreName = findViewById(R.id.storeName);
         mLinearLayoutIndustryType = findViewById(R.id.industryType_line);
         mLinearLayoutPositions = findViewById(R.id.line_positions);
@@ -88,15 +85,13 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        if (!isClicked) {
-            mTextViewBianJi.setVisibility(View.VISIBLE);
-            mTextViewWanCheng.setVisibility(View.GONE);
-        }
+        mTextViewBianJi.setVisibility(View.VISIBLE);
+        mTextViewWanCheng.setVisibility(View.GONE);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.line_positions:
                 mReleaseDialog = new ReleaseDialog(this, setPosition());
                 mReleaseDialog.setCancelable(true);
@@ -128,53 +123,48 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.toolbar_bianji:
-                if (isClicked) {
-                    mTextViewWanCheng.setVisibility(View.VISIBLE);
-                    mTextViewBianJi.setVisibility(View.GONE);
-                    isClicked = false;
+                mTextViewWanCheng.setVisibility(View.VISIBLE);
+                mTextViewBianJi.setVisibility(View.GONE);
+                isClicked = false;
 
-                    String userName = mEditTextUserName.getText().toString().trim();
-                    String area = mEditTextArea.getText().toString().trim();
-                    String storeName = mEditTextstoreName.getText().toString().trim();
-                    String companyName = mEditTextcompanyName.getText().toString().trim();
-                    if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(area)){
-                        if (PreferenceUtil.getInt("type") == 1){
-                                if (!TextUtils.isEmpty(storeName) && !TextUtils.isEmpty(positions)){
-                                    updateUserInformation(userName,area,storeName,positions,industryType,companyName);
-                                }else {
-                                    Toast.makeText(this, "请选择职位或者填写店名", Toast.LENGTH_SHORT).show();
-                                }
-                        }else {
-                            if (!TextUtils.isEmpty(industryType)){
-                                updateUserInformation(userName,area,storeName,positions,industryType,companyName);
-                            }else {
-                                Toast.makeText(this, "请选择从业类型", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }else {
-                        Toast.makeText(this, "请填写姓名或城市", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    mTextViewBianJi.setVisibility(View.VISIBLE);
-                    mTextViewWanCheng.setVisibility(View.GONE);
-                    isClicked = true;
-                }
+
                 break;
 
             case R.id.toolbar_quxiao:
-                finish();
+                String userName = mEditTextUserName.getText().toString().trim();
+                String area = mEditTextArea.getText().toString().trim();
+                String storeName = mEditTextstoreName.getText().toString().trim();
+                String companyName = mEditTextcompanyName.getText().toString().trim();
+                if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(area)) {
+                    if (PreferenceUtil.getInt("type") == 1) {
+                        if (!TextUtils.isEmpty(storeName) && !TextUtils.isEmpty(positions)) {
+                            updateUserInformation(userName, area, storeName, positions, industryType, companyName);
+                        } else {
+                            Toast.makeText(this, "请选择职位或者填写店名", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (!TextUtils.isEmpty(industryType)) {
+                            updateUserInformation(userName, area, storeName, positions, industryType, companyName);
+                        } else {
+                            Toast.makeText(this, "请选择从业类型", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "请填写姓名或城市", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
         }
     }
+
     private void updateUserInformation(String username, String area,
                                        String storeName, String position,
-                                       String industryType,String companyName) {
+                                       String industryType, String companyName) {
         showProgressDialog();
-        ApiModule.getInstance().updateUserInformation(username,  area, storeName,  position, industryType,companyName)
+        ApiModule.getInstance().updateUserInformation(username, area, storeName, position, industryType, companyName)
                 .subscribe(selectTabEntity -> {
                     cancelProgressDialog();
-
+                    finish();
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());

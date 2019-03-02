@@ -2,6 +2,7 @@ package com.huxin.communication;
 
 import android.app.Application;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
 import com.huxin.communication.controls.Constanst;
@@ -38,7 +39,9 @@ public class HuXinApplication extends MultiDexApplication {
         super.onCreate();
         mContext = this;
 //        APP_ID = "wx90879eb54e7e597c";
-//
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
 //
         initImagePicker();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
@@ -68,8 +71,6 @@ public class HuXinApplication extends MultiDexApplication {
 //        CrashReport.initCrashReport(getApplicationContext(), "667b6833d3", true);
 ////        PreferenceUtil.putString("token", "VkhBeTlEeVNJTGNWZlhLQ1N1SCsxNyt3aEpWQnU1d2R3eEc2cWtGdnYrSHZhWkNWc3NZQW9KVEtMa2EzR1ZISw==");
 ////        PreferenceUtil.putString("token", "VkhBeTlEeVNJTGNWZlhLQ1N1SCsxNyt3aEpWQnU1d2R3eEc2cWtGdnYrSEZuTnQwMUNkQmxOYmxuaVJEZFU4Kw==");
-
-
 
 
         //腾讯IM SDK初始化

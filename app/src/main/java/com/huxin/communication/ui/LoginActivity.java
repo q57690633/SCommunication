@@ -144,6 +144,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                             PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
                             PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
+                            PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
                             PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
                             PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,18 +16,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.ChuZuDuoXuanAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.entity.HouseEntity;
+import com.huxin.communication.entity.RentalScreeningEntity;
+import com.huxin.communication.entity.TravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMValueCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +150,11 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     private boolean isClickQuYu = false;
 
+    private static TIMConversation conversation;
+    private String peer;
+    private String type;
+    private TextView mTextViewZhuanFa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,6 +251,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewChongGaoDaoDiFanXian = (TextView) findViewById(R.id.conggaodaodi_fanxian);
         mTextViewChongDuoDaoShaoDay = (TextView) findViewById(R.id.day_congduodaoshao);
 
+        mTextViewZhuanFa = findViewById(R.id.delete_collect);
+
+
 
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
@@ -276,6 +296,8 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
         mLinearLayoutMuDi.setOnClickListener(this);
         mLinearLayoutChuFa.setOnClickListener(this);
+        mTextViewZhuanFa.setOnClickListener(this);
+
 
 
     }
@@ -954,6 +976,14 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             case R.id.collect_btn:
                 addTravelCollect(1);
                 break;
+            case R.id.delete_collect:
+//                addCollectTravel(productType);
+                if (mZhouBianDuoXuanAdapter.getSelectedItem().size() > 0) {
+                    zhuanfa(mZhouBianDuoXuanAdapter);
+                }else {
+                    Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
@@ -1285,5 +1315,106 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         } else {
             xiaofei = "";
         }
+    }
+
+    private void zhuanfa(ZhouBianDuoXuanAdapter adapter) {
+        type = getIntent().getStringExtra("type");
+        peer = getIntent().getStringExtra("peer");
+        if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
+            return;
+        }
+
+        //获取单聊会话
+        if (type.equalsIgnoreCase("C2C")) {
+            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
+        }else {
+            conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
+        }
+        TIMMessage msg = new TIMMessage();
+
+        TIMCustomElem elem = new TIMCustomElem();
+        elem.setData(getData(adapter.getSelectedItem(), 1).getBytes());      //自定义 byte[]
+        elem.setDesc("sell message"); //自定义描述信息
+
+        //将 elem 添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d("failed", "addElement failed");
+            return;
+        }
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 含义请参见错误码表
+                Log.d("failed", "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e("failed", "SendMsg ok");
+                Toast.makeText(ZhouBianActivity.this, "success", Toast.LENGTH_SHORT).show();
+                KyLog.d(msg.toString());
+                finish();
+
+            }
+        });
+
+    }
+
+    public static String getData(ArrayList<AroundTravelEntity.ListBean> Salelist, int TravelType) {
+        List<TravelEntity> list = new ArrayList<>();
+        List<TravelEntity.ListBean> listBeans = new ArrayList<>();
+        TravelEntity entityTravel = new TravelEntity();
+
+        if (Salelist != null && Salelist.size() > 0) {
+            for (AroundTravelEntity.ListBean SaleEntity : Salelist) {
+                TravelEntity.ListBean entity = new TravelEntity.ListBean();
+                entity.setDepart_name(SaleEntity.getDepart_name());
+                entity.setGoals_city(SaleEntity.getGoals_city());
+                entity.setHeadUrl(SaleEntity.getHeadUrl());
+                entity.setNumberDays(SaleEntity.getNumberDays());
+                entity.setPhoto_url(SaleEntity.getPhoto_url());
+                entity.setReturnPrice(SaleEntity.getReturnPrice());
+                entity.setReturnPriceChild(SaleEntity.getReturnPriceChild());
+                entity.setTotalPrice(SaleEntity.getTotalPrice());
+                entity.setTotalPriceChild(SaleEntity.getTotalPriceChild());
+                entity.setSpotName(SaleEntity.getSpotName());
+                entity.setTagName(SaleEntity.getTagName());
+                entity.setUserCity(SaleEntity.getUserCity());
+                entity.setUsername(SaleEntity.getUsername());
+
+                listBeans.add(entity);
+            }
+            entityTravel.setList(listBeans);
+            entityTravel.setTravelType(TravelType);//出售
+            entityTravel.setType(2);
+            list.add(entityTravel);
+        }
+        KyLog.object(list);
+        return ListToString(list);
+    }
+
+    /**
+     * List转换String
+     *
+     * @param list :需要转换的List
+     * @return String转换后的字符串
+     */
+    public static String ListToString(List<TravelEntity> list) {
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sblist = new StringBuffer();
+
+        if (list != null && list.size() > 0) {
+            for (TravelEntity entity : list) {
+                for (TravelEntity.ListBean listBean : entity.getList()) {
+                    sblist.append("{").append(listBean).append("}");
+                }
+                sb.append(entity).append("[").append(sblist).append("]");
+            }
+            stringBuffer.append("{").append(sb).append("}");
+        }
+        return "L" + sb.toString();
     }
 }

@@ -69,9 +69,9 @@ public class CaiXianDuoXuanAdapter extends RecyclerView.Adapter<CaiXianDuoXuanAd
             for (int i = 0; i < list.size(); i++) {
                 if (isItemChecked(i)) {
                     selectList.add(list.get(i));
-                    setTab.add(String.valueOf(list.get(i).getTagName()));
+                    setTab.add(String.valueOf(list.get(i).getId()));
                 } else {
-                    setTab.remove(String.valueOf(list.get(i).getTagName()));
+                    setTab.remove(String.valueOf(list.get(i).getId()));
                 }
             }
         }
