@@ -1,8 +1,11 @@
 package com.huxin.communication;
 
+import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.http.service.ApiFactory;
 import com.huxin.communication.http.service.BaiHangTongYeService;
 import com.huxin.communication.listener.GetMessageListener;
+
+import java.util.List;
 
 public class GetMsgManager {
     private static GetMsgManager mGetMsgManager;
@@ -25,5 +28,7 @@ public class GetMsgManager {
 
     }
 
-
+    public void setList(List<GetMessageEntity> list){
+        mMessageListener.getMessage(list);
+    }
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huxin.communication.GetMsgManager;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
@@ -200,6 +201,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 entity.setType(type);
                                                 list.add(entity);
                                             }
+                                            GetMsgManager msgManager = new GetMsgManager();
+                                            msgManager.setList(list);
                                             return true;
                                         }
                                     });
