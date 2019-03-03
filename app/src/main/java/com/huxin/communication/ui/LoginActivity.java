@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
@@ -27,6 +29,7 @@ import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
@@ -169,19 +172,33 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                         @Override
                                         public boolean onNewMessages(List<TIMMessage> msgs) {
                                             KyLog.i("----------收到新消息---------");
-                                            for(TIMMessage message : msgs) {
+                                            List<GetMessageEntity> list = new ArrayList<>();
+                                            for(int i = 0; i < msgs.size(); i++) {
+                                                String text = "";
+                                                TIMMessage message = msgs.get(i);
+                                                if(i == 0) {
+                                                    TIMElem elem = message.getElement(0);
+                                                    if (elem.getType() == TIMElemType.Text) {
+                                                        TIMTextElem e = (TIMTextElem) elem;
+                                                        text = e.getText();
+                                                    }
+                                                }
                                                 String sender = message.getSender();
-
+                                                String faceUrl = message.getSenderProfile().getFaceUrl();
+                                                TIMConversationType conversationType = message.getConversation().getType();
+                                                int type = conversationType.value();
+                                                long timeStamp = message.timestamp();
                                                 TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
                                                 TIMConversationExt conExt = new TIMConversationExt(con);
                                                 long count = conExt.getUnreadMessageNum();
-                                                KyLog.i("sender = " + sender + " and count = " + count);
-                                            }
-                                            TIMMessage message = msgs.get(0);
-                                            TIMElem elem = message.getElement(0);
-                                            if (elem.getType() == TIMElemType.Text) {
-                                                TIMTextElem e = (TIMTextElem) elem;
-                                                e.getText();
+                                                GetMessageEntity entity = new GetMessageEntity();
+                                                entity.setHead_url(faceUrl);
+                                                entity.setId(Integer.parseInt(sender));
+                                                entity.setMsg(text);
+                                                entity.setNum((int) count);
+                                                entity.setTimeStamp(timeStamp);
+                                                entity.setType(type);
+                                                list.add(entity);
                                             }
                                             return true;
                                         }

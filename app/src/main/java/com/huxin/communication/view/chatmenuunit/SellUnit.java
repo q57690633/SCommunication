@@ -1,10 +1,9 @@
 package com.huxin.communication.view.chatmenuunit;
 
 import android.view.View;
-import android.widget.Toast;
 
 import com.huxin.communication.R;
-import com.sky.kylog.KyLog;
+import com.huxin.communication.listener.MessageUnitClickListener;
 import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 
 public class SellUnit extends MessageOperaUnit implements View.OnClickListener{
@@ -15,6 +14,8 @@ public class SellUnit extends MessageOperaUnit implements View.OnClickListener{
     private String action;
 
     private View.OnClickListener onClickListener;
+
+    private MessageUnitClickListener messageUnitClickListener;
 
     public SellUnit() {
         iconResId = R.drawable.tab_icon_sell;
@@ -65,6 +66,16 @@ public class SellUnit extends MessageOperaUnit implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        KyLog.i("This is a Log in sellunit onClick");
+        if(messageUnitClickListener != null) {
+            messageUnitClickListener.onClick(iconResId);
+        }
+    }
+
+    public MessageUnitClickListener getMessageUnitClickListener() {
+        return messageUnitClickListener;
+    }
+
+    public void setMessageUnitClickListener(MessageUnitClickListener messageUnitClickListener) {
+        this.messageUnitClickListener = messageUnitClickListener;
     }
 }

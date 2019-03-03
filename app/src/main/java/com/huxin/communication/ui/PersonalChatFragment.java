@@ -1,5 +1,6 @@
 package com.huxin.communication.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.huxin.communication.R;
+import com.huxin.communication.listener.MessageUnitClickListener;
+import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
 import com.huxin.communication.view.chatmenuunit.FavoriteUnit;
 import com.huxin.communication.view.chatmenuunit.PhotoUnit;
@@ -23,10 +26,11 @@ import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonalChatFragment extends BaseFragment {
+public class PersonalChatFragment extends BaseFragment implements MessageUnitClickListener {
     private View mBaseView;
     private C2CChatPanel chatPanel;
     private PageTitleBar chatTitleBar;
+    private String type = "";
     private String chatId = "";
 
     @Nullable
@@ -37,6 +41,7 @@ public class PersonalChatFragment extends BaseFragment {
         //由会话列表传入的会话ID
         if(datas != null) {
             chatId = datas.getString("TARGET_ID");
+            type = datas.getString("TARGET_TYPE");
         }
         initView();
         return mBaseView;
@@ -84,6 +89,13 @@ public class PersonalChatFragment extends BaseFragment {
         PhotoUnit photoUnit = new PhotoUnit();
         DataBaseUnit dataBaseUnit = new DataBaseUnit();
         FavoriteUnit favoriteUnit = new FavoriteUnit();
+        sellUnit.setMessageUnitClickListener(this);
+        rentUnit.setMessageUnitClickListener(this);
+        qiuGouUnit.setMessageUnitClickListener(this);
+        qiuZuUnit.setMessageUnitClickListener(this);
+        photoUnit.setMessageUnitClickListener(this);
+        dataBaseUnit.setMessageUnitClickListener(this);
+        favoriteUnit.setMessageUnitClickListener(this);
         units.add(sellUnit);
         units.add(rentUnit);
         units.add(qiuGouUnit);
@@ -94,4 +106,27 @@ public class PersonalChatFragment extends BaseFragment {
         return units;
     }
 
+    @Override
+    public void onClick(int iconResId) {
+        switch (iconResId) {
+            case R.drawable.tab_icon_sell:
+                Intent intent = new Intent(getActivity(), SellActivity.class);
+                intent.putExtra("type", type);
+                intent.putExtra("peer", chatId);
+                getActivity().startActivity(intent);
+                break;
+            case R.drawable.tab_icon_rent:
+                break;
+            case R.drawable.tab_icon_qiugou:
+                break;
+            case R.drawable.tab_icon_qiuzu:
+                break;
+            case R.drawable.tab_icon_photo:
+                break;
+            case R.drawable.tab_icon_database:
+                break;
+            case R.drawable.tab_icon_favorite:
+                break;
+        }
+    }
 }

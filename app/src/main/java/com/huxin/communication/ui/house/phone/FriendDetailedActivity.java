@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.fragment.AssortmentFragment;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
@@ -39,6 +40,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private TextView mAddressTv;
     private TextView mIndustryTv;
     private TextView mPhoneTv;
+    private TextView mConfirmTv;
     private ImageView mMessageAlertIv;
     private ImageView mSetTopIv;
     private ImageView mStarFriendIv;
@@ -76,6 +78,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mAddressTv = (TextView) findViewById(R.id.address_tv);
         mIndustryTv = (TextView) findViewById(R.id.industry_type_tv);
         mPhoneTv = (TextView) findViewById(R.id.phone_tv);
+        mConfirmTv = (TextView) findViewById(R.id.confirm);
         mMessageAlertIv = (ImageView) findViewById(R.id.message_alert_iv);
         mSetTopIv = (ImageView) findViewById(R.id.set_top_iv);
         mStarFriendIv = (ImageView) findViewById(R.id.star_friend_iv);
@@ -83,6 +86,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mRelativeLayoutHistory.setOnClickListener(this);
         mRelativeLayoutTuiJian.setOnClickListener(this);
         mRelativeLayoutPhone.setOnClickListener(this);
+        mConfirmTv.setOnClickListener(this);
 
         if(isMessageAlert) {
             mMessageAlertIv.setImageDrawable(getDrawable(R.drawable.switch_open));
@@ -132,6 +136,11 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
                 startActivity(intent);
                 break;
+            case R.id.confirm:
+                Intent chatIntent = new Intent(this, TIMChatActivity.class);
+                chatIntent.putExtra("TARGET_TYPE", "C2C");
+                chatIntent.putExtra("TARGET_ID", uid + "");
+                startActivity(chatIntent);
         }
     }
 }

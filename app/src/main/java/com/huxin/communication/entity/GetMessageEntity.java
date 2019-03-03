@@ -9,6 +9,7 @@ public class GetMessageEntity {
      * type:  类型 1单聊 2群聊
      * id:    聊天的id
      * num:   消息的次数
+     * timeStamp:  服务器生成的时间戳
      */
 
     private String head_url;
@@ -20,6 +21,8 @@ public class GetMessageEntity {
     private int id;
 
     private int num;
+
+    private long timeStamp;
 
     public String getHead_url() {
         return head_url;
@@ -59,5 +62,13 @@ public class GetMessageEntity {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
     }
 }
