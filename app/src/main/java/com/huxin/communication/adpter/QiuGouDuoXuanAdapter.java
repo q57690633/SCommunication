@@ -103,8 +103,9 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
                 while(iterator.hasNext()){
                     userStr += iterator.next() + ",";
                 }
-
-                PreferenceUtil.putString(Constanst.PID_COLLECT,  userStr.substring(4,userStr.length() - 1).trim());
+                if (!TextUtils.isEmpty(userStr)) {
+                    PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
+                }
             }
         });
         return hoder;
