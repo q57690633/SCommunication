@@ -300,7 +300,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/selectStick")
-    Observable<Response<List<TopSelectionEntity>>> selectStick(@Field("villageName") String villageName,
+    Observable<Response<TopSelectionEntity>> selectStick(@Field("villageName") String villageName,
                                                                @Field("houseType") String houseType, @Field("minAcreage") String minAcreage,
                                                                @Field("maxAcreage") String maxAcreage, @Field("minPrice") String minPrice,
                                                                @Field("maxPrice") String maxPrice, @Field("orientation") String orientation,
@@ -354,7 +354,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/matchingProduct")
-    Observable<Response<List<MatchingProductEntity>>> matchingProduct(@Field("uid") String uid,
+    Observable<Response<MatchingProductEntity>> matchingProduct(@Field("uid") String uid,
                                                                       @Field("productType") String productType, @Field("token") String token);
 
 
@@ -367,7 +367,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("user/selectInvitation")
-    Observable<Response<InvitationEntity>> selectInvitation(@Field("uid") int uid, @Field("token") String token);
+    Observable<ResponseUntil> selectInvitation(@Field("uid") int uid, @Field("token") String token);
 
     /**
      * 添加到收藏夹

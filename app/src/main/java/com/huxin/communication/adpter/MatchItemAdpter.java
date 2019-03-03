@@ -21,11 +21,11 @@ import java.util.List;
 
 public class MatchItemAdpter extends RecyclerView.Adapter<MatchItemAdpter.MyViewHoder>{
 
-    private List<MatchingProductEntity.List1Bean> list;
+    private List<MatchingProductEntity.ListBean.List1Bean> list;
     private Context mContext;
     private LayoutInflater mInflater;
 
-    public MatchItemAdpter(List<MatchingProductEntity.List1Bean> list, Context mContext) {
+    public MatchItemAdpter(List<MatchingProductEntity.ListBean.List1Bean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -99,7 +99,7 @@ public class MatchItemAdpter extends RecyclerView.Adapter<MatchItemAdpter.MyView
         }
     }
 
-    private void setTextView(List<MatchingProductEntity.List1Bean> list, int position, LinearLayout linearLayout){
+    private void setTextView(List<MatchingProductEntity.ListBean.List1Bean> list, int position, LinearLayout linearLayout){
 
         String[] strings = list.get(position).getTabName().split(",");
         KyLog.d(list.get(position).getTabName());

@@ -25,6 +25,7 @@ import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.KeFuActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -1655,8 +1656,9 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private void zhuanfa(SellDuoXuanAdapter adapter) {
         type = getIntent().getStringExtra("type");
         peer = getIntent().getStringExtra("peer");
+        KyLog.d(type);
 
-        if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
+        if (TextUtils.isEmpty(type) || TextUtils.isEmpty(peer)) {
             return;
         }
         //获取单聊会话

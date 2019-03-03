@@ -20,16 +20,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.huxin.communication.HuXinApplication;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.entity.AliPayEntity;
 import com.huxin.communication.entity.ToVipEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.KeFuActivity;
 import com.huxin.communication.ui.MainActivity;
 import com.huxin.communication.ui.pay.AuthResult;
 import com.huxin.communication.ui.pay.PayResult;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Map;
 
@@ -84,13 +89,13 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
 
     private int taocan = 0;
 
-    private int ComboPreference = 0;
-    private int ComboOriginal = 0;
+    private float ComboPreference = 0;
+    private float ComboOriginal = 0;
 
-    private int MatchingVip = 0;
-    private int StickNumber = 0;
+    private float MatchingVip = 0;
+    private float StickNumber = 0;
 
-    private int AllPrice = 0;
+    private float AllPrice = 0;
 
     public ShopCarFragment() {
         // Required empty public constructor
@@ -200,9 +205,16 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
                 setPrice();
                 break;
             case R.id.one_phone:
+
+                Intent intent = new Intent(getContext(), KeFuActivity.class);
+                startActivity(intent);
                 break;
             case R.id.qurenzhifu:
-                apppayZhiFuBao();
+                if (type == 1) {
+                    apppayWeiXin();
+                } else {
+                    apppayZhiFuBao();
+                }
                 break;
             case R.id.weixin:
                 mImageViewImageWeixin.setVisibility(View.GONE);
@@ -295,13 +307,18 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
 
 
     private void apppayWeiXin() {
-        ApiModule.getInstance().apppay(String.valueOf(AllPrice), "2", "", "", "",
+        if (AllPrice == 0) {
+            Toast.makeText(getContext(), "请填入价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ApiModule.getInstance().apppay(String.valueOf(AllPrice), "1", "", "", "",
                 "", String.valueOf(MatchingVip), String.valueOf(num), String.valueOf(numDay), String.valueOf(StickNumber))
                 .subscribe(appPayEntity -> {
                     if (appPayEntity != null) {
                         KyLog.object(appPayEntity + "");
-//                        payAliKey(appPayEntity);
-
+                        wxpay(appPayEntity.getAppid(), appPayEntity.getPartnerid(), appPayEntity.getPrepayid(),
+                                appPayEntity.getNoncestr(), appPayEntity.getTimestamp(), appPayEntity.getPackageX(),
+                                appPayEntity.getSign());
                     }
 
 //                    cancelProgressDialog();
@@ -313,6 +330,10 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void apppayZhiFuBao() {
+        if (AllPrice == 0) {
+            Toast.makeText(getContext(), "请填入价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
         ApiModule.getInstance().apppayZhiFuBao(String.valueOf(AllPrice), "2", "", "", "",
                 "", String.valueOf(MatchingVip), String.valueOf(num), String.valueOf(numDay), String.valueOf(StickNumber))
                 .subscribe(aliPayEntity -> {
@@ -328,6 +349,25 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
 //                    cancelProgressDialog();
                     Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+
+    private void wxpay(String appid, String partnerId,
+                       String prepayId, String nonceStr,
+                       String timeStamp, String packageValue, String sign) {
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), null);
+        api.registerApp(HuXinApplication.APP_ID);
+        PayReq req = new PayReq();
+        req.appId = appid;//你的微信appid
+        req.partnerId = partnerId;//商户号
+        req.prepayId = prepayId;//预支付交易会话ID
+        req.nonceStr = nonceStr;//随机字符串
+        req.timeStamp = timeStamp;//时间戳
+        req.packageValue = packageValue;//扩展字段,这里固定填写Sign=WXPay
+        req.sign = sign;//签名
+//              req.extData         = "app data"; // optional
+        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+        api.sendReq(req);
     }
 
 

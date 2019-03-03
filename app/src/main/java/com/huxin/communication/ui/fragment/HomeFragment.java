@@ -16,17 +16,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huxin.communication.GetMsgManager;
 import com.huxin.communication.HomeViewPagerTravelAdapter;
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.HeadHouseAdapter;
+import com.huxin.communication.adpter.HeadTravelAdapter;
+import com.huxin.communication.adpter.HeadTravelJinWaiAdapter;
+import com.huxin.communication.adpter.HeadTravelTicketAdapter;
 import com.huxin.communication.adpter.HomeViewPagerAdapter;
 import com.huxin.communication.adpter.RecyclerHomeAdpter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.entity.ProvinceEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
 import com.huxin.communication.ui.KeFuActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
@@ -37,6 +44,7 @@ import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.ui.my.collect.CollectionActivity;
+import com.huxin.communication.ui.my.feedback.FeedbackActivity;
 import com.huxin.communication.ui.travel.CaiXianActivity;
 import com.huxin.communication.ui.travel.CollectTravelActivity;
 import com.huxin.communication.ui.travel.DomesticActivity;
@@ -45,6 +53,7 @@ import com.huxin.communication.ui.travel.TicketingActivity;
 import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.view.AutoScrollLayoutManager;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
@@ -58,7 +67,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, GetMessageListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -67,8 +76,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private String mParam2;
     private RecyclerView mRecyclerView;
     private RecyclerHomeAdpter mAdpter;
+    private HeadHouseAdapter mHeadLineAdapter;
+    private HeadTravelAdapter mHeadTravelAdapter;
+    private HeadTravelJinWaiAdapter mHeadTravelJinWaiAdapter;
+    private HeadTravelTicketAdapter mTravelTicketAdapter;
 
-    private List<String> list;
+
     private LinearLayout mLinearLayoutSell;
     private LinearLayout mLinearLayoutrental;
     private LinearLayout mLinearLayoutmatching;
@@ -92,6 +105,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     private TextView mTextViewCaiXian;
     private TextView mTextViewTravelCollect;
 
+    private GetMsgManager mGetMsgManager;
+
+    private RecyclerView mRecyclerViewHead;
+
     /**
      * 滚动焦点图片
      **/
@@ -105,7 +122,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     private int big_index = 0;// 大焦点图自动切换初始位置
 
-    private  List<String> imageList = new ArrayList<>();
+    private List<String> imageList = new ArrayList<>();
 
     private HomeViewPagerAdapter mViewPagerAdapter;
 
@@ -159,6 +176,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_home);
+        mRecyclerViewHead = (RecyclerView) view.findViewById(R.id.recycler_head);
         mImageViewInvitation = (ImageView) view.findViewById(R.id.invitation_btn);
         mTextViewCollect = (TextView) view.findViewById(R.id.collect_btn);
         mTextViewTopSelection = (TextView) view.findViewById(R.id.top_selection_btn);
@@ -166,6 +184,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mLinearLayoutAddkefu = (LinearLayout) view.findViewById(R.id.kefu);
         mLinearLayoutAddcode = (LinearLayout) view.findViewById(R.id.code);
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+
         if (PreferenceUtil.getInt("type") == 1) {
             initViewHouse(view);
         } else {
@@ -177,21 +196,44 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         mTextViewTopSelection.setOnClickListener(this);
         mLinearLayoutAddkefu.setOnClickListener(this);
         mLinearLayoutAddcode.setOnClickListener(this);
+
+
     }
 
     @Override
     protected void loadData() {
+        mGetMsgManager = GetMsgManager.instants();
+        mGetMsgManager.setmMessageListener(this);
         if (PreferenceUtil.getInt("type") == 1) {
             initData();
-//            LinearLayoutManager manager = new LinearLayoutManager(getContext());
-//            mAdpter = new RecyclerHomeAdpter(list, getContext());
-//            mRecyclerView.setAdapter(mAdpter);
-//            mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
-        }else {
+
+        } else {
             initDataTravel();
             getProvinces();
         }
+
+        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // 如果自动滑动到最后一个位置，则此处状态为SCROLL_STATE_IDLE
+                    AutoScrollLayoutManager lm = (AutoScrollLayoutManager) recyclerView
+                            .getLayoutManager();
+
+                    int position = lm.findLastCompletelyVisibleItemPosition();
+                    int count = lm.getItemCount();
+                    if (position == count - 1) {
+                        lm.scrollToPosition(0);
+                        mRecyclerViewHead.smoothScrollToPosition(mHeadLineAdapter.getItemCount());
+                    }
+                }
+
+
+            }
+        });
+
 
     }
 
@@ -329,14 +371,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 mLinearLayoutAddXuanXiang.setVisibility(View.GONE);
                 break;
             case R.id.kefu:
-                Intent intentKeFu = new Intent(getContext(), KeFuActivity.class);
-                getContext().startActivity(intentKeFu);
+                Intent intentKeFu = new Intent(getContext(), FeedbackActivity.class);
+                startActivity(intentKeFu);
+
                 mLinearLayoutAddXuanXiang.setVisibility(View.GONE);
                 break;
         }
     }
 
-    private void initData(){
+    private void initData() {
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
         KyLog.d(PreferenceUtil.getString(Constanst.DISTRICT_NAME));
 
@@ -344,10 +387,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         ApiModule.getInstance().getHomes(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME))
                 .subscribe(homeEntity -> {
                     cancelProgressDialog();
-                   if (homeEntity != null){
-                       KyLog.d(homeEntity.getCarousel().size() + "");
+                    if (homeEntity != null) {
+                        KyLog.d(homeEntity.getCarousel().size() + "");
                         setOnBinner(homeEntity.getCarousel());
-                   }
+                        if (homeEntity.getHeadLine() != null && homeEntity.getHeadLine().size() > 0) {
+                            AutoScrollLayoutManager manager = new AutoScrollLayoutManager(getContext());
+                            mHeadLineAdapter = new HeadHouseAdapter(homeEntity.getHeadLine(), getContext());
+                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+                            mRecyclerViewHead.setLayoutManager(manager);
+                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        }
+                    }
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -356,14 +406,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 });
     }
 
-    private void initDataTravel(){
+    private void initDataTravel() {
 //        showProgressDialog();
         ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME))
                 .subscribe(homeTravelEntity -> {
 //                    cancelProgressDialog();
-                    if (homeTravelEntity != null){
+                    if (homeTravelEntity != null) {
                         KyLog.d(homeTravelEntity.getCarousel().size() + "");
                         setTravelOnBinner(homeTravelEntity.getCarousel());
+                        if (homeTravelEntity.getAroundHead() != null && homeTravelEntity.getAroundHead().size() > 0) {
+                            AutoScrollLayoutManager manager = new AutoScrollLayoutManager(getContext());
+                            mHeadTravelAdapter = new HeadTravelAdapter(homeTravelEntity.getAroundHead(), getContext());
+                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+                            mRecyclerViewHead.setLayoutManager(manager);
+                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        }
+
+                        if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
+                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                            mHeadTravelJinWaiAdapter = new HeadTravelJinWaiAdapter(homeTravelEntity.getForeignHead(), getContext());
+                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+                            mRecyclerViewHead.setLayoutManager(manager);
+                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        }
+
+                        if (homeTravelEntity.getTicketHead() != null && homeTravelEntity.getTicketHead().size() > 0) {
+                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                            mTravelTicketAdapter = new HeadTravelTicketAdapter(homeTravelEntity.getTicketHead(), getContext());
+                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+                            mRecyclerViewHead.setLayoutManager(manager);
+                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                        }
+
                     }
 
                 }, throwable -> {
@@ -413,6 +487,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
     public void onScroll(int scrollY) {
 
+    }
+
+    @Override
+    public void getMessage(List<GetMessageEntity> list) {
+        KyLog.object("login ==------ list----- " + list);
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+            mAdpter = new RecyclerHomeAdpter(list, getContext());
+            mRecyclerView.setAdapter(mAdpter);
+            mRecyclerView.setLayoutManager(manager);
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }
     }
 
 
@@ -473,7 +559,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onPageSelected(int position) {
                     big_index = position;
-                    if (imageList.size() >1) {
+                    if (imageList.size() > 1) {
                         setCurPage(position % imageList.size(), imageList.size());
                     }
                 }
@@ -513,7 +599,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onPageSelected(int position) {
                     big_index = position;
-                    if (imageList.size() >1) {
+                    if (imageList.size() > 1) {
                         setCurPage(position % imageList.size(), imageList.size());
                     }
                 }
@@ -526,37 +612,38 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    public void getProvinces(){
+    public void getProvinces() {
         KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
 
 //        showProgressDialog();
         ApiModule.getInstance().getProvinces().subscribe(provinceEntities -> {
 //            cancelProgressDialog();
             if (provinceEntities != null && provinceEntities.size() > 0) {
-                   for (ProvinceEntity entity : provinceEntities){
-                       if (entity.getProvince_name().equals(PreferenceUtil.getString(Constanst.PROVINCE_NAME))){
-                           PreferenceUtil.putString(Constanst.PROVINCE_HOME_CODE,entity.getProvince_code());
-                           getInlandCity(entity.getProvince_code());
-                           break;
-                       }
-                   }
+                for (ProvinceEntity entity : provinceEntities) {
+                    if (entity.getProvince_name().equals(PreferenceUtil.getString(Constanst.PROVINCE_NAME))) {
+                        PreferenceUtil.putString(Constanst.PROVINCE_HOME_CODE, entity.getProvince_code());
+                        getInlandCity(entity.getProvince_code());
+                        break;
+                    }
+                }
 
             }
-        },throwable -> {
+        }, throwable -> {
             KyLog.d(throwable.toString());
 //            cancelProgressDialog();
             Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
+
     public void getInlandCity(String provinceCode) {
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
 //        showProgressDialog();
         ApiModule.getInstance().getInlandCity(provinceCode).subscribe(inlandCityEntities -> {
 //            cancelProgressDialog();
             if (inlandCityEntities != null && inlandCityEntities.size() > 0) {
-                for (InlandCityEntity entity : inlandCityEntities){
-                    if (entity.getCity_name().equals(PreferenceUtil.getString(Constanst.CITY_NAME))){
-                        PreferenceUtil.putString(Constanst.CITY_HOME_CODE,entity.getCity_code());
+                for (InlandCityEntity entity : inlandCityEntities) {
+                    if (entity.getCity_name().equals(PreferenceUtil.getString(Constanst.CITY_NAME))) {
+                        PreferenceUtil.putString(Constanst.CITY_HOME_CODE, entity.getCity_code());
                         break;
                     }
                 }

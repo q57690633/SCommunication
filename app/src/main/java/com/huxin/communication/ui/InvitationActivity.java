@@ -38,11 +38,9 @@ public class InvitationActivity extends BaseActivity{
     private void initData(){
         showProgressDialog();
         ApiModule.getInstance().matchingProducts()
-                .subscribe(invitationEntity  -> {
+                .subscribe(responseUntil   -> {
                     cancelProgressDialog();
-                    if (invitationEntity != null){
-                        setData(invitationEntity);
-                    }
+                        setData(responseUntil.getData());
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -51,7 +49,7 @@ public class InvitationActivity extends BaseActivity{
                 });
     }
 
-    private void setData(InvitationEntity entity){
-        mTextViewCode.setText(String.valueOf(entity.getInvitationCode()));
+    private void setData(String entity){
+        mTextViewCode.setText(entity);
     }
 }

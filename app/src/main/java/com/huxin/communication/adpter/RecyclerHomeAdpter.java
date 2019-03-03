@@ -2,12 +2,19 @@ package com.huxin.communication.adpter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.alipay.sdk.sys.a;
 import com.huxin.communication.R;
+import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -17,12 +24,12 @@ import java.util.List;
 
 public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.MyViewHoder> {
 
-    private List<String> list;
+    private List<GetMessageEntity> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private MyViewHoder hoder;
 
-    public RecyclerHomeAdpter(List<String> list, Context mContext) {
+    public RecyclerHomeAdpter(List<GetMessageEntity> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -44,18 +51,47 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
+        holder.time.setText(String.valueOf(list.get(position).getTimeStamp()));
+        holder.num.setText(String.valueOf(list.get(position).getNum()));
+        holder.msg.setText(String.valueOf(list.get(position).getMsg()));
+        if (!TextUtils.isEmpty(list.get(position).getHead_url())){
+            ImageLoader.getInstance().displayImage(list.get(position).getHead_url(),holder.image);
+        }else {
+            holder.image.setBackgroundResource(R.drawable.head2);
+        }
+
+        if (list.get(position).getNum() == 0){
+            holder.numRl.setVisibility(View.GONE);
+        }else {
+            holder.numRl.setVisibility(View.VISIBLE);
+
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {
 
+        private TextView num;
+        private TextView time;
+        private TextView msg;
+        private ImageView image;
+        private RelativeLayout numRl;
+
         public MyViewHoder(View itemView) {
             super(itemView);
+            num = itemView.findViewById(R.id.num);
+            msg = itemView.findViewById(R.id.msg);
+            image = itemView.findViewById(R.id.image_head);
+            time = itemView.findViewById(R.id.time);
+            numRl = itemView.findViewById(R.id.rl_num);
+
+
         }
     }
 }

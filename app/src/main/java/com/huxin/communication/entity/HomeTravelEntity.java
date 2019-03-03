@@ -845,7 +845,7 @@ public class HomeTravelEntity {
         private String userCity;
         private String username;
         private int view_count;
-        private List<?> files;
+        private List<TicketHeadBean> files;
 
         public String getCompanyName() {
             return companyName;
@@ -1271,11 +1271,11 @@ public class HomeTravelEntity {
             this.view_count = view_count;
         }
 
-        public List<?> getFiles() {
+        public List<TicketHeadBean> getFiles() {
             return files;
         }
 
-        public void setFiles(List<?> files) {
+        public void setFiles(List<TicketHeadBean> files) {
             this.files = files;
         }
     }

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths>
-    <external-path path="image/" name="image" />
-</paths>
+<resources>
+
+    <paths>
+        <external-path
+            name="camera_photos"
+            path="image" /> <!--相机图片保存图片路径，属于APP的存储空间-->
+    </paths>
+
+</resources>

@@ -201,7 +201,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                                 entity.setType(type);
                                                 list.add(entity);
                                             }
-                                            GetMsgManager msgManager = new GetMsgManager();
+                                            GetMsgManager msgManager = GetMsgManager.instants();
                                             msgManager.setList(list);
                                             return true;
                                         }

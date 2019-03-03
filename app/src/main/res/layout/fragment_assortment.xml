@@ -144,7 +144,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:visibility="gone"/>
 
                 <com.huxin.communication.constanst.MyListView
                     android:id="@+id/country_lvcountry"

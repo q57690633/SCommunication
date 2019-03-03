@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="15dp"
-            android:text="分类标签"
+            android:text="我要反馈"
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 

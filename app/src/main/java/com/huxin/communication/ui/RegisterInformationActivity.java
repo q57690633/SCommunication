@@ -359,6 +359,10 @@ public class RegisterInformationActivity extends BaseActivity implements View.On
 
     private void getAddUserInformation(String InvitationCode, String CompanyCode, String InvitationCodeTwo, String CompanyName) {
 
+        if (!TextUtils.isEmpty(Fitment) && !TextUtils.isEmpty(purpose)){
+            Toast.makeText(this, "请选择从业类型", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         showProgressDialog();
         ApiModule.getInstance().updatUserInformation(PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), CompanyName,

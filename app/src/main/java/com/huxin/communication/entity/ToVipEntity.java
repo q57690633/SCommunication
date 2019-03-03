@@ -37,8 +37,8 @@ public class ToVipEntity {
          */
 
         private int id;
-        private int matchingVip;
-        private int stickNumber;
+        private float matchingVip;
+        private float stickNumber;
 
         public int getId() {
             return id;
@@ -48,19 +48,19 @@ public class ToVipEntity {
             this.id = id;
         }
 
-        public int getMatchingVip() {
+        public float getMatchingVip() {
             return matchingVip;
         }
 
-        public void setMatchingVip(int matchingVip) {
+        public void setMatchingVip(float matchingVip) {
             this.matchingVip = matchingVip;
         }
 
-        public int getStickNumber() {
+        public float getStickNumber() {
             return stickNumber;
         }
 
-        public void setStickNumber(int stickNumber) {
+        public void setStickNumber(float stickNumber) {
             this.stickNumber = stickNumber;
         }
     }
@@ -77,8 +77,8 @@ public class ToVipEntity {
 
         private int id;
         private int comboType;
-        private int comboOriginal;
-        private int comboPreference;
+        private float comboOriginal;
+        private float comboPreference;
         private int registerType;
         private int state;
 
@@ -98,19 +98,19 @@ public class ToVipEntity {
             this.comboType = comboType;
         }
 
-        public int getComboOriginal() {
+        public float getComboOriginal() {
             return comboOriginal;
         }
 
-        public void setComboOriginal(int comboOriginal) {
+        public void setComboOriginal(float comboOriginal) {
             this.comboOriginal = comboOriginal;
         }
 
-        public int getComboPreference() {
+        public float getComboPreference() {
             return comboPreference;
         }
 
-        public void setComboPreference(int comboPreference) {
+        public void setComboPreference(float comboPreference) {
             this.comboPreference = comboPreference;
         }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.FamousAdapter;
@@ -118,10 +119,12 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private void initData() {
         int uid = PreferenceUtil.getInt("uid");
         String token = PreferenceUtil.getString("token");
+        showProgressDialog();
         ApiModule.getInstance().addressBook(uid + "", token)
                 .subscribe(AddressBookEntity -> {
                     KyLog.i("----------加载通讯录---------");
                     KyLog.object(AddressBookEntity);
+                    cancelProgressDialog();
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
 
@@ -138,9 +141,14 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                         }
                         mAdapter = new FamousAdapter(getContext(), list);
                     }else {
-                        mAdapter = new FamousAdapter(getContext(), setData());
+//                        mAdapter = new FamousAdapter(getContext(), setData());
+                        Toast.makeText(getContext(), "数据为空", Toast.LENGTH_SHORT).show();
                     }
                     mListView.setAdapter(mAdapter);
+                },throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.BaseUIKitConfigs;
 import com.tencent.qcloud.uikit.TUIKit;
@@ -61,6 +63,12 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
+            ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageView);
+        }else {
+            mImageView.setBackgroundResource(R.drawable.head2);
+        }
     }
 
     @Override

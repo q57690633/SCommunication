@@ -10,20 +10,47 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/blue"
-            android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:id="@+id/image_head"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/blue"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:id="@+id/rl_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
+
+                android:background="@drawable/pic_sign_home_tip2">
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -31,6 +58,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="白沟房产总群"
@@ -38,6 +66,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -46,36 +75,13 @@
                     android:textColor="@color/register_font"
                     android:textSize="16sp" />
             </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="【新增】"
-                    android:textColor="@color/red_setting"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="出售155套 出租112套  求购…"
-                    android:textColor="@color/login_walling_fort"
-                    android:textSize="14sp" />
-
-
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/login_line"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@color/login_line" />
 
 </LinearLayout>

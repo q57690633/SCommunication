@@ -26,12 +26,12 @@ import java.util.List;
  */
 
 public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapter.MyViewHoder>{
-    private List<TopSelectionEntity> list;
+    private List<TopSelectionEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public TopSelectionAdapter(List<TopSelectionEntity> list, Context mContext) {
+    public TopSelectionAdapter(List<TopSelectionEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -118,7 +118,7 @@ public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapte
         }
     }
 
-    private void setTextView(List<TopSelectionEntity> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<TopSelectionEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
         KyLog.d(list.get(position).getTabName());

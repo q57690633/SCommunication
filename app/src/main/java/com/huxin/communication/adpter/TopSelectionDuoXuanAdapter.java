@@ -28,7 +28,7 @@ import java.util.Set;
 public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectionDuoXuanAdapter.MyViewHoder>{
     private static final String PID = "pid";
 
-    private List<TopSelectionEntity> list;
+    private List<TopSelectionEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private boolean isClicked = false;
@@ -41,7 +41,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
     private Set<String> strings = new HashSet<>();
 
     //更新adpter的数据和选择状态
-    public void updateDataSet(ArrayList<TopSelectionEntity> list) {
+    public void updateDataSet(ArrayList<TopSelectionEntity.ListBean> list) {
         this.list = list;
         mSelectedPositions = new SparseBooleanArray();
 //        ab.setTitle("已选择" + 0 + "项");
@@ -49,8 +49,8 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
 
 
     //获得选中条目的结果
-    public ArrayList<TopSelectionEntity> getSelectedItem() {
-        ArrayList<TopSelectionEntity> selectList = new ArrayList<>();
+    public ArrayList<TopSelectionEntity.ListBean> getSelectedItem() {
+        ArrayList<TopSelectionEntity.ListBean> selectList = new ArrayList<>();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 if (isItemChecked(i)) {
@@ -64,7 +64,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
         return selectList;
     }
 
-    public TopSelectionDuoXuanAdapter(List<TopSelectionEntity> list, Context mContext) {
+    public TopSelectionDuoXuanAdapter(List<TopSelectionEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -203,7 +203,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
         }
     }
 
-    private void setTextView(List<TopSelectionEntity> list, int position, LinearLayout linearLayout) {
+    private void setTextView(List<TopSelectionEntity.ListBean> list, int position, LinearLayout linearLayout) {
 
         String[] strings = list.get(position).getTabName().split(",");
 //            LinearLayout mLinearLayout = new LinearLayout(mContext);

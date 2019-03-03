@@ -21,14 +21,14 @@ import java.util.List;
 
 public class MatchAdpter extends RecyclerView.Adapter<MatchAdpter.MyViewHoder> {
 
-    private List<MatchingProductEntity> list;
+    private List<MatchingProductEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private RecyclerView mRecyclerView;
     private MatchItemAdpter mMatchAdpter;
     private int i = 1;
 
-    public MatchAdpter(List<MatchingProductEntity> list, Context mContext) {
+    public MatchAdpter(List<MatchingProductEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sign_home_headline" />
+
+        <ImageView
+            android:id="@+id/image_head"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/head2"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/travelTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="11dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+
+                android:text="总高11层"
+                android:textColor="@color/register_font"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chufadi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:text="现价9800元/㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12sp"
+                    android:lines="1"
+                    android:ellipsize="end"/>
+
+                <TextView
+                    android:id="@+id/mudidi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:text="现价9800元/㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12sp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    />
+                <TextView
+                    android:id="@+id/numdays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:text="现价9800元/㎡"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/register_font"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/totalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:text="现价9800元/㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/returnPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:text="现价9800元/㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

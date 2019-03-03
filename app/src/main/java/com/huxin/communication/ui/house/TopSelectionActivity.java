@@ -1510,22 +1510,24 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
     }
 
-    private void setDuoXuanData(List<TopSelectionEntity> list) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpterDuoXuan = new TopSelectionDuoXuanAdapter(list, this);
-        mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
-        mRecyclerViewDuoXuan.setLayoutManager(manager);
-        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
-        mTextViewGuanLi.setVisibility(View.VISIBLE);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+    private void setDuoXuanData(TopSelectionEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpterDuoXuan = new TopSelectionDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
 
     }
 
-    private void setData(List<TopSelectionEntity> list) {
-        if (list != null && list.size() > 0) {
+    private void setData(TopSelectionEntity entity) {
+        if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdpter = new TopSelectionAdapter(list, this);
+            mAdpter = new TopSelectionAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));

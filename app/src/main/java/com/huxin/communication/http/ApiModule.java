@@ -370,7 +370,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<List<MatchingProductEntity>> matchingProduct(String uid, String productType) {
+    public Observable<MatchingProductEntity> matchingProduct(String uid, String productType) {
         return ApiFactory.getFactory().BaiHangTongYeService().matchingProduct(uid, productType, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
@@ -382,10 +382,9 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<InvitationEntity> matchingProducts() {
+    public Observable<ResponseUntil> matchingProducts() {
         return ApiFactory.getFactory().BaiHangTongYeService().selectInvitation(PreferenceUtil.getInt(UID), PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
-                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -428,7 +427,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<List<TopSelectionEntity>> selectStick(String villageName,
+    public Observable<TopSelectionEntity> selectStick(String villageName,
                                                             String houseType, String minAcreage,
                                                             String maxAcreage, String minPrice,
                                                             String maxPrice, String orientation,

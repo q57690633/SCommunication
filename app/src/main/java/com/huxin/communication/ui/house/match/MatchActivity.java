@@ -50,13 +50,13 @@ public class MatchActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        initData(1);
+        initData(productType);
     }
 
     private void initData(int productType) {
         ApiModule.getInstance().matchingProduct(String.valueOf(PreferenceUtil.getInt(UID)), String.valueOf(productType))
                 .subscribe(matchingProductEntities -> {
-                    if (matchingProductEntities != null && matchingProductEntities.size() > 0) {
+                    if (matchingProductEntities != null) {
                         setData(matchingProductEntities);
                     }
                 }, throwable -> {
@@ -66,12 +66,18 @@ public class MatchActivity extends BaseActivity implements View.OnClickListener 
                 });
     }
 
-    public void setData(List<MatchingProductEntity> list) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mMatchAdpter = new MatchAdpter(list, this);
-        mRecyclerView.setAdapter(mMatchAdpter);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 10));
+    public void setData(MatchingProductEntity entity) {
+        if (entity.getList()!= null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mMatchAdpter = new MatchAdpter(entity.getList(), this);
+            mRecyclerView.setAdapter(mMatchAdpter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 10));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
