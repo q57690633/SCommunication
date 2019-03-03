@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 
 import com.huxin.communication.R;
 import com.huxin.communication.listener.MessageUnitClickListener;
+import com.huxin.communication.ui.house.sell.QiuGouActivity;
+import com.huxin.communication.ui.house.sell.QiuZuActivity;
+import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
 import com.huxin.communication.view.chatmenuunit.FavoriteUnit;
@@ -111,15 +114,27 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         switch (iconResId) {
             case R.drawable.tab_icon_sell:
                 Intent intent = new Intent(getActivity(), SellActivity.class);
-                intent.putExtra("type", type);
+                intent.putExtra("type", "C2C");
                 intent.putExtra("peer", chatId);
                 getActivity().startActivity(intent);
                 break;
             case R.drawable.tab_icon_rent:
+                Intent intentRent = new Intent(getActivity(), RentActivity.class);
+                intentRent.putExtra("type", "C2C");
+                intentRent.putExtra("peer", chatId);
+                getActivity().startActivity(intentRent);
                 break;
             case R.drawable.tab_icon_qiugou:
+                Intent intentQiuGou = new Intent(getActivity(), QiuGouActivity.class);
+                intentQiuGou.putExtra("type", "C2C");
+                intentQiuGou.putExtra("peer", chatId);
+                getActivity().startActivity(intentQiuGou);
                 break;
             case R.drawable.tab_icon_qiuzu:
+                Intent intentQiuZu= new Intent(getActivity(), QiuZuActivity.class);
+                intentQiuZu.putExtra("type", "C2C");
+                intentQiuZu.putExtra("peer", chatId);
+                getActivity().startActivity(intentQiuZu);
                 break;
             case R.drawable.tab_icon_photo:
                 break;
