@@ -13,10 +13,13 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.fragment.AssortmentFragment;
 import com.huxin.communication.ui.house.TopSelectionActivity;
+import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 public class FriendDetailedActivity extends BaseActivity implements View.OnClickListener {
 
@@ -137,10 +140,23 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                 startActivity(intent);
                 break;
             case R.id.confirm:
-                Intent chatIntent = new Intent(this, TIMChatActivity.class);
-                chatIntent.putExtra("TARGET_TYPE", "C2C");
-                chatIntent.putExtra("TARGET_ID", uid + "");
-                startActivity(chatIntent);
+                String userId = PreferenceUtil.getInt("uid") + "";
+                String userSig = PreferenceUtil.getString("usersig");
+                TUIKit.login(userId, userSig, new IUIKitCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        KyLog.i("imlogin onSuccess", data);
+                        Intent chatIntent = new Intent(FriendDetailedActivity.this, TIMChatActivity.class);
+                        chatIntent.putExtra("TARGET_TYPE", "C2C");
+                        chatIntent.putExtra("TARGET_ID", uid + "");
+                        startActivity(chatIntent);
+                    }
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+                        KyLog.e("imlogin fail", errMsg);
+                    }
+                });
+
         }
     }
 }

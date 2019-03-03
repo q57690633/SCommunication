@@ -133,7 +133,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                             famousEntity.setPhone(friendListBean.getPhone());
                             famousEntity.setIndustryType(friendListBean.getIndustryType());
                             famousEntity.setStarFriend(friendListBean.getStarFriend());
-                            famousEntity.setId(friendListBean.getId());
+                            famousEntity.setId(friendListBean.getUid());
                             list.add(famousEntity);
                         }
                         mAdapter = new FamousAdapter(getContext(), list);
