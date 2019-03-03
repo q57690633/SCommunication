@@ -94,8 +94,9 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
                 while(iterator.hasNext()){
                     userStr += iterator.next() + ",";
                 }
-                Toast.makeText(mContext, userStr.substring(4,userStr.length() - 1).trim() + "", Toast.LENGTH_SHORT);
-                PreferenceUtil.putString(Constanst.PID_TRAVEL_COLLECT,userStr.substring(4,userStr.length() - 1).trim());
+        if (!TextUtils.isEmpty(userStr)) {
+            PreferenceUtil.putString(Constanst.PID_TRAVEL_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
+        }
         return hoder;
     }
 

@@ -3,6 +3,7 @@ package com.huxin.communication.adpter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +98,9 @@ public class SellDuoXuanAdapter extends RecyclerView.Adapter<SellDuoXuanAdapter.
                 while (iterator.hasNext()) {
                     userStr += iterator.next() + ",";
                 }
-                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
+                if (!TextUtils.isEmpty(userStr)) {
+                    PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
+                }
             }
         });
         return hoder;
