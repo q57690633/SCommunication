@@ -104,6 +104,10 @@
     <string name="title_tab_icon_rent">出租</string>
     <string name="title_tab_icon_qiugou">求购</string>
     <string name="title_tab_icon_qiuzu">求租</string>
+    <string name="title_tab_icon_guoneiyou">国内游</string>
+    <string name="title_tab_icon_jingwaiyou">境外游</string>
+    <string name="title_tab_icon_piaowu">票务</string>
+    <string name="title_tab_icon_zhoubianyou">周边游</string>
     <string name="title_tab_icon_photo">照片</string>
     <string name="title_tab_icon_database">个人数据</string>
     <string name="title_tab_icon_favorite">收藏夹</string>

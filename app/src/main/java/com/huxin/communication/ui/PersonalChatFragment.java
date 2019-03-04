@@ -14,13 +14,23 @@ import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.travel.DomesticActivity;
+import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
+import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
+import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
+import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
 import com.huxin.communication.view.chatmenuunit.FavoriteUnit;
+import com.huxin.communication.view.chatmenuunit.GuoNeiYouUnit;
+import com.huxin.communication.view.chatmenuunit.JingWaiYouUnit;
 import com.huxin.communication.view.chatmenuunit.PhotoUnit;
+import com.huxin.communication.view.chatmenuunit.PiaoWuUnit;
 import com.huxin.communication.view.chatmenuunit.QiuGouUnit;
 import com.huxin.communication.view.chatmenuunit.QiuZuUnit;
 import com.huxin.communication.view.chatmenuunit.RentUnit;
 import com.huxin.communication.view.chatmenuunit.SellUnit;
+import com.huxin.communication.view.chatmenuunit.ZhouBianYouUnit;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
@@ -73,7 +83,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
             chatId = "Ljh2001";
         }
         KyLog.i("TARGETID = " + chatId);
-        //chatId = "154";// lbh 113,  yzx  154
+        chatId = "154";// lbh 113,  yzx  154
         chatPanel.setBaseChatId(chatId);
         chatPanel.setMoreOperaUnits(units, false);
 
@@ -91,27 +101,53 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
 
     private List<MessageOperaUnit> initUnitList() {
         List<MessageOperaUnit> units = new ArrayList<>();
-        SellUnit sellUnit = new SellUnit();
-        RentUnit rentUnit = new RentUnit();
-        QiuGouUnit qiuGouUnit = new QiuGouUnit();
-        QiuZuUnit qiuZuUnit = new QiuZuUnit();
-        PhotoUnit photoUnit = new PhotoUnit();
-        DataBaseUnit dataBaseUnit = new DataBaseUnit();
-        FavoriteUnit favoriteUnit = new FavoriteUnit();
-        sellUnit.setMessageUnitClickListener(this);
-        rentUnit.setMessageUnitClickListener(this);
-        qiuGouUnit.setMessageUnitClickListener(this);
-        qiuZuUnit.setMessageUnitClickListener(this);
-        photoUnit.setMessageUnitClickListener(this);
-        dataBaseUnit.setMessageUnitClickListener(this);
-        favoriteUnit.setMessageUnitClickListener(this);
-        units.add(sellUnit);
-        units.add(rentUnit);
-        units.add(qiuGouUnit);
-        units.add(qiuZuUnit);
-        units.add(photoUnit);
-        units.add(dataBaseUnit);
-        units.add(favoriteUnit);
+        //1 house    2 travel
+        int type = PreferenceUtil.getInt("type");
+        if(type == 1) {
+            SellUnit sellUnit = new SellUnit();
+            RentUnit rentUnit = new RentUnit();
+            QiuGouUnit qiuGouUnit = new QiuGouUnit();
+            QiuZuUnit qiuZuUnit = new QiuZuUnit();
+            PhotoUnit photoUnit = new PhotoUnit();
+            DataBaseUnit dataBaseUnit = new DataBaseUnit();
+            FavoriteUnit favoriteUnit = new FavoriteUnit();
+            sellUnit.setMessageUnitClickListener(this);
+            rentUnit.setMessageUnitClickListener(this);
+            qiuGouUnit.setMessageUnitClickListener(this);
+            qiuZuUnit.setMessageUnitClickListener(this);
+            photoUnit.setMessageUnitClickListener(this);
+            dataBaseUnit.setMessageUnitClickListener(this);
+            favoriteUnit.setMessageUnitClickListener(this);
+            units.add(sellUnit);
+            units.add(rentUnit);
+            units.add(qiuGouUnit);
+            units.add(qiuZuUnit);
+            units.add(photoUnit);
+            units.add(dataBaseUnit);
+            units.add(favoriteUnit);
+        }else {
+            GuoNeiYouUnit guoNeiYouUnit = new GuoNeiYouUnit();
+            ZhouBianYouUnit zhouBianYouUnit = new ZhouBianYouUnit();
+            JingWaiYouUnit jingWaiYouUnit = new JingWaiYouUnit();
+            PiaoWuUnit piaoWuUnit = new PiaoWuUnit();
+            PhotoUnit photoUnit = new PhotoUnit();
+            DataBaseUnit dataBaseUnit = new DataBaseUnit();
+            FavoriteUnit favoriteUnit = new FavoriteUnit();
+            guoNeiYouUnit.setMessageUnitClickListener(this);
+            zhouBianYouUnit.setMessageUnitClickListener(this);
+            jingWaiYouUnit.setMessageUnitClickListener(this);
+            piaoWuUnit.setMessageUnitClickListener(this);
+            photoUnit.setMessageUnitClickListener(this);
+            dataBaseUnit.setMessageUnitClickListener(this);
+            favoriteUnit.setMessageUnitClickListener(this);
+            units.add(guoNeiYouUnit);
+            units.add(zhouBianYouUnit);
+            units.add(jingWaiYouUnit);
+            units.add(piaoWuUnit);
+            units.add(photoUnit);
+            units.add(dataBaseUnit);
+            units.add(favoriteUnit);
+        }
         return units;
     }
 
@@ -141,6 +177,30 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 intentQiuZu.putExtra("type", "C2C");
                 intentQiuZu.putExtra("peer", chatId);
                 getActivity().startActivity(intentQiuZu);
+                break;
+            case R.drawable.tab_icon_guoneiyou:
+                Intent intentGuoNei = new Intent(getActivity(), DomesticDetailsActivity.class);
+                intentGuoNei.putExtra("type", "C2C");
+                intentGuoNei.putExtra("peer", chatId);
+                startActivityForResult(intentGuoNei, 2);
+                break;
+            case R.drawable.tab_icon_zhoubianyou:
+                Intent intentZhouBian = new Intent(getActivity(), ZhouBianDetailsActivity.class);
+                intentZhouBian.putExtra("type", "C2C");
+                intentZhouBian.putExtra("peer", chatId);
+                getActivity().startActivity(intentZhouBian);
+                break;
+            case R.drawable.tab_icon_jingwaiyou:
+                Intent intentJingWai = new Intent(getActivity(), JinWaiDetailsActivity.class);
+                intentJingWai.putExtra("type", "C2C");
+                intentJingWai.putExtra("peer", chatId);
+                getActivity().startActivity(intentJingWai);
+                break;
+            case R.drawable.tab_icon_piowu:
+                Intent intentPiaoWu = new Intent(getActivity(), TicketingDetailsActivity.class);
+                intentPiaoWu.putExtra("type", "C2C");
+                intentPiaoWu.putExtra("peer", chatId);
+                getActivity().startActivity(intentPiaoWu);
                 break;
             case R.drawable.tab_icon_photo:
                 break;
