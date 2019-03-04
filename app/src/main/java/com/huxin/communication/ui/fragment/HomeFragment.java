@@ -140,9 +140,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private HomeViewPagerTravelAdapter mTravelViewPagerAdapter;
 
-    private List<GetMessageEntity> Messagelist = new ArrayList<>();
-
-
     /**
      * 获取所有会话
      *
@@ -194,12 +191,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
         return view;
     }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        getTIMmsg();
+    }
 
     @Override
     protected void initView(View view) {
@@ -241,27 +239,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             getProvinces();
         }
 
-        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // 如果自动滑动到最后一个位置，则此处状态为SCROLL_STATE_IDLE
-                    AutoScrollLayoutManager lm = (AutoScrollLayoutManager) recyclerView
-                            .getLayoutManager();
-
-                    int position = lm.findLastCompletelyVisibleItemPosition();
-                    int count = lm.getItemCount();
-                    if (position == count - 1) {
-                        lm.scrollToPosition(0);
-                        mRecyclerViewHead.smoothScrollToPosition(mHeadLineAdapter.getItemCount());
-                    }
-                }
-
-
-            }
-        });
+//        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    // 如果自动滑动到最后一个位置，则此处状态为SCROLL_STATE_IDLE
+//                    AutoScrollLayoutManager lm = (AutoScrollLayoutManager) recyclerView
+//                            .getLayoutManager();
+//
+//                    int position = lm.findLastCompletelyVisibleItemPosition();
+//                    int count = lm.getItemCount();
+//                    if (position == count - 1) {
+//                        lm.scrollToPosition(0);
+//                        mRecyclerViewHead.smoothScrollToPosition(mHeadLineAdapter.getItemCount());
+//                    }
+//                }
+//
+//
+//            }
+//        });
 
 
     }
@@ -533,11 +531,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
         KyLog.object("login ==------ list----- " + list);
-        TIMMessage message = null;
-        String text = "";
-//        List<GetMessageEntity> lists = new ArrayList<>();
+
+        List<GetMessageEntity> lists = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
-             message = list.get(i);
+            String text = "";
+            TIMMessage message = list.get(i);
             if (i == 0) {
                 TIMElem elem = message.getElement(0);
                 if (elem.getType() == TIMElemType.Text) {
@@ -545,33 +543,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     text = e.getText();
                 }
             }
+            String sender = message.getSender();
+            String faceUrl = message.getSenderProfile().getFaceUrl();
+            TIMConversationType conversationType = message.getConversation().getType();
+            int type = conversationType.value();
+            long timeStamp = message.timestamp();
+            TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+            TIMConversationExt conExt = new TIMConversationExt(con);
+            long count = conExt.getUnreadMessageNum();
+            KyLog.d("text == " + text);
+            KyLog.d("sender == " + sender);
+            KyLog.d("faceUrl == " + faceUrl);
+            KyLog.d("type == " + type);
+            KyLog.d("timeStamp == " + timeStamp);
+
+            GetMessageEntity entity = new GetMessageEntity();
+            entity.setHead_url(faceUrl);
+            entity.setId(Integer.parseInt(sender));
+            entity.setMsg(text);
+            entity.setNum((int) count);
+            entity.setTimeStamp(timeStamp);
+            entity.setType(type);
+            lists.add(entity);
         }
 
-        String sender = message.getSender();
-        String faceUrl = message.getSenderProfile().getFaceUrl();
-        TIMConversationType conversationType = message.getConversation().getType();
-        int type = conversationType.value();
-        long timeStamp = message.timestamp();
-        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
-        TIMConversationExt conExt = new TIMConversationExt(con);
-        long count = conExt.getUnreadMessageNum();
-        KyLog.d("text == " + text);
-        KyLog.d("sender == " + sender);
-        KyLog.d("faceUrl == " + faceUrl);
-        KyLog.d("type == " + type);
-        KyLog.d("timeStamp == " + timeStamp);
-
-        GetMessageEntity entity = new GetMessageEntity();
-        entity.setHead_url(faceUrl);
-        entity.setId(Integer.parseInt(sender));
-        entity.setMsg(text);
-        entity.setNum((int) count);
-        entity.setTimeStamp(timeStamp);
-        entity.setType(type);
-        Messagelist.add(entity);
-
         GetMsgManager msgManager = GetMsgManager.instants();
-        msgManager.setList(Messagelist);
+        msgManager.setList(lists);
         return true;
     }
 
@@ -730,7 +727,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         });
     }
 
-
     private static final int TIMNEWSMESSAHE = 0x01;
 
     private Handler mHandler = new Handler();
@@ -739,19 +735,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void getConversationList() {
         ConversationList = TIMManagerExt.getInstance().getConversationList();
         KyLog.d(ConversationList.size() + " === home");
+        List<GetMessageEntity> list = new ArrayList<>();
 
         if (ConversationList != null && ConversationList.size() > 0) {
             for (TIMConversation conversation : ConversationList) {
                 KyLog.d(conversation.getPeer() + " === home");
-                getLocalMessage(conversation.getPeer(), Messagelist, conversation.getType());
+                getLocalMessage(conversation.getPeer(), list, conversation.getType());
             }
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    GetMsgManager msgManager = GetMsgManager.instants();
-                    msgManager.setList(Messagelist);
-                }
-            }, 3000);
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    GetMsgManager msgManager = GetMsgManager.instants();
+//                    msgManager.setList(list);
+//                }
+//            }, 3000);
         }
     }
 
@@ -760,6 +757,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             getC2CLocalMessage(groupId, list);
         } else if (type == TIMConversationType.Group) {
             getC2CLocalMessage(groupId, list);
+
         }
     }
 
@@ -780,7 +778,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                     @Override
                     public void onSuccess(List<TIMMessage> msgs) {//获取消息成功
-                        KyLog.d("success == " + msgs.size());
+                        KyLog.d("success == " + msgs);
                         //遍历取得的消息
                         TIMMessage message = null;
                         String text = "";
@@ -814,7 +812,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             list.add(entity);
                             KyLog.d(list.size() + "");
 
-
+                            GetMsgManager msgManager = GetMsgManager.instants();
+                            msgManager.setList(list);
                         }
                     }
                 });

@@ -93,15 +93,16 @@
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/table_name"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
-                android:overScrollMode="never"
-                android:scrollbars="none" />
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="总高11层"
+                android:textColor="@color/register_font"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 

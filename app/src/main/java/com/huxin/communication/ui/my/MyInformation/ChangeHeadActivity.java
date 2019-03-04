@@ -6,19 +6,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-<<<<<<< Updated upstream
 import android.os.Build;
-=======
->>>>>>> Stashed changes
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-<<<<<<< Updated upstream
 import android.support.v4.content.FileProvider;
-=======
->>>>>>> Stashed changes
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -236,20 +230,6 @@ public class ChangeHeadActivity extends BaseActivity implements View.OnClickList
     private void gotoCamera() {
         Log.d("evan", "*****************打开相机********************");
         //创建拍照存储的图片文件
-<<<<<<< Updated upstream
-        tempFile = new File(FileUtil.checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"),  "images.jpg");
-
-        //跳转到调用系统相机
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //设置7.0中共享文件，分享路径定义在xml/file_paths.xml
-            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(ChangeHeadActivity.this,  "com.huxin.communication.fileProvider", tempFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-        } else {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-        }
-=======
         tempFile = new File(FileUtil.checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"), System.currentTimeMillis() + ".jpg");
 
         //跳转到调用系统相机
@@ -262,7 +242,6 @@ public class ChangeHeadActivity extends BaseActivity implements View.OnClickList
 //        } else {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
 //        }
->>>>>>> Stashed changes
         startActivityForResult(intent, REQUEST_CAPTURE);
     }
 

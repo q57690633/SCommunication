@@ -11,13 +11,9 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-<<<<<<< Updated upstream
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-=======
-
->>>>>>> Stashed changes
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <!--
     <uses-permission android:name="android.permission.INTERNET" />
@@ -339,7 +335,6 @@
 
         <activity android:name=".ui.ClipImageActivity"/>
 
-<<<<<<< Updated upstream
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -351,9 +346,6 @@
             </intent-filter>
 
         </activity>
-
-=======
->>>>>>> Stashed changes
     </application>
 
 </manifest>

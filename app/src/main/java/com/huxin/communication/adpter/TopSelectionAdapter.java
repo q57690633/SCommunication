@@ -55,12 +55,12 @@ public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapte
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()));
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
-        if (list.get(position).getKeying().equals("1")) {
+        if (list.get(position).getKeying()==1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
         } else {
             holder.mImageViewKeying.setVisibility(View.GONE);
@@ -85,7 +85,7 @@ public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapte
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {

@@ -100,7 +100,7 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ImageLoader.getInstance().displayImage(list.get(position).getUserModel().getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
             setTextView(list, position, ((MyViewHoder) holder).mRecyclerView);
         } else if (holder instanceof MyRentViewHoder) {
-            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position).getRemark());
+            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position).getTitle());
             ((MyRentViewHoder) holder).mTextViewVillageName.setText(list.get(position).getVillageName());
             ((MyRentViewHoder) holder).mTextViewHouseType.setText(list.get(position).getHouseType());
             ((MyRentViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));

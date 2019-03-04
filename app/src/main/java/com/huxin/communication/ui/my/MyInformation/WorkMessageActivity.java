@@ -68,11 +68,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
         mEditTextArea = findViewById(R.id.city);
         mEditTextUserName = findViewById(R.id.username);
-<<<<<<< Updated upstream
         mEditTextcompanyCode = findViewById(R.id.companyCode);
-=======
-        mEditTextcompanyCode = findViewById(R.id.company_code);
->>>>>>> Stashed changes
         mEditTextcompanyName = findViewById(R.id.companyNmae);
         mEditTextstoreName = findViewById(R.id.storeName);
         mLinearLayoutIndustryType = findViewById(R.id.industryType_line);
@@ -91,12 +87,6 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     protected void loadData(Bundle savedInstanceState) {
         mTextViewBianJi.setVisibility(View.VISIBLE);
         mTextViewWanCheng.setVisibility(View.GONE);
-<<<<<<< Updated upstream
-
-
-
-=======
->>>>>>> Stashed changes
     }
 
     @Override

@@ -1523,19 +1523,11 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-<<<<<<< Updated upstream
     private void setData(TopSelectionEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mAdpter = new TopSelectionAdapter(entity.getList(), this);
-=======
-    private void setData(List<TopSelectionEntity> list) {
-        if (list != null && list.size() > 0) {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdpter = new TopSelectionAdapter(list, this);
->>>>>>> Stashed changes
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));

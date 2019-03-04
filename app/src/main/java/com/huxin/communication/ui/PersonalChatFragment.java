@@ -83,7 +83,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
             chatId = "Ljh2001";
         }
         KyLog.i("TARGETID = " + chatId);
-        chatId = "154";// lbh 113,  yzx  154
+//        chatId = "154";// lbh 113,  yzx  154
         chatPanel.setBaseChatId(chatId);
         chatPanel.setMoreOperaUnits(units, false);
 

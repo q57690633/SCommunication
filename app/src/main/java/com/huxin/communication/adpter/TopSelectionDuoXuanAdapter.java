@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectionDuoXuanAdapter.MyViewHoder>{
+public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectionDuoXuanAdapter.MyViewHoder> {
     private static final String PID = "pid";
 
     private List<TopSelectionEntity.ListBean> list;
@@ -91,13 +91,13 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
                 notifyItemChanged(hoder.getAdapterPosition());
                 getSelectedItem();
 
-                Iterator<String> iterator=strings.iterator();
+                Iterator<String> iterator = strings.iterator();
                 String userStr = null;
-                while(iterator.hasNext()){
+                while (iterator.hasNext()) {
                     userStr += iterator.next() + ",";
                 }
 
-                PreferenceUtil.putString(Constanst.PID_COLLECT,  userStr.substring(4,userStr.length() - 1).trim());
+                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
             }
         });
         return hoder;
@@ -128,8 +128,8 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
 
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()));
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
@@ -143,7 +143,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
             holder.mImageView.setVisibility(View.VISIBLE);
         }
 
-        if (list.get(position).getKeying() .equals("1") ) {
+        if (list.get(position).getKeying() == 1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
         } else {
             holder.mImageViewKeying.setVisibility(View.GONE);
