@@ -106,7 +106,6 @@ public class ChatAdapter extends IChatAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         count++;
-        Log.i(TAG ,"count = " + count);
         if (viewType == headerViewType) {
             LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
             return new HeaderViewHolder(inflater.inflate(R.layout.chat_adapter_load_more, parent, false));
@@ -115,7 +114,6 @@ public class ChatAdapter extends IChatAdapter {
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
         if(this.mDataSource != null) {
-            Log.i(TAG ,"this.mDataSource.size() = " + this.mDataSource.size());
             if(this.mDataSource.size() != 0) {
                 if(count == this.mDataSource.size()) {
                     count--;
@@ -127,7 +125,6 @@ public class ChatAdapter extends IChatAdapter {
                         TIMCustomElem elem = (TIMCustomElem) info.getTIMMessage().getElement(0);
                         byte[] data = elem.getData();
                         customMsgData = new String(data);
-                        Log.i(TAG ,"str = " + customMsgData);
                         mIsCustomMessage = true;
                     }
                 }
@@ -141,12 +138,12 @@ public class ChatAdapter extends IChatAdapter {
                 }
                 break;
             case MessageInfo.MSG_TYPE_TEXT + 1:
-                if (mRecycleView.isDivided())
+                if (mRecycleView.isDivided()) {
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text_self, parent, false));
                     if(mIsCustomMessage) {
                         holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
                     }
-                else
+                } else
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
                 if(mIsCustomMessage) {
                     holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
