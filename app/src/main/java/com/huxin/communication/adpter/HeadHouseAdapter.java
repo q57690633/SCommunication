@@ -45,14 +45,22 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     @Override
     public int getItemViewType(int position) {
-        if (list.get(position).getProductType() == 1) {
-            return TYPE_SELL;
-        } else if (list.get(position).getProductType() == 2) {
-            return TYPE_RENT;
-        } else if (list.get(position).getProductType() == 3) {
-            return TYPE_QIUGOU;
-        } else if (list.get(position).getProductType() == 4) {
-            return TYPE_QIUZU;
+        KyLog.d(position + "a");
+        KyLog.d(list.get(position).getProductType() + "a");
+        if (position > list.size()){
+
+        }
+
+        if (position < list.size()) {
+            if (list.get(position).getProductType() == 1) {
+                return TYPE_SELL;
+            } else if (list.get(position).getProductType() == 2) {
+                return TYPE_RENT;
+            } else if (list.get(position).getProductType() == 3) {
+                return TYPE_QIUGOU;
+            } else if (list.get(position).getProductType() == 4) {
+                return TYPE_QIUZU;
+            }
         }
         return 0;
     }
@@ -126,7 +134,7 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return list == null ? 0 : Integer.MAX_VALUE;
+        return list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {

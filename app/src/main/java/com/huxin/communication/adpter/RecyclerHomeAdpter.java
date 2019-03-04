@@ -1,18 +1,21 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.sys.a;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.GetMessageEntity;
+import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -41,6 +44,16 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         if (PreferenceUtil.getInt("type") == 1) {
             View view = mInflater.inflate(R.layout.recycler_home_item, parent, false);
             hoder = new MyViewHoder(view);
+            hoder.Tm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,TIMChatActivity.class);
+                    intent.putExtra("TARGET_TYPE", "C2C");
+                    intent.putExtra("TARGET_ID", list.get(hoder.getAdapterPosition()).getId() + "");
+
+                    mContext.startActivity(intent);
+                }
+            });
 
         } else {
             View view = mInflater.inflate(R.layout.recycler_home_item_travel, parent, false);
@@ -82,6 +95,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         private TextView msg;
         private ImageView image;
         private RelativeLayout numRl;
+        private LinearLayout Tm;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -90,6 +104,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             image = itemView.findViewById(R.id.image_head);
             time = itemView.findViewById(R.id.time);
             numRl = itemView.findViewById(R.id.rl_num);
+            Tm = itemView.findViewById(R.id.line_tm);
 
 
         }
