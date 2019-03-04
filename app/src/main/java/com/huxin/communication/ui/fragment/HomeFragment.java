@@ -56,6 +56,15 @@ import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.AutoScrollLayoutManager;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +180,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             view = inflater.inflate(R.layout.fragment_home_travel, container, false);
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getTIMmsg();
     }
 
     @Override
@@ -653,6 +669,46 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             KyLog.d(throwable.toString());
 //            cancelProgressDialog();
             Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void getTIMmsg(){
+        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+            @Override
+            public boolean onNewMessages(List<TIMMessage> msgs) {
+                KyLog.i("----------收到新消息---------");
+                List<GetMessageEntity> list = new ArrayList<>();
+                for(int i = 0; i < msgs.size(); i++) {
+                    String text = "";
+                    TIMMessage message = msgs.get(i);
+                    if(i == 0) {
+                        TIMElem elem = message.getElement(0);
+                        if (elem.getType() == TIMElemType.Text) {
+                            TIMTextElem e = (TIMTextElem) elem;
+                            text = e.getText();
+                        }
+                    }
+                    String sender = message.getSender();
+                    String faceUrl = message.getSenderProfile().getFaceUrl();
+                    TIMConversationType conversationType = message.getConversation().getType();
+                    int type = conversationType.value();
+                    long timeStamp = message.timestamp();
+                    TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+                    TIMConversationExt conExt = new TIMConversationExt(con);
+                    long count = conExt.getUnreadMessageNum();
+                    GetMessageEntity entity = new GetMessageEntity();
+                    entity.setHead_url(faceUrl);
+                    entity.setId(Integer.parseInt(sender));
+                    entity.setMsg(text);
+                    entity.setNum((int) count);
+                    entity.setTimeStamp(timeStamp);
+                    entity.setType(type);
+                    list.add(entity);
+                }
+                GetMsgManager msgManager = GetMsgManager.instants();
+                msgManager.setList(list);
+                return true;
+            }
         });
     }
 }

@@ -25,17 +25,16 @@ public class HomeEntity {
     }
 
     public static class CarouselBean {
-
         /**
-         * carousel_detail : 烧烤好吃的哟
+         * carousel_detail : 范德萨发生发生
          * category : 1
-         * city : 北京市
-         * company_name : 天天烧烤
-         * create_time : 2019-01-23 20:18:08
-         * id : 26
-         * img_url : http://39.105.203.33/upload/1550133990180/1550133990180_134.jpg
+         * city : 石家庄市
+         * company_name : 对方是否舒服舒服
+         * create_time : 2019-02-20 15:13:20
+         * id : 38
+         * img_url : http://39.105.203.33/upload/1550646798801/1550646798801_173.jpg
          * status : 1
-         * url : http://wemedia.ifeng.com/72167460/wemedia.shtml
+         * url : 范德萨发生
          */
 
         private String carousel_detail;
@@ -123,58 +122,64 @@ public class HomeEntity {
 
     public static class HeadLineBean {
         /**
-         * acreage : 100
+         * acreage : 235.0
          * areaId : 102
          * areaOne :
          * city :
          * curPage :
+         * dateNumber : 0
          * element : 0
+         * exclusive : 2
          * files : []
          * findNumber : 0
-         * fitment :
+         * fitment : 简装
          * floorAge :
-         * floorNumber : 0
+         * floorNumber : 23
          * floorSize :
-         * houseHoldAppliances :
+         * houseHoldAppliances : 无家具无家电
          * houseNumber :
-         * houseType : 三室一厅
-         * id : 10
-         * keying : 0
-         * list1 : []
-         * list2 : []
+         * houseType : 五室及以上
+         * id : 49
+         * keying : 1
          * loans : 0
-         * maxAcreage : 0
-         * maxPrice : 0
-         * minAcreage : 0
-         * minPrice : 0
+         * maxAcreage : 0.0
+         * maxPrice : 0.0
+         * minAcreage : 0.0
+         * minPrice : 0.0
          * newOrOld : 0
-         * orientation :
+         * orientation : 朝东
          * ownership :
-         * permit :
-         * photoUrl : upload/1547532634623/1547532634623_159.jpg,upload/1547532634627/1547532634627_544.jpg
-         * productType : 0
+         * paymentType : 押一付一
+         * pdu :
+         * photoUrl :
+         * price : 1235.0
+         * productType : 2
          * publicNumber : 1
-         * publicTime : {"date":15,"day":2,"hours":14,"minutes":11,"month":0,"nanos":0,"seconds":1,"time":1547532661000,"timezoneOffset":-480,"year":119}
+         * publicTime : {"date":4,"day":1,"hours":16,"minutes":12,"month":2,"nanos":0,"seconds":11,"time":1551687131000,"timezoneOffset":-480,"year":119}
          * purpose :
-         * remark :
+         * saleAndStick : 0
+         * secondId : 208
+         * simpleNumber : 0
          * stick : 1
+         * stickTime : 1551687131153
          * tabClassify :
-         * tabId :
+         * tabId : 22,27,29,30,20,21
          * tabName :
-         * totalFloorNumber : 0
-         * totalPrice : 500
-         * uid : 13
-         * unitPrice : 0
-         * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":""}
-         * villageName : 怡家花园
+         * title : 标题
+         * totalFloorNumber : 40
+         * uid : 154
+         * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""}
+         * villageName : 奥斯卡纳别墅小区
          */
 
-        private int acreage;
+        private double acreage;
         private int areaId;
         private String areaOne;
         private String city;
         private String curPage;
+        private int dateNumber;
         private int element;
+        private int exclusive;
         private int findNumber;
         private String fitment;
         private String floorAge;
@@ -186,39 +191,50 @@ public class HomeEntity {
         private int id;
         private int keying;
         private int loans;
-        private int maxAcreage;
-        private int maxPrice;
-        private int minAcreage;
-        private int minPrice;
+        private double maxAcreage;
+        private double maxPrice;
+        private double minAcreage;
+        private double minPrice;
         private int newOrOld;
         private String orientation;
         private String ownership;
-        private String permit;
+        private String paymentType;
+        private String pdu;
         private String photoUrl;
+        private double price;
         private int productType;
         private int publicNumber;
         private PublicTimeBean publicTime;
         private String purpose;
-        private String remark;
+        private int saleAndStick;
+        private int secondId;
+        private int simpleNumber;
         private int stick;
+        private long stickTime;
         private String tabClassify;
         private String tabId;
         private String tabName;
+        private String title;
         private int totalFloorNumber;
-        private int totalPrice;
         private int uid;
-        private int unitPrice;
         private UserModelBean userModel;
         private String villageName;
         private List<?> files;
-        private List<?> list1;
-        private List<?> list2;
+        private String remark;
 
-        public int getAcreage() {
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
+        public double getAcreage() {
             return acreage;
         }
 
-        public void setAcreage(int acreage) {
+        public void setAcreage(double acreage) {
             this.acreage = acreage;
         }
 
@@ -254,12 +270,28 @@ public class HomeEntity {
             this.curPage = curPage;
         }
 
+        public int getDateNumber() {
+            return dateNumber;
+        }
+
+        public void setDateNumber(int dateNumber) {
+            this.dateNumber = dateNumber;
+        }
+
         public int getElement() {
             return element;
         }
 
         public void setElement(int element) {
             this.element = element;
+        }
+
+        public int getExclusive() {
+            return exclusive;
+        }
+
+        public void setExclusive(int exclusive) {
+            this.exclusive = exclusive;
         }
 
         public int getFindNumber() {
@@ -350,35 +382,35 @@ public class HomeEntity {
             this.loans = loans;
         }
 
-        public int getMaxAcreage() {
+        public double getMaxAcreage() {
             return maxAcreage;
         }
 
-        public void setMaxAcreage(int maxAcreage) {
+        public void setMaxAcreage(double maxAcreage) {
             this.maxAcreage = maxAcreage;
         }
 
-        public int getMaxPrice() {
+        public double getMaxPrice() {
             return maxPrice;
         }
 
-        public void setMaxPrice(int maxPrice) {
+        public void setMaxPrice(double maxPrice) {
             this.maxPrice = maxPrice;
         }
 
-        public int getMinAcreage() {
+        public double getMinAcreage() {
             return minAcreage;
         }
 
-        public void setMinAcreage(int minAcreage) {
+        public void setMinAcreage(double minAcreage) {
             this.minAcreage = minAcreage;
         }
 
-        public int getMinPrice() {
+        public double getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(int minPrice) {
+        public void setMinPrice(double minPrice) {
             this.minPrice = minPrice;
         }
 
@@ -406,12 +438,20 @@ public class HomeEntity {
             this.ownership = ownership;
         }
 
-        public String getPermit() {
-            return permit;
+        public String getPaymentType() {
+            return paymentType;
         }
 
-        public void setPermit(String permit) {
-            this.permit = permit;
+        public void setPaymentType(String paymentType) {
+            this.paymentType = paymentType;
+        }
+
+        public String getPdu() {
+            return pdu;
+        }
+
+        public void setPdu(String pdu) {
+            this.pdu = pdu;
         }
 
         public String getPhotoUrl() {
@@ -420,6 +460,14 @@ public class HomeEntity {
 
         public void setPhotoUrl(String photoUrl) {
             this.photoUrl = photoUrl;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
         }
 
         public int getProductType() {
@@ -454,12 +502,28 @@ public class HomeEntity {
             this.purpose = purpose;
         }
 
-        public String getRemark() {
-            return remark;
+        public int getSaleAndStick() {
+            return saleAndStick;
         }
 
-        public void setRemark(String remark) {
-            this.remark = remark;
+        public void setSaleAndStick(int saleAndStick) {
+            this.saleAndStick = saleAndStick;
+        }
+
+        public int getSecondId() {
+            return secondId;
+        }
+
+        public void setSecondId(int secondId) {
+            this.secondId = secondId;
+        }
+
+        public int getSimpleNumber() {
+            return simpleNumber;
+        }
+
+        public void setSimpleNumber(int simpleNumber) {
+            this.simpleNumber = simpleNumber;
         }
 
         public int getStick() {
@@ -468,6 +532,14 @@ public class HomeEntity {
 
         public void setStick(int stick) {
             this.stick = stick;
+        }
+
+        public long getStickTime() {
+            return stickTime;
+        }
+
+        public void setStickTime(long stickTime) {
+            this.stickTime = stickTime;
         }
 
         public String getTabClassify() {
@@ -494,6 +566,14 @@ public class HomeEntity {
             this.tabName = tabName;
         }
 
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
         public int getTotalFloorNumber() {
             return totalFloorNumber;
         }
@@ -502,28 +582,12 @@ public class HomeEntity {
             this.totalFloorNumber = totalFloorNumber;
         }
 
-        public int getTotalPrice() {
-            return totalPrice;
-        }
-
-        public void setTotalPrice(int totalPrice) {
-            this.totalPrice = totalPrice;
-        }
-
         public int getUid() {
             return uid;
         }
 
         public void setUid(int uid) {
             this.uid = uid;
-        }
-
-        public int getUnitPrice() {
-            return unitPrice;
-        }
-
-        public void setUnitPrice(int unitPrice) {
-            this.unitPrice = unitPrice;
         }
 
         public UserModelBean getUserModel() {
@@ -550,32 +614,16 @@ public class HomeEntity {
             this.files = files;
         }
 
-        public List<?> getList1() {
-            return list1;
-        }
-
-        public void setList1(List<?> list1) {
-            this.list1 = list1;
-        }
-
-        public List<?> getList2() {
-            return list2;
-        }
-
-        public void setList2(List<?> list2) {
-            this.list2 = list2;
-        }
-
         public static class PublicTimeBean {
             /**
-             * date : 15
-             * day : 2
-             * hours : 14
-             * minutes : 11
-             * month : 0
+             * date : 4
+             * day : 1
+             * hours : 16
+             * minutes : 12
+             * month : 2
              * nanos : 0
-             * seconds : 1
-             * time : 1547532661000
+             * seconds : 11
+             * time : 1551687131000
              * timezoneOffset : -480
              * year : 119
              */
@@ -682,6 +730,7 @@ public class HomeEntity {
              * companyName :
              * county :
              * headUrl :
+             * identifier :
              * industryType :
              * invitationCode :
              * licenseCode :
@@ -699,6 +748,7 @@ public class HomeEntity {
              * token :
              * uid : 0
              * username :
+             * usersig :
              */
 
             private String advice;
@@ -709,6 +759,7 @@ public class HomeEntity {
             private String companyName;
             private String county;
             private String headUrl;
+            private String identifier;
             private String industryType;
             private String invitationCode;
             private String licenseCode;
@@ -726,6 +777,7 @@ public class HomeEntity {
             private String token;
             private int uid;
             private String username;
+            private String usersig;
 
             public String getAdvice() {
                 return advice;
@@ -789,6 +841,14 @@ public class HomeEntity {
 
             public void setHeadUrl(String headUrl) {
                 this.headUrl = headUrl;
+            }
+
+            public String getIdentifier() {
+                return identifier;
+            }
+
+            public void setIdentifier(String identifier) {
+                this.identifier = identifier;
             }
 
             public String getIndustryType() {
@@ -925,6 +985,14 @@ public class HomeEntity {
 
             public void setUsername(String username) {
                 this.username = username;
+            }
+
+            public String getUsersig() {
+                return usersig;
+            }
+
+            public void setUsersig(String usersig) {
+                this.usersig = usersig;
             }
         }
     }

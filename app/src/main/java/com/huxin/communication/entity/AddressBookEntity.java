@@ -12,9 +12,18 @@ public class AddressBookEntity {
      */
 
     private int count;
+    private List<GroupBean> group;
     private List<CompanyBean> company;
     private List<StarListBean> starList;
     private List<FriendListBean> friendList;
+
+    public List<GroupBean> getGroup() {
+        return group;
+    }
+
+    public void setGroup(List<GroupBean> group) {
+        this.group = group;
+    }
 
     public int getCount() {
         return count;
@@ -46,6 +55,104 @@ public class AddressBookEntity {
 
     public void setFriendList(List<FriendListBean> friendList) {
         this.friendList = friendList;
+    }
+
+
+    public static class GroupBean{
+
+        /**
+         * area : 鹿泉区
+         * city : 石家庄市
+         * corp : 1
+         * flockId : @TGS#2WUOCEXFC
+         * flockName : 重庆科技有限公司
+         * id : 29
+         * kind : 1
+         * travelType : 0
+         * url : http://39.105.203.33/upload/1551252702290/1551252702290_372.png
+         */
+
+        private String area;
+        private String city;
+        private int corp;
+        private String flockId;
+        private String flockName;
+        private int id;
+        private int kind;
+        private int travelType;
+        private String url;
+
+        public String getArea() {
+            return area;
+        }
+
+        public void setArea(String area) {
+            this.area = area;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public int getCorp() {
+            return corp;
+        }
+
+        public void setCorp(int corp) {
+            this.corp = corp;
+        }
+
+        public String getFlockId() {
+            return flockId;
+        }
+
+        public void setFlockId(String flockId) {
+            this.flockId = flockId;
+        }
+
+        public String getFlockName() {
+            return flockName;
+        }
+
+        public void setFlockName(String flockName) {
+            this.flockName = flockName;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getKind() {
+            return kind;
+        }
+
+        public void setKind(int kind) {
+            this.kind = kind;
+        }
+
+        public int getTravelType() {
+            return travelType;
+        }
+
+        public void setTravelType(int travelType) {
+            this.travelType = travelType;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
     }
 
     public static class CompanyBean {

@@ -74,7 +74,7 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
     private int unlimitedEstate = 0;
 
-    private int stick = 0;
+    private int stick = 2;
 
     private RecyclerView mRecyclerViewSearch;
     private LinearLayout mLinearLayoutVillageNameSearch;
@@ -257,13 +257,13 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.stick_rent_release:
-                stick = 2;
+                stick = 1;
                 mImageViewStick.setVisibility(View.GONE);
                 mImageViewStickClick.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.stick_rent_release_click:
-                stick = 1;
+                stick = 2;
                 mImageViewStick.setVisibility(View.VISIBLE);
                 mImageViewStickClick.setVisibility(View.GONE);
                 break;

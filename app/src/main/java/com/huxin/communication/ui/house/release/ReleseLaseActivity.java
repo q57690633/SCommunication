@@ -93,6 +93,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private int loans = 1;
     private int keying = 1;
     private int exclusive = 2;
+    private int stick = 1;
 
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
@@ -111,6 +112,12 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private LinearLayout mLinearLayoutVillageName;
     private TextView mTextViewAddVillageName;
     private SelectByLikeAdapter mSelectBylikeAdapter;
+
+    private boolean isclickedStick = true;
+    private ImageView mImageViewStick;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +171,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         mLinearLayoutVillageName = (LinearLayout) findViewById(R.id.village_search_layout);
         mLinearLayoutVillageNameSearch = (LinearLayout) findViewById(R.id.villageName_search);
         mTextViewAddVillageName = (TextView) findViewById(R.id.add_village_name);
+        mImageViewStick = findViewById(R.id.stick_ed_release);
 
 
         mTextViewHouseHoldAppliances.setOnClickListener(this);
@@ -476,6 +484,17 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 Intent intent = new Intent(this, AddVillageNameActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.stick_ed_release:
+                if (isclickedStick){
+                    mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
+                    isclickedStick = false;
+                    stick = 1;
+                }else {
+                    mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
+                    isclickedStick = true;
+                    stick = 2;
+                }
+                break;
 
         }
     }
@@ -580,7 +599,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
         showProgressDialog();
         ApiModule.getInstance().addRentProduct(VillageName,Acreage,houseType,totalPrice,
-                floorNumber,totalFloorNumber,fitment,String.valueOf(keying),permit,title,"1",
+                floorNumber,totalFloorNumber,fitment,String.valueOf(keying),permit,title,String.valueOf(stick),
                 tableId,String.valueOf(exclusive),purpose,houseHoldAppliances,orientation,houseNumber,floorSize,pdu)
                 .subscribe(response -> {
 

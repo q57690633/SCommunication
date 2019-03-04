@@ -127,7 +127,9 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     cancelProgressDialog();
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
-
+                        if (list != null){
+                            list.clear();
+                        }
                     if(beanList != null) {
                         for(com.huxin.communication.entity.AddressBookEntity.CompanyBean friendListBean : AddressBookEntity.getCompany()) {
                             FamousEntity famousEntity = new FamousEntity();

@@ -61,6 +61,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private ImageView mEditTextOldClick;
     private ImageView mEditTextLoansClick;
     private ImageView mEditTextKeyingClick;
+    private ImageView mImageViewStick;
 
     private EditText mEditTextTitle;
     private EditText mEditTextHouseNumber;
@@ -86,6 +87,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private String houseType;
     private boolean isclicked = true;
     private boolean isclickeds = true;
+    private boolean isclickedStick = true;
 
     private RecyclerView mRecyclerView;
     private ReleaseTabAdapter mTabAdapter;
@@ -95,6 +97,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private int loans = 1;
     private int keying = 1;
     private int exclusive = 2;
+    private int stick = 1;
 
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
@@ -172,6 +175,8 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         mLinearLayoutVillageName = (LinearLayout) findViewById(R.id.village_search_layout);
         mLinearLayoutVillageNameSearch = (LinearLayout) findViewById(R.id.villageName_search);
         mTextViewAddVillageName = (TextView) findViewById(R.id.add_village_name);
+        mImageViewStick = findViewById(R.id.stick_ed_release);
+
 
 
         mTextViewHouseHoldAppliances.setOnClickListener(this);
@@ -193,6 +198,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         mTextViewExclusive.setOnClickListener(this);
 
         mTextViewAddVillageName.setOnClickListener(this);
+        mImageViewStick.setOnClickListener(this);
 
     }
 
@@ -413,6 +419,17 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 Intent intent = new Intent(this, AddVillageNameActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.stick_ed_release:
+                if (isclickedStick){
+                    mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
+                    isclickedStick = false;
+                    stick = 1;
+                }else {
+                    mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
+                    isclickedStick = true;
+                    stick = 2;
+                }
+                break;
 
 
         }
@@ -537,7 +554,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             showProgressDialog();
         ApiModule.getInstance().addSaleProduct(VillageName, Acreage, houseType, totalPrice
                 , floorNumber, totalFloorNumber, String.valueOf(NeworOld), String.valueOf(loans), String.valueOf(keying),
-                houseHoldAppliances, fitment, permit, orientation, purpose, title, "2",
+                houseHoldAppliances, fitment, permit, orientation, purpose, title, String.valueOf(stick),
                 "2", "2", pdu, floorSize, tableId)
                 .subscribe(response -> {
 
