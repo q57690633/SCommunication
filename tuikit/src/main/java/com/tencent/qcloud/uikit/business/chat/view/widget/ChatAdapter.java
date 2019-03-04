@@ -143,10 +143,11 @@ public class ChatAdapter extends IChatAdapter {
                     if(mIsCustomMessage) {
                         holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
                     }
-                } else
+                } else {
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-                if(mIsCustomMessage) {
-                    holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
+                    if(mIsCustomMessage) {
+                        holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
+                    }
                 }
                 break;
             case MessageInfo.MSG_TYPE_IMAGE:
@@ -186,7 +187,6 @@ public class ChatAdapter extends IChatAdapter {
         if (viewType >= MessageInfo.MSG_TYPE_TIPS) {
             holder = new ChatTipsHolder(inflater.inflate(R.layout.chat_adapter_tips, parent, false));
         }
-
         return holder;
     }
 
@@ -314,6 +314,9 @@ public class ChatAdapter extends IChatAdapter {
             case MessageInfo.MSG_TYPE_TEXT + 1:
                 if(mIsCustomMessage) {
                     break;
+                }
+                if(chatHolder.getClass() != ChatTextHolder.class) {
+                    return;
                 }
                 ChatTextHolder msgHolder = (ChatTextHolder) chatHolder;
                 msgHolder.msg.setVisibility(View.VISIBLE);
@@ -701,6 +704,8 @@ public class ChatAdapter extends IChatAdapter {
                 e.printStackTrace();
             }
         }
+        customMsgData = "";
+        mIsCustomMessage = false;
     }
 
     @Override
