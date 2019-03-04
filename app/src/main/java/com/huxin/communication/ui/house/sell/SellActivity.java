@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.sell;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,13 +33,18 @@ import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class SellActivity extends BaseActivity implements View.OnClickListener {
@@ -1692,6 +1698,17 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 Log.e("failed", "SendMsg ok");
                 Toast.makeText(SellActivity.this, "success", Toast.LENGTH_SHORT).show();
                 KyLog.d(msg.toString());
+
+                TIMCustomElem elem = (TIMCustomElem) msg.getElement(0);
+                byte[] data = elem.getData();
+                String str = new String(data);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("msg", str);
+                Intent intent = getIntent();
+                intent.putExtras(bundle);
+                setResult(Activity.RESULT_OK, intent);
+
                 finish();
 
             }
@@ -1700,33 +1717,37 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public static String getData(ArrayList<SaleOfScreeningEntity.ListBean> Salelist, int houseType) {
-        List<HouseEntity> list = new ArrayList<>();
-        List<HouseEntity.ListBean> listBeans = new ArrayList<>();
-        HouseEntity entityHouse = new HouseEntity();
-
-        if (Salelist != null && Salelist.size() > 0) {
-            for (SaleOfScreeningEntity.ListBean SaleEntity : Salelist) {
-                HouseEntity.ListBean entity = new HouseEntity.ListBean();
-                entity.setHouseType(SaleEntity.getHouseType());
-                entity.setExclusive(SaleEntity.getExclusive());
-                entity.setId(SaleEntity.getId());
-                entity.setKeying(SaleEntity.getKeying());
-                entity.setOrientation(SaleEntity.getOrientation());
-                entity.setStick(SaleEntity.getStick());
-                entity.setTabName(SaleEntity.getTabName());
-                entity.setTotalPrice(SaleEntity.getTotalPrice());
-                entity.setTitle(SaleEntity.getTitle());
-                entity.setUnitPrice(SaleEntity.getUnitPrice());
-                entity.setVillageName(SaleEntity.getVillageName());
-                listBeans.add(entity);
+        String str = "";
+        try{
+            JSONObject jsonObject1 = new JSONObject();
+            List<JSONObject> jsonList = new ArrayList<>();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (SaleOfScreeningEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("houseType", SaleEntity.getHouseType());
+                    jsonObject.put("exclusive", String.valueOf(SaleEntity.getExclusive()));
+                    jsonObject.put("id", String.valueOf(SaleEntity.getId()));
+                    jsonObject.put("keying", String.valueOf(SaleEntity.getKeying()));
+                    jsonObject.put("orientation", SaleEntity.getOrientation());
+                    jsonObject.put("stick", String.valueOf(SaleEntity.getStick()));
+                    jsonObject.put("tabName", SaleEntity.getTabName());
+                    jsonObject.put("totalPrice", String.valueOf(SaleEntity.getTotalPrice()));
+                    jsonObject.put("title", SaleEntity.getTitle());
+                    jsonObject.put("unitPrice", String.valueOf(SaleEntity.getUnitPrice()));
+                    jsonObject.put("villageName", SaleEntity.getVillageName());
+                    jsonList.add(jsonObject);
+                }
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", String.valueOf(houseType));
+                jsonObject1.put("listBean", jsonList.toString());
             }
-            entityHouse.setList(listBeans);
-            entityHouse.setHouseType(houseType);//出售
-            entityHouse.setType(1);
-            list.add(entityHouse);
+            str = jsonObject1.toString();
+            KyLog.i("getData str = " + str);
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        KyLog.object(list);
-        return ListToString(list);
+        return str;
     }
 
     /**
@@ -1749,7 +1770,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
             }
             stringBuffer.append("{").append(sb).append("}");
         }
-        return "L" + sb.toString();
+        return stringBuffer.toString();
     }
 
 }

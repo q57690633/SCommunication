@@ -1,13 +1,17 @@
 package com.tencent.qcloud.uikit.business.chat.view.widget;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMCustomElem;
+import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMFileElem;
 import com.tencent.imsdk.TIMImage;
@@ -37,15 +43,17 @@ import com.tencent.qcloud.uikit.business.chat.view.ChatListView;
 import com.tencent.qcloud.uikit.common.BackgroundTasks;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
 import com.tencent.qcloud.uikit.common.component.audio.UIKitAudioArmMachine;
-import com.tencent.qcloud.uikit.common.component.audio.UIKitAudioMachine;
 import com.tencent.qcloud.uikit.common.component.face.FaceManager;
 import com.tencent.qcloud.uikit.common.component.picture.imageEngine.impl.GlideEngine;
 import com.tencent.qcloud.uikit.common.component.video.VideoViewActivity;
 import com.tencent.qcloud.uikit.common.utils.DateTimeUtil;
 import com.tencent.qcloud.uikit.common.utils.FileUtil;
-import com.tencent.qcloud.uikit.common.utils.ImageUtil;
 import com.tencent.qcloud.uikit.common.utils.UIUtils;
 import com.tencent.qcloud.uikit.common.widget.photoview.PhotoViewActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,8 +65,10 @@ import java.util.List;
  */
 
 public class ChatAdapter extends IChatAdapter {
+    private static final String TAG = "ChatAdapter";
 
     private boolean mLoading = true;
+    private boolean mIsCustomMessage = false;
     private ChatListView mRecycleView;
     private List<MessageInfo> mDataSource = new ArrayList<>();
 
@@ -83,10 +93,20 @@ public class ChatAdapter extends IChatAdapter {
     private static final int headerViewType = -99;
     private static List<String> downloadEles = new ArrayList();
 
+    private String customMsgData = "";
+    private Context mContext;
+    private int count = -2;
+
+    public ChatAdapter(Context context) {
+        mContext = context;
+    }
+
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        count++;
+        Log.i(TAG ,"count = " + count);
         if (viewType == headerViewType) {
             LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
             return new HeaderViewHolder(inflater.inflate(R.layout.chat_adapter_load_more, parent, false));
@@ -94,15 +114,43 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
+        if(this.mDataSource != null) {
+            Log.i(TAG ,"this.mDataSource.size() = " + this.mDataSource.size());
+            if(this.mDataSource.size() != 0) {
+                if(count == this.mDataSource.size()) {
+                    count--;
+                }
+                MessageInfo info = this.mDataSource.get(count);
+                if(info != null) {
+                    TIMElemType type = info.getTIMMessage().getElement(0).getType();
+                    if(type == TIMElemType.Custom) {
+                        TIMCustomElem elem = (TIMCustomElem) info.getTIMMessage().getElement(0);
+                        byte[] data = elem.getData();
+                        customMsgData = new String(data);
+                        Log.i(TAG ,"str = " + customMsgData);
+                        mIsCustomMessage = true;
+                    }
+                }
+            }
+        }
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
+                if(mIsCustomMessage) {
+                    holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
+                }
                 break;
             case MessageInfo.MSG_TYPE_TEXT + 1:
                 if (mRecycleView.isDivided())
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text_self, parent, false));
+                    if(mIsCustomMessage) {
+                        holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
+                    }
                 else
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
+                if(mIsCustomMessage) {
+                    holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
+                }
                 break;
             case MessageInfo.MSG_TYPE_IMAGE:
             case MessageInfo.MSG_TYPE_VIDEO:
@@ -267,6 +315,9 @@ public class ChatAdapter extends IChatAdapter {
         switch (getItemViewType(position)) {
             case MessageInfo.MSG_TYPE_TEXT:
             case MessageInfo.MSG_TYPE_TEXT + 1:
+                if(mIsCustomMessage) {
+                    break;
+                }
                 ChatTextHolder msgHolder = (ChatTextHolder) chatHolder;
                 msgHolder.msg.setVisibility(View.VISIBLE);
                 if (timMsg.getElement(0) instanceof TIMTextElem) {
@@ -616,6 +667,43 @@ public class ChatAdapter extends IChatAdapter {
             if (chatHolder.progress != null)
                 chatHolder.progress.setVisibility(View.GONE);
         }
+        if(mIsCustomMessage) {
+            Log.i(TAG, "1111111");
+            try {
+                JSONObject jsonObject = new JSONObject(customMsgData);
+                String list = jsonObject.getString("listBean");
+                JSONArray listBean = new JSONArray(list);
+                JSONObject bean = listBean.getJSONObject(0);
+                String totalPrice = bean.getString("totalPrice");
+                String stick = bean.getString("stick");
+                String title = bean.getString("title");
+                String id = bean.getString("id");
+                String keying = bean.getString("keying");
+                String villageName = bean.getString("villageName");
+                String tabName = bean.getString("tabName");
+                String exclusive = bean.getString("exclusive");
+                String orientation = bean.getString("orientation");
+                String unitPrice = bean.getString("unitPrice");
+                String houseType = bean.getString("houseType");
+                if(chatHolder.getClass() != ChatCustomHolder.class) {
+                    Log.i(TAG, "chatHolder.getClass() = " + chatHolder.getClass());
+                    return;
+                }
+                final ChatCustomHolder customHolder = ((ChatCustomHolder) chatHolder);
+                customHolder.villageName.setText(villageName);
+                customHolder.houseType.setText(houseType);
+                customHolder.unitPrice.setText(unitPrice);
+                customHolder.orientation.setText(orientation);
+                String[] tab = tabName.split(",");
+                ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                customHolder.tabName.setLayoutManager(gridLayoutManager);
+                customHolder.tabName.setAdapter(adapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -807,6 +895,24 @@ public class ChatAdapter extends IChatAdapter {
             super(itemView);
             chatTime = itemView.findViewById(R.id.chat_time);
             tips = itemView.findViewById(R.id.chat_tips);
+        }
+    }
+
+    class ChatCustomHolder extends BaseChatHolder {
+
+        private TextView villageName;
+        private TextView houseType;
+        private TextView unitPrice;
+        private TextView orientation;
+        private RecyclerView tabName;
+
+        public ChatCustomHolder(View itemView) {
+            super(itemView);
+            villageName = itemView.findViewById(R.id.tv_villageName);
+            houseType = itemView.findViewById(R.id.tv_houseType);
+            unitPrice = itemView.findViewById(R.id.tv_unitPrice);
+            orientation = itemView.findViewById(R.id.tv_orientation);
+            tabName = itemView.findViewById(R.id.rv_tabName);
         }
     }
 }

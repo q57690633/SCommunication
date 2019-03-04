@@ -1,5 +1,6 @@
 package com.huxin.communication.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,8 +27,13 @@ import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PersonalChatFragment extends BaseFragment implements MessageUnitClickListener {
     private View mBaseView;
@@ -116,7 +122,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 Intent intent = new Intent(getActivity(), SellActivity.class);
                 intent.putExtra("type", "C2C");
                 intent.putExtra("peer", chatId);
-                getActivity().startActivity(intent);
+                startActivityForResult(intent, 2);
                 break;
             case R.drawable.tab_icon_rent:
                 Intent intentRent = new Intent(getActivity(), RentActivity.class);
@@ -142,6 +148,22 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 break;
             case R.drawable.tab_icon_favorite:
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == 2) {
+            Bundle bundle = data.getExtras();
+            String str = bundle.getString("msg");
+            KyLog.i("onActivityResult str = " + str);
+            try {
+                JSONObject jsonObject = new JSONObject(str);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

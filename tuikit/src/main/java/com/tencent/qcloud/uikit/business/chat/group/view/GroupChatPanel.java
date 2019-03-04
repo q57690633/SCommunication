@@ -34,24 +34,26 @@ public class GroupChatPanel extends ChatPanel implements IChatPanel {
 
     GroupChatPresenter mPresenter;
     private GroupChatInfo mBaseInfo;
+    private Context mContext;
 
 
     public GroupChatPanel(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public GroupChatPanel(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public GroupChatPanel(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
+        mContext = context;
         mTipsGroup.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +123,7 @@ public class GroupChatPanel extends ChatPanel implements IChatPanel {
     @Override
     public void initDefault() {
         super.initDefault();
-        ChatAdapter adapter = new ChatAdapter();
+        ChatAdapter adapter = new ChatAdapter(mContext);
         setChatAdapter(adapter);
         initDefaultEvent();
         mTitleBar.getRightIcon().setImageResource(R.drawable.group_icon);

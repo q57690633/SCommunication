@@ -29,24 +29,25 @@ public class C2CChatPanel extends ChatPanel implements IChatPanel {
 
     C2CChatPresenter mPresenter;
     private C2CChatInfo mBaseInfo;
+    private Context mContext;
 
     public C2CChatPanel(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public C2CChatPanel(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public C2CChatPanel(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-
+    private void init(Context context) {
+        mContext = context;
     }
 
 
@@ -82,7 +83,7 @@ public class C2CChatPanel extends ChatPanel implements IChatPanel {
         super.initDefault();
         mTitleBar.getLeftGroup().setVisibility(View.VISIBLE);
         mTitleBar.getRightGroup().setVisibility(GONE);
-        ChatAdapter adapter = new ChatAdapter();
+        ChatAdapter adapter = new ChatAdapter(mContext);
         setChatAdapter(adapter);
         initDefaultEvent();
     }
