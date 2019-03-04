@@ -64,7 +64,10 @@ import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.conversation.Conversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +79,7 @@ import java.util.List;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends BaseFragment implements View.OnClickListener, GetMessageListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, GetMessageListener ,TIMMessageListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -136,6 +139,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private HomeViewPagerAdapter mViewPagerAdapter;
 
     private HomeViewPagerTravelAdapter mTravelViewPagerAdapter;
+
+    /**
+     * 获取所有会话
+     *
+     * @return 会话列表
+     */
+    public List<TIMConversation> ConversationList;
 
 
     public HomeFragment() {
@@ -220,9 +230,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void loadData() {
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
+        TIMManager.getInstance().addMessageListener(this);
         if (PreferenceUtil.getInt("type") == 1) {
             initData();
-
+            getConversationList();
         } else {
             initDataTravel();
             getProvinces();
@@ -517,6 +528,41 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public boolean onNewMessages(List<TIMMessage> list) {
+        List<GetMessageEntity> lists = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            String text = "";
+            TIMMessage message = list.get(i);
+            if (i == 0) {
+                TIMElem elem = message.getElement(0);
+                if (elem.getType() == TIMElemType.Text) {
+                    TIMTextElem e = (TIMTextElem) elem;
+                    text = e.getText();
+                }
+            }
+            String sender = message.getSender();
+            String faceUrl = message.getSenderProfile().getFaceUrl();
+            TIMConversationType conversationType = message.getConversation().getType();
+            int type = conversationType.value();
+            long timeStamp = message.timestamp();
+            TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+            TIMConversationExt conExt = new TIMConversationExt(con);
+            long count = conExt.getUnreadMessageNum();
+            GetMessageEntity entity = new GetMessageEntity();
+            entity.setHead_url(faceUrl);
+            entity.setId(Integer.parseInt(sender));
+            entity.setMsg(text);
+            entity.setNum((int) count);
+            entity.setTimeStamp(timeStamp);
+            entity.setType(type);
+            lists.add(entity);
+        }
+        GetMsgManager msgManager = GetMsgManager.instants();
+        msgManager.setList(lists);
+        return true;
+    }
+
 
     private class MyFocusHandler extends Handler {
 
@@ -672,16 +718,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         });
     }
 
-    private void getTIMmsg(){
+    private void getTIMmsg() {
         TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
             @Override
             public boolean onNewMessages(List<TIMMessage> msgs) {
                 KyLog.i("----------收到新消息---------");
                 List<GetMessageEntity> list = new ArrayList<>();
-                for(int i = 0; i < msgs.size(); i++) {
+                for (int i = 0; i < msgs.size(); i++) {
                     String text = "";
                     TIMMessage message = msgs.get(i);
-                    if(i == 0) {
+                    if (i == 0) {
                         TIMElem elem = message.getElement(0);
                         if (elem.getType() == TIMElemType.Text) {
                             TIMTextElem e = (TIMTextElem) elem;
@@ -710,5 +756,69 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 return true;
             }
         });
+    }
+
+
+    private void getConversationList() {
+        ConversationList = TIMManagerExt.getInstance().getConversationList();
+        KyLog.d(ConversationList.size() + " === home");
+        if (ConversationList != null && ConversationList.size() > 0) {
+            for (TIMConversation conversation : ConversationList) {
+                    getLocalMessage(conversation.getPeer());
+            }
+        }
+    }
+
+    private void getLocalMessage(String groupId) {
+        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.Group, groupId);
+        TIMConversationExt conExt = new TIMConversationExt(con);
+
+//获取此会话的消息
+        conExt.getLocalMessage(10, //获取此会话最近的 10 条消息
+                null, //不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
+                new TIMValueCallBack<List<TIMMessage>>() {//回调接口
+                    @Override
+                    public void onError(int code, String desc) {//获取消息失败
+                        //接口返回了错误码 code 和错误描述 desc，可用于定位请求失败原因
+                        //错误码 code 含义请参见错误码表
+                        KyLog.d("home", "get message failed. code: " + code + " errmsg: " + desc);
+                    }
+
+                    @Override
+                    public void onSuccess(List<TIMMessage> msgs) {//获取消息成功
+                        KyLog.d("success == " + msgs.size());
+                        //遍历取得的消息
+                        List<GetMessageEntity> list = new ArrayList<>();
+                        for (int i = 0; i < msgs.size(); i++) {
+                            String text = "";
+                            TIMMessage message = msgs.get(i);
+                            if (i == 0) {
+                                TIMElem elem = message.getElement(0);
+                                if (elem.getType() == TIMElemType.Text) {
+                                    TIMTextElem e = (TIMTextElem) elem;
+                                    text = e.getText();
+                                }
+                            }
+                            String sender = message.getSender();
+                            String faceUrl = message.getSenderProfile().getFaceUrl();
+                            TIMConversationType conversationType = message.getConversation().getType();
+                            int type = conversationType.value();
+                            long timeStamp = message.timestamp();
+                            TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+                            TIMConversationExt conExt = new TIMConversationExt(con);
+                            long count = conExt.getUnreadMessageNum();
+                            GetMessageEntity entity = new GetMessageEntity();
+                            entity.setHead_url(faceUrl);
+                            entity.setId(Integer.parseInt(sender));
+                            entity.setMsg(text);
+                            entity.setNum((int) count);
+                            entity.setTimeStamp(timeStamp);
+                            entity.setType(type);
+                            list.add(entity);
+                        }
+                        GetMsgManager msgManager = GetMsgManager.instants();
+                        msgManager.setList(list);
+                    }
+                });
     }
 }
