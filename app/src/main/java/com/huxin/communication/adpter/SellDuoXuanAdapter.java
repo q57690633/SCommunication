@@ -98,9 +98,13 @@ public class SellDuoXuanAdapter extends RecyclerView.Adapter<SellDuoXuanAdapter.
                 while (iterator.hasNext()) {
                     userStr += iterator.next() + ",";
                 }
+<<<<<<< Updated upstream
                 if (!TextUtils.isEmpty(userStr)) {
                     PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
                 }
+=======
+                PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
+>>>>>>> Stashed changes
             }
         });
         return hoder;
@@ -226,6 +230,11 @@ public class SellDuoXuanAdapter extends RecyclerView.Adapter<SellDuoXuanAdapter.
 
     }
 
+<<<<<<< Updated upstream
 
 
+=======
+
+
+>>>>>>> Stashed changes
 }

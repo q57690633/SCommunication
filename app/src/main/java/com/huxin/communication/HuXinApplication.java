@@ -38,7 +38,11 @@ public class HuXinApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+<<<<<<< Updated upstream
         APP_ID = "wx890797a15ec36142";
+=======
+//        APP_ID = "wx90879eb54e7e597c";
+>>>>>>> Stashed changes
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
