@@ -1,8 +1,12 @@
 package com.huxin.communication.adpter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +27,7 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
     private Context mContext;
     private LayoutInflater mInflater;
     private int[] ints;
+
     public FamousAdapter(Context mContext, List<FamousEntity> list) {
         this.mContext = mContext;
         this.list = list;
@@ -64,7 +69,7 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.image = (ImageView) view.findViewById(R.id.image);
-        setinte(viewHolder.tvLetter,position,mContent);
+        setinte(viewHolder.tvLetter, position, mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
         viewHolder.tvPhone.setText(list.get(position).getPhone());
         viewHolder.tvLl.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +77,10 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             public void onClick(View v) {
                 String phone = list.get(position).getPhone();
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions((Activity) mContext, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                    return;
+                }
                 mContext.startActivity(intent);
             }
         });

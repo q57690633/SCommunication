@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingBottom="9dp"
-            android:paddingTop="14dp">
+            android:paddingTop="14dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/quanbu"

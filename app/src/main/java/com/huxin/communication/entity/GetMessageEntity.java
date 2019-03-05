@@ -16,11 +16,11 @@ public class GetMessageEntity {
 
     private String msg;
 
-    private int type;
+    private String type;
 
-    private int id;
+    private String id;
 
-    private int num;
+    private long num;
 
     private long timeStamp;
 
@@ -40,27 +40,27 @@ public class GetMessageEntity {
         this.msg = msg;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getNum() {
+    public long getNum() {
         return num;
     }
 
-    public void setNum(int num) {
+    public void setNum(long num) {
         this.num = num;
     }
 

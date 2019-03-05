@@ -22,11 +22,13 @@
         <EditText
             android:id="@+id/ed_phone"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:background="@drawable/list_phone_ed"
             android:hint="搜索对方手机号即可加为好友"
             android:paddingLeft="30dp"
-            android:textColorHint="@color/login_walling_fort" />
+            android:textColorHint="@color/login_walling_fort"
+            android:singleLine="true"
+            android:imeOptions="actionGo"/>
 
         <ImageView
             android:id="@+id/ed_search"
@@ -46,7 +48,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:background="@color/login_line" />
 
     <RelativeLayout

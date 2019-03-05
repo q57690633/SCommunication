@@ -278,10 +278,11 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
         for (ToVipEntity.ComboBean entity1 : entity.getCombo()) {
             if (entity1.getComboType() == 1) {
                 ComboPreference = entity1.getComboPreference();
-                ComboOriginal = entity1.getComboOriginal();
+//                ComboOriginal = entity1.getComboOriginal();
                 mTextViewComboPreference.setText("特惠价：" + entity1.getComboPreference() + "元");
                 mTextViewComboOriginal.setText("原价：" + String.valueOf(entity1.getComboOriginal()) + "元");
             } else {
+                ComboPreference = entity1.getComboPreference();
                 mTextViewComboPreference2.setText("特惠价：" + entity1.getComboPreference() + "元");
                 mTextViewComboOriginal2.setText("原价：" + String.valueOf(entity1.getComboOriginal()) + "元");
             }
@@ -295,12 +296,9 @@ public class ShopCarFragment extends BaseFragment implements View.OnClickListene
         if (taocan == 0) {
             mTextViewZongJia.setText(String.valueOf((MatchingVip * num) + (StickNumber * numDay)));
             AllPrice = (MatchingVip * num) + (StickNumber * numDay);
-        } else if (taocan == 1) {
+        } else   {
             mTextViewZongJia.setText(String.valueOf(ComboPreference));
             AllPrice = ComboPreference;
-        } else {
-            mTextViewZongJia.setText(String.valueOf(ComboOriginal));
-            AllPrice = ComboOriginal;
 
         }
     }

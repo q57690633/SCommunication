@@ -156,6 +156,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                                 @Override
                                 public void onError(int i, String s) {
+                                    Toast.makeText(LoginActivity.this, "error" + s, Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -169,43 +170,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                         }
                                     });
-                                    TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
-                                        @Override
-                                        public boolean onNewMessages(List<TIMMessage> msgs) {
-                                            KyLog.i("----------收到新消息---------");
-                                            List<GetMessageEntity> list = new ArrayList<>();
-                                            for(int i = 0; i < msgs.size(); i++) {
-                                                String text = "";
-                                                TIMMessage message = msgs.get(i);
-                                                if(i == 0) {
-                                                    TIMElem elem = message.getElement(0);
-                                                    if (elem.getType() == TIMElemType.Text) {
-                                                        TIMTextElem e = (TIMTextElem) elem;
-                                                        text = e.getText();
-                                                    }
-                                                }
-                                                String sender = message.getSender();
-                                                String faceUrl = message.getSenderProfile().getFaceUrl();
-                                                TIMConversationType conversationType = message.getConversation().getType();
-                                                int type = conversationType.value();
-                                                long timeStamp = message.timestamp();
-                                                TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
-                                                TIMConversationExt conExt = new TIMConversationExt(con);
-                                                long count = conExt.getUnreadMessageNum();
-                                                GetMessageEntity entity = new GetMessageEntity();
-                                                entity.setHead_url(faceUrl);
-                                                entity.setId(Integer.parseInt(sender));
-                                                entity.setMsg(text);
-                                                entity.setNum((int) count);
-                                                entity.setTimeStamp(timeStamp);
-                                                entity.setType(type);
-                                                list.add(entity);
-                                            }
-                                            GetMsgManager msgManager = GetMsgManager.instants();
-                                            msgManager.setList(list);
-                                            return true;
-                                        }
-                                    });
+//
                                 }
                             });
 
@@ -229,5 +194,45 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         } else {
             Toast.makeText(this, "请填写手机号码或密码", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getNewMsg(){
+        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+            @Override
+            public boolean onNewMessages(List<TIMMessage> msgs) {
+                KyLog.i("----------收到新消息---------");
+                List<GetMessageEntity> list = new ArrayList<>();
+                for (int i = 0; i < msgs.size(); i++) {
+                    String text = "";
+                    TIMMessage message = msgs.get(i);
+                    if (i == 0) {
+                        TIMElem elem = message.getElement(0);
+                        if (elem.getType() == TIMElemType.Text) {
+                            TIMTextElem e = (TIMTextElem) elem;
+                            text = e.getText();
+                        }
+                    }
+                    String sender = message.getSender();
+                    String faceUrl = message.getSenderProfile().getFaceUrl();
+                    TIMConversationType conversationType = message.getConversation().getType();
+                    String type = conversationType.name();
+                    long timeStamp = message.timestamp();
+                    TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+                    TIMConversationExt conExt = new TIMConversationExt(con);
+                    long count = conExt.getUnreadMessageNum();
+                    GetMessageEntity entity = new GetMessageEntity();
+                    entity.setHead_url(faceUrl);
+                    entity.setId(sender);
+                    entity.setMsg(text);
+                    entity.setNum((int) count);
+                    entity.setTimeStamp(timeStamp);
+                    entity.setType(type);
+                    list.add(entity);
+                }
+                GetMsgManager msgManager = GetMsgManager.instants();
+                msgManager.setList(list);
+                return true;
+            }
+        });
     }
 }

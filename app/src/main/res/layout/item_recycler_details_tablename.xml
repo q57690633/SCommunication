@@ -15,9 +15,9 @@
         android:text="近地铁"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:textColor="@color/sell_font"
-        android:textSize="13sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

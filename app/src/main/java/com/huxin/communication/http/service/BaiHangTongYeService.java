@@ -33,6 +33,7 @@ import com.huxin.communication.entity.LoginEntity;
 import com.huxin.communication.entity.MatchingProductEntity;
 import com.huxin.communication.entity.MoreSimpleEntity;
 import com.huxin.communication.entity.PersonProductEntity;
+import com.huxin.communication.entity.PhoneSearchEntity;
 import com.huxin.communication.entity.ProvinceEntity;
 import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
@@ -974,4 +975,25 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("user/toAddressBook")
     Observable<Response<AddressBookEntity>> addressBook(@Field("uid") String uid, @Field("token") String token);
+
+    /**
+     * 添加腾讯云好友关系
+     */
+    @FormUrlEncoded
+    @POST("user/addTencentFriend")
+    Observable<Response> addTencentFriend(@Field("uid") String uid, @Field("friendId") String friendId,@Field("token") String token);
+
+    /**
+     * 添加腾讯云好友关系
+     */
+    @FormUrlEncoded
+    @POST("user/addFlockMember")
+    Observable<Response> addFlockMember(@Field("uid") String uid, @Field("groupId") String groupId,@Field("token") String token);
+
+    /**
+     * 通讯录搜索
+     */
+    @FormUrlEncoded
+    @POST("user/selectAddressBook")
+    Observable<Response<PhoneSearchEntity>> selectAddressBook(@Field("username") String username, @Field("token") String token);
 }

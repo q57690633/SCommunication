@@ -2,6 +2,7 @@ package com.huxin.communication;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,8 +85,9 @@ public class ReleaseTabAdapter extends RecyclerView.Adapter<ReleaseTabAdapter.My
                 while(iterator.hasNext()){
                     userStr += iterator.next() + ",";
                 }
-                Toast.makeText(mContext, userStr.substring(4,userStr.length() - 1).trim() + "", Toast.LENGTH_SHORT).show();
-                PreferenceUtil.putString(Constanst.TAB_NMAE,userStr.substring(4,userStr.length() - 1).trim());
+                if (!TextUtils.isEmpty(userStr)){
+                    PreferenceUtil.putString(Constanst.TAB_NMAE,userStr.substring(4,userStr.length() - 1).trim());
+                }
 
 
             }

@@ -422,7 +422,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             mHeadLineAdapter = new HeadHouseAdapter(homeEntity.getHeadLine(), getContext());
                             mRecyclerViewHead.setAdapter(mHeadLineAdapter);
                             mRecyclerViewHead.setLayoutManager(manager);
-                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
                         }
                     }
 
@@ -546,7 +546,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             String sender = message.getSender();
             String faceUrl = message.getSenderProfile().getFaceUrl();
             TIMConversationType conversationType = message.getConversation().getType();
-            int type = conversationType.value();
+            String type = conversationType.name();
             long timeStamp = message.timestamp();
             TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
             TIMConversationExt conExt = new TIMConversationExt(con);
@@ -559,16 +559,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
             GetMessageEntity entity = new GetMessageEntity();
             entity.setHead_url(faceUrl);
-            entity.setId(Integer.parseInt(sender));
+            entity.setId(sender);
             entity.setMsg(text);
-            entity.setNum((int) count);
+            entity.setNum(count);
             entity.setTimeStamp(timeStamp);
             entity.setType(type);
             lists.add(entity);
         }
 
-        GetMsgManager msgManager = GetMsgManager.instants();
-        msgManager.setList(lists);
+//        GetMsgManager msgManager = GetMsgManager.instants();
+//        msgManager.setList(lists);
         return true;
     }
 
@@ -742,13 +742,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 KyLog.d(conversation.getPeer() + " === home");
                 getLocalMessage(conversation.getPeer(), list, conversation.getType());
             }
-//            mHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    GetMsgManager msgManager = GetMsgManager.instants();
-//                    msgManager.setList(list);
-//                }
-//            }, 3000);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    GetMsgManager msgManager = GetMsgManager.instants();
+                    msgManager.setList(list);
+                }
+            }, 3000);
         }
     }
 
@@ -766,7 +766,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         TIMConversationExt conExt = new TIMConversationExt(con);
 
 //获取此会话的消息
-        conExt.getLocalMessage(20, //获取此会话最近的 10 条消息
+        conExt.getLocalMessage(1, //获取此会话最近的 10 条消息
                 conExt.getLastMsg(), //不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
                 new TIMValueCallBack<List<TIMMessage>>() {//回调接口
                     @Override
@@ -783,37 +783,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         TIMMessage message = null;
                         String text = "";
                         if (msgs.size() > 0) {
-                            for (int i = 0; i < msgs.size(); i++) {
+//                            for (int i = 0; i < msgs.size(); i++) {
 
-                                message = msgs.get(i);
-                                if (i == 0) {
+                                message = msgs.get(0);
+//                                if (i == 0) {
                                     TIMElem elem = message.getElement(0);
                                     if (elem.getType() == TIMElemType.Text) {
                                         TIMTextElem e = (TIMTextElem) elem;
                                         text = e.getText();
                                     }
-                                }
-                            }
+//                                }
+//                            }
                             String sender = message.getSender();
                             String faceUrl = message.getSenderProfile().getFaceUrl();
                             TIMConversationType conversationType = message.getConversation().getType();
-                            int type = conversationType.value();
+                            String type = conversationType.name();
                             long timeStamp = message.timestamp();
                             TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
                             TIMConversationExt conExt = new TIMConversationExt(con);
                             long count = conExt.getUnreadMessageNum();
                             GetMessageEntity entity = new GetMessageEntity();
                             entity.setHead_url(faceUrl);
-                            entity.setId(Integer.parseInt(sender));
+                            entity.setId(sender);
                             entity.setMsg(text);
-                            entity.setNum((int) count);
+                            entity.setNum(count);
                             entity.setTimeStamp(timeStamp);
                             entity.setType(type);
                             list.add(entity);
                             KyLog.d(list.size() + "");
 
-                            GetMsgManager msgManager = GetMsgManager.instants();
-                            msgManager.setList(list);
+//                            GetMsgManager msgManager = GetMsgManager.instants();
+//                            msgManager.setList(list);
                         }
                     }
                 });

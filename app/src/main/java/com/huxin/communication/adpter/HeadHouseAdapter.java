@@ -46,23 +46,20 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         KyLog.d(position + "a");
-        KyLog.d(list.get(position).getProductType() + "a");
-        if (position > list.size()){
-
-        }
+//        KyLog.d(list.get(position).getProductType() + "a");
 
         if (position < list.size()) {
-            if (list.get(position).getProductType() == 1) {
+            if (list.get(position%list.size()).getProductType() == 1) {
                 return TYPE_SELL;
-            } else if (list.get(position).getProductType() == 2) {
+            } else if (list.get(position%list.size()).getProductType() == 2) {
                 return TYPE_RENT;
-            } else if (list.get(position).getProductType() == 3) {
+            } else if (list.get(position%list.size()).getProductType() == 3) {
                 return TYPE_QIUGOU;
-            } else if (list.get(position).getProductType() == 4) {
+            } else if (list.get(position%list.size()).getProductType() == 4) {
                 return TYPE_QIUZU;
             }
         }
-        return 0;
+        return 1;
     }
 
     @Override
@@ -92,40 +89,40 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHoder) {
-            ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position).getTitle());
-            ((MyViewHoder) holder).mTextViewVillageName.setText(list.get(position).getVillageName());
-            ((MyViewHoder) holder).mTextViewHouseType.setText(list.get(position).getHouseType());
-            ((MyViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
-            ((MyViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
-            ImageLoader.getInstance().displayImage(list.get(position).getUserModel().getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
-            setTextView(list, position, ((MyViewHoder) holder).mRecyclerView);
+            ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position%list.size()).getTitle());
+            ((MyViewHoder) holder).mTextViewVillageName.setText(list.get(position%list.size()).getVillageName());
+            ((MyViewHoder) holder).mTextViewHouseType.setText(list.get(position%list.size()).getHouseType());
+            ((MyViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position%list.size()).getMaxPrice()));
+            ((MyViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position%list.size()).getAcreage()));
+            ImageLoader.getInstance().displayImage(list.get(position%list.size()).getUserModel().getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
+            setTextView(list, position%list.size(), ((MyViewHoder) holder).mRecyclerView);
         } else if (holder instanceof MyRentViewHoder) {
-            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position).getTitle());
-            ((MyRentViewHoder) holder).mTextViewVillageName.setText(list.get(position).getVillageName());
-            ((MyRentViewHoder) holder).mTextViewHouseType.setText(list.get(position).getHouseType());
-            ((MyRentViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
+            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position%list.size()).getTitle());
+            ((MyRentViewHoder) holder).mTextViewVillageName.setText(list.get(position%list.size()).getVillageName());
+            ((MyRentViewHoder) holder).mTextViewHouseType.setText(list.get(position%list.size()).getHouseType());
+            ((MyRentViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position%list.size()).getMaxPrice()));
 //            ((MyRentViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
-            ((MyRentViewHoder) holder).mTextViewHouseHoldAppliances.setText(list.get(position).getHouseHoldAppliances());
-            ((MyRentViewHoder) holder).mTextViewFitment.setText(list.get(position).getFitment());
-            ImageLoader.getInstance().displayImage(list.get(position).getUserModel().getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
-            setTextView(list, position, ((MyRentViewHoder) holder).mRecyclerView);
+            ((MyRentViewHoder) holder).mTextViewHouseHoldAppliances.setText(list.get(position%list.size()).getHouseHoldAppliances());
+            ((MyRentViewHoder) holder).mTextViewFitment.setText(list.get(position%list.size()).getFitment());
+            ImageLoader.getInstance().displayImage(list.get(position%list.size()).getUserModel().getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
+            setTextView(list, position%list.size(), ((MyRentViewHoder) holder).mRecyclerView);
         } else if (holder instanceof MyQiuGouViewHoder) {
-            ((MyQiuGouViewHoder) holder).mTextViewFloorAge.setText(list.get(position).getFloorAge());
-            ((MyQiuGouViewHoder) holder).mTextViewTitles.setText(list.get(position).getRemark());
-            ((MyQiuGouViewHoder) holder).mTextViewVillageName.setText(list.get(position).getVillageName());
-            ((MyQiuGouViewHoder) holder).mTextViewHouseType.setText(list.get(position).getHouseType());
-            ((MyQiuGouViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
-            ((MyQiuGouViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
-            ImageLoader.getInstance().displayImage(list.get(position).getUserModel().getHeadUrl(), ((MyQiuGouViewHoder) holder).mImageViewPhoto);
+            ((MyQiuGouViewHoder) holder).mTextViewFloorAge.setText(list.get(position%list.size()).getFloorAge());
+            ((MyQiuGouViewHoder) holder).mTextViewTitles.setText(list.get(position%list.size()).getRemark());
+            ((MyQiuGouViewHoder) holder).mTextViewVillageName.setText(list.get(position%list.size()).getVillageName());
+            ((MyQiuGouViewHoder) holder).mTextViewHouseType.setText(list.get(position%list.size()).getHouseType());
+            ((MyQiuGouViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position%list.size()).getMaxPrice()));
+            ((MyQiuGouViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position%list.size()).getAcreage()));
+            ImageLoader.getInstance().displayImage(list.get(position%list.size()).getUserModel().getHeadUrl(), ((MyQiuGouViewHoder) holder).mImageViewPhoto);
 
 //            ((MyQiuGouViewHoder) holder).mTextViewHouseHoldAppliances.setText(list.get(position).getHouseHoldAppliances());
         } else if (holder instanceof MyQiuZhuViewHoder) {
-            ((MyQiuZhuViewHoder) holder).mTextViewTitles.setText(list.get(position).getRemark());
-            ((MyQiuZhuViewHoder) holder).mTextViewVillageName.setText(list.get(position).getVillageName());
-            ((MyQiuZhuViewHoder) holder).mTextViewHouseType.setText(list.get(position).getHouseType());
-            ((MyQiuZhuViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
-            ((MyQiuZhuViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
-            ImageLoader.getInstance().displayImage(list.get(position).getUserModel().getHeadUrl(), ((MyQiuZhuViewHoder) holder).mImageViewPhoto);
+            ((MyQiuZhuViewHoder) holder).mTextViewTitles.setText(list.get(position%list.size()).getRemark());
+            ((MyQiuZhuViewHoder) holder).mTextViewVillageName.setText(list.get(position%list.size()).getVillageName());
+            ((MyQiuZhuViewHoder) holder).mTextViewHouseType.setText(list.get(position%list.size()).getHouseType());
+            ((MyQiuZhuViewHoder) holder).mTextViewTotalPrice.setText(String.valueOf(list.get(position%list.size()).getMaxPrice()));
+            ((MyQiuZhuViewHoder) holder).mTextViewAcreage.setText(String.valueOf(list.get(position%list.size()).getAcreage()));
+            ImageLoader.getInstance().displayImage(list.get(position%list.size()).getUserModel().getHeadUrl(), ((MyQiuZhuViewHoder) holder).mImageViewPhoto);
 
 //            ((MyQiuZhuViewHoder) holder).mTextViewHouseHoldAppliances.setText(list.get(position).getHouseHoldAppliances());
         }
@@ -134,7 +131,7 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return Integer.MAX_VALUE;
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {
@@ -252,9 +249,10 @@ public class HeadHouseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void setTextView(List<HomeEntity.HeadLineBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
-        KyLog.d(list.get(position).getTabName());
-        for (int i = 0; i < strings.length; i++) {
-            list1.add(strings[i]);
+        if (strings.length > 0) {
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(mContext, 3);

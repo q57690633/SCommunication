@@ -17,6 +17,7 @@ import com.huxin.communication.R;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.utils.PrettyDateFormat;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
-        holder.time.setText(String.valueOf(list.get(position).getTimeStamp()));
+        holder.time.setText(PrettyDateFormat.formatDate(list.get(position).getTimeStamp()));
         holder.num.setText(String.valueOf(list.get(position).getNum()));
         holder.msg.setText(String.valueOf(list.get(position).getMsg()));
         if (!TextUtils.isEmpty(list.get(position).getHead_url())){

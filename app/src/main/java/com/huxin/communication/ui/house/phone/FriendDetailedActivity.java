@@ -1,8 +1,11 @@
 package com.huxin.communication.ui.house.phone;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -91,23 +94,23 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mRelativeLayoutPhone.setOnClickListener(this);
         mConfirmTv.setOnClickListener(this);
 
-        if(isMessageAlert) {
-            mMessageAlertIv.setImageDrawable(getDrawable(R.drawable.switch_open));
-        }else {
-            mMessageAlertIv.setImageDrawable(getDrawable(R.drawable.switch_close));
+        if (isMessageAlert) {
+            mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+        } else {
+            mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
         }
 
-        if(isSetTop) {
-            mSetTopIv.setImageDrawable(getDrawable(R.drawable.switch_open));
-        }else {
-            mSetTopIv.setImageDrawable(getDrawable(R.drawable.switch_close));
+        if (isSetTop) {
+            mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+        } else {
+            mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
         }
 
-        if(isStarFriend) {
-            mStarFriendIv.setImageDrawable(getDrawable(R.drawable.switch_open));
+        if (isStarFriend) {
+            mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
             mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
-        }else {
-            mStarFriendIv.setImageDrawable(getDrawable(R.drawable.switch_close));
+        } else {
+            mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
             mRelativeLayoutStarFriend.setVisibility(View.GONE);
         }
     }
@@ -125,27 +128,33 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                 startActivity(intentTuiJian);
                 break;
             case R.id.history_rl:
-                if (PreferenceUtil.getInt("type") == 1){
+                if (PreferenceUtil.getInt("type") == 1) {
                     Intent intent = new Intent(this, TopSelectionActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
-                }else {
+                } else {
                     Intent intent = new Intent(this, TopSelectionTravelActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
                 }
                 break;
             case R.id.phone_rl:
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
-                startActivity(intent);
+                Intent intentphone = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                    return;
+                }
+                startActivity(intentphone);
                 break;
             case R.id.confirm:
                 String userId = PreferenceUtil.getInt("uid") + "";
                 String userSig = PreferenceUtil.getString("usersig");
+                showProgressDialog();
                 TUIKit.login(userId, userSig, new IUIKitCallBack() {
                     @Override
                     public void onSuccess(Object data) {
-                        KyLog.i("imlogin onSuccess", data);
+                        cancelProgressDialog();
+                        KyLog.i("home onSuccess", data);
                         Intent chatIntent = new Intent(FriendDetailedActivity.this, TIMChatActivity.class);
                         chatIntent.putExtra("TARGET_TYPE", "C2C");
                         chatIntent.putExtra("TARGET_ID", uid + "");
@@ -153,7 +162,8 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                     }
                     @Override
                     public void onError(String module, int errCode, String errMsg) {
-                        KyLog.e("imlogin fail", errMsg);
+                        cancelProgressDialog();
+                        KyLog.e("home fail", errMsg);
                     }
                 });
 
