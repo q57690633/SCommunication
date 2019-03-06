@@ -53,8 +53,10 @@ import com.huxin.communication.entity.WantedScreeningEntity;
 import com.huxin.communication.http.service.ApiFactory;
 import com.huxin.communication.ui.LoginActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.lzy.imagepicker.bean.ImageItem;
 import com.sky.kylog.KyLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -1120,7 +1122,7 @@ public class ApiModule {
     }
 
     /**
-     * 灏忓尯妯＄硦鏌ヨ
+     * 小区模糊查询
      *
      * @return
      */
@@ -1132,7 +1134,7 @@ public class ApiModule {
     }
 
     /**
-     * 娣诲姞灏忓尯
+     * 添加小区
      *
      * @return
      */

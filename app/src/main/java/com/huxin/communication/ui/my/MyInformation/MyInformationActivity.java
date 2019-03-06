@@ -60,12 +60,9 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         mRelativeLayoutPhone.setOnClickListener(this);
         mRelativeLayoutWork.setOnClickListener(this);
 
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.rl_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setData(uri);
-                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -75,8 +72,11 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
             ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageView);
         }else {
@@ -85,8 +85,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))) {
             mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
         }
-
-
     }
 
     @Override
@@ -117,26 +115,26 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode + "ss");
-                if (resultCode == RESULT_OK) {
-                    Uri mSaveUri = Uri.fromFile(new File(getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
-                    uri = data.getData();
-                    if (uri == null) {
-                        return;
-                    }
-                    String cropImagePath = getRealFilePathFromUri(getApplicationContext(), mSaveUri);
-                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-//                    if (type == 1) {
-//                        headImage1.setImageBitmap(bitMap);
-//                    } else {
-                    mImageView.setImageBitmap(bitMap);
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        KyLog.d(requestCode + "ss");
+//                if (resultCode == RESULT_OK) {
+//                    Uri mSaveUri = Uri.fromFile(new File(getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+//                    uri = data.getData();
+//                    if (uri == null) {
+//                        return;
 //                    }
+//                    String cropImagePath = getRealFilePathFromUri(getApplicationContext(), mSaveUri);
+//                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+////                    if (type == 1) {
+////                        headImage1.setImageBitmap(bitMap);
+////                    } else {
+//                    mImageView.setImageBitmap(bitMap);
+////                    }
+//
+//                }
 
-                }
-
-    }
+//    }
 
 }

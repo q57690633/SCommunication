@@ -548,9 +548,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 if(null == elem) {
                     return true;
                 }
-                if (elem.getType() == TIMElemType.Text) {
-                    TIMTextElem e = (TIMTextElem) elem;
-                    text = e.getText();
+                if (elem.getType() != null) {
+                    if (elem.getType() == TIMElemType.Text) {
+                        TIMTextElem e = (TIMTextElem) elem;
+                        text = e.getText();
+                    }
                 }
             }
             String sender = message.getSender();

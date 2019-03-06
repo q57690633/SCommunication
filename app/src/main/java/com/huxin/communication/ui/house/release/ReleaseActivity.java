@@ -646,9 +646,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private String url = "http://39.105.203.33/jlkf/mutual-trust/public/addSaleProduct";
+
 
     private void uploadImage(ArrayList<ImageItem> pathList) {
+
+        String url = "http://39.105.203.33/jlkf/mutual-trust/public/addSaleProduct";
         httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
 
             @Override

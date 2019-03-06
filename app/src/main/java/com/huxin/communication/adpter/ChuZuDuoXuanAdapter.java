@@ -96,6 +96,7 @@ public class ChuZuDuoXuanAdapter extends RecyclerView.Adapter<ChuZuDuoXuanAdapte
                     userStr += iterator.next() + ",";
                 }
                 if (!TextUtils.isEmpty(userStr)) {
+                    KyLog.d(userStr.substring(4, userStr.length() - 1));
                     PreferenceUtil.putString(Constanst.PID_COLLECT, userStr.substring(4, userStr.length() - 1).trim());
                 }
             }

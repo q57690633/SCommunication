@@ -188,7 +188,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                         }
                     }
 
-
+                    KyLog.object(list);
                     if (list.size() > 0) {
                         mAdapter = new FamousAdapter(getContext(), list);
                         mListView.setAdapter(mAdapter);

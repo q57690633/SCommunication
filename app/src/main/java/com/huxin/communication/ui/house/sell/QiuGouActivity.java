@@ -1389,7 +1389,7 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.collect_btn:
-                addCollectTravel(Integer.parseInt(productType));
+                addCollectTravel();
                 break;
 
             case R.id.delete_collect:
@@ -1572,12 +1572,10 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 });
     }
 
-    private void addCollectTravel(int productType) {
-        KyLog.d(PreferenceUtil.getString(Constanst.PID_COLLECT)
-                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1));
+    private void addCollectTravel() {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_COLLECT));
         showProgressDialog();
-        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(Constanst.PID_COLLECT)
-                .substring(1,PreferenceUtil.getString(Constanst.PID_COLLECT).length() - 1), productType)
+        ApiModule.getInstance().addCollectTravel(PreferenceUtil.getString(Constanst.PID_COLLECT), 3)
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();

@@ -52,12 +52,17 @@ import com.huxin.communication.entity.UpdateUserPhoneEntity;
 import com.huxin.communication.entity.WantedScreeningEntity;
 import com.huxin.communication.http.Response;
 import com.huxin.communication.http.ResponseUntil;
+import com.lzy.imagepicker.bean.ImageItem;
 
+import java.net.MulticastSocket;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import rx.Observable;
 
 /**
@@ -429,6 +434,7 @@ public interface BaiHangTongYeService {
      * 添加出租信息
      *
      * @param token
+     * @param imas
      * @return
      */
     @FormUrlEncoded

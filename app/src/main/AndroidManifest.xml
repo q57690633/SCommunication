@@ -23,12 +23,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 -->
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:resizeable="true"
-        android:smallScreens="true" />
 
     <application
         android:name=".HuXinApplication"
@@ -44,9 +38,9 @@
             <!--android:authorities="com.huxin.communication.fileProvider"-->
             <!--android:grantUriPermissions="true"-->
             <!--android:exported="false">-->
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/provider_paths" />-->
         <!--</provider>-->
 
         <activity android:name=".ui.MainActivity">
@@ -58,277 +52,208 @@
         </activity>
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.ForgetPassWordActivity"
-            android:label="@string/title_activity_forget_pass_word"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.RegisterOneActivity"
-            android:label="@string/title_activity_register_one"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.RegisterInformationActivity"
-            android:label="@string/title_activity_register_information"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.my.setting.SettingActivity"
-            android:label="@string/title_activity_setting"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.MyInformation.MyInformationActivity"
-            android:label="@string/title_activity_my_information"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.my.setting.NewMessageActivity"
-            android:label="@string/title_activity_new_message"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.my.feedback.FeedbackActivity"
-            android:label="@string/title_activity_feedback"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.MyInformation.ChangePhoneActivity"
-            android:label="@string/title_activity_change_phone"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.my.MyInformation.WorkMessageActivity"
-            android:label="@string/title_activity_work_message"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.my.MyInformation.ChangeHeadActivity"
-            android:label="@string/title_activity_change_head"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.setting.AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.sell.SellActivity"
-            android:label="@string/title_activity_sell"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.travel.DomesticActivity"
-            android:label="@string/title_activity_domestic"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.house.release.ReleaseActivity"
-            android:label="@string/title_activity_release"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.release.ReleseLaseActivity"
-            android:label="@string/title_activity_relese_lase"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.house.release.ReleaseInterfaceActivity"
-            android:label="@string/title_activity_release_interface"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.release.ReleaseBuyActivity"
-            android:label="@string/title_activity_release_buy"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.release.ReleaseRentActivity"
-            android:label="@string/title_activity_release_rent"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
-            android:name=".ui.house.release.AddResidentialActivity"
-            android:label="@string/title_activity_add_residential"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.house.release.AddResidentialActivity" />
         <activity
             android:name=".ui.travel.release.ReleaseGuoNeiActivity"
-            android:label="@string/title_activity_release"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.travel.release.ReleaseInterfaceActivity"
-            android:label="@string/title_activity_release_interface"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.travel.release.OverseasReleaseActivity"
-            android:label="@string/title_activity_overseas_release"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
-            android:name=".ui.travel.release.ReleaseTicketingActivity"
-            android:label="@string/title_activity_release_ticketing"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.travel.release.ReleaseTicketingActivity" />
         <activity
-            android:name=".ui.travel.release.ReleaseZhouBoundaryActivity"
-            android:label="@string/title_activity_release_zhou_boundary"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.travel.release.ReleaseZhouBoundaryActivity" />
         <activity
-            android:name=".ui.house.phone.AddFriendActivity"
-            android:label="@string/title_activity_add_friend"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.house.phone.AddFriendActivity" />
         <activity
-            android:name=".ui.house.phone.DetailedInformationActivity"
-            android:label="@string/title_activity_detailed_information"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.house.phone.DetailedInformationActivity" />
         <activity
-            android:name=".ui.house.phone.FriendDetailedActivity"
-            android:label="@string/title_activity_friend_detailed"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.house.phone.FriendDetailedActivity" />
         <activity
-            android:name=".ui.house.phone.InvitationActivity"
-            android:label="@string/title_activity_invitation"
-            android:theme="@style/Theme.MaterialDesign" />
+            android:name=".ui.house.phone.InvitationActivity" />
         <activity
             android:name=".ui.house.match.MatchActivity"
-            android:label="@string/title_activity_match"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.collect.CollectionActivity"
-            android:label="@string/title_activity_collection"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.house.sell.RentActivity"
-            android:label="@string/title_activity_rent"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.house.sell.QiuGouActivity"
-            android:label="@string/title_activity_qiu_gou"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.sell.QiuZuActivity"
-            android:label="@string/title_activity_qiu_zu"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.TopSelectionActivity"
-            android:label="@string/title_activity_top_selection"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.collect.DataBaseActivity"
-            android:label="@string/title_activity_data_base"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.details.ChuZuDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.house.details.QiuGouDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.house.details.QiuZuDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.travel.details.TicketingDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.house.sell.SimilarDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.MessageRemindActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.InvitationActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.house.details.SellDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.travel.ZhouBianActivity"
-            android:label="@string/title_activity_guo_nei"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.travel.JinWaiActivity"
-            android:label="@string/title_activity_jing_wai"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.travel.TicketingActivity"
-            android:label="@string/title_activity_ticketing"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.travel.details.JinWaiDetailsActivity"
-            android:label="@string/title_activity_jing_wai"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.travel.details.ZhouBianDetailsActivity"
-            android:label="@string/title_activity_zhou_bian_details"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.travel.TopSelectionTravelActivity"
-            android:label="@string/title_activity_top_selection"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.travel.CaiXianActivity"
-            android:label="@string/title_activity_cai_xian"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.travel.CollectTravelActivity"
-            android:label="@string/title_activity_collect_travel"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.my.collect.DataBaseTravelActivity"
-            android:label="@string/title_activity_data_base_travel"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.history.HistroyActivity"
-            android:label="@string/title_activity_histroy"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.KeFuActivity"
-            android:label="@string/title_activity_ke_fu"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.my.tuijian.TuiJianActivity"
-            android:label="@string/title_activity_tui_jian"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.ProvincesActivity"
-            android:label="@string/title_activity_provinces"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.CityActivity"
-            android:label="@string/title_activity_city"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.CountyActivity"
-            android:label="@string/title_activity_county"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
         <activity
             android:name=".ui.ProvincesTravelActivity"
-            android:label="@string/title_activity_provinces_travel"
-            android:theme="@style/Theme.MaterialDesign" />
+          />
         <activity
             android:name=".ui.CityTravelActivity"
-            android:label="@string/title_activity_city_travel"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.InlandSpotActivity"
-            android:label="@string/title_activity_inland_spot"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.ForeignNationActivity"
-            android:label="@string/title_activity_foreign_nation"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.ForeignCityActivity"
-            android:label="@string/title_activity_foreign_city"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.ForeignSpotActivity"
-            android:label="@string/title_activity_foreign_spot"
-            android:theme="@style/Theme.MaterialDesign" />
+           />
 
         <activity
             android:name=".ui.house.sell.AreaOneScreenActivity"
-            android:label="@string/title_activity_area_one_screen"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.house.sell.AreaTwoScreenActivity"
-            android:label="@string/title_activity_area_two_screen"
-            android:theme="@style/Theme.MaterialDesign" />
+             />
         <activity
             android:name=".ui.house.sell.SelectPlotActivity"
-            android:label="@string/title_activity_select_plot"
-            android:theme="@style/Theme.MaterialDesign" />
+            />
         <activity
             android:name=".ui.travel.ShuaiShuanInlandSpotActivity"
-            android:label="@string/title_activity_shuai_shuan_inland_spot"
-            android:theme="@style/Theme.MaterialDesign"/>
+            />
 
         <activity android:name=".ui.TIMChatActivity"/>
 
