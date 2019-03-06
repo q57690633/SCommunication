@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.huxin.communication.R;
+import com.huxin.communication.ui.fragment.GroupChatFragment;
+import com.huxin.communication.ui.fragment.PersonalChatFragment;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 
 public class TIMChatActivity extends AppCompatActivity {
@@ -15,7 +17,13 @@ public class TIMChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timchat);
         Bundle bundle = getIntent().getExtras();
-        mCurrentFragment = new PersonalChatFragment();
+        String type = getIntent().getStringExtra("TARGET_TYPE");
+        if("c2c".equalsIgnoreCase(type)) {
+            mCurrentFragment = new PersonalChatFragment();
+        }else {
+            mCurrentFragment = new GroupChatFragment();
+        }
+
         if (mCurrentFragment != null) {
             mCurrentFragment.setArguments(bundle);
             getFragmentManager().beginTransaction().replace(R.id.empty_view, mCurrentFragment).commitAllowingStateLoss();

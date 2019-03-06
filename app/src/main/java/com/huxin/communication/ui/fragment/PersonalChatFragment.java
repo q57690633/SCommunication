@@ -1,4 +1,4 @@
-package com.huxin.communication.ui;
+package com.huxin.communication.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
-import com.huxin.communication.ui.travel.DomesticActivity;
 import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
@@ -37,13 +36,10 @@ import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PersonalChatFragment extends BaseFragment implements MessageUnitClickListener {
     private View mBaseView;
