@@ -538,13 +538,16 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public boolean onNewMessages(List<TIMMessage> list) {
         KyLog.object("login ==------ list----- " + list);
-
+        KyLog.i("HomeFragment onNewMessage method Run");
         List<GetMessageEntity> lists = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             String text = "";
             TIMMessage message = list.get(i);
             if (i == 0) {
                 TIMElem elem = message.getElement(0);
+                if(null == elem) {
+                    return true;
+                }
                 if (elem.getType() == TIMElemType.Text) {
                     TIMTextElem e = (TIMTextElem) elem;
                     text = e.getText();

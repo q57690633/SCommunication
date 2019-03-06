@@ -774,6 +774,9 @@ public class GroupChatManager implements TIMMessageListener, UIKitMessageRevoked
             }
             if (type == TIMConversationType.System) {
                 TIMElem ele = msg.getElement(0);
+                if(null == ele) {
+                    return false;
+                }
                 TIMElemType eleType = ele.getType();
                 if (eleType == TIMElemType.GroupSystem) {
                     QLog.i(TAG, "onNewMessages::: " + msg);

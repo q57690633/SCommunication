@@ -113,7 +113,7 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-        if(this.mDataSource != null) {
+        /*if(this.mDataSource != null) {
             if(this.mDataSource.size() != 0) {
                 if(count == this.mDataSource.size()) {
                     count--;
@@ -129,7 +129,7 @@ public class ChatAdapter extends IChatAdapter {
                     }
                 }
             }
-        }
+        }*/
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
@@ -148,6 +148,16 @@ public class ChatAdapter extends IChatAdapter {
                     if(mIsCustomMessage) {
                         holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
                     }
+                }
+                break;
+            case MessageInfo.MSG_TYPE_CUSTOM:
+                holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
+                break;
+            case MessageInfo.MSG_TYPE_CUSTOM + 1:
+                if (mRecycleView.isDivided()) {
+                    holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
+                }else {
+                    holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
                 }
                 break;
             case MessageInfo.MSG_TYPE_IMAGE:
@@ -336,8 +346,47 @@ public class ChatAdapter extends IChatAdapter {
                         msgHolder.msg.setTextColor(mRecycleView.getOppositeContentColor());
                     }
                 }
-
-
+                break;
+            case MessageInfo.MSG_TYPE_CUSTOM:
+            case MessageInfo.MSG_TYPE_CUSTOM + 1:
+                try {
+                    TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
+                    byte[] data = customElem.getData();
+                    String str = new String(data);
+                    Log.i(TAG, "str = " + str);
+                    JSONObject jsonObject = new JSONObject(str);
+                    String list = jsonObject.getString("listBean");
+                    JSONArray listBean = new JSONArray(list);
+                    JSONObject bean = listBean.getJSONObject(0);
+                    String totalPrice = bean.getString("totalPrice");
+                    String stick = bean.getString("stick");
+                    String title = bean.getString("title");
+                    String id = bean.getString("id");
+                    String keying = bean.getString("keying");
+                    String villageName = bean.getString("villageName");
+                    String tabName = bean.getString("tabName");
+                    String exclusive = bean.getString("exclusive");
+                    String orientation = bean.getString("orientation");
+                    String unitPrice = bean.getString("unitPrice");
+                    String houseType = bean.getString("houseType");
+                    if(chatHolder.getClass() != ChatCustomHolder.class) {
+                        Log.i(TAG, "chatHolder.getClass() = " + chatHolder.getClass());
+                        return;
+                    }
+                    final ChatCustomHolder customHolder = ((ChatCustomHolder) chatHolder);
+                    customHolder.villageName.setText(villageName);
+                    customHolder.houseType.setText(houseType);
+                    customHolder.unitPrice.setText(unitPrice);
+                    customHolder.orientation.setText(orientation);
+                    String[] tab = tabName.split(",");
+                    ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                    gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                    customHolder.tabName.setLayoutManager(gridLayoutManager);
+                    customHolder.tabName.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             case MessageInfo.MSG_TYPE_VIDEO:
             case MessageInfo.MSG_TYPE_VIDEO + 1:
@@ -667,43 +716,9 @@ public class ChatAdapter extends IChatAdapter {
             if (chatHolder.progress != null)
                 chatHolder.progress.setVisibility(View.GONE);
         }
-        if(mIsCustomMessage) {
-            Log.i(TAG, "1111111");
-            try {
-                JSONObject jsonObject = new JSONObject(customMsgData);
-                String list = jsonObject.getString("listBean");
-                JSONArray listBean = new JSONArray(list);
-                JSONObject bean = listBean.getJSONObject(0);
-                String totalPrice = bean.getString("totalPrice");
-                String stick = bean.getString("stick");
-                String title = bean.getString("title");
-                String id = bean.getString("id");
-                String keying = bean.getString("keying");
-                String villageName = bean.getString("villageName");
-                String tabName = bean.getString("tabName");
-                String exclusive = bean.getString("exclusive");
-                String orientation = bean.getString("orientation");
-                String unitPrice = bean.getString("unitPrice");
-                String houseType = bean.getString("houseType");
-                if(chatHolder.getClass() != ChatCustomHolder.class) {
-                    Log.i(TAG, "chatHolder.getClass() = " + chatHolder.getClass());
-                    return;
-                }
-                final ChatCustomHolder customHolder = ((ChatCustomHolder) chatHolder);
-                customHolder.villageName.setText(villageName);
-                customHolder.houseType.setText(houseType);
-                customHolder.unitPrice.setText(unitPrice);
-                customHolder.orientation.setText(orientation);
-                String[] tab = tabName.split(",");
-                ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-                gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
-                customHolder.tabName.setLayoutManager(gridLayoutManager);
-                customHolder.tabName.setAdapter(adapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        //if(mIsCustomMessage) {
+
+        //}
         customMsgData = "";
         mIsCustomMessage = false;
     }

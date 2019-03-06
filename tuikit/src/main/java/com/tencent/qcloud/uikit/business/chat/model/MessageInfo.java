@@ -42,6 +42,12 @@ public class MessageInfo {
     public static final int MSG_TYPE_CUSTOM_FACE = 0x70;
 
     /**
+     * 自定义类型消息
+     * made by libh
+     */
+    public static final int MSG_TYPE_CUSTOM = 0x80;
+
+    /**
      * 提示类信息
      */
     public static final int MSG_TYPE_TIPS = 0x100;

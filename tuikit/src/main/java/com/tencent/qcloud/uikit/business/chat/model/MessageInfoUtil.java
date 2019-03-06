@@ -61,6 +61,22 @@ public class MessageInfoUtil {
         return info;
     }
 
+    public static MessageInfo buildCustomMessage(byte[] data, String desc) {
+        MessageInfo info = new MessageInfo();
+        TIMMessage TIMMsg = new TIMMessage();
+        TIMCustomElem ele = new TIMCustomElem();
+        ele.setData(data);
+        ele.setDesc(desc);
+        TIMMsg.addElement(ele);
+        info.setExtra("[消息]");
+        info.setMsgTime(System.currentTimeMillis());
+        info.setSelf(true);
+        info.setTIMMessage(TIMMsg);
+        info.setFromUser(TIMManager.getInstance().getLoginUser());
+        info.setMsgType(MessageInfo.MSG_TYPE_CUSTOM);
+        return info;
+    }
+
     public static MessageInfo buildCustomFaceMessage(int groupId, String faceName) {
         MessageInfo info = new MessageInfo();
         TIMMessage TIMMsg = new TIMMessage();

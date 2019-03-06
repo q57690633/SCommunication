@@ -1668,7 +1668,14 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void zhuanfa(SellDuoXuanAdapter adapter) {
-        type = getIntent().getStringExtra("type");
+        String data = getData(adapter.getSelectedItem(), 1);
+        Bundle bundle = new Bundle();
+        bundle.putString("msg", data);
+        Intent intent = getIntent();
+        intent.putExtras(bundle);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+        /*type = getIntent().getStringExtra("type");
         peer = getIntent().getStringExtra("peer");
         KyLog.d(type);
         if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
@@ -1720,7 +1727,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
-
+*/
     }
 
     public static String getData(ArrayList<SaleOfScreeningEntity.ListBean> Salelist, int houseType) {

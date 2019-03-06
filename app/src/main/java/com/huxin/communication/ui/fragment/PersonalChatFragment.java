@@ -34,6 +34,9 @@ import com.huxin.communication.view.chatmenuunit.SellUnit;
 import com.huxin.communication.view.chatmenuunit.ZhouBianYouUnit;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
+import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
 import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
@@ -214,15 +217,15 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK && requestCode == 2) {
-            Bundle bundle = data.getExtras();
-            String str = bundle.getString("msg");
+            String str = data.getStringExtra("msg");
             KyLog.i("onActivityResult str = " + str);
-            try {
-                JSONObject jsonObject = new JSONObject(str);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ChatBottomInputGroup.MessageHandler msgHandler = new ChatBottomInputGroup.MessageHandler() {
+                @Override
+                public void sendMessage(MessageInfo msg) {
+                    chatPanel.sendMessage(msg);
+                }
+            };
+            msgHandler.sendMessage(MessageInfoUtil.buildCustomMessage(str.getBytes(), "sell message"));
         }
         if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
             new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);
