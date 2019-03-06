@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< Updated upstream
 <resources>
 
     <paths>
@@ -9,8 +8,3 @@
     </paths>
 
 </resources>
-=======
-<paths>
-    <external-path path="image/" name="image" />
-</paths>
->>>>>>> Stashed changes

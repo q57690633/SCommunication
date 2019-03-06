@@ -150,11 +150,7 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
             ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageViewHead);
-<<<<<<< Updated upstream
-        } else {
-=======
         }else {
->>>>>>> Stashed changes
             mImageViewHead.setBackgroundResource(R.drawable.head2);
         }
     }

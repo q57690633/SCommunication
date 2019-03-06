@@ -69,11 +69,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
         mEditTextArea = findViewById(R.id.city);
         mEditTextUserName = findViewById(R.id.username);
-<<<<<<< Updated upstream
         mEditTextcompanyCode = findViewById(R.id.companyCode);
-=======
-        mEditTextcompanyCode = findViewById(R.id.company_code);
->>>>>>> Stashed changes
         mEditTextcompanyName = findViewById(R.id.companyNmae);
         mEditTextstoreName = findViewById(R.id.storeName);
         mLinearLayoutIndustryType = findViewById(R.id.industryType_line);
@@ -92,10 +88,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     protected void loadData(Bundle savedInstanceState) {
         mTextViewBianJi.setVisibility(View.VISIBLE);
         mTextViewWanCheng.setVisibility(View.GONE);
-<<<<<<< Updated upstream
         setData();
-=======
->>>>>>> Stashed changes
     }
 
     @Override
@@ -141,11 +134,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.toolbar_quxiao:
                 String userName = mEditTextUserName.getText().toString().trim();
-<<<<<<< Updated upstream
                 String area = PreferenceUtil.getString(Constanst.CITY_NAME);
-=======
-                String area = mEditTextArea.getText().toString().trim();
->>>>>>> Stashed changes
                 String storeName = mEditTextstoreName.getText().toString().trim();
                 String companyName = mEditTextcompanyName.getText().toString().trim();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(area)) {
@@ -163,11 +152,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 } else {
-<<<<<<< Updated upstream
                     Toast.makeText(this, "请填写姓名", Toast.LENGTH_SHORT).show();
-=======
-                    Toast.makeText(this, "请填写姓名或城市", Toast.LENGTH_SHORT).show();
->>>>>>> Stashed changes
                 }
 
                 break;
