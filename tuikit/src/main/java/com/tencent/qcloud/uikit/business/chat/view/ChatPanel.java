@@ -301,7 +301,8 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
 
 
     public void refreshData() {
-        mAdapter.notifyDataSetChanged(ChatListView.DATA_CHANGE_TYPE_REFRESH, 0);
+        //mAdapter.notifyDataSetChanged(ChatListView.DATA_CHANGE_TYPE_REFRESH, 0);
+        mAdapter.notifyDataSetChanged();
     }
 
 

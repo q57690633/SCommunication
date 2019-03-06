@@ -158,4 +158,6 @@ public class Constanst {
 
     public static final String SCREEN_AREAONE_CODE = "areaOne_id";
 
+    public static final int REQUEST_SYSTEM_PIC = 3;
+
 }

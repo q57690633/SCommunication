@@ -308,6 +308,9 @@ public class ImageUtil {
             }
         }
         try {
+            if(null == data) {
+                return null;
+            }
             int index = data.lastIndexOf(".");
             String fileType = "";
             if (index >= 0) {

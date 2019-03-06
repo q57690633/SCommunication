@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.huxin.communication.R;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.listener.MessageUnitClickListener;
 import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
@@ -18,6 +19,7 @@ import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.utils.SendImageMessageUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
 import com.huxin.communication.view.chatmenuunit.FavoriteUnit;
@@ -199,6 +201,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 getActivity().startActivity(intentPiaoWu);
                 break;
             case R.drawable.tab_icon_photo:
+                new SendImageMessageUtil(this, chatPanel).openAlbum();
                 break;
             case R.drawable.tab_icon_database:
                 break;
@@ -220,6 +223,9 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
+            new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);
         }
     }
 }
