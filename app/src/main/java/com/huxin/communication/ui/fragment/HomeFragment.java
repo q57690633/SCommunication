@@ -233,7 +233,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
         TIMManager.getInstance().addMessageListener(this);
-        if (isCity()) {
+//        if (isCity()) {
             if (PreferenceUtil.getInt("type") == 1) {
                 initData();
                 getConversationList();
@@ -241,10 +241,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 initDataTravel();
                 getProvinces();
             }
-        }else {
-            Intent intent = new Intent(getContext(), RegisterInformationActivity.class);
-            startActivity(intent);
-        }
+//        }else {
+//            Intent intent = new Intent(getContext(), RegisterInformationActivity.class);
+//            startActivity(intent);
+//        }
 
 //        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override

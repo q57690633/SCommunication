@@ -133,6 +133,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         .subscribe(loginEntity -> {
                             KyLog.i("----------登录---------");
                             KyLog.object(loginEntity);
+
+                            if (TextUtils.isEmpty(loginEntity.getCity())) {
+                                Intent intent = new Intent(this, RegisterInformationActivity.class);
+                                startActivity(intent);
+                                return;
+                            }
 //                            Intent intentLogin = new Intent(this, MainActivity.class);
 //                            startActivity(intentLogin);
                             PreferenceUtil.putInt("type", loginEntity.getRegisterType());
@@ -200,7 +206,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    private void getNewMsg(){
+    private void getNewMsg() {
         TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
             @Override
             public boolean onNewMessages(List<TIMMessage> msgs) {
