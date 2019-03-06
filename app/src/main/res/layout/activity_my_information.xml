@@ -4,10 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <include layout="@layout/widget_toobar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/widget_toobar" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nav_icon_back2"/>
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/rl_change_head"
@@ -40,8 +53,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="11dp"
-            android:src="@drawable/icon_back2"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back2" />
     </RelativeLayout>
 
     <TextView
@@ -75,33 +88,34 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="11dp"
-            android:src="@drawable/icon_back2"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back2" />
 
         <TextView
             android:id="@+id/one_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="8dp"
             android:text="13110192873"
             android:textColor="@color/register_font"
-            android:textSize="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"/>
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/two_phone"
-            android:layout_below="@id/one_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/one_phone"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
             android:text="13110192873"
             android:textColor="@color/register_font"
-            android:layout_alignParentRight="true"
             android:textSize="16dp"
-            android:layout_marginRight="30dp"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView
@@ -135,8 +149,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="11dp"
-            android:src="@drawable/icon_back2"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_back2" />
     </RelativeLayout>
 
     <TextView
@@ -147,6 +161,9 @@
         android:layout_marginTop="10dp"
         android:background="@color/login_line" />
 
+<<<<<<< Updated upstream
+=======
 
+>>>>>>> Stashed changes
 
 </LinearLayout>

@@ -371,7 +371,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
                 <ImageView
                     android:id="@+id/stick_rent_release_click"

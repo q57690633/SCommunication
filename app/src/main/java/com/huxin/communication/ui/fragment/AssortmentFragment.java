@@ -116,6 +116,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
 
     }
 
+<<<<<<< Updated upstream
     private void initData() {
         int uid = PreferenceUtil.getInt("uid");
         String token = PreferenceUtil.getString("token");
@@ -125,6 +126,20 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     KyLog.i("----------加载通讯录---------");
                     KyLog.object(AddressBookEntity);
                     cancelProgressDialog();
+
+                    if (AddressBookEntity.getGroup() != null) {
+                        for (AddressBookEntity.GroupBean friendListBean : AddressBookEntity.getGroup()) {
+                            FamousEntity famousEntity = new FamousEntity();
+                            famousEntity.setName(friendListBean.getFlockName());
+                            famousEntity.setImage(friendListBean.getUrl());
+//                            famousEntity.setPhone(friendListBean.getFlockId());
+//                            famousEntity.setIndustryType(friendListBean.getIndustryType());
+//                            famousEntity.setStarFriend(friendListBean.getStarFriend());
+//                            famousEntity.setId(friendListBean.getUid());
+                            famousEntity.setType(2);
+                            list.add(famousEntity);
+                        }
+                    }
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
                     if (list != null) {
@@ -139,12 +154,13 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                             famousEntity.setIndustryType(friendListBean.getIndustryType());
                             famousEntity.setStarFriend(friendListBean.getStarFriend());
                             famousEntity.setId(friendListBean.getUid());
+                            famousEntity.setType(1);
                             list.add(famousEntity);
                         }
 
                     }
 
-                    if (beanList != null) {
+                    if (AddressBookEntity.getFriendList() != null) {
                         for (AddressBookEntity.FriendListBean friendListBean : AddressBookEntity.getFriendList()) {
                             FamousEntity famousEntity = new FamousEntity();
                             famousEntity.setName(friendListBean.getUsername());
@@ -153,10 +169,27 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                             famousEntity.setIndustryType(friendListBean.getIndustryType());
                             famousEntity.setStarFriend(friendListBean.getStarFriend());
                             famousEntity.setId(friendListBean.getUid());
+                            famousEntity.setType(1);
                             list.add(famousEntity);
                         }
-
                     }
+
+
+                    if (AddressBookEntity.getStarList() != null) {
+                        for (AddressBookEntity.StarListBean friendListBean : AddressBookEntity.getStarList()) {
+                            FamousEntity famousEntity = new FamousEntity();
+                            famousEntity.setName(friendListBean.getUsername());
+                            famousEntity.setImage(friendListBean.getHeadUrl());
+                            famousEntity.setPhone(friendListBean.getPhone());
+                            famousEntity.setIndustryType(friendListBean.getIndustryType());
+                            famousEntity.setStarFriend(friendListBean.getStarFriend());
+                            famousEntity.setId(friendListBean.getUid());
+                            famousEntity.setType(1);
+                            list.add(famousEntity);
+                        }
+                    }
+
+
                     if (list.size() > 0) {
                         mAdapter = new FamousAdapter(getContext(), list);
                         mListView.setAdapter(mAdapter);
@@ -169,6 +202,73 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     cancelProgressDialog();
                     Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+=======
+    private List<FamousEntity> setData() {
+        List<FamousEntity> list = new ArrayList<>();
+        FamousEntity famousEntity = new FamousEntity();
+        famousEntity.setFirstLetter("星标朋友");
+        famousEntity.setName("店面经理·李宁");
+        FamousEntity famousEntity1 = new FamousEntity();
+        famousEntity1.setFirstLetter("星标朋友");
+        famousEntity1.setName("店面经理·李宁");
+        FamousEntity famousEntity2 = new FamousEntity();
+        famousEntity2.setFirstLetter("a");
+        famousEntity2.setName("店面经理·李宁");
+        FamousEntity famousEntity3 = new FamousEntity();
+        famousEntity3.setFirstLetter("a");
+        famousEntity3.setName("店面经理·李宁");
+        FamousEntity famousEntity4 = new FamousEntity();
+        famousEntity4.setFirstLetter("d");
+        famousEntity4.setName("店面经理·李宁");
+        FamousEntity famousEntity5 = new FamousEntity();
+        famousEntity5.setFirstLetter("c");
+        famousEntity5.setName("店面经理·李宁");
+        FamousEntity famousEntity6 = new FamousEntity();
+        famousEntity6.setFirstLetter("d");
+        famousEntity6.setName("店面经理·李宁");
+        FamousEntity famousEntity7 = new FamousEntity();
+        famousEntity7.setFirstLetter("a");
+        famousEntity7.setName("店面经理·李宁");
+        FamousEntity famousEntity8 = new FamousEntity();
+        famousEntity8.setFirstLetter("f");
+        famousEntity8.setName("店面经理·李宁");
+
+        FamousEntity famousEntity9 = new FamousEntity();
+        famousEntity9.setFirstLetter("h");
+        famousEntity9.setName("店面经理·李宁");
+        FamousEntity famousEntity10 = new FamousEntity();
+        famousEntity10.setFirstLetter("s");
+        famousEntity10.setName("店面经理·李宁");
+        FamousEntity famousEntity11 = new FamousEntity();
+        famousEntity11.setFirstLetter("q");
+        famousEntity11.setName("店面经理·李宁");
+        FamousEntity famousEntity12 = new FamousEntity();
+        famousEntity12.setFirstLetter("q");
+        famousEntity12.setName("店面经理·李宁");
+        FamousEntity famousEntity13 = new FamousEntity();
+        famousEntity13.setFirstLetter("f");
+        famousEntity13.setName("店面经理·李宁");
+        FamousEntity famousEntity14 = new FamousEntity();
+        famousEntity14.setFirstLetter("星标朋友");
+        famousEntity14.setName("店面经理·李宁");
+        list.add(famousEntity);
+        list.add(famousEntity1);
+        list.add(famousEntity2);
+        list.add(famousEntity3);
+        list.add(famousEntity4);
+        list.add(famousEntity5);
+        list.add(famousEntity6);
+        list.add(famousEntity7);
+        list.add(famousEntity8);
+        list.add(famousEntity9);
+        list.add(famousEntity10);
+        list.add(famousEntity11);
+        list.add(famousEntity12);
+        list.add(famousEntity13);
+        list.add(famousEntity14);
+
+        return list;
+>>>>>>> Stashed changes
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.ReleaseTabAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
@@ -30,10 +31,10 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     private boolean isClicked = true;
 
     private EditText mEditTextUserName;
-    private EditText mEditTextArea;
+    private TextView mEditTextArea;
     private EditText mEditTextstoreName;
     private EditText mEditTextcompanyName;
-    private EditText mEditTextcompanyCode;
+    private TextView mEditTextcompanyCode;
 
     private LinearLayout mLinearLayoutPositions;
     private LinearLayout mLinearLayoutIndustryType;
@@ -68,7 +69,11 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
         mEditTextArea = findViewById(R.id.city);
         mEditTextUserName = findViewById(R.id.username);
+<<<<<<< Updated upstream
         mEditTextcompanyCode = findViewById(R.id.companyCode);
+=======
+        mEditTextcompanyCode = findViewById(R.id.company_code);
+>>>>>>> Stashed changes
         mEditTextcompanyName = findViewById(R.id.companyNmae);
         mEditTextstoreName = findViewById(R.id.storeName);
         mLinearLayoutIndustryType = findViewById(R.id.industryType_line);
@@ -87,6 +92,10 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     protected void loadData(Bundle savedInstanceState) {
         mTextViewBianJi.setVisibility(View.VISIBLE);
         mTextViewWanCheng.setVisibility(View.GONE);
+<<<<<<< Updated upstream
+        setData();
+=======
+>>>>>>> Stashed changes
     }
 
     @Override
@@ -132,7 +141,11 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.toolbar_quxiao:
                 String userName = mEditTextUserName.getText().toString().trim();
+<<<<<<< Updated upstream
+                String area = PreferenceUtil.getString(Constanst.CITY_NAME);
+=======
                 String area = mEditTextArea.getText().toString().trim();
+>>>>>>> Stashed changes
                 String storeName = mEditTextstoreName.getText().toString().trim();
                 String companyName = mEditTextcompanyName.getText().toString().trim();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(area)) {
@@ -150,7 +163,11 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                 } else {
+<<<<<<< Updated upstream
+                    Toast.makeText(this, "请填写姓名", Toast.LENGTH_SHORT).show();
+=======
                     Toast.makeText(this, "请填写姓名或城市", Toast.LENGTH_SHORT).show();
+>>>>>>> Stashed changes
                 }
 
                 break;
@@ -192,6 +209,29 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
         Kouweilist.add(new MyPopVlaues("公寓经理"));
 
         return Kouweilist;
+    }
+
+    private void setData(){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.USER_NAME))){
+            mEditTextUserName.setText(PreferenceUtil.getString(Constanst.USER_NAME));
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY_CODE))){
+            mEditTextcompanyCode.setText(PreferenceUtil.getString(Constanst.COMPANY_CODE));
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY))){
+            mEditTextcompanyName.setText(PreferenceUtil.getString(Constanst.COMPANY));
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.POSITION))){
+            mTextViewPositions.setText(PreferenceUtil.getString(Constanst.POSITION));
+            positions = PreferenceUtil.getString(Constanst.POSITION);
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.INDUSTRYTYPE))){
+            mTextViewIndustryType.setText(PreferenceUtil.getString(Constanst.INDUSTRYTYPE));
+            industryType = PreferenceUtil.getString(Constanst.INDUSTRYTYPE);
+        }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))){
+            mEditTextArea.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
+        }
     }
 
 }

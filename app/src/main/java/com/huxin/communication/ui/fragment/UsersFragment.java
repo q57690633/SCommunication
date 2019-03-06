@@ -1,6 +1,9 @@
 package com.huxin.communication.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +26,11 @@ import com.huxin.communication.ui.travel.CollectTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
+
+import java.io.File;
+
+import static android.app.Activity.RESULT_OK;
+import static com.huxin.communication.utils.FileUtil.getRealFilePathFromUri;
 
 /**
  */
@@ -49,6 +57,10 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
     public UsersFragment() {
         // Required empty public constructor
     }
+
+    private Uri uri;
+    private Bitmap bitMap;
+
 
     public static UsersFragment newInstance(String param1, String param2) {
         UsersFragment fragment = new UsersFragment();
@@ -99,7 +111,7 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected void loadData() {
-        setData();
+
 
     }
 
@@ -108,6 +120,15 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (bitMap != null) {
+            mImageViewHead.setImageBitmap(bitMap);
+        }else {
+            setData();
+        }
+    }
 
     private void setData() {
         KyLog.d(PreferenceUtil.getString(Constanst.PHONE));
@@ -129,7 +150,11 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.IMAGE_URL))) {
             ImageLoader.getInstance().displayImage(PreferenceUtil.getString(Constanst.IMAGE_URL), mImageViewHead);
+<<<<<<< Updated upstream
+        } else {
+=======
         }else {
+>>>>>>> Stashed changes
             mImageViewHead.setBackgroundResource(R.drawable.head2);
         }
     }
@@ -169,5 +194,22 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KyLog.d(requestCode + "ss");
+        if (resultCode == RESULT_OK) {
+            Uri mSaveUri = Uri.fromFile(new File(getContext().getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+            uri = data.getData();
+            if (uri == null) {
+                return;
+            }
+            String cropImagePath = getRealFilePathFromUri(getContext(), mSaveUri);
+            bitMap = BitmapFactory.decodeFile(cropImagePath);
+
+        }
+
     }
 }

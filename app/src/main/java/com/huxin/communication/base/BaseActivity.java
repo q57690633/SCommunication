@@ -24,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Toolbar.
     public static final String PHONE = "phone";
     public static final String IS_BINDPHONE = "is_bind_phone";
 
+
     protected static final int MODE_NOR = 0;
     protected static final int MODE_BACK = 1;
     protected static final int MODE_DRAWER = 2;

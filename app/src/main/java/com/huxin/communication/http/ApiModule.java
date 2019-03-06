@@ -965,6 +965,7 @@ public class ApiModule {
      * @return
      */
     public Observable<AroundTravelEntity> getCollectAround(String depart_code, String goalsId,
+<<<<<<< Updated upstream
                                                            String sort_type, String tOtherId,
                                                            String tActivityId, String tStayId,
                                                            String tAddressId, String tTrafficId,
@@ -972,6 +973,15 @@ public class ApiModule {
                                                            String numberDays, String keyWord,
                                                            String curPage, String minDay, String maxDay, String uid,
                                                            String travel_kind) {
+=======
+                                                            String sort_type, String tOtherId,
+                                                            String tActivityId, String tStayId,
+                                                            String tAddressId, String tTrafficId,
+                                                            String tConsumeId, String minPri_maxPri,
+                                                            String numberDays, String keyWord,
+                                                            String curPage, String minDay, String maxDay, String uid,
+                                                            String travel_kind) {
+>>>>>>> Stashed changes
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind)
@@ -987,6 +997,7 @@ public class ApiModule {
      * @return
      */
     public Observable<ForeignTravelEntity> getCollectForeign(String depart_name, String min_days,
+<<<<<<< Updated upstream
                                                              String max_days, String spot_name,
                                                              String goals_name, String t_activity_id,
                                                              String t_stay_id, String t_other_id,
@@ -995,6 +1006,16 @@ public class ApiModule {
                                                              String t_consume_id, String sort_type,
                                                              String minPri_maxPri, String number_days,
                                                              String keyWord, String curPage, String uid
+=======
+                                                              String max_days, String spot_name,
+                                                              String goals_name, String t_activity_id,
+                                                              String t_stay_id, String t_other_id,
+                                                              String t_address_id, String t_traffic_id,
+                                                              String t_overseas_id,
+                                                              String t_consume_id, String sort_type,
+                                                              String minPri_maxPri, String number_days,
+                                                              String keyWord, String curPage, String uid
+>>>>>>> Stashed changes
     ) {
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectForeign(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
@@ -1012,10 +1033,17 @@ public class ApiModule {
      * @return
      */
     public Observable<TicketInfoEntity> getCollectTicket(String ticket_type, String ticket_city_name,
+<<<<<<< Updated upstream
                                                          String minPri_maxPri, String ticket_theme_id,
                                                          String ticket_activity_id, String ticket_other_id,
                                                          String sort_type,
                                                          String keyWord, String curPage, String uid) {
+=======
+                                                            String minPri_maxPri, String ticket_theme_id,
+                                                            String ticket_activity_id, String ticket_other_id,
+                                                            String sort_type,
+                                                            String keyWord, String curPage, String uid) {
+>>>>>>> Stashed changes
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectTicket(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
                 PreferenceUtil.getString(TOKEN), keyWord, curPage, uid)

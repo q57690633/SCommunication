@@ -23,10 +23,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FamousAdapter extends BaseAdapter implements SectionIndexer {
+
+    private static final int GOUNP = 2;
+    private static final int FRIEND = 1;
+
     private List<FamousEntity> list = null;
     private Context mContext;
     private LayoutInflater mInflater;
     private int[] ints;
+
+//    @Override
+//    public int getItemViewType(int position) {
+//
+//        if (list.get(position).getType() == FRIEND){
+//            return FRIEND;
+//        }else if (list.get(position).getType() == GOUNP){
+//            return GOUNP;
+//        }
+//
+//        return FRIEND;
+//    }
 
     public FamousAdapter(Context mContext, List<FamousEntity> list) {
         this.mContext = mContext;

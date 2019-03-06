@@ -33,6 +33,7 @@ import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMCustomElem;
+<<<<<<< Updated upstream
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -43,6 +44,11 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 
 import org.json.JSONObject;
+=======
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMValueCallBack;
+>>>>>>> Stashed changes
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -378,6 +384,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
 
         mTextViewCollect.setOnClickListener(this);
 
@@ -444,6 +452,10 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+<<<<<<< Updated upstream
+        KyLog.d(isClickQuYu + "");
+=======
+>>>>>>> Stashed changes
         if (!isClickQuYu) {
             return;
         }
@@ -465,9 +477,11 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                     + "-1" + "," + "-1";
         }
         KyLog.d(villageName);
-        getSaleOfScreening(villageName, "", "", "", "", "", "", "", "", "",
-                "", "", "", "0", 0, "",
-                "", "1", "");
+        if (isClickQuYu) {
+            getSaleOfScreening(villageName, "", "", "", "", "", "", "", "", "",
+                    "", "", "", "0", 0, "",
+                    "", "1", "");
+        }
     }
 
     @Override
@@ -1547,7 +1561,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
             mRecyclerView.addItemDecoration(spaceItemDecoration);
         } else {
             mRecyclerView.setVisibility(View.GONE);
-            Toast.makeText(this, "该小区没有发布", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -1666,8 +1680,11 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     private void zhuanfa(SellDuoXuanAdapter adapter) {
         type = getIntent().getStringExtra("type");
         peer = getIntent().getStringExtra("peer");
+<<<<<<< Updated upstream
         KyLog.d(type);
 
+=======
+>>>>>>> Stashed changes
 
         if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
             return;
@@ -1703,6 +1720,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 Log.e("failed", "SendMsg ok");
                 Toast.makeText(SellActivity.this, "success", Toast.LENGTH_SHORT).show();
                 KyLog.d(msg.toString());
+<<<<<<< Updated upstream
 
                 TIMCustomElem elem = (TIMCustomElem) msg.getElement(0);
                 byte[] data = elem.getData();
@@ -1714,6 +1732,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
                 intent.putExtras(bundle);
                 setResult(Activity.RESULT_OK, intent);
 
+=======
+>>>>>>> Stashed changes
                 finish();
 
             }
@@ -1722,6 +1742,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public static String getData(ArrayList<SaleOfScreeningEntity.ListBean> Salelist, int houseType) {
+<<<<<<< Updated upstream
         String str = "";
         try{
             JSONObject jsonObject1 = new JSONObject();
@@ -1780,6 +1801,35 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 //        }
 //        KyLog.object(list);
 //        return ListToString(list);
+=======
+        List<HouseEntity> list = new ArrayList<>();
+        List<HouseEntity.ListBean> listBeans = new ArrayList<>();
+        HouseEntity entityHouse = new HouseEntity();
+
+        if (Salelist != null && Salelist.size() > 0) {
+            for (SaleOfScreeningEntity.ListBean SaleEntity : Salelist) {
+                HouseEntity.ListBean entity = new HouseEntity.ListBean();
+                entity.setHouseType(SaleEntity.getHouseType());
+                entity.setExclusive(SaleEntity.getExclusive());
+                entity.setId(SaleEntity.getId());
+                entity.setKeying(SaleEntity.getKeying());
+                entity.setOrientation(SaleEntity.getOrientation());
+                entity.setStick(SaleEntity.getStick());
+                entity.setTabName(SaleEntity.getTabName());
+                entity.setTotalPrice(SaleEntity.getTotalPrice());
+                entity.setTitle(SaleEntity.getTitle());
+                entity.setUnitPrice(SaleEntity.getUnitPrice());
+                entity.setVillageName(SaleEntity.getVillageName());
+                listBeans.add(entity);
+            }
+            entityHouse.setList(listBeans);
+            entityHouse.setHouseType(houseType);//出售
+            entityHouse.setType(1);
+            list.add(entityHouse);
+        }
+        KyLog.object(list);
+        return ListToString(list);
+>>>>>>> Stashed changes
     }
 
     /**
@@ -1788,6 +1838,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
      * @param list :需要转换的List
      * @return String转换后的字符串
      */
+<<<<<<< Updated upstream
 //    public static String ListToString(List<HouseEntity> list) {
 //        StringBuffer stringBuffer = new StringBuffer();
 //        StringBuffer sb = new StringBuffer();
@@ -1804,5 +1855,23 @@ public class SellActivity extends BaseActivity implements View.OnClickListener {
 //        }
 //        return stringBuffer.toString();
 //    }
+=======
+    public static String ListToString(List<HouseEntity> list) {
+        StringBuffer stringBuffer = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
+        StringBuffer sblist = new StringBuffer();
+
+        if (list != null && list.size() > 0) {
+            for (HouseEntity entity : list) {
+                for (HouseEntity.ListBean listBean : entity.getList()) {
+                    sblist.append("{").append(listBean).append("}");
+                }
+                sb.append(entity).append("[").append(sblist).append("]");
+            }
+            stringBuffer.append("{").append(sb).append("}");
+        }
+        return "L" + sb.toString();
+    }
+>>>>>>> Stashed changes
 
 }

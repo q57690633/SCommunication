@@ -133,6 +133,16 @@ public class Constanst {
 
     public static final String COMPANY = "company";
 
+    public static final String COMPANY_CODE = "company_code";
+
+    public static final String STORE_NAME = "store_name";
+
+    public static final String POSITION = "position";
+
+    public static final  String INDUSTRYTYPE = "industryType";
+
+
+
 
     public static final String TAB_NMAE_ACTIVITY = "tab_name_Activity";
 

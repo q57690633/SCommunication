@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
@@ -30,6 +31,10 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     private RelativeLayout mRelativeLayoutHead;
     private RelativeLayout mRelativeLayoutPhone;
     private RelativeLayout mRelativeLayoutWork;
+<<<<<<< Updated upstream
+    private TextView mTextViewPhone;
+=======
+>>>>>>> Stashed changes
     private Uri uri;
 
     private ImageView mImageView;
@@ -47,15 +52,32 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode(R.string.my_information, MODE_BACK);
+        setToolbarCenterMode(R.string.my_information, 0);
         mRelativeLayoutHead = (RelativeLayout) findViewById(R.id.rl_change_head);
         mRelativeLayoutPhone = (RelativeLayout) findViewById(R.id.rl_change_phone);
         mRelativeLayoutWork = (RelativeLayout) findViewById(R.id.rl_work_message);
+<<<<<<< Updated upstream
+        mTextViewPhone = findViewById(R.id.one_phone);
+=======
+>>>>>>> Stashed changes
         mImageView = findViewById(R.id.image_title);
 
         mRelativeLayoutHead.setOnClickListener(this);
         mRelativeLayoutPhone.setOnClickListener(this);
         mRelativeLayoutWork.setOnClickListener(this);
+<<<<<<< Updated upstream
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setData(uri);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+=======
+>>>>>>> Stashed changes
 
     }
 
@@ -69,6 +91,11 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         }else {
             mImageView.setBackgroundResource(R.drawable.head2);
         }
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))) {
+            mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
+        }
+
+
     }
 
     @Override
@@ -99,6 +126,29 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     }
 
 
+<<<<<<< Updated upstream
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        KyLog.d(requestCode + "ss");
+                if (resultCode == RESULT_OK) {
+                    Uri mSaveUri = Uri.fromFile(new File(getCacheDir(), "cropped_" + System.currentTimeMillis() + ".jpg"));
+                    uri = data.getData();
+                    if (uri == null) {
+                        return;
+                    }
+                    String cropImagePath = getRealFilePathFromUri(getApplicationContext(), mSaveUri);
+                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+//                    if (type == 1) {
+//                        headImage1.setImageBitmap(bitMap);
+//                    } else {
+                    mImageView.setImageBitmap(bitMap);
+//                    }
+
+                }
+
+    }
+=======
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -120,5 +170,6 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 //                }
 //
 //    }
+>>>>>>> Stashed changes
 
 }

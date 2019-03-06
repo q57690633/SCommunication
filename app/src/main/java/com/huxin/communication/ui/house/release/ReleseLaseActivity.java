@@ -193,6 +193,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         mTextViewExclusive.setOnClickListener(this);
 
         mTextViewAddVillageName.setOnClickListener(this);
+        mImageViewStick.setOnClickListener(this);
 
     }
 

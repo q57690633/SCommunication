@@ -16,6 +16,16 @@ public class FamousEntity extends DataSupport{
     private String industryType;
     private String starFriend;
 
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public String getFirstLetter() {
         return firstLetter;
     }

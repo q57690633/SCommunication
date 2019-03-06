@@ -151,6 +151,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
                             PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
                             PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
+                            PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
+                            PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
+                            PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
+                            PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
 
 
                             TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
 import com.huxin.communication.ui.KeFuActivity;
+import com.huxin.communication.ui.RegisterInformationActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.house.match.MatchActivity;
@@ -231,12 +233,17 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
         TIMManager.getInstance().addMessageListener(this);
-        if (PreferenceUtil.getInt("type") == 1) {
-            initData();
-            getConversationList();
-        } else {
-            initDataTravel();
-            getProvinces();
+        if (isCity()) {
+            if (PreferenceUtil.getInt("type") == 1) {
+                initData();
+                getConversationList();
+            } else {
+                initDataTravel();
+                getProvinces();
+            }
+        }else {
+            Intent intent = new Intent(getContext(), RegisterInformationActivity.class);
+            startActivity(intent);
         }
 
 //        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -817,5 +824,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         }
                     }
                 });
+    }
+
+    private boolean isCity(){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))){
+            return true;
+        }
+       return false;
     }
 }
