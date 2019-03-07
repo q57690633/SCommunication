@@ -2,16 +2,22 @@ package com.huxin.communication.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.CompanyAdapter;
 import com.huxin.communication.adpter.FamousAdapter;
+import com.huxin.communication.adpter.GounpAdapter;
+import com.huxin.communication.adpter.StickAdapter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.FamousEntity;
@@ -36,6 +42,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     public static final String PHONE_TAG = "phone";
     public static final String STAR_FRIEND_TAG = "starFriend";
     public static final String UID_TAG = "uid";
+    public static final String IMAGE_TAG = "image";
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -45,6 +53,17 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private ListView mListView;
     private FamousAdapter mAdapter;
     private ImageView mImageView;
+    private RelativeLayout mRelativeLayoutStick;
+
+
+    private RecyclerView mRecyclerViewGroup;
+    private RecyclerView mRecyclerViewStick;
+    private RecyclerView mRecyclerViewCompany;
+
+    private StickAdapter mStickAdapter;
+    private CompanyAdapter mCompanyAdapter;
+    private GounpAdapter mGounpAdapter;
+
 
     private List<FamousEntity> list = new ArrayList<>();
 
@@ -81,6 +100,12 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     protected void initView(View view) {
         mListView = (ListView) view.findViewById(R.id.country_lvcountry);
         mImageView = (ImageView) view.findViewById(R.id.image_phone_person);
+        mRecyclerViewGroup = view.findViewById(R.id.group_recycler);
+        mRecyclerViewStick = view.findViewById(R.id.stick_recycler);
+        mRecyclerViewCompany = view.findViewById(R.id.company_recycler);
+        mRelativeLayoutStick = view.findViewById(R.id.stick_rl);
+
+
         mImageView.setOnClickListener(this);
     }
 
@@ -88,7 +113,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     protected void loadData() {
         initData();
         //mAdapter = new FamousAdapter(getContext(), setData());
-        mListView.setAdapter(mAdapter);
+//        mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,66 +150,52 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     KyLog.i("----------加载通讯录---------");
                     KyLog.object(AddressBookEntity);
                     cancelProgressDialog();
-
-                    if (AddressBookEntity.getGroup() != null) {
-                        for (AddressBookEntity.GroupBean friendListBean : AddressBookEntity.getGroup()) {
-                            FamousEntity famousEntity = new FamousEntity();
-                            famousEntity.setName(friendListBean.getFlockName());
-                            famousEntity.setImage(friendListBean.getUrl());
-//                            famousEntity.setPhone(friendListBean.getFlockId());
-//                            famousEntity.setIndustryType(friendListBean.getIndustryType());
-//                            famousEntity.setStarFriend(friendListBean.getStarFriend());
-//                            famousEntity.setId(friendListBean.getUid());
-                            famousEntity.setType(2);
-                            list.add(famousEntity);
-                        }
-                    }
-
-                    List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
                     if (list != null) {
                         list.clear();
                     }
-                    if (beanList != null) {
-                        for (com.huxin.communication.entity.AddressBookEntity.CompanyBean friendListBean : AddressBookEntity.getCompany()) {
-                            FamousEntity famousEntity = new FamousEntity();
-                            famousEntity.setName(friendListBean.getUsername());
-                            famousEntity.setImage(friendListBean.getHeadUrl());
-                            famousEntity.setPhone(friendListBean.getPhone());
-                            famousEntity.setIndustryType(friendListBean.getIndustryType());
-                            famousEntity.setStarFriend(friendListBean.getStarFriend());
-                            famousEntity.setId(friendListBean.getUid());
-                            famousEntity.setType(1);
-                            list.add(famousEntity);
-                        }
+
+                    if (AddressBookEntity.getGroup() != null && AddressBookEntity.getGroup().size() > 0) {
+                        KyLog.object(AddressBookEntity.getGroup());
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                        mGounpAdapter = new GounpAdapter(AddressBookEntity.getGroup(),getActivity());
+                        mRecyclerViewGroup.setAdapter(mGounpAdapter);
+                        mRecyclerViewGroup.setLayoutManager(manager);
+                    }
+
+                    List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
+
+                    if (beanList != null && beanList.size() > 0)  {
+                        KyLog.object(AddressBookEntity.getCompany());
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                        mCompanyAdapter = new CompanyAdapter(AddressBookEntity.getCompany(),getActivity());
+                        mRecyclerViewCompany.setAdapter(mCompanyAdapter);
+                        mRecyclerViewCompany.setLayoutManager(manager);
+                    }
+
+                    if (AddressBookEntity.getStarList() != null && AddressBookEntity.getStarList().size() > 0) {
+                        KyLog.object(AddressBookEntity.getStarList());
+                        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                        mStickAdapter = new StickAdapter(AddressBookEntity.getStarList(),getActivity());
+                        mRecyclerViewStick.setAdapter(mStickAdapter);
+                        mRecyclerViewStick.setLayoutManager(manager);
+                        mRelativeLayoutStick.setVisibility(View.VISIBLE);
+                    }else {
+                        mRelativeLayoutStick.setVisibility(View.GONE);
 
                     }
 
                     if (AddressBookEntity.getFriendList() != null) {
+                        KyLog.object(AddressBookEntity.getFriendList());
                         for (AddressBookEntity.FriendListBean friendListBean : AddressBookEntity.getFriendList()) {
-                            FamousEntity famousEntity = new FamousEntity();
-                            famousEntity.setName(friendListBean.getUsername());
-                            famousEntity.setImage(friendListBean.getHeadUrl());
-                            famousEntity.setPhone(friendListBean.getPhone());
-                            famousEntity.setIndustryType(friendListBean.getIndustryType());
-                            famousEntity.setStarFriend(friendListBean.getStarFriend());
-                            famousEntity.setId(friendListBean.getUid());
-                            famousEntity.setType(1);
-                            list.add(famousEntity);
-                        }
-                    }
-
-
-                    if (AddressBookEntity.getStarList() != null) {
-                        for (AddressBookEntity.StarListBean friendListBean : AddressBookEntity.getStarList()) {
-                            FamousEntity famousEntity = new FamousEntity();
-                            famousEntity.setName(friendListBean.getUsername());
-                            famousEntity.setImage(friendListBean.getHeadUrl());
-                            famousEntity.setPhone(friendListBean.getPhone());
-                            famousEntity.setIndustryType(friendListBean.getIndustryType());
-                            famousEntity.setStarFriend(friendListBean.getStarFriend());
-                            famousEntity.setId(friendListBean.getUid());
-                            famousEntity.setType(1);
-                            list.add(famousEntity);
+                            FamousEntity famousEntity2 = new FamousEntity();
+                            famousEntity2.setName(friendListBean.getUsername());
+                            famousEntity2.setImage(friendListBean.getHeadUrl());
+                            famousEntity2.setPhone(friendListBean.getPhone());
+                            famousEntity2.setIndustryType(friendListBean.getIndustryType());
+                            famousEntity2.setStarFriend(friendListBean.getStarFriend());
+                            famousEntity2.setId(friendListBean.getUid());
+                            famousEntity2.setType(1);
+                            list.add(famousEntity2);
                         }
                     }
 
@@ -192,9 +203,6 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     if (list.size() > 0) {
                         mAdapter = new FamousAdapter(getContext(), list);
                         mListView.setAdapter(mAdapter);
-                    } else {
-//                        mAdapter = new FamousAdapter(getContext(), setData());
-                        Toast.makeText(getContext(), "数据为空", Toast.LENGTH_SHORT).show();
                     }
                 }, throwable -> {
                     KyLog.d(throwable.toString());

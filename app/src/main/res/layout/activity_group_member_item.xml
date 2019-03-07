@@ -39,7 +39,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:background="@color/blue"
+                android:background="@drawable/head2"
                 android:scaleType="centerCrop" />
 
 
@@ -57,7 +57,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:paddingTop="5dp"
-                    android:text="店面经理·李宁"
                     android:textColor="@color/register_font"
                     android:textSize="16sp" />
 
@@ -68,7 +67,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:paddingTop="5dp"
-                    android:text="爱屋房产"
                     android:textColor="@color/register_font"
                     android:textSize="16sp" />
 
@@ -81,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical">
 
                 <ImageView

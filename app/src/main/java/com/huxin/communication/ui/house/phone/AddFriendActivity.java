@@ -65,11 +65,11 @@ public class AddFriendActivity extends BaseActivity implements EditText.OnEditor
         showProgressDialog();
         ApiModule.getInstance().selectAddressBook(username)
                 .subscribe(phoneSearchEntity  -> {
-                    if (phoneSearchEntity != null) {
+//                    if (phoneSearchEntity != null) {
                         Intent intent = new Intent(this,DetailedInformationActivity.class);
                         intent.putExtra("addfriend",phoneSearchEntity);
                         startActivity(intent);
-                    }
+//                    }
 
                     cancelProgressDialog();
                 }, throwable -> {

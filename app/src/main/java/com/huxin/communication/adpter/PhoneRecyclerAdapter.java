@@ -19,6 +19,14 @@ public class PhoneRecyclerAdapter  extends RecyclerView.Adapter<PhoneRecyclerAda
     private Context mContext;
     private LayoutInflater mInflater;
 
+    public void setList(List<String> lists){
+        if (lists != null){
+            list = lists;
+        }
+        notifyDataSetChanged();
+    }
+
+
     public PhoneRecyclerAdapter(List<String> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
@@ -40,7 +48,7 @@ public class PhoneRecyclerAdapter  extends RecyclerView.Adapter<PhoneRecyclerAda
 
     @Override
     public int getItemCount() {
-        return 3;
+        return list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {

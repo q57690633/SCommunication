@@ -385,8 +385,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 .subscribe(response -> {
 
                     cancelProgressDialog();
-                    KyLog.d(response.getResultMsg());
-                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
+//                    KyLog.d(response.getResultMsg());
+//                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
 

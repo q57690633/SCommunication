@@ -24,9 +24,10 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/image_head"
                 android:layout_width="62dp"
                 android:layout_height="65dp"
-                android:background="@color/blue"
+                android:background="@drawable/head2"
                 android:scaleType="centerCrop" />
 
             <LinearLayout

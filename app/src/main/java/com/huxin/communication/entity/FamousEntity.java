@@ -12,11 +12,20 @@ public class FamousEntity extends DataSupport{
     private String firstLetter;
     private String authorAvatar;
     private int id;
+    private String groupId;
     private String phone;
     private String industryType;
     private String starFriend;
 
     private int type;
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
 
     public int getType() {
         return type;

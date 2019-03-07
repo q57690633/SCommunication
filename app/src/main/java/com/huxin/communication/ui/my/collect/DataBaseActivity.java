@@ -1,6 +1,7 @@
 package com.huxin.communication.ui.my.collect;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -186,6 +187,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     private String zhaungxiu;
 
     String villageName;
+    int uid;
+
 
 
     private Set<String> setHouseTypeList = new HashSet<>();
@@ -219,6 +222,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         setToolbarCenterMode("", MODE_BACK);
+        uid = getIntent().getIntExtra("uid",0);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
         mTextViewGuanLi = (TextView) findViewById(R.id.toolbar_right);
@@ -405,6 +410,10 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+
+        if (uid == 0){
+            uid = PreferenceUtil.getInt(UID);
+        }
         getPersonProduct("","",
                 "","","","","",String.valueOf(newOrOld),
                 "","","","","","","",String.valueOf(productType),
@@ -1527,7 +1536,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         showProgressDialog();
         ApiModule.getInstance().getPersonProduct(villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
-                permit, purpose, ownership, floorAge, productType, curPage)
+                permit, purpose, ownership, floorAge, productType, curPage,uid)
                 .subscribe(personProductEntity -> {
                     KyLog.object(personProductEntity + "");
                     if (personProductEntity != null) {

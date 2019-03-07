@@ -95,7 +95,39 @@
             android:id="@+id/recycler_phone"
             android:background="@color/white"
             android:paddingTop="20dp"
-            android:paddingBottom="20dp"/>
+            android:layout_margin="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/company_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <RelativeLayout
+            android:id="@+id/stick_rl"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/bg_person"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="星标好友"
+                android:textColor="@color/login_line"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/stick_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +145,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:visibility="gone"/>
 
                 <com.huxin.communication.constanst.MyListView
                     android:id="@+id/country_lvcountry"

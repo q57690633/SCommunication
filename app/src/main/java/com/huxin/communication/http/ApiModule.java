@@ -359,8 +359,8 @@ public class ApiModule {
                                                             String houseHoldAppliances, String fitment,
                                                             String permit, String purpose,
                                                             String ownership, String floorAge,
-                                                            String productType, String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getPersonProduct(String.valueOf(PreferenceUtil.getInt(UID)), villageName,
+                                                            String productType, String curPage, int uid) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getPersonProduct(String.valueOf(uid), villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
                 permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage)
                 .subscribeOn(Schedulers.io())
@@ -522,7 +522,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> addSaleProduct(String villageName, String acreage,
+    public Observable<SaleOfScreeningEntity> addSaleProduct(String villageName, String acreage,
                                                String houseType, String totalPrice,
                                                String floorNumber, String totalFloorNumber,
                                                String newOrOld, String loans,
@@ -537,6 +537,7 @@ public class ApiModule {
                 newOrOld, loans, keying, houseHoldAppliances, fitment, permit, orientation, purpose, title, String.valueOf(PreferenceUtil.getInt(UID)),
                 stick, exclusive, houseNumber, pdu, floorSize, tabId, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -545,7 +546,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> addRentProduct(String villageName, String acreage,
+    public Observable<RentalScreeningEntity> addRentProduct(String villageName, String acreage,
                                                String houseType, String price,
                                                String floorNumber, String totalFloorNumber,
                                                String fitment, String keying,
@@ -568,6 +569,7 @@ public class ApiModule {
                 houseNumber, floorSize,
                 pdu, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -576,7 +578,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> addBuyerProduct(String villageName, String unlimitedEstate,
+    public Observable<BuyerScreeningEntity> addBuyerProduct(String villageName, String unlimitedEstate,
                                                 String minPrice, String totalPrice,
                                                 String newOrOld, String maxAcreage,
                                                 String houseType, String floorAge,
@@ -585,6 +587,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().addBuyerProduct(villageName, unlimitedEstate, minPrice, totalPrice, newOrOld, maxAcreage, houseType, floorAge,
                 permit, remark, String.valueOf(PreferenceUtil.getInt(UID)), stick, tabId, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -593,7 +596,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<Response> addWantedProduct(String villageName, String unlimitedEstate,
+    public Observable<WantedScreeningEntity> addWantedProduct(String villageName, String unlimitedEstate,
                                                  String minPrice, String totalPrice,
                                                  String newOrOld, String maxAcreage,
                                                  String houseType, String fitment,
@@ -603,6 +606,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().addWantedProduct(villageName, unlimitedEstate, minPrice, totalPrice, newOrOld, maxAcreage, houseType, fitment,
                 paymentType, householdAppliances, remark, String.valueOf(PreferenceUtil.getInt(UID)), stick, tabId, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -814,7 +818,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<ResponseUntil> issueAroundRoute(String depart_code, String depart_pro_code,
+    public Observable<AroundTravelEntity> issueAroundRoute(String depart_code, String depart_pro_code,
                                                       String goalsId, String spotName,
                                                       String numberDays, String totalPrice,
                                                       String finalPrice, String returnPrice,
@@ -836,6 +840,7 @@ public class ApiModule {
                 tActivityId, tStayId, tOtherId, travelTitle, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow, PreferenceUtil.getString(TOKEN), files, stick_new, stick_low,
                 stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name, travel_kind)
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
 
 
@@ -846,7 +851,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<ResponseUntil> issueForeignRoute(String depart_name, String depart_pro_name,
+    public Observable<ForeignTravelEntity> issueForeignRoute(String depart_name, String depart_pro_name,
                                                        String goals_nat_name, String goals_name,
                                                        String spot_name, String stick, String line_or_throw,
                                                        String number_days, String total_price,
@@ -867,6 +872,7 @@ public class ApiModule {
                 pickup_price, total_price_child, final_price_child, return_price_child, t_address_id, t_traffic_id, t_consume_id, t_activity_id, t_stay_id, t_other_id, travel_title, generalize,
                 files, stick_new, stick_low, stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC)
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -875,7 +881,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<ResponseUntil> issueTicketForeignRoute(String ticket_pro_name, String ticket_city_name,
+    public Observable<TicketInfoEntity> issueTicketForeignRoute(String ticket_pro_name, String ticket_city_name,
                                                              String ticket_name, String ticket_addr,
                                                              String ticket_type, String open_time,
                                                              String original_price, String final_price,
@@ -898,6 +904,7 @@ public class ApiModule {
                 final_price_parent_child, original_price_family, final_price_family, original_boat, final_boat, original_car, final_car, ticket_theme_id, ticket_activity_id, ticket_other_id, String.valueOf(PreferenceUtil.getInt(UID)), stick, line_or_throw,
                 files, PreferenceUtil.getString(TOKEN), stick_new, stick_low, stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, generalize, original_price_total, final_price_total, ticket_pro_code)
                 .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

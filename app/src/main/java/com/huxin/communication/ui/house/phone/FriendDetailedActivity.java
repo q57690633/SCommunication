@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,9 +18,12 @@ import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.fragment.AssortmentFragment;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
+import com.huxin.communication.ui.my.collect.DataBaseActivity;
+import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
@@ -31,6 +35,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private String industry;
     private String phone;
     private String starFriend;
+    private String imageUrl;
     private int uid;
 
     private boolean isMessageAlert = false;
@@ -50,6 +55,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private ImageView mMessageAlertIv;
     private ImageView mSetTopIv;
     private ImageView mStarFriendIv;
+    private ImageView mImageViewHead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,9 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         industry = intent.getStringExtra(AssortmentFragment.INDUSTRY_TAG);
         phone = intent.getStringExtra(AssortmentFragment.PHONE_TAG);
         starFriend = intent.getStringExtra(AssortmentFragment.STAR_FRIEND_TAG);
+        imageUrl = intent.getStringExtra(AssortmentFragment.IMAGE_TAG);
         uid = intent.getIntExtra(AssortmentFragment.UID_TAG, 0);
+
         mNameTv.setText(name);
         mAddressTv.setText(address);
         mIndustryTv.setText(industry);
@@ -80,6 +88,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mRelativeLayoutTuiJian = (RelativeLayout) findViewById(R.id.tuijian_rl);
         mRelativeLayoutPhone = (RelativeLayout) findViewById(R.id.phone_rl);
         mRelativeLayoutStarFriend = (RelativeLayout) findViewById(R.id.star_rl);
+        mImageViewHead = findViewById(R.id.image_head);
         mNameTv = (TextView) findViewById(R.id.name_tv);
         mAddressTv = (TextView) findViewById(R.id.address_tv);
         mIndustryTv = (TextView) findViewById(R.id.industry_type_tv);
@@ -113,6 +122,12 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
             mRelativeLayoutStarFriend.setVisibility(View.GONE);
         }
+
+        if (!TextUtils.isEmpty(imageUrl)){
+            ImageLoader.getInstance().displayImage(imageUrl,mImageViewHead);
+        }else {
+            mImageViewHead.setBackgroundResource(R.drawable.head2);
+        }
     }
 
     @Override
@@ -129,11 +144,11 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.history_rl:
                 if (PreferenceUtil.getInt("type") == 1) {
-                    Intent intent = new Intent(this, TopSelectionActivity.class);
+                    Intent intent = new Intent(this, DataBaseActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(this, TopSelectionTravelActivity.class);
+                    Intent intent = new Intent(this, DataBaseTravelActivity.class);
                     intent.putExtra("uid", uid);
                     startActivity(intent);
                 }

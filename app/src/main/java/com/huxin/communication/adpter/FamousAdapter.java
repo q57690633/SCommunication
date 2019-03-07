@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.FamousEntity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +90,14 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         setinte(viewHolder.tvLetter, position, mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
         viewHolder.tvPhone.setText(list.get(position).getPhone());
+
+
+        if (TextUtils.isEmpty(list.get(position).getImage())){
+            ImageLoader.getInstance().displayImage(list.get(position).getImage(),viewHolder.image);
+        }else {
+            viewHolder.image.setBackgroundResource(R.drawable.head2);
+        }
+
         viewHolder.tvLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,18 +7,6 @@
     android:background="@color/login_forget_password_code_fort"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/catalog"
-        android:layout_width="fill_parent"
-        android:layout_height="28dp"
-        android:layout_gravity="center"
-        android:background="@color/bg_person"
-        android:paddingBottom="2dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="2dp"
-        android:textColor="#909090"
-        android:textSize="16sp" />
-
     <LinearLayout
         android:id="@+id/line_phone"
         android:layout_width="match_parent"
@@ -34,22 +22,12 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="13dp">
 
-            <ImageView
+            <CheckBox
                 android:id="@+id/image_duoxuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
-
-            <ImageView
-                android:id="@+id/image_duoxuan_clicked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:button="@null"
+                android:background="@drawable/radiobutton_drawable" />
 
         </RelativeLayout>
 

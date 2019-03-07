@@ -8,19 +8,31 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.CompanyAdapter;
+import com.huxin.communication.adpter.FamousAdapter;
+import com.huxin.communication.adpter.GounpAdapter;
 import com.huxin.communication.adpter.PhoneRecyclerAdapter;
+import com.huxin.communication.adpter.StickAdapter;
+import com.huxin.communication.adpter.TuiJIanStickAdapter;
 import com.huxin.communication.adpter.TuiJianPhoneAdapter;
+import com.huxin.communication.adpter.TuijianCompanyAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.FamousEntity;
+import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.listener.TuiJianPhoneListener;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TuiJianActivity extends BaseActivity implements View.OnClickListener {
+public class TuiJianActivity extends BaseActivity implements View.OnClickListener ,TuiJianPhoneListener {
 
 
     private ListView mListView;
@@ -29,8 +41,19 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView mRecyclerView;
     private PhoneRecyclerAdapter mRecyclerAdapter;
     private List<String> list = new ArrayList<>();
+    private List<FamousEntity> lists = new ArrayList<>();
+
 
     private ImageView mImageView;
+    private RelativeLayout mRelativeLayoutStick;
+
+
+    private RecyclerView mRecyclerViewStick;
+    private RecyclerView mRecyclerViewCompany;
+
+    private TuiJIanStickAdapter mStickAdapter;
+    private TuijianCompanyAdapter mCompanyAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +73,12 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         mTextView = (TextView) findViewById(R.id.tv_phone_person);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_phone);
         mImageView = (ImageView) findViewById(R.id.back);
+        mRecyclerViewStick = findViewById(R.id.stick_recycler);
+        mRecyclerViewCompany = findViewById(R.id.company_recycler);
+        mRelativeLayoutStick = findViewById(R.id.stick_rl);
+
+
+
         mTextView.setOnClickListener(this);
         mImageView.setOnClickListener(this);
 
@@ -57,16 +86,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        mAdapter = new TuiJianPhoneAdapter(this, setData());
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(TuiJianActivity.this, FriendDetailedActivity.class);
-//                startActivity(intent);
-            }
-        });
+        initData();
         setRecyclerData();
+
     }
 
     private void setRecyclerData() {
@@ -76,68 +98,6 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(15, 0));
-    }
-
-    private List<FamousEntity> setData() {
-        List<FamousEntity> list = new ArrayList<>();
-        FamousEntity famousEntity = new FamousEntity();
-        famousEntity.setFirstLetter("星标朋友");
-        famousEntity.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity1 = new FamousEntity();
-        famousEntity1.setFirstLetter("星标朋友");
-        famousEntity1.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity2 = new FamousEntity();
-        famousEntity2.setFirstLetter("a");
-        famousEntity2.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity3 = new FamousEntity();
-        famousEntity3.setFirstLetter("a");
-        famousEntity3.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity4 = new FamousEntity();
-        famousEntity4.setFirstLetter("d");
-        famousEntity4.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity5 = new FamousEntity();
-        famousEntity5.setFirstLetter("c");
-        famousEntity5.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity6 = new FamousEntity();
-        famousEntity6.setFirstLetter("d");
-        famousEntity6.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity7 = new FamousEntity();
-        famousEntity7.setFirstLetter("a");
-        famousEntity7.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity8 = new FamousEntity();
-        famousEntity8.setFirstLetter("f");
-        famousEntity8.setName("爱屋房产·店面经理·李宁");
-
-        FamousEntity famousEntity9 = new FamousEntity();
-        famousEntity9.setFirstLetter("h");
-        famousEntity9.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity10 = new FamousEntity();
-        famousEntity10.setFirstLetter("s");
-        famousEntity10.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity11 = new FamousEntity();
-        famousEntity11.setFirstLetter("q");
-        famousEntity11.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity12 = new FamousEntity();
-        famousEntity12.setFirstLetter("q");
-        famousEntity12.setName("爱屋房产·店面经理·李宁");
-        FamousEntity famousEntity13 = new FamousEntity();
-        famousEntity13.setFirstLetter("f");
-        famousEntity13.setName("爱屋房产·店面经理·李宁");
-        list.add(famousEntity);
-        list.add(famousEntity1);
-        list.add(famousEntity2);
-        list.add(famousEntity3);
-        list.add(famousEntity4);
-        list.add(famousEntity5);
-        list.add(famousEntity6);
-        list.add(famousEntity7);
-        list.add(famousEntity8);
-        list.add(famousEntity9);
-        list.add(famousEntity10);
-        list.add(famousEntity11);
-        list.add(famousEntity12);
-        list.add(famousEntity13);
-        return list;
     }
 
     @Override
@@ -151,5 +111,82 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
         }
+    }
+
+    private void initData() {
+        int uid = PreferenceUtil.getInt("uid");
+        String token = PreferenceUtil.getString("token");
+        showProgressDialog();
+        ApiModule.getInstance().addressBook(uid + "", token)
+                .subscribe(AddressBookEntity -> {
+                    KyLog.i("----------加载通讯录---------");
+                    KyLog.object(AddressBookEntity);
+                    cancelProgressDialog();
+                    if (lists != null) {
+                        lists.clear();
+                    }
+
+                    List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
+
+                    if (beanList != null && beanList.size() > 0)  {
+                        KyLog.object(AddressBookEntity.getCompany());
+                        LinearLayoutManager manager = new LinearLayoutManager(this);
+                        mCompanyAdapter = new TuijianCompanyAdapter(AddressBookEntity.getCompany(),this);
+                        mRecyclerViewCompany.setAdapter(mCompanyAdapter);
+                        mRecyclerViewCompany.setLayoutManager(manager);
+                    }
+
+                    if (AddressBookEntity.getStarList() != null && AddressBookEntity.getStarList().size() > 0) {
+                        KyLog.object(AddressBookEntity.getStarList());
+                        LinearLayoutManager manager = new LinearLayoutManager(this);
+                        mStickAdapter = new TuiJIanStickAdapter(AddressBookEntity.getStarList(),this);
+                        mRecyclerViewStick.setAdapter(mStickAdapter);
+                        mRecyclerViewStick.setLayoutManager(manager);
+                        mRelativeLayoutStick.setVisibility(View.VISIBLE);
+                    }else {
+                        mRelativeLayoutStick.setVisibility(View.GONE);
+
+                    }
+
+                    if (AddressBookEntity.getFriendList() != null && AddressBookEntity.getFriendList().size() > 0) {
+                        KyLog.object(AddressBookEntity.getFriendList());
+
+                        for (int i = 0;i < AddressBookEntity.getFriendList().size(); i++) {
+                            FamousEntity famousEntity2 = new FamousEntity();
+                            famousEntity2.setName(AddressBookEntity.getFriendList().get(i).getUsername());
+                            famousEntity2.setImage(AddressBookEntity.getFriendList().get(i).getHeadUrl());
+                            famousEntity2.setPhone(AddressBookEntity.getFriendList().get(i).getPhone());
+                            famousEntity2.setIndustryType(AddressBookEntity.getFriendList().get(i).getIndustryType());
+                            famousEntity2.setStarFriend(AddressBookEntity.getFriendList().get(i).getStarFriend());
+                            famousEntity2.setId(AddressBookEntity.getFriendList().get(i).getUid());
+                            famousEntity2.setType(1);
+                            KyLog.object(famousEntity2);
+                            lists.add(famousEntity2);
+                        }
+                    }
+
+                    KyLog.object(lists);
+                    if (lists.size() > 0) {
+                        mAdapter = new TuiJianPhoneAdapter(TuiJianActivity.this, lists);
+                        mAdapter.setTuiJianPhoneListener(this);
+                        mListView.setAdapter(mAdapter);
+                    }
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+
+    }
+
+
+    @Override
+    public void updateImage(String image,boolean b) {
+        if (b){
+            list.add(image);
+        }else {
+            list.remove(image);
+        }
+        mRecyclerAdapter.setList(list);
     }
 }

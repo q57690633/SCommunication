@@ -417,7 +417,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("public/addSaleProduct")
-    Observable<Response> addSaleProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
+    Observable<Response<SaleOfScreeningEntity>> addSaleProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
                                         @Field("houseType") String houseType, @Field("totalPrice") String totalPrice,
                                         @Field("floorNumber") String floorNumber, @Field("totalFloorNumber") String totalFloorNumber,
                                         @Field("newOrOld") String newOrOld, @Field("loans") String loans,
@@ -434,12 +434,11 @@ public interface BaiHangTongYeService {
      * 添加出租信息
      *
      * @param token
-     * @param imas
      * @return
      */
     @FormUrlEncoded
     @POST("public/addRentProduct")
-    Observable<Response> addRentProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
+    Observable<Response<RentalScreeningEntity>> addRentProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
                                         @Field("houseType") String houseType, @Field("price") String price,
                                         @Field("floorNumber") String floorNumber, @Field("totalFloorNumber") String totalFloorNumber,
                                         @Field("fitment") String fitment, @Field("keying") String keying,
@@ -459,7 +458,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("public/addBuyerProduct")
-    Observable<Response> addBuyerProduct(@Field("villageName") String villageName, @Field("unlimitedEstate") String unlimitedEstate,
+    Observable<Response<BuyerScreeningEntity>> addBuyerProduct(@Field("villageName") String villageName, @Field("unlimitedEstate") String unlimitedEstate,
                                          @Field("minPrice") String minPrice, @Field("maxPrice") String totalPrice,
                                          @Field("minAcreage") String newOrOld, @Field("maxAcreage") String maxAcreage,
                                          @Field("houseType") String houseType, @Field("floorAge") String floorAge,
@@ -475,7 +474,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("public/addWantedProduct")
-    Observable<Response> addWantedProduct(@Field("villageName") String villageName, @Field("unlimitedEstate") String unlimitedEstate,
+    Observable<Response<WantedScreeningEntity>> addWantedProduct(@Field("villageName") String villageName, @Field("unlimitedEstate") String unlimitedEstate,
                                           @Field("minPrice") String minPrice, @Field("maxPrice") String totalPrice,
                                           @Field("minAcreage") String newOrOld, @Field("maxAcreage") String maxAcreage,
                                           @Field("houseType") String houseType, @Field("fitment") String fitment,
@@ -600,7 +599,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueAroundRoute")
-    Observable<ResponseUntil> issueAroundRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
+    Observable<Response<AroundTravelEntity>> issueAroundRoute(@Field("depart_code") String depart_code, @Field("depart_pro_code") String depart_pro_code,
                                                @Field("goalsId") String goalsId, @Field("spotName") String spotName,
                                                @Field("numberDays") String numberDays, @Field("totalPrice") String totalPrice,
                                                @Field("finalPrice") String finalPrice, @Field("returnPrice") String returnPrice,
@@ -629,7 +628,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
-    Observable<ResponseUntil> issueForeignRoute(@Field("depart_name") String depart_name, @Field("depart_pro_name") String depart_pro_name,
+    Observable<Response<ForeignTravelEntity>> issueForeignRoute(@Field("depart_name") String depart_name, @Field("depart_pro_name") String depart_pro_name,
                                                 @Field("goals_nat_name") String goals_nat_name, @Field("goals_name") String goals_name,
                                                 @Field("spot_name") String spot_name, @Field("stick") String stick,
                                                 @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
@@ -656,7 +655,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/issueForeignRoute")
-    Observable<ResponseUntil> issueTicketForeignRoute(@Field("ticket_pro_name") String ticket_pro_name, @Field("ticket_city_name") String ticket_city_name,
+    Observable<Response<TicketInfoEntity>> issueTicketForeignRoute(@Field("ticket_pro_name") String ticket_pro_name, @Field("ticket_city_name") String ticket_city_name,
                                                       @Field("ticket_name") String ticket_name, @Field("ticket_addr") String ticket_addr,
                                                       @Field("ticket_type") String ticket_type, @Field("open_time") String open_time,
                                                       @Field("original_price") String original_price, @Field("final_price") String final_price,

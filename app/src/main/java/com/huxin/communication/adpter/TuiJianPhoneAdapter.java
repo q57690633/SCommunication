@@ -1,18 +1,28 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.FamousEntity;
+import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.listener.TuiJianPhoneListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +37,21 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
     private Context mContext;
     private LayoutInflater mInflater;
     private int[] ints;
-    private boolean isClicked = false;
+    private boolean isClicked = true;
+    private TuiJianPhoneListener mTuiJianPhoneListener;
+
+    List<String> imageList = new ArrayList<>();
+
 
     public TuiJianPhoneAdapter(Context mContext, List<FamousEntity> list) {
         this.mContext = mContext;
         this.list = list;
         mInflater = LayoutInflater.from(mContext);
-        setTopNum();
+//        setTopNum();
+    }
+
+    public void setTuiJianPhoneListener(TuiJianPhoneListener tuiJianPhoneListener) {
+        mTuiJianPhoneListener = tuiJianPhoneListener;
     }
 
     public void updateListView(List<FamousEntity> list) {
@@ -57,52 +75,50 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
 
     public View getView(final int position, View view, ViewGroup arg2) {
         ViewHolder viewHolder = null;
-        final FamousEntity mContent = list.get(position);
         if (view == null) {
             viewHolder = new ViewHolder();
             view = mInflater.inflate(R.layout.item_recycler_phone, arg2, false);
             viewHolder.tvTitle = (TextView) view.findViewById(R.id.name_famous);
-            viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
             viewHolder.mLinearLayout = (LinearLayout) view.findViewById(R.id.line_phone);
-            viewHolder.mImageView = (ImageView) view.findViewById(R.id.image_duoxuan);
-            viewHolder.mImageViewClicked = (ImageView) view.findViewById(R.id.image_duoxuan_clicked);
+//            viewHolder.mImageView = (ImageView) view.findViewById(R.id.image_duoxuan);
+            viewHolder.radioButton = (CheckBox) view.findViewById(R.id.image_duoxuan);
+            viewHolder.image = (ImageView) view.findViewById(R.id.image);
+
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.image = (ImageView) view.findViewById(R.id.image);
-        setinte(viewHolder.tvLetter, position, mContent);
+//        setinte(viewHolder.tvLetter, position, mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
 
-        ViewHolder finalViewHolder = viewHolder;
-        viewHolder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
+        if (TextUtils.isEmpty(list.get(position).getImage())) {
+            ImageLoader.getInstance().displayImage(list.get(position).getImage(), viewHolder.image);
+        } else {
+            viewHolder.image.setBackgroundResource(R.drawable.head2);
+        }
 
+        viewHolder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Log.d("qiugou", "isClicked == " + isClicked);
-                if (isClicked) {
-                    isClicked = false;
-                    finalViewHolder.mImageViewClicked.setVisibility(View.GONE);
-                    finalViewHolder.mImageView.setVisibility(View.VISIBLE);
-                } else {
-                    isClicked = true;
-                    finalViewHolder.mImageViewClicked.setVisibility(View.VISIBLE);
-                    finalViewHolder.mImageView.setVisibility(View.GONE);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (mTuiJianPhoneListener != null) {
+                    mTuiJianPhoneListener.updateImage(list.get(position).getImage(), b);
                 }
-                notifyDataSetChanged();
             }
         });
+
         return view;
 
     }
+
 
     final static class ViewHolder {
         TextView tvLetter;
         TextView tvTitle;
         ImageView image;
         LinearLayout mLinearLayout;
-        ImageView mImageView;
-        ImageView mImageViewClicked;
+        //        ImageView mImageView;
+        CheckBox radioButton;
     }
 
     public int getSectionForPosition(int position) {
