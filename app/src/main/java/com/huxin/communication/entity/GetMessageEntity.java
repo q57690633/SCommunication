@@ -24,6 +24,8 @@ public class GetMessageEntity {
 
     private long timeStamp;
 
+    private boolean isRead;
+
     public String getHead_url() {
         return head_url;
     }
@@ -70,5 +72,13 @@ public class GetMessageEntity {
 
     public long getTimeStamp() {
         return timeStamp;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

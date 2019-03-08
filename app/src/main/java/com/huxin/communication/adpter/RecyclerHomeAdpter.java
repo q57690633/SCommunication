@@ -19,6 +19,7 @@ import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.PrettyDateFormat;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sky.kylog.KyLog;
 
 import java.util.List;
 
@@ -51,7 +52,9 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                     Intent intent = new Intent(mContext,TIMChatActivity.class);
                     intent.putExtra("TARGET_TYPE", "C2C");
                     intent.putExtra("TARGET_ID", list.get(hoder.getAdapterPosition()).getId() + "");
-
+                    KyLog.i("position.getId = " + list.get(hoder.getAdapterPosition()).getId() + "");
+                    list.get(hoder.getAdapterPosition()).setRead(false);
+                    notifyDataSetChanged();
                     mContext.startActivity(intent);
                 }
             });
@@ -74,7 +77,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             holder.image.setBackgroundResource(R.drawable.head2);
         }
 
-        if (list.get(position).getNum() == 0){
+        if (list.get(position).getNum() == 0 || list.get(position).isRead()){
             holder.numRl.setVisibility(View.GONE);
         }else {
             holder.numRl.setVisibility(View.VISIBLE);

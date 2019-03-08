@@ -121,4 +121,11 @@
     <string name="star_friend">星标朋友</string>
     <string name="send_message">发消息</string>
 
+    <string name="msg_image">[图片]</string>
+    <string name="msg_audio">[语音]</string>
+    <string name="msg_video">[视频]</string>
+    <string name="msg_file">[文件]</string>
+    <string name="msg_custom">[消息]</string>
+    <string name="msg_face">[表情]</string>
+
 </resources>

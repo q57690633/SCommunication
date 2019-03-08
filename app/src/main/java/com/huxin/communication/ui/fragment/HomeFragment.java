@@ -1,6 +1,8 @@
 package com.huxin.communication.ui.fragment;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +29,7 @@ import com.huxin.communication.adpter.HeadTravelTicketAdapter;
 import com.huxin.communication.adpter.HomeViewPagerAdapter;
 import com.huxin.communication.adpter.RecyclerHomeAdpter;
 import com.huxin.communication.base.BaseFragment;
+import com.huxin.communication.base.HomeFragmentMsgDBHelper;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.entity.HomeEntity;
@@ -55,6 +58,7 @@ import com.huxin.communication.ui.travel.TicketingActivity;
 import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.utils.SQLiteUtil;
 import com.huxin.communication.view.AutoScrollLayoutManager;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -70,6 +74,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.conversation.Conversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
+import com.tencent.imsdk.ext.message.TIMMessageExt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -525,10 +530,40 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void getMessage(List<GetMessageEntity> list) {
-        KyLog.object("login ==------ list----- " + list);
-        if (list.size() > 0) {
+        //KyLog.object("login ==------ list----- " + list);
+        String TABLE_NAME = HomeFragmentMsgDBHelper.TABLE_NAME;
+        String UID = HomeFragmentMsgDBHelper.UID;
+        String MESSAGE = HomeFragmentMsgDBHelper.MESSAGE;
+        String TIME = HomeFragmentMsgDBHelper.TIME;
+        String HEAD_URL = HomeFragmentMsgDBHelper.HEAD_URL;
+        String TYPE = HomeFragmentMsgDBHelper.TYPE;
+        String UNREAD_NUM = HomeFragmentMsgDBHelper.UNREAD_NUM;
+        String IS_READ = HomeFragmentMsgDBHelper.IS_READ;
+        SQLiteUtil util = new SQLiteUtil(getContext());
+        Cursor cursor = util.query(TABLE_NAME, null);
+        List<GetMessageEntity> dbList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            GetMessageEntity entity = new GetMessageEntity();
+            String uid , message, time, head_url, type, unread_num, isread;
+            uid = cursor.getString(cursor.getColumnIndex(UID));
+            message = cursor.getString(cursor.getColumnIndex(MESSAGE));
+            time = cursor.getString(cursor.getColumnIndex(TIME));
+            head_url = cursor.getString(cursor.getColumnIndex(HEAD_URL));
+            type = cursor.getString(cursor.getColumnIndex(TYPE));
+            unread_num = cursor.getString(cursor.getColumnIndex(UNREAD_NUM));
+            isread = cursor.getString(cursor.getColumnIndex(IS_READ));
+            entity.setId(uid);
+            entity.setMsg(message);
+            entity.setTimeStamp(Long.parseLong(time));
+            entity.setHead_url(head_url);
+            entity.setType(type);
+            entity.setNum(Long.parseLong(unread_num));
+            entity.setRead(Boolean.getBoolean(isread));
+            dbList.add(entity);
+        }
+        if (dbList.size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(getContext());
-            mAdpter = new RecyclerHomeAdpter(list, getContext());
+            mAdpter = new RecyclerHomeAdpter(dbList, getContext());
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
@@ -543,17 +578,32 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         for (int i = 0; i < list.size(); i++) {
             String text = "";
             TIMMessage message = list.get(i);
-            if (i == 0) {
-                TIMElem elem = message.getElement(0);
-                if(null == elem) {
-                    return true;
+            //if (i == 0) {
+            TIMElem elem = message.getElement(0);
+            if(null == elem) {
+                return true;
+            }
+            if (elem.getType() != null) {
+                if (elem.getType() == TIMElemType.Text) {
+                    TIMTextElem e = (TIMTextElem) elem;
+                    text = e.getText();
                 }
-                if (elem.getType() != null) {
-                    if (elem.getType() == TIMElemType.Text) {
-                        TIMTextElem e = (TIMTextElem) elem;
-                        text = e.getText();
-                    }
-                }
+            }
+            //}
+            if(elem.getType() == TIMElemType.Image) {
+                text = getResources().getString(R.string.msg_image);
+            }
+            if(elem.getType() == TIMElemType.Sound) {
+                text = getResources().getString(R.string.msg_audio);
+            }
+            if(elem.getType() == TIMElemType.Video) {
+                text = getResources().getString(R.string.msg_video);
+            }
+            if(elem.getType() == TIMElemType.Custom) {
+                text = getResources().getString(R.string.msg_custom);
+            }
+            if(elem.getType() == TIMElemType.Face) {
+                text = getResources().getString(R.string.msg_face);
             }
             String sender = message.getSender();
             String faceUrl = message.getSenderProfile().getFaceUrl();
@@ -563,24 +613,37 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
             TIMConversationExt conExt = new TIMConversationExt(con);
             long count = conExt.getUnreadMessageNum();
+            TIMMessageExt msgExt = new TIMMessageExt(message);
+            boolean isRead = msgExt.isRead();
             KyLog.d("text == " + text);
             KyLog.d("sender == " + sender);
             KyLog.d("faceUrl == " + faceUrl);
             KyLog.d("type == " + type);
             KyLog.d("timeStamp == " + timeStamp);
 
-            GetMessageEntity entity = new GetMessageEntity();
+            /*GetMessageEntity entity = new GetMessageEntity();
             entity.setHead_url(faceUrl);
             entity.setId(sender);
             entity.setMsg(text);
             entity.setNum(count);
             entity.setTimeStamp(timeStamp);
             entity.setType(type);
-            lists.add(entity);
+            lists.add(entity);*/
+            ContentValues values = new ContentValues();
+            values.put("uid", sender);
+            values.put("message", text);
+            values.put("timeStamp", timeStamp);
+            values.put("headurl", faceUrl);
+            values.put("type", type);
+            values.put("num", count);
+            values.put("isread", isRead + "");
+            SQLiteUtil util = new SQLiteUtil(getContext());
+            util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[] {sender});
+
         }
 
-//        GetMsgManager msgManager = GetMsgManager.instants();
-//        msgManager.setList(lists);
+        GetMsgManager msgManager = GetMsgManager.instants();
+        msgManager.setList(lists);
         return true;
     }
 
@@ -746,12 +809,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private void getConversationList() {
         ConversationList = TIMManagerExt.getInstance().getConversationList();
-        KyLog.d(ConversationList.size() + " === home");
+        KyLog.d(ConversationList.size() + " === ConversationList.size()");
         List<GetMessageEntity> list = new ArrayList<>();
 
         if (ConversationList != null && ConversationList.size() > 0) {
             for (TIMConversation conversation : ConversationList) {
-                KyLog.d(conversation.getPeer() + " === home");
+                KyLog.d(conversation.getPeer() + " === getPeer");
                 getLocalMessage(conversation.getPeer(), list, conversation.getType());
             }
             mHandler.postDelayed(new Runnable() {
@@ -760,7 +823,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     GetMsgManager msgManager = GetMsgManager.instants();
                     msgManager.setList(list);
                 }
-            }, 3000);
+            }, 1000);
         }
     }
 
@@ -778,8 +841,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         TIMConversationExt conExt = new TIMConversationExt(con);
 
 //获取此会话的消息
-        conExt.getLocalMessage(1, //获取此会话最近的 10 条消息
-                conExt.getLastMsg(), //不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
+        conExt.getLocalMessage(1, conExt.getLastMsg(),//不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
                 new TIMValueCallBack<List<TIMMessage>>() {//回调接口
                     @Override
                     public void onError(int code, String desc) {//获取消息失败
@@ -795,17 +857,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         TIMMessage message = null;
                         String text = "";
                         if (msgs.size() > 0) {
-//                            for (int i = 0; i < msgs.size(); i++) {
-
-                                message = msgs.get(0);
-//                                if (i == 0) {
-                                    TIMElem elem = message.getElement(0);
-                                    if (elem.getType() == TIMElemType.Text) {
-                                        TIMTextElem e = (TIMTextElem) elem;
-                                        text = e.getText();
-                                    }
-//                                }
-//                            }
+                            message = msgs.get(0);
+                            TIMElem elem = message.getElement(0);
+                            if(elem == null) {
+                                return;
+                            }
+                            if (elem.getType() == TIMElemType.Text) {
+                                TIMTextElem e = (TIMTextElem) elem;
+                                text = e.getText();
+                            }
+                            if(elem.getType() == TIMElemType.Image) {
+                                text = getResources().getString(R.string.msg_image);
+                            }
+                            if(elem.getType() == TIMElemType.Sound) {
+                                text = getResources().getString(R.string.msg_audio);
+                            }
+                            if(elem.getType() == TIMElemType.Video) {
+                                text = getResources().getString(R.string.msg_video);
+                            }
+                            if(elem.getType() == TIMElemType.Custom) {
+                                text = getResources().getString(R.string.msg_custom);
+                            }
+                            if(elem.getType() == TIMElemType.Face) {
+                                text = getResources().getString(R.string.msg_face);
+                            }
                             String sender = message.getSender();
                             String faceUrl = message.getSenderProfile().getFaceUrl();
                             TIMConversationType conversationType = message.getConversation().getType();
@@ -814,6 +889,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
                             TIMConversationExt conExt = new TIMConversationExt(con);
                             long count = conExt.getUnreadMessageNum();
+                            TIMMessageExt msgExt = new TIMMessageExt(message);
+                            boolean isRead = msgExt.isRead();
                             GetMessageEntity entity = new GetMessageEntity();
                             entity.setHead_url(faceUrl);
                             entity.setId(sender);
@@ -821,11 +898,31 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             entity.setNum(count);
                             entity.setTimeStamp(timeStamp);
                             entity.setType(type);
+                            entity.setRead(isRead);
                             list.add(entity);
                             KyLog.d(list.size() + "");
-
-//                            GetMsgManager msgManager = GetMsgManager.instants();
-//                            msgManager.setList(list);
+                            ContentValues values = new ContentValues();
+                            values.put("uid", sender);
+                            values.put("message", text);
+                            values.put("timeStamp", timeStamp);
+                            values.put("headurl", faceUrl);
+                            values.put("type", type);
+                            values.put("num", count);
+                            values.put("isread", isRead + "");
+                            SQLiteUtil util = new SQLiteUtil(getContext());
+                            boolean isUpdate = false;
+                            Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
+                            while(cursor.moveToNext()) {
+                                String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
+                                if(sender.equalsIgnoreCase(uid)) {
+                                    isUpdate = true;
+                                }
+                            }
+                            if(isUpdate) {
+                                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[] {sender});
+                            }else {
+                                util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
+                            }
                         }
                     }
                 });
