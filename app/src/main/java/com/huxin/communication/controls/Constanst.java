@@ -158,6 +158,11 @@ public class Constanst {
 
     public static final String SCREEN_AREAONE_CODE = "areaOne_id";
 
+    public static final String ISMESSAGEALERT_CODE = "isMessageAlert_code";
+
+    public static final String ISMESSAGEALERT_TYPE = "isMessageAlert_type";
+
+
     public static final int REQUEST_SYSTEM_PIC = 3;
 
 }

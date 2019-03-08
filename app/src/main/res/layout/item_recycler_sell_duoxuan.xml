@@ -3,157 +3,176 @@
     android:id="@+id/sell_line"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    android:paddingTop="10dp">
 
-    android:orientation="horizontal">
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
-
-        <ImageView
-            android:id="@+id/image_duoxuan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_normal" />
-
-        <ImageView
-            android:id="@+id/image_duoxuan_clicked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_selected"
-            android:visibility="gone" />
-
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/list_divider">
+        android:orientation="horizontal">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/textView"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="13dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/villageName_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:text="天阔三期A区"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/houseType_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="3室1厅"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/acreage_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="129㎡"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/totalPrice_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="180万"
-                android:textColor="@color/red_setting"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/textView_duoxuan_similar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="19dp"
-                android:background="@color/red_setting"
-                android:text="233套相似"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
-
-        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp">
-
-            <TextView
-                android:id="@+id/stick_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sign_top"
-                android:text="置顶"
-                android:textColor="@color/white"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/unitPrice_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="155dp"
-                android:text="23500元/㎡"
-                android:textColor="@color/sell_font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:id="@+id/orientation_duoxuan_sell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="19dp"
-                android:layout_marginRight="98dp"
-                android:text="东南"
-                android:textColor="@color/sell_font"
-                android:textSize="16dp" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <ImageView
-                android:id="@+id/keying_duoxuan_sell"
+                android:id="@+id/image_duoxuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_alignParentRight="true"
-
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="8dp"
+                android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_key" />
+                android:src="@drawable/icon_circle_normal" />
 
+            <ImageView
+                android:id="@+id/image_duoxuan_clicked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_circle_selected"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tabName_line_duoxuan_sell"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"/>
+            android:layout_height="115dp"
+            android:background="@drawable/list_divider"
+            android:orientation="vertical"
+            android:paddingTop="5dp">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/textView"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="13dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/villageName_duoxuan_sell"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:text="天阔三期A区"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/houseType_duoxuan_sell"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="3室1厅"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/acreage_duoxuan_sell"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="129㎡"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/totalPrice_duoxuan_sell"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="180万"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/red_setting"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/textView_duoxuan_similar"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="19dp"
+                    android:background="@color/red_setting"
+                    android:text="233套相似"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/stick_duoxuan_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/sign_top"
+                    android:text="置顶"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/unitPrice_duoxuan_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginRight="155dp"
+                    android:text="23500元/㎡"
+                    android:textColor="@color/sell_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/orientation_duoxuan_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginRight="98dp"
+                    android:text="东南"
+                    android:textColor="@color/sell_font"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/keying_duoxuan_sell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_key" />
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tabName_line_duoxuan_sell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.ChuZuAdapter;
 import com.huxin.communication.adpter.ChuZuDuoXuanAdapter;
+import com.huxin.communication.adpter.HouseSearchAdapter;
+import com.huxin.communication.adpter.HouseSearchDuoXuanAdapter;
 import com.huxin.communication.adpter.SellDuoXuanAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.base.BaseActivity;
@@ -26,6 +30,7 @@ import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -42,7 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RentActivity extends BaseActivity implements View.OnClickListener {
+public class RentActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -89,6 +94,9 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTextViewErShouFang;
     private TextView mTextViewXinFang;
 
+    private HouseSearchAdapter mHouseSearchAdapter;
+    private HouseSearchDuoXuanAdapter mHouseSearchDuoXuanAdapter;
+
     private ChuZuAdapter mAdpter;
     private ChuZuDuoXuanAdapter mAdpterDuoXuan;
     private List<String> list = new ArrayList<>();
@@ -118,7 +126,6 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTextViewSiShi;
     private TextView mTextViewWuShi;
     private TextView mTextViewCollect;
-
 
 
     private ImageView mImageViewYiShi;
@@ -162,7 +169,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private EditText mEditTextMax;
     private EditText mEditTextMin;
 
-    private int newOrOld = 0;
+    private String newOrOld;
     private boolean isClickOne = true;
     private boolean isClickTwo = true;
     private boolean isClicksan = true;
@@ -207,12 +214,14 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
 
     private List<AreaOneScreenEntity> mList;
 
-    private SpaceItemDecoration spaceItemDecoration =  new SpaceItemDecoration(0, 15);
+    private SpaceItemDecoration spaceItemDecoration = new SpaceItemDecoration(0, 15);
 
     private static TIMConversation conversation;
     private String peer;
     private String type;
     private TextView mTextViewZhuanFa;
+
+    private EditText mEditTextSearch;
 
 
     @Override
@@ -322,6 +331,9 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         mImageViewSiShi = (ImageView) findViewById(R.id.image_shisi);
         mImageViewWuShi = (ImageView) findViewById(R.id.image_wushi);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
         mTextView1 = (TextView) findViewById(R.id.tv1);
         mTextView2 = (TextView) findViewById(R.id.tv2);
         mTextView3 = (TextView) findViewById(R.id.tv3);
@@ -402,6 +414,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         mTextView7.setOnClickListener(this);
         mTextView8.setOnClickListener(this);
         mTextView9.setOnClickListener(this);
+        mEditTextSearch.setOnEditorActionListener(this);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -441,13 +454,13 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isClickQuYu){
+        if (!isClickQuYu) {
             return;
         }
         String areaOne = PreferenceUtil.getString(Constanst.SCREEN_AREAONE_NAME);
         String areaTwo = PreferenceUtil.getString(Constanst.SCREEN_TWOAONE_NAME);
         String selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
-                substring(1,PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+                substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
         if (!TextUtils.isEmpty(areaOne) && !TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
             villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + areaOne + ","
                     + areaTwo + "," + selectName;
@@ -464,7 +477,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         KyLog.d(villageName);
         getRentalScreening(villageName, "", "", "", "", "", "", "", "", "",
                 "", "", "", "0", 0, "",
-                "", "1","");
+                "", "1", "");
     }
 
     @Override
@@ -1327,6 +1340,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                newOrOld = null;
                 if (setHouseTypeList.size() > 0) {
                     getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
                             "", "", "", "", "", "",
@@ -1344,6 +1358,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.white));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                newOrOld = "2";
 
                 getRentalScreening("", "", "", "", "", "", "", "", "", "",
                         "", "", "", "0", 2, PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
@@ -1355,6 +1370,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.white));
+                newOrOld = "1";
 
                 getRentalScreening("", "", "", "", "",
                         "", "", "", "", "",
@@ -1385,7 +1401,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
 //                addCollectTravel(productType);
                 if (mAdpterDuoXuan.getSelectedItem().size() > 0) {
                     zhuanfa(mAdpterDuoXuan);
-                }else {
+                } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -1432,28 +1448,28 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
 
     private void setDetleTabData() {
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CHAO_XIANG))) {
-            PreferenceUtil.removeSp(Constanst.CHAO_XIANG,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.CHAO_XIANG, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.FANG_BEN))) {
-            PreferenceUtil.removeSp(Constanst.FANG_BEN,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.FANG_BEN, Constanst.SP_NAME);
 
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIA_JU_JIA_DIAN))) {
-            PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.JIA_JU_JIA_DIAN, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.LOU_LING))) {
-            PreferenceUtil.removeSp(Constanst.LOU_LING,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.LOU_LING, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.YONG_TU))) {
-            PreferenceUtil.removeSp(Constanst.YONG_TU,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.YONG_TU, Constanst.SP_NAME);
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHUANG_XIU))) {
-            PreferenceUtil.removeSp(Constanst.ZHUANG_XIU,Constanst.SP_NAME);
+            PreferenceUtil.removeSp(Constanst.ZHUANG_XIU, Constanst.SP_NAME);
         }
     }
 
@@ -1514,13 +1530,15 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setDuoXuanData(RentalScreeningEntity entity) {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mAdpterDuoXuan = new ChuZuDuoXuanAdapter(entity.getList(), this);
-        mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
-        mRecyclerViewDuoXuan.setLayoutManager(manager);
-        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
-        mTextViewGuanLi.setVisibility(View.VISIBLE);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        if (entity.getList() != null && entity.getList().size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mAdpterDuoXuan = new ChuZuDuoXuanAdapter(entity.getList(), this);
+            mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -1531,8 +1549,35 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
             mAdpter = new ChuZuAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
-        }else {
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        } else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setSearchDuoXuanData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
+            mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void setSearchData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchAdapter = new HouseSearchAdapter(list, this);
+            mRecyclerView.setAdapter(mHouseSearchAdapter);
+            mRecyclerView.setLayoutManager(manager);
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
@@ -1541,20 +1586,20 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
     private void getRentalScreening(String villageName,
                                     String houseType, String minAcreage, String maxAcreage, String minPrice,
                                     String maxPrice, String orientation, String permit, String fitment, String element, String floorAge, String purpose, String ownership, String productType,
-                                    int newOrOld, String city, String areaOne, String curPage, String houseHoldAppliancesint){
+                                    int newOrOld, String city, String areaOne, String curPage, String houseHoldAppliancesint) {
         showProgressDialog();
         ApiModule.getInstance().rentalScreening(villageName, houseType, minAcreage, maxAcreage, minPrice, maxPrice, orientation,
                 permit, fitment, element, floorAge, purpose, ownership, productType,
                 String.valueOf(newOrOld), city, areaOne, curPage, houseHoldAppliancesint)
                 .subscribe(rentalScreeningEntities -> {
                     KyLog.object(rentalScreeningEntities + "");
-                    if (rentalScreeningEntities != null){
+                    if (rentalScreeningEntities != null) {
                         setData(rentalScreeningEntities);
                         setDuoXuanData(rentalScreeningEntities);
                     }
 
                     cancelProgressDialog();
-                },throwable -> {
+                }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
@@ -1568,9 +1613,39 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,RentActivity.class);
+                    Intent intent = new Intent(this, RentActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    /**
+     * 搜索
+     *
+     * @param productType
+     * @param newOrOld
+     * @param condition
+     * @param stick
+     * @param collectType
+     */
+    private void selectFrame(String productType, String newOrOld,
+                             String condition, String stick,
+                             String collectType, String uid) {
+
+        showProgressDialog();
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+                .subscribe(saleOfScreeningEntities -> {
+                    if (saleOfScreeningEntities != null) {
+                        KyLog.object(saleOfScreeningEntities + "");
+                    }
+                    setSearchData(saleOfScreeningEntities);
+                    setSearchDuoXuanData(saleOfScreeningEntities);
+                    cancelProgressDialog();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
@@ -1655,7 +1730,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
         //获取单聊会话
         if (type.equalsIgnoreCase("C2C")) {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
-        }else {
+        } else {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
         }
         TIMMessage msg = new TIMMessage();
@@ -1741,6 +1816,24 @@ public class RentActivity extends BaseActivity implements View.OnClickListener {
             stringBuffer.append("{").append(sb).append("}");
         }
         return "L" + sb.toString();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    selectFrame("2", newOrOld, search, null, null, null);
+
+                } else {
+                    Toast.makeText(RentActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 
 }

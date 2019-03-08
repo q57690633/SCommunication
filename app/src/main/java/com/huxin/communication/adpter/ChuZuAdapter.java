@@ -57,10 +57,10 @@ public class ChuZuAdapter extends RecyclerView.Adapter<ChuZuAdapter.MyViewHoder>
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
         if (list.get(position).getKeying() == 1){
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
@@ -128,11 +128,11 @@ public class ChuZuAdapter extends RecyclerView.Adapter<ChuZuAdapter.MyViewHoder>
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 4);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

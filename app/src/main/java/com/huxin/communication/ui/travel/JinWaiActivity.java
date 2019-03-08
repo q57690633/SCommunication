@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -41,7 +43,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JinWaiActivity extends BaseActivity implements View.OnClickListener {
+public class JinWaiActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -141,6 +143,11 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     private String type;
     private TextView mTextViewZhuanFa;
 
+
+    private EditText mEditTextSearch;
+    private int numberDays = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -228,6 +235,10 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
+        mEditTextSearch.setOnEditorActionListener(this);
 
 
         mLinearLayoutMore.setOnClickListener(this);
@@ -1292,5 +1303,24 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             stringBuffer.append("{").append(sb).append("}");
         }
         return "L" + sb.toString();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    gettingForeignTravel("", "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", search,
+                            "1", null, "");
+                } else {
+                    Toast.makeText(JinWaiActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 }

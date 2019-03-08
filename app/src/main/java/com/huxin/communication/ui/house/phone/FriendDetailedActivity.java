@@ -11,9 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.fragment.AssortmentFragment;
 import com.huxin.communication.ui.house.TopSelectionActivity;
@@ -38,9 +41,9 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private String imageUrl;
     private int uid;
 
-    private boolean isMessageAlert = false;
-    private boolean isSetTop = false;
-    private boolean isStarFriend = false;
+    private boolean isMessageAlert = true;
+    private boolean isSetTop = true;
+    private boolean isStarFriend = true;
 
     private RelativeLayout mRelativeLayoutTuiJian;
     private RelativeLayout mRelativeLayoutHistory;
@@ -102,30 +105,13 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mRelativeLayoutTuiJian.setOnClickListener(this);
         mRelativeLayoutPhone.setOnClickListener(this);
         mConfirmTv.setOnClickListener(this);
+        mStarFriendIv.setOnClickListener(this);
+        mSetTopIv.setOnClickListener(this);
+        mMessageAlertIv.setOnClickListener(this);
 
-        if (isMessageAlert) {
-            mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+        if (!TextUtils.isEmpty(imageUrl)) {
+            ImageLoader.getInstance().displayImage(imageUrl, mImageViewHead);
         } else {
-            mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
-        }
-
-        if (isSetTop) {
-            mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
-        } else {
-            mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
-        }
-
-        if (isStarFriend) {
-            mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
-            mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
-        } else {
-            mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
-            mRelativeLayoutStarFriend.setVisibility(View.GONE);
-        }
-
-        if (!TextUtils.isEmpty(imageUrl)){
-            ImageLoader.getInstance().displayImage(imageUrl,mImageViewHead);
-        }else {
             mImageViewHead.setBackgroundResource(R.drawable.head2);
         }
     }
@@ -175,13 +161,62 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                         chatIntent.putExtra("TARGET_ID", uid + "");
                         startActivity(chatIntent);
                     }
+
                     @Override
                     public void onError(String module, int errCode, String errMsg) {
                         cancelProgressDialog();
                         KyLog.e("home fail", errMsg);
                     }
                 });
-
+                break;
+            case R.id.message_alert_iv:
+                if (isMessageAlert) {
+                    isMessageAlert = false;
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,1);//1.代表静音
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
+                    mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                } else {
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,2);//2.代表解除静音
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
+                    isMessageAlert = true;
+                    mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                }
+                break;
+            case R.id.set_top_iv:
+                if (isSetTop) {
+                    isSetTop = false;
+                    mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                } else {
+                    isSetTop = true;
+                    mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                }
+                break;
+            case R.id.star_friend_iv:
+                if (isStarFriend) {
+                    isStarFriend = false;
+                    addStarFriend(String.valueOf(uid),"1");
+                    mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                    mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
+                } else {
+                    isStarFriend = true;
+                    addStarFriend(String.valueOf(uid),"0");
+                    mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                    mRelativeLayoutStarFriend.setVisibility(View.GONE);
+                }
+                break;
         }
+    }
+
+
+
+    private void addStarFriend(String friendId, String type) {
+        ApiModule.getInstance().addStarFriend(friendId,type)
+                .subscribe(response -> {
+                        Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

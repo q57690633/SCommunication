@@ -6,7 +6,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +39,7 @@ import com.sky.kylog.KyLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataBaseTravelActivity extends BaseActivity implements View.OnClickListener {
+public class DataBaseTravelActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
 
     private RecyclerView mRecyclerView;
 
@@ -147,6 +149,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     private List<String> Kouweilist;
 
+    private EditText mEditTextSearch;
+
+
 
 
     private boolean isClickQuYu = false;
@@ -246,6 +251,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewChongGaoDaoDiFanXian = (TextView) findViewById(R.id.conggaodaodi_fanxian);
         mTextViewChongDuoDaoShaoDay = (TextView) findViewById(R.id.day_congduodaoshao);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
 
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
@@ -264,6 +272,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewCollect.setOnClickListener(this);
 
         mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        mEditTextSearch.setOnEditorActionListener(this);
 
 
         mTextViewPrice1.setOnClickListener(this);
@@ -1508,7 +1517,31 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             xiaofei = "";
         }
     }
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    if (travelType == 1 || travelType == 2) {
+                        gettingAroundTravel("", "", "", ""
+                                , "", "", "", "", "",
+                                "", "", search,
+                                "1", "", "", String.valueOf(travelType), "");
+                    } else if (travelType == 3) {
+                        gettingForeignTravel("", "", "", "", "", "", "", "",
+                                "", "", "", "", "", "", "", search,
+                                "1", "");
+                    }
+                } else {
+                    Toast.makeText(DataBaseTravelActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
 
+        }
+        return true;
+    }
 
 
 }

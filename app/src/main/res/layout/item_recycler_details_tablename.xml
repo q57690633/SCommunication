@@ -3,21 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/line_table">
+    android:background="@color/transparent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/line_table"
+        android:layout_gravity="center_horizontal">
 
     <TextView
         android:id="@+id/tv_table_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/biaoqian_radius"
+        android:layout_width="65dp"
+        android:layout_height="20dp"
+        android:background="@drawable/biaoqian_radius_blue"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:text="近地铁"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/sell_font"
+        android:text="近地铁也"
+        android:textColor="@color/white"
         android:textSize="12sp" />
-
+    </LinearLayout>
 </LinearLayout>

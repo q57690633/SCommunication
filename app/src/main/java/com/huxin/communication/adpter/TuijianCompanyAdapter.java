@@ -63,7 +63,7 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
 
     @Override
     public BodyViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_recycler_phone, parent, false);
+        View view = mInflater.inflate(R.layout.item_stick_duoxuan_recycler, parent, false);
         BodyViewHoder Hoder = new BodyViewHoder(view);
         Hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override

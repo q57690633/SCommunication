@@ -7,7 +7,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,11 +20,15 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.DataBaseAdapter;
 import com.huxin.communication.adpter.DataBaseDuoXuanAdapter;
+import com.huxin.communication.adpter.HouseSearchAdapter;
+import com.huxin.communication.adpter.HouseSearchDuoXuanAdapter;
+import com.huxin.communication.adpter.SellDetailsImageAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.PersonProductEntity;
+import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.house.sell.AreaOneScreenActivity;
 import com.huxin.communication.utils.PreferenceUtil;
@@ -34,7 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DataBaseActivity extends BaseActivity implements View.OnClickListener {
+public class DataBaseActivity extends BaseActivity implements View.OnClickListener,EditText.OnEditorActionListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
@@ -81,6 +87,9 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     private DataBaseAdapter mAdpter;
     private DataBaseDuoXuanAdapter mAdpterDuoXuan;
+
+    private HouseSearchAdapter mHouseSearchAdapter;
+    private HouseSearchDuoXuanAdapter mHouseSearchDuoXuanAdapter;
 
     private List<String> list = new ArrayList<>();
     private TextView mTextViewSell;
@@ -188,6 +197,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     String villageName;
     int uid;
+
+    private EditText mEditTextSearch;
 
 
 
@@ -342,6 +353,9 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
 //        mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
         mLinearLayoutMore.setOnClickListener(this);
@@ -352,6 +366,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         mTextViewDetermineMeasure.setOnClickListener(this);
         mTextViewDetermineMore.setOnClickListener(this);
         mTextViewDeterminePrice.setOnClickListener(this);
+        mEditTextSearch.setOnEditorActionListener(this);
 
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
@@ -1529,6 +1544,34 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+
+    private void setSearchDuoXuanData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
+            mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void setSearchData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchAdapter = new HouseSearchAdapter(list, this);
+            mRecyclerView.setAdapter(mHouseSearchAdapter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void getPersonProduct(String villageName, String minAcreage, String maxAcreage, String houseType, String minPrice,
                                   String maxPrice, String element, String newOrOld, String orientation, String houseHoldAppliances, String fitment,
                                   String permit, String purpose, String ownership, String floorAge, String productType, String curPage) {
@@ -1542,6 +1585,36 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                     if (personProductEntity != null) {
                         setData(personProductEntity);
                         setDuoXuanData(personProductEntity);
+                    }
+
+                    cancelProgressDialog();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    /**
+     * 搜索
+     *
+     * @param productType
+     * @param newOrOld
+     * @param condition
+     * @param stick
+     * @param collectType
+     */
+    private void selectFrame(String productType, String newOrOld,
+                             String condition, String stick,
+                             String collectType, String uid) {
+
+        showProgressDialog();
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+                .subscribe(saleOfScreeningEntities -> {
+                    if (saleOfScreeningEntities != null) {
+                        KyLog.object(saleOfScreeningEntities + "");
+                        setSearchData(saleOfScreeningEntities);
+                        setSearchDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();
@@ -1614,5 +1687,22 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         Kouweilist.add("独院");
 
         return Kouweilist;
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    selectFrame(String.valueOf(newOrOld), "", search, null, null, String.valueOf(PreferenceUtil.getInt(UID)));
+                } else {
+                    Toast.makeText(DataBaseActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 }

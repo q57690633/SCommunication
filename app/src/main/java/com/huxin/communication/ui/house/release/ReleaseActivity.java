@@ -675,6 +675,10 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         return dialog;
     }
 
+    /**
+     * 添加小区
+     * @param villageName
+     */
     private void selectByLike(String villageName) {
         KyLog.d(villageName);
         showProgressDialog();

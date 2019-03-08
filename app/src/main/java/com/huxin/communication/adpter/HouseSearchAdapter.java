@@ -13,26 +13,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.WantedScreeningEntity;
-import com.huxin.communication.ui.house.details.QiuZuDetailsActivity;
+import com.huxin.communication.entity.SelectFrameEntity;
+import com.huxin.communication.ui.house.details.SellDetailsActivity;
+import com.huxin.communication.ui.house.sell.SimilarDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by yangzanxiong on 2018/12/13.
- */
+public class HouseSearchAdapter extends RecyclerView.Adapter<HouseSearchAdapter.MyViewHoder>{
 
-public class QiuZuAdapter extends RecyclerView.Adapter<QiuZuAdapter.MyViewHoder>{
-
-    private List<WantedScreeningEntity.ListBean> list;
+    private List<SelectFrameEntity> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public QiuZuAdapter(List<WantedScreeningEntity.ListBean> list, Context mContext) {
+    public HouseSearchAdapter(List<SelectFrameEntity> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -45,9 +42,17 @@ public class QiuZuAdapter extends RecyclerView.Adapter<QiuZuAdapter.MyViewHoder>
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, QiuZuDetailsActivity.class);
-                intent.putExtra("pid",list.get(hoder.getAdapterPosition()).getId());
+                Intent intent = new Intent(mContext, SellDetailsActivity.class);
+                KyLog.d(list.get(hoder.getAdapterPosition()).getId() + "");
+                intent.putExtra("pid", list.get(hoder.getAdapterPosition()).getId());
                 mContext.startActivity(intent);
+            }
+        });
+        hoder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(mContext, SimilarDetailsActivity.class);
+                mContext.startActivity(intent1);
             }
         });
         return hoder;
@@ -57,28 +62,28 @@ public class QiuZuAdapter extends RecyclerView.Adapter<QiuZuAdapter.MyViewHoder>
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()) + "元/㎡");
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
 
-        if (list.get(position).getKeying() == 1){
+        if (list.get(position).getKeying()==1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.mImageViewKeying.setVisibility(View.GONE);
         }
 
-        if (list.get(position).getStick() == 1){
+        if (list.get(position).getStick() == 1) {
             holder.mTextViewStick.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.mTextViewStick.setVisibility(View.GONE);
         }
 
-        if (list.get(position).getExclusive() == 1){
-            holder.mTextView.setText("独家");
-        }else {
-            holder.mTextView.setText("相似房源");
-        }
+//        if (list.get(position).getExclusive() == 1) {
+//            holder.mTextView.setText("独家");
+//        } else {
+//            holder.mTextView.setText("相似房源");
+//        }
         if (!TextUtils.isEmpty(list.get(position).getTabName())) {
             setTextView(list, position, holder.mLinearLayoutTabName);
         }
@@ -119,8 +124,7 @@ public class QiuZuAdapter extends RecyclerView.Adapter<QiuZuAdapter.MyViewHoder>
         }
     }
 
-    private void setTextView(List<WantedScreeningEntity.ListBean> list, int position, RecyclerView linearLayout){
-
+    private void setTextView(List<SelectFrameEntity> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
         KyLog.d(list.get(position).getTabName());
@@ -128,11 +132,11 @@ public class QiuZuAdapter extends RecyclerView.Adapter<QiuZuAdapter.MyViewHoder>
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 4);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

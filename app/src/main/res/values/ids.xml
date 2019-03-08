@@ -5,5 +5,7 @@
     <item name="toolbar_right" type="id" />
     <item name="toolbar_quxiao" type="id" />
     <item name="toolbar_bianji" type="id"/>
+    <item name="toolbar_editText_search" type="id"/>
+
 
 </resources>
