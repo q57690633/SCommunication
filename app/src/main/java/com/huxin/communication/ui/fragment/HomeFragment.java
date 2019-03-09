@@ -41,9 +41,11 @@ import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
 import com.huxin.communication.ui.KeFuActivity;
 import com.huxin.communication.ui.RegisterInformationActivity;
+import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.house.match.MatchActivity;
+import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
 import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
@@ -75,6 +77,8 @@ import com.tencent.imsdk.conversation.Conversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -238,42 +242,24 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
         TIMManager.getInstance().addMessageListener(this);
-//        if (isCity()) {
-            if (PreferenceUtil.getInt("type") == 1) {
-                initData();
-                getConversationList();
-            } else {
-                initDataTravel();
-                getProvinces();
+        String userId = PreferenceUtil.getInt("uid") + "";
+        String userSig = PreferenceUtil.getString("usersig");
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                if (PreferenceUtil.getInt("type") == 1) {
+                    initData();
+                    getConversationList();
+                } else {
+                    initDataTravel();
+                    getProvinces();
+                }
             }
-//        }else {
-//            Intent intent = new Intent(getContext(), RegisterInformationActivity.class);
-//            startActivity(intent);
-//        }
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
 
-//        mRecyclerViewHead.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    // 如果自动滑动到最后一个位置，则此处状态为SCROLL_STATE_IDLE
-//                    AutoScrollLayoutManager lm = (AutoScrollLayoutManager) recyclerView
-//                            .getLayoutManager();
-//
-//                    int position = lm.findLastCompletelyVisibleItemPosition();
-//                    int count = lm.getItemCount();
-//                    if (position == count - 1) {
-//                        lm.scrollToPosition(0);
-//                        mRecyclerViewHead.smoothScrollToPosition(mHeadLineAdapter.getItemCount());
-//                    }
-//                }
-//
-//
-//            }
-//        });
-
-
+            }
+        });
     }
 
     public void initViewHouse(View view) {
