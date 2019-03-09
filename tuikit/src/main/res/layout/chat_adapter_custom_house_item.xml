@@ -30,7 +30,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="天阔三期A区"
-                android:textColor="@color/white"
+                android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
             <TextView
@@ -42,25 +42,27 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="3室1厅"
-                android:textColor="@color/white"
+                android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/acreage_sell"
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/houseType_sell"
                 android:text="129㎡"
-                android:textColor="@color/white"
+                android:lines="1"
+                android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/totalPrice_sell"
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/acreage_sell"
+                android:lines="1"
                 android:text="180万"
                 android:textColor="@color/red_setting"
                 android:textSize="16dp" />
@@ -105,7 +107,7 @@
                 android:layout_toLeftOf="@id/orientation_sell"
                 android:text="23500元/㎡"
 
-                android:textColor="@color/white"
+                android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
             <TextView
@@ -116,7 +118,7 @@
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="98dp"
                 android:text="东南"
-                android:textColor="@color/white"
+                android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
             <ImageView

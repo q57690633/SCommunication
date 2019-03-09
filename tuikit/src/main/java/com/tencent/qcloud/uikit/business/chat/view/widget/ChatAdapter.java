@@ -141,14 +141,8 @@ public class ChatAdapter extends IChatAdapter {
             case MessageInfo.MSG_TYPE_TEXT + 1:
                 if (mRecycleView.isDivided()) {
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text_self, parent, false));
-                    if(mIsCustomMessage) {
-                        holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
-                    }
                 } else {
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-                    if(mIsCustomMessage) {
-                        holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
-                    }
                 }
                 break;
             case MessageInfo.MSG_TYPE_CUSTOM:
