@@ -60,7 +60,6 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private EditText mEditTextSearch;
     private LinearLayout mLinearLayoutText;
 
-
     private RecyclerView mRecyclerViewGroup;
     private RecyclerView mRecyclerViewStick;
     private RecyclerView mRecyclerViewCompany;

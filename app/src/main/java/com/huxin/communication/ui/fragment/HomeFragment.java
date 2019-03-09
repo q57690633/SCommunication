@@ -247,6 +247,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
+                KyLog.d("onSuccess");
                 if (PreferenceUtil.getInt("type") == 1) {
                     initData();
                     getConversationList();
