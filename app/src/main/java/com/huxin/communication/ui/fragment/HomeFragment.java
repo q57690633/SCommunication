@@ -911,6 +911,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
                             }
                         }
+                        GetMsgManager msgManager = GetMsgManager.instants();
+                        msgManager.setList(null);
                     }
                 });
     }
