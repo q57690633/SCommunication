@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -59,7 +60,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private ImageView mImageView;
     private RelativeLayout mRelativeLayoutStick;
     private EditText mEditTextSearch;
-    private RelativeLayout mRelativeLayoutText;
+    private LinearLayout mRelativeLayoutText;
 
 
     private RecyclerView mRecyclerViewGroup;

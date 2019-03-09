@@ -39,10 +39,12 @@ public class HttpUtil {
     //上传文件
     public void postFileRequest(String url, Map<String, String> params, ArrayList<ImageItem> pathList, MyStringCallBack callback) {
         KyLog.d("postFileRequest");
-             Map<String,File> files = new HashMap<>();
-        for (int i = 0; i < pathList.size(); i++) {
-            String newPath = BitmapUtils.compressImageUpload(pathList.get(i).path);
-            files.put(pathList.get(i).name+i,new File(newPath));
+        Map<String, File> files = new HashMap<>();
+        if (pathList != null && pathList.size() > 0) {
+            for (int i = 0; i < pathList.size(); i++) {
+                String newPath = BitmapUtils.compressImageUpload(pathList.get(i).path);
+                files.put(pathList.get(i).name + i, new File(newPath));
+            }
         }
 
         KyLog.d(files + "");
@@ -50,7 +52,7 @@ public class HttpUtil {
 
         mPost.url(url)
                 .params(params)
-                .files("files",files)
+                .files("files", files)
                 .build()
                 .execute(callback);
     }

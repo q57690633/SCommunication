@@ -26,12 +26,20 @@ import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.cammer.HttpUtil;
+import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.lzy.imagepicker.bean.ImageItem;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import retrofit2.http.Field;
 
 
 /**
@@ -83,6 +91,9 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
     private LinearLayout mLinearLayoutVillageName;
     private TextView mTextViewAddVillageName;
     private SelectByLikeAdapter mSelectBylikeAdapter;
+
+    private HttpUtil httpUtil;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +174,8 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        httpUtil = new HttpUtil();
+
         setTabData();
 
         mEditTextvillageNam.addTextChangedListener(new TextWatcher() {
@@ -256,7 +269,8 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
 //                mReleaseDialog.show();
 //                break;
             case R.id.confirm:
-                addWantedProduct();
+//                addWantedProduct();
+                uploadImage();
                 break;
 
             case R.id.stick_rent_release:
@@ -354,7 +368,7 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
         showProgressDialog();
         ApiModule.getInstance().addBuyerProduct(VillageName, String.valueOf(unlimitedEstate), minPrice, maxPrice, minAcreage, maxAcreage, HouseType, FloorAge, Permit
                 , remark, String.valueOf(stick), tableId)
-                .subscribe(response -> {
+                .subscribe(buyerScreeningEntity -> {
 
                     cancelProgressDialog();
 //                    KyLog.d(response.getResultMsg());
@@ -416,5 +430,68 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+
+
+    private void uploadImage() {
+
+        String VillageName = mEditTextvillageNam.getText().toString().trim();
+        String maxAcreage = mEditTextmaxAcreage.getText().toString().trim();
+        String minPrice = mEditTextminPrice.getText().toString().trim();
+        String maxPrice = mEditTextmaxPrice.getText().toString().trim();
+        String minAcreage = mEditTextminAcreage.getText().toString().trim();
+        String remark = mEditTextremark.getText().toString().trim();
+
+        String tableId ;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
+        }else {
+            tableId = "";
+
+        }
+
+        if (TextUtils.isEmpty(VillageName)  && TextUtils.isEmpty(Permit) && TextUtils.isEmpty(HouseType)){
+            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        Map<String,String> map = new HashMap<>();
+        map.put("villageName",VillageName);
+        map.put("unlimitedEstate",String.valueOf(unlimitedEstate));
+        map.put("minPrice",minPrice);
+        map.put("maxPrice",maxPrice);
+        map.put("minAcreage",minAcreage);
+        map.put("maxAcreage",maxAcreage);
+        map.put("houseType",HouseType);
+        map.put("floorAge",FloorAge);
+        map.put("permit",Permit);
+        map.put("remark",remark);
+        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick",String.valueOf(stick));
+        map.put("tabId",tableId);
+        map.put("token",PreferenceUtil.getString(TOKEN));
+
+
+        String url = "http://39.105.203.33/jlkf/mutual-trust/public/addBuyerProduct";
+        httpUtil.postFileRequest(url, map, null, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d("image == " + e.toString());
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                KyLog.d("image ==" + response);
+                //返回图片的地址
+                Intent intent = new Intent(ReleaseBuyActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
