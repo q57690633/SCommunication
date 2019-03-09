@@ -40,6 +40,7 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
 import com.huxin.communication.ui.KeFuActivity;
+import com.huxin.communication.ui.LoginActivity;
 import com.huxin.communication.ui.RegisterInformationActivity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
@@ -241,24 +242,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void loadData() {
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
+        if (PreferenceUtil.getInt("type") == 1) {
+            initData();
+        } else {
+            initDataTravel();
+            getProvinces();
+        }
         TIMManager.getInstance().addMessageListener(this);
         String userId = PreferenceUtil.getInt("uid") + "";
         String userSig = PreferenceUtil.getString("usersig");
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
-                KyLog.d("onSuccess");
-                if (PreferenceUtil.getInt("type") == 1) {
-                    initData();
-                    getConversationList();
-                } else {
-                    initDataTravel();
-                    getProvinces();
-                }
+                getConversationList();
             }
             @Override
             public void onError(String module, int errCode, String errMsg) {
-
+                KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
             }
         });
     }
