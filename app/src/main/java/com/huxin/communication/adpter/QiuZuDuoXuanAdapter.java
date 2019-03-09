@@ -130,10 +130,10 @@ public class QiuZuDuoXuanAdapter extends RecyclerView.Adapter<QiuZuDuoXuanAdapte
 
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
         if (isItemChecked(position)) {
             holder.mImageViewClicked.setVisibility(View.VISIBLE);
             holder.mImageView.setVisibility(View.GONE);

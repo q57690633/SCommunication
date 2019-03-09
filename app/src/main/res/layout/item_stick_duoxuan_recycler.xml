@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/login_forget_password_code_fort"
+    android:orientation="vertical"
+    android:id="@+id/rl_stick">
+
+    <LinearLayout
+        android:id="@+id/line_phone"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginLeft="2dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="13dp">
+
+            <ImageView
+                android:id="@+id/image_duoxuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/head2"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"/>
+
+
+            <TextView
+                android:id="@+id/name_famous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:text="爱屋房产·店面经理·李宁"
+                android:layout_toRightOf="@id/image"
+                android:layout_centerVertical="true"
+                android:textColor="@color/register_font"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/login_line" />
+</LinearLayout>

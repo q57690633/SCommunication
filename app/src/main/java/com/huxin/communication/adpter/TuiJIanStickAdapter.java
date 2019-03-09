@@ -2,6 +2,7 @@ package com.huxin.communication.adpter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -63,7 +64,7 @@ public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapte
 
     @Override
     public BodyViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_recycler_phone, parent, false);
+        View view = mInflater.inflate(R.layout.item_stick_duoxuan_recycler, parent, false);
         BodyViewHoder Hoder = new BodyViewHoder(view);
         Hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +111,17 @@ public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapte
 //        holder.mTextViewAddress.setText(mList.get(position).getAddress());
         KyLog.d(mList.get(position).getStoreName());
         holder.tvTitle.setText(mList.get(position).getStoreName());
-        ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.image);
+        if (!TextUtils.isEmpty(mList.get(position).getHeadUrl())) {
+            ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.mImageView);
+        }else {
+            holder.mImageView.setBackgroundResource(R.drawable.head2);
+        }
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
 
         if (isItemChecked(position)) {
-            holder.mImageView.setBackgroundResource(R.drawable.icon_circle_selected);
+            holder.image.setBackgroundResource(R.drawable.icon_circle_selected);
         } else {
-            holder.mImageView.setBackgroundResource(R.drawable.icon_circle_normal);
+            holder.image.setBackgroundResource(R.drawable.icon_circle_normal);
         }
     }
 

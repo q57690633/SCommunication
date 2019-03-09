@@ -128,11 +128,11 @@ public class QiuGouAdapter extends RecyclerView.Adapter<QiuGouAdapter.MyViewHode
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 4);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

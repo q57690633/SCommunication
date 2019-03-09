@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
-import com.huxin.communication.entity.BuyerScreeningEntity;
+import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -26,15 +25,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by yangzanxiong on 2018/12/17.
- */
-
-public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdapter.MyViewHoder> {
+public class QiuZuDuoXuanSearchAdapter extends RecyclerView.Adapter<QiuZuDuoXuanSearchAdapter.MyViewHoder>{
 
     private static final String PID = "pid";
 
-    private List<BuyerScreeningEntity.ListBean> list;
+    private List<SelectFrameEntity> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private boolean isClicked = false;
@@ -48,7 +43,7 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
     private Set<String> strings = new HashSet<>();
 
     //更新adpter的数据和选择状态
-    public void updateDataSet(ArrayList<BuyerScreeningEntity.ListBean> list) {
+    public void updateDataSet(ArrayList<SelectFrameEntity> list) {
         this.list = list;
         mSelectedPositions = new SparseBooleanArray();
 //        ab.setTitle("已选择" + 0 + "项");
@@ -56,8 +51,8 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
 
 
     //获得选中条目的结果
-    public ArrayList<BuyerScreeningEntity.ListBean> getSelectedItem() {
-        ArrayList<BuyerScreeningEntity.ListBean> selectList = new ArrayList<>();
+    public ArrayList<SelectFrameEntity> getSelectedItem() {
+        ArrayList<SelectFrameEntity> selectList = new ArrayList<>();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 if (isItemChecked(i)) {
@@ -72,7 +67,7 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
     }
 
 
-    public QiuGouDuoXuanAdapter(List<BuyerScreeningEntity.ListBean> list, Context mContext) {
+    public QiuZuDuoXuanSearchAdapter(List<SelectFrameEntity> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -137,8 +132,8 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
 
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMinPrice()));
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
@@ -210,7 +205,7 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
         }
     }
 
-    private void setTextView(List<BuyerScreeningEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<SelectFrameEntity> list, int position, RecyclerView linearLayout) {
 
         List<String> list1 = new ArrayList<>();
         String[] strings = list.get(position).getTabName().split(",");
@@ -219,11 +214,11 @@ public class QiuGouDuoXuanAdapter extends RecyclerView.Adapter<QiuGouDuoXuanAdap
             list1.add(strings[i]);
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 4);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

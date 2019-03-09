@@ -25,9 +25,14 @@
         android:visibility="gone">
 
         <EditText
+            android:id="@+id/toolbar_editText_search"
             android:layout_width="190dp"
             android:layout_height="30dp"
-            android:background="@drawable/toolbar_radius" />
+            android:background="@drawable/toolbar_radius"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
+            android:paddingLeft="30dp"
+            android:textColor="@color/register_font"/>
 
         <ImageView
             android:layout_width="wrap_content"

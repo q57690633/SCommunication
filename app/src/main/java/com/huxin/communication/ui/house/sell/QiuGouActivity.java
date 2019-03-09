@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.HouseSearchAdapter;
+import com.huxin.communication.adpter.HouseSearchDuoXuanAdapter;
 import com.huxin.communication.adpter.QiuGouAdapter;
 import com.huxin.communication.adpter.QiuGouDuoXuanAdapter;
 import com.huxin.communication.adpter.QiuZuDuoXuanAdapter;
@@ -25,6 +29,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
 import com.huxin.communication.entity.HouseEntity;
+import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.WantedScreeningEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.utils.PreferenceUtil;
@@ -42,7 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class QiuGouActivity extends BaseActivity implements View.OnClickListener {
+public class QiuGouActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -88,7 +93,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
     private TextView mTextViewErShouFang;
     private TextView mTextViewXinFang;
 
-
+    private HouseSearchAdapter mHouseSearchAdapter;
+    private HouseSearchDuoXuanAdapter mHouseSearchDuoXuanAdapter;
 
     private QiuGouAdapter mAdpter;
     private QiuGouDuoXuanAdapter mAdpterDuoXuan;
@@ -164,7 +170,7 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
     private EditText mEditTextMax;
     private EditText mEditTextMin;
 
-    private int newOrOld = 0;
+    private String newOrOld;
     private boolean isClickOne = true;
     private boolean isClickTwo = true;
     private boolean isClicksan = true;
@@ -215,6 +221,9 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
     private String peer;
     private String type;
     private TextView mTextViewZhuanFa;
+
+    private EditText mEditTextSearch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -369,6 +378,9 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
 
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
@@ -382,6 +394,7 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
+        mEditTextSearch.setOnEditorActionListener(this);
 
 
         mLinearLayoutQuYu.setOnClickListener(this);
@@ -1338,6 +1351,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                newOrOld = null;
+
                 if (setHouseTypeList.size() > 0) {
                     getWantedScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
                             "", "", "", "", "", "",
@@ -1355,6 +1370,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.white));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
+                newOrOld = "2";
+
                 getWantedScreening("", "", "", "", "", "", "", "", "", "",
                         "", "", "", "0", 2, PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
 
@@ -1366,6 +1383,9 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 mTextViewErShouFang.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewXinFang.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.white));
+
+                newOrOld = "1";
+
                 getWantedScreening("", "", "", "", "",
                         "", "", "", "", "",
                         "", "", "", "0", 1, PreferenceUtil.getString(Constanst.CITY_NAME)
@@ -1528,7 +1548,7 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
         mAdpterDuoXuan = new QiuGouDuoXuanAdapter(entity.getList(), this);
         mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
         mRecyclerViewDuoXuan.setLayoutManager(manager);
-        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//        mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
         mTextViewGuanLi.setVisibility(View.VISIBLE);
         mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
@@ -1541,7 +1561,34 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
             mAdpter = new QiuGouAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setSearchDuoXuanData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
+            mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void setSearchData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchAdapter = new HouseSearchAdapter(list, this);
+            mRecyclerView.setAdapter(mHouseSearchAdapter);
+            mRecyclerView.setLayoutManager(manager);
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1582,6 +1629,35 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                     Intent intent =  new Intent(this,SellActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    /**
+     * 搜索
+     * @param productType
+     * @param newOrOld
+     * @param condition
+     * @param stick
+     * @param collectType
+     */
+    private void selectFrame(String productType, String newOrOld,
+                             String condition, String stick,
+                             String collectType,String uid) {
+
+        showProgressDialog();
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType,uid)
+                .subscribe(saleOfScreeningEntities -> {
+                    if (saleOfScreeningEntities != null) {
+                        KyLog.object(saleOfScreeningEntities + "");
+                        setSearchData(saleOfScreeningEntities);
+                        setSearchDuoXuanData(saleOfScreeningEntities);
+                    }
+
+                    cancelProgressDialog();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
@@ -1750,6 +1826,23 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
             stringBuffer.append("{").append(sb).append("}");
         }
         return "L" + sb.toString();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch(i){
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    selectFrame("3", newOrOld, search, null, null,null);
+                }else {
+                    Toast.makeText(QiuGouActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 
 }

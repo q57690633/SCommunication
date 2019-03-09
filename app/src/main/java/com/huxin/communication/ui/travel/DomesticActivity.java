@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +48,7 @@ import java.util.List;
  * 国内游
  */
 
-public class DomesticActivity extends BaseActivity implements View.OnClickListener {
+public class DomesticActivity extends BaseActivity implements View.OnClickListener,EditText.OnEditorActionListener  {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -91,7 +93,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
     private List<String> list = new ArrayList<>();
 
-
+    private EditText mEditTextSearch;
+    private int numberDays = 1;
 
     private RecyclerView mRecyclerViewZhuShu;
     private RecyclerView mRecyclerViewXiaoFei;
@@ -251,6 +254,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
 
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
@@ -294,6 +300,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mLinearLayoutMuDi.setOnClickListener(this);
         mLinearLayoutChuFa.setOnClickListener(this);
         mTextViewZhuanFa.setOnClickListener(this);
+        mEditTextSearch.setOnEditorActionListener(this);
 
 
     }
@@ -925,6 +932,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewErRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSanSiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
+                numberDays = 1;
+
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "1", "",
@@ -937,6 +946,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewErRiYou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewSanSiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
+                numberDays = 2;
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "2", "",
@@ -949,6 +959,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewErRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSanSiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.white));
+                numberDays = 3;
+
                 gettingAroundTravel("", "", "", ""
                         , "", "", "", "", "",
                         "", "3", "",
@@ -1410,6 +1422,26 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             stringBuffer.append("{").append(sb).append("}");
         }
         return "L" + sb.toString();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    gettingAroundTravel("", "", "", ""
+                            , "", "", "", "", "",
+                            "", String.valueOf(numberDays), search,
+                            "1", "", "", null, String.valueOf(1), "");
+                } else {
+                    Toast.makeText(DomesticActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 
 }

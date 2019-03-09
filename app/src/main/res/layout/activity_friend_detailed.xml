@@ -302,7 +302,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="11dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/switch_close" />
+                android:background="@drawable/switch_close" />
 
 
         </RelativeLayout>

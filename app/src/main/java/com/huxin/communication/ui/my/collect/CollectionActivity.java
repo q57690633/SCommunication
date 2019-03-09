@@ -1,13 +1,16 @@
 package com.huxin.communication.ui.my.collect;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.CollectAdapter;
 import com.huxin.communication.adpter.CollectDuoXuanAdapter;
+import com.huxin.communication.adpter.HouseSearchAdapter;
+import com.huxin.communication.adpter.HouseSearchDuoXuanAdapter;
 import com.huxin.communication.adpter.SellDuoXuanAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.base.BaseActivity;
@@ -26,8 +31,10 @@ import com.huxin.communication.entity.AreaOneScreenEntity;
 import com.huxin.communication.entity.CollectEntity;
 import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.house.sell.AreaOneScreenActivity;
+import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -44,7 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CollectionActivity extends BaseActivity implements View.OnClickListener {
+public class CollectionActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -91,10 +98,10 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
     private TextView mTextViewQiuGou;
     private TextView mTextViewChuZhu;
 
+    private HouseSearchAdapter mHouseSearchAdapter;
+    private HouseSearchDuoXuanAdapter mHouseSearchDuoXuanAdapter;
 
     private CollectDuoXuanAdapter mAdpterDuoXuan;
-
-
     private CollectAdapter mAdpter;
     private List<String> list = new ArrayList<>();
     private String pid;
@@ -220,6 +227,9 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
     private TextView mTextViewZhuanFa;
 
     private int newOrOld = 1;
+
+    private EditText mEditTextSearch;
+
 
 
     @Override
@@ -362,6 +372,10 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
+
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+        mEditTextSearch.setOnEditorActionListener(this);
 
 
         mLinearLayoutFangXing.setOnClickListener(this);
@@ -1418,6 +1432,33 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    private void setSearchDuoXuanData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
+            mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
+            mRecyclerViewDuoXuan.setLayoutManager(manager);
+            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+            mTextViewGuanLi.setVisibility(View.VISIBLE);
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void setSearchData(List<SelectFrameEntity> list) {
+        if (list != null && list.size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            LinearLayoutManager manager = new LinearLayoutManager(this);
+            mHouseSearchAdapter = new HouseSearchAdapter(list, this);
+            mRecyclerView.setAdapter(mHouseSearchAdapter);
+            mRecyclerView.setLayoutManager(manager);
+            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void getCollectProduct(String villageName, String minAcreage, String maxAcreage, String houseType, String minPrice,
                                    String maxPrice, String element, String newOrOld, String orientation, String houseHoldAppliances, String fitment, String permit, String purpose,
                                    String ownership, String floorAge, String productType, String curPage) {
@@ -1431,6 +1472,37 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                     if (collectEntities != null) {
                         setData(collectEntities);
                         setDuoXuanData(collectEntities);
+                    }
+
+                    cancelProgressDialog();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    /**
+     * 搜索
+     *
+     * @param productType
+     * @param newOrOld
+     * @param condition
+     * @param stick
+     * @param collectType
+     */
+    private void selectFrame(String productType, String newOrOld,
+                             String condition, String stick,
+                             String collectType, String uid) {
+
+        showProgressDialog();
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+                .subscribe(saleOfScreeningEntities -> {
+                    if (saleOfScreeningEntities != null) {
+                        KyLog.object(saleOfScreeningEntities + "");
+                        setSearchData(saleOfScreeningEntities);
+                        setSearchDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();
@@ -1710,5 +1782,22 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 //        }
 //        return "L" + sb.toString();
 //    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    selectFrame(String.valueOf(newOrOld), "", search, null, String.valueOf(1), String.valueOf(PreferenceUtil.getInt(UID)));
+                } else {
+                    Toast.makeText(CollectionActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
+    }
 
 }
