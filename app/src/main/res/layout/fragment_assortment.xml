@@ -46,6 +46,7 @@
 
 
             <EditText
+                android:id="@+id/editText_assortment"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@drawable/list_phone_ed"
@@ -53,6 +54,7 @@
                 android:textColorHint="@color/login_walling_fort" />
 
             <LinearLayout
+                android:id="@+id/rl_text"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"

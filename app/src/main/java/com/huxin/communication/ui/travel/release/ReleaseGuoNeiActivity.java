@@ -33,6 +33,7 @@ import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
+import com.huxin.communication.ui.house.release.ReleaseActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.ImagePicker;
@@ -41,7 +42,9 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -137,6 +140,13 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     private ImagePickerAdapter adapter;
 
     private HttpUtil httpUtil;
+
+    private String Traffic = "";
+    private String Address = "";
+    private String Consume = "";
+    private String Activity = "";
+    private String Stay = "";
+    private String Other = "";
 
 
     @Override
@@ -648,14 +658,93 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
 
     /**
      * 上传图片
      * @param pathList
      */
     private void uploadImage(ArrayList<ImageItem > pathList) {
-        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+
+        String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
+        String Generalize = mEditTextGeneralize.getText().toString().trim();
+        String TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+        String FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+        String ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+        String TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+        String finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+        String ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+        Traffic = PreferenceUtil.getString(Constanst.TAB_NMAE_TRAFFIC);
+        Address = PreferenceUtil.getString(Constanst.TAB_NMAE_ADDRESS);
+        Consume = PreferenceUtil.getString(Constanst.TAB_NMAE_CONS);
+        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+        Stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
+        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+        if (pickupPrice.equals("有周边接送费")) {
+            pickupPrices = 1;
+        } else {
+            pickupPrices = 0;
+        }
+        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
+            stick = 2;
+        } else {
+            stick = 1;
+        }
+        showProgressDialog();
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+
+        Map<String, String> map = new HashMap<>();
+        map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
+        map.put("depart_pro_code", PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+        map.put("goalsId", PreferenceUtil.getString(Constanst.SPOT_ID));
+        map.put("spotName", PreferenceUtil.getString(Constanst.SPOT_NAME));
+        map.put("numberDays", day);
+        map.put("totalPrice", TotalPrice);
+        map.put("finalPrice", FinalPrice);
+        map.put("returnPrice", ReturnPrice);
+        map.put("pickupPrice", pickupPrice);
+
+        map.put("totalPriceChild", TotalPriceChild);
+        map.put("finalPriceChild", finalPriceChild);
+        map.put("returnPriceChild", ReturnPriceChild);
+        map.put("tAddressId", Address);
+        map.put("tTrafficId", Traffic);
+        map.put("tConsumeId", Consume);
+
+        map.put("tActivityId", Activity);
+        map.put("tStayId", Stay);
+        map.put("tOtherId", Other);
+        map.put("travelTitle", TravelTitle);
+        map.put("generalize", Generalize);
+        map.put("stick", String.valueOf(stick));
+
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("lineOrThrow", String.valueOf(caixian));
+        map.put("stick_new", String.valueOf(news));
+        map.put("stick_low", String.valueOf(low));
+        map.put("stick_better", String.valueOf(better));
+        map.put("stick_throw", String.valueOf(shuaiwei));
+        map.put("stick_rate", String.valueOf(rate));
+        map.put("stick_return", String.valueOf(returns));
+        map.put("stick_hot", String.valueOf(hot));
+        map.put("stick_zeroC", String.valueOf(zeroC));
+        map.put("goals_city", PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+        map.put("goals_pro", PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+        map.put("goals_city_code", PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+        map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+        map.put("travel_kind", "2");
+        map.put("token", PreferenceUtil.getString(TOKEN));
+
+        String url="http://39.105.203.33/jlkf/mutual-trust/travel/issueAroundRoute";
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -667,6 +756,9 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
                 //返回图片的地址
+                KyLog.d(response);
+                Intent intent = new Intent(ReleaseGuoNeiActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

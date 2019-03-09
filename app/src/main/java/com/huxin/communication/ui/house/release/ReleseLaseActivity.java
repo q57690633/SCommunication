@@ -37,9 +37,12 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
+import retrofit2.http.Field;
 
 /**
  * 发布出租
@@ -76,12 +79,12 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private List<MyPopVlaues> Kouweilist;
     private List<MyPopVlaues> keshulist;
-    private String houseHoldAppliances;
-    private String fitment;
-    private String permit;
-    private String orientation;
-    private String purpose;
-    private String houseType;
+    private String houseHoldAppliances = "";
+    private String fitment = "";
+    private String permit = "";
+    private String orientation = "";
+    private String purpose = "";
+    private String houseType = "";
     private boolean isclicked = true;
     private boolean isclickeds = true;
 
@@ -399,8 +402,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.confirm:
-                addRentProduct();
-//                uploadImage(selImageList);
+//                addRentProduct();
+                uploadImage(selImageList);
                 break;
             case R.id.new_tv_release:
                 mEditTextNewClick.setVisibility(View.VISIBLE);
@@ -702,30 +705,99 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-//    private String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
-//
-//    /**
-//     * 上传图片
-//     * @param pathList
-//     */
-//    private void uploadImage(ArrayList<ImageItem> pathList) {
-//        KyLog.d("uploadImage");
-//        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
-//
-//            @Override
-//            public void onError(Call call, Exception e, int id) {
-//                super.onError(call, e, id);
-//                KyLog.d(e + " cuowu == " +  "call == " + call  );
-//            }
-//
-//            @Override
-//            public void onResponse(String response, int id) {
-//                super.onResponse(response, id);
-//                //返回图片的地址
-//                KyLog.d(response);
-//            }
-//        });
-//    }
+
+    /**
+     * 上传图片
+     * @param pathList
+     */
+    private void uploadImage(ArrayList<ImageItem> pathList) {
+        String VillageName = mEditTextVillageName.getText().toString().trim();
+        String Acreage = mEditTextAcreage.getText().toString().trim();
+        String totalPrice = mEditTextTotalPrice.getText().toString().trim();
+        String floorNumber = mEditTextFloorNumber.getText().toString().trim();
+        String totalFloorNumber = mEditTexTotalFloorNumber.getText().toString().trim();
+        String title = mEditTextTitle.getText().toString().trim();
+        String houseNumber = mEditTextHouseNumber.getText().toString().trim();
+        String pdu = mEditTextPdu.getText().toString().trim();
+        String floorSize = mEditTextFloorSize.getText().toString().trim();
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
+        } else {
+            tableId = "";
+
+        }
+
+        KyLog.d(loans + "");
+        KyLog.d(keying + "");
+        KyLog.d(VillageName + "");
+        KyLog.d(Acreage + "");
+        KyLog.d(totalPrice + "");
+        KyLog.d(floorNumber + "");
+        KyLog.d(totalFloorNumber + "");
+        KyLog.d(title + "");
+        KyLog.d(houseNumber + "");
+        KyLog.d(pdu + "");
+        KyLog.d(floorSize + "");
+
+        KyLog.d(houseHoldAppliances + "");
+        KyLog.d(fitment + "");
+        KyLog.d(permit + "");
+        KyLog.d(orientation + "");
+        KyLog.d(purpose + "");
+        KyLog.d(houseType + "");
+//        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
+
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
+            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        Map<String,String> map = new HashMap<>();
+        map.put("villageName",VillageName);
+        map.put("acreage",Acreage);
+        map.put("houseType",houseType);
+        map.put("totalPrice",totalPrice);
+        map.put("floorNumber",floorNumber);
+        map.put("totalFloorNumber",totalFloorNumber);
+        map.put("fitment",fitment);
+        map.put("keying",String.valueOf(keying));
+        map.put("paymentType",permit);
+        map.put("title",title);
+        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick",String.valueOf(stick));
+        map.put("pdu",pdu);
+        map.put("orientation",orientation);
+        map.put("tabId",tableId);
+        map.put("exclusive",String.valueOf(exclusive));
+        map.put("purpose",purpose);
+        map.put("houseHoldAppliances",houseHoldAppliances);
+        map.put("floorSize",floorSize);
+        map.put("houseNumber",houseNumber);
+        map.put("token",PreferenceUtil.getString(TOKEN));
+
+        KyLog.d("uploadImage");
+        String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d(e + " cuowu == " +  "call == " + call  );
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                //返回图片的地址
+                KyLog.d(response);
+                Intent intent = new Intent(ReleseLaseActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
         SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);

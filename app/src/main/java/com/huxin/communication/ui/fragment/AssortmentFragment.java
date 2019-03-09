@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -54,6 +58,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private FamousAdapter mAdapter;
     private ImageView mImageView;
     private RelativeLayout mRelativeLayoutStick;
+    private EditText mEditTextSearch;
+    private RelativeLayout mRelativeLayoutText;
 
 
     private RecyclerView mRecyclerViewGroup;
@@ -66,6 +72,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
 
 
     private List<FamousEntity> list = new ArrayList<>();
+
+    private  String mSearch;
 
     public AssortmentFragment() {
         // Required empty public constructor
@@ -104,6 +112,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         mRecyclerViewStick = view.findViewById(R.id.stick_recycler);
         mRecyclerViewCompany = view.findViewById(R.id.company_recycler);
         mRelativeLayoutStick = view.findViewById(R.id.stick_rl);
+        mEditTextSearch = view.findViewById(R.id.editText_assortment);
+        mRelativeLayoutText = view.findViewById(R.id.rl_text);
 
 
         mImageView.setOnClickListener(this);
@@ -134,6 +144,30 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
             }
         });
 
+        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mSearch = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(mSearch)){
+                    mRelativeLayoutText.setVisibility(View.GONE);
+                }else {
+                    mRelativeLayoutText.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
     }
 
     @Override
@@ -157,17 +191,17 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     if (AddressBookEntity.getGroup() != null && AddressBookEntity.getGroup().size() > 0) {
                         KyLog.object(AddressBookEntity.getGroup());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                        mGounpAdapter = new GounpAdapter(AddressBookEntity.getGroup(),getActivity());
+                        mGounpAdapter = new GounpAdapter(AddressBookEntity.getGroup(), getActivity());
                         mRecyclerViewGroup.setAdapter(mGounpAdapter);
                         mRecyclerViewGroup.setLayoutManager(manager);
                     }
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
 
-                    if (beanList != null && beanList.size() > 0)  {
+                    if (beanList != null && beanList.size() > 0) {
                         KyLog.object(AddressBookEntity.getCompany());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                        mCompanyAdapter = new CompanyAdapter(AddressBookEntity.getCompany(),getActivity());
+                        mCompanyAdapter = new CompanyAdapter(AddressBookEntity.getCompany(), getActivity());
                         mRecyclerViewCompany.setAdapter(mCompanyAdapter);
                         mRecyclerViewCompany.setLayoutManager(manager);
                     }
@@ -175,11 +209,11 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     if (AddressBookEntity.getStarList() != null && AddressBookEntity.getStarList().size() > 0) {
                         KyLog.object(AddressBookEntity.getStarList());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                        mStickAdapter = new StickAdapter(AddressBookEntity.getStarList(),getActivity());
+                        mStickAdapter = new StickAdapter(AddressBookEntity.getStarList(), getActivity());
                         mRecyclerViewStick.setAdapter(mStickAdapter);
                         mRecyclerViewStick.setLayoutManager(manager);
                         mRelativeLayoutStick.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         mRelativeLayoutStick.setVisibility(View.GONE);
 
                     }
@@ -211,6 +245,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                 });
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

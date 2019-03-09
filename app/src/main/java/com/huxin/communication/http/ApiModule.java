@@ -60,6 +60,7 @@ import com.sky.kylog.KyLog;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import rx.Observable;
 import rx.Scheduler;

@@ -25,6 +25,7 @@ import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.cammer.BitmapUtils;
 import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
@@ -36,10 +37,15 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * 发布出售
@@ -120,7 +126,6 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private SelectByLikeAdapter mSelectBylikeAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,7 +181,6 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         mLinearLayoutVillageNameSearch = (LinearLayout) findViewById(R.id.villageName_search);
         mTextViewAddVillageName = (TextView) findViewById(R.id.add_village_name);
         mImageViewStick = findViewById(R.id.stick_ed_release);
-
 
 
         mTextViewHouseHoldAppliances.setOnClickListener(this);
@@ -337,7 +341,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
 
             case R.id.confirm:
 
-                addSaleProduct();
+//                addSaleProduct();
                 uploadImage(selImageList);
                 break;
             case R.id.new_tv_release:
@@ -420,11 +424,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.stick_ed_release:
-                if (isclickedStick){
+                if (isclickedStick) {
                     mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
                     isclickedStick = false;
                     stick = 1;
-                }else {
+                } else {
                     mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
                     isclickedStick = true;
                     stick = 2;
@@ -515,12 +519,12 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         String houseNumber = mEditTextHouseNumber.getText().toString().trim();
         String pdu = mEditTextPdu.getText().toString().trim();
         String floorSize = mEditTextFloorSize.getText().toString().trim();
-        String tableId ;
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
             tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
 
-        }else {
+        } else {
             tableId = "";
 
         }
@@ -545,13 +549,13 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         KyLog.d(houseType + "");
 //        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
 
-        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-            showProgressDialog();
+        showProgressDialog();
         ApiModule.getInstance().addSaleProduct(VillageName, Acreage, houseType, totalPrice
                 , floorNumber, totalFloorNumber, String.valueOf(NeworOld), String.valueOf(loans), String.valueOf(keying),
                 houseHoldAppliances, fitment, permit, orientation, purpose, title, String.valueOf(stick),
@@ -569,6 +573,18 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private Map<String, File> setImageData(List<ImageItem> compressFile) {
+        Map<String,File> files = new HashMap<>();
+        if (compressFile != null && !compressFile.isEmpty()) {
+            for (int i = 0; i < compressFile.size(); i++) {
+                String newPath = BitmapUtils.compressImageUpload(compressFile.get(i).path);
+                files.put("files\"; filename=\" " + compressFile.get(i).name+i,new File(newPath));
+            }
+
+        }
+        return files;
     }
 
     private void setTabData() {
@@ -647,22 +663,95 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-
     private void uploadImage(ArrayList<ImageItem> pathList) {
 
+        String VillageName = mEditTextVillageName.getText().toString().trim();
+        String Acreage = mEditTextAcreage.getText().toString().trim();
+        String totalPrice = mEditTextTotalPrice.getText().toString().trim();
+        String floorNumber = mEditTextFloorNumber.getText().toString().trim();
+        String totalFloorNumber = mEditTexTotalFloorNumber.getText().toString().trim();
+        String title = mEditTextTitle.getText().toString().trim();
+        String houseNumber = mEditTextHouseNumber.getText().toString().trim();
+        String pdu = mEditTextPdu.getText().toString().trim();
+        String floorSize = mEditTextFloorSize.getText().toString().trim();
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
+            tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
+
+
+        } else {
+            tableId = "";
+
+        }
+
+        KyLog.d(loans + "");
+        KyLog.d(keying + "");
+        KyLog.d(VillageName + "");
+        KyLog.d(Acreage + "");
+        KyLog.d(totalPrice + "");
+        KyLog.d(floorNumber + "");
+        KyLog.d(totalFloorNumber + "");
+        KyLog.d(title + "");
+        KyLog.d(houseNumber + "");
+        KyLog.d(pdu + "");
+        KyLog.d(floorSize + "");
+
+        KyLog.d(houseHoldAppliances + "");
+        KyLog.d(fitment + "");
+        KyLog.d(permit + "");
+        KyLog.d(orientation + "");
+        KyLog.d(purpose + "");
+        KyLog.d(houseType + "");
+//        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
+
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
+            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        Map<String,String> map = new HashMap<>();
+        map.put("villageName",VillageName);
+        map.put("acreage",Acreage);
+        map.put("houseType",houseType);
+        map.put("totalPrice",totalPrice);
+        map.put("floorNumber",floorNumber);
+        map.put("totalFloorNumber",totalFloorNumber);
+        map.put("newOrOld",String.valueOf(NeworOld));
+        map.put("loans",String.valueOf(loans));
+        map.put("keying",String.valueOf(keying));
+        map.put("houseHoldAppliances",houseHoldAppliances);
+        map.put("fitment",fitment);
+        map.put("permit",permit);
+        map.put("orientation",orientation);
+        map.put("purpose",purpose);
+        map.put("title",title);
+        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick",String.valueOf(stick));
+        map.put("exclusive",String.valueOf(exclusive));
+        map.put("houseNumber",houseNumber);
+        map.put("pdu",pdu);
+        map.put("floorSize",floorNumber);
+        map.put("tabId",tableId);
+        map.put("token",PreferenceUtil.getString(TOKEN));
+
         String url = "http://39.105.203.33/jlkf/mutual-trust/public/addSaleProduct";
-        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
+                KyLog.d("image == " + e.toString());
+
             }
 
             @Override
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
-                KyLog.d(response);
+                KyLog.d("image ==" + response);
                 //返回图片的地址
+                Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -677,6 +766,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
 
     /**
      * 添加小区
+     *
      * @param villageName
      */
     private void selectByLike(String villageName) {
