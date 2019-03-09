@@ -39,6 +39,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SaleOfScreeningNewEntity;
 import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
@@ -524,17 +525,17 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<SaleOfScreeningEntity> addSaleProduct(String villageName, String acreage,
-                                                            String houseType, String totalPrice,
-                                                            String floorNumber, String totalFloorNumber,
-                                                            String newOrOld, String loans,
-                                                            String keying, String houseHoldAppliances,
-                                                            String fitment, String permit,
-                                                            String orientation, String purpose,
-                                                            String title,
-                                                            String stick, String exclusive,
-                                                            String houseNumber, String pdu,
-                                                            String floorSize, String tabId) {
+    public Observable<SaleOfScreeningNewEntity> addSaleProduct(String villageName, String acreage,
+                                                               String houseType, String totalPrice,
+                                                               String floorNumber, String totalFloorNumber,
+                                                               String newOrOld, String loans,
+                                                               String keying, String houseHoldAppliances,
+                                                               String fitment, String permit,
+                                                               String orientation, String purpose,
+                                                               String title,
+                                                               String stick, String exclusive,
+                                                               String houseNumber, String pdu,
+                                                               String floorSize, String tabId) {
         return ApiFactory.getFactory().BaiHangTongYeService().addSaleProduct(villageName, acreage, houseType, totalPrice, floorNumber, totalFloorNumber,
                 newOrOld, loans, keying, houseHoldAppliances, fitment, permit, orientation, purpose, title, String.valueOf(PreferenceUtil.getInt(UID)),
                 stick, exclusive, houseNumber, pdu, floorSize, tabId, PreferenceUtil.getString(TOKEN))

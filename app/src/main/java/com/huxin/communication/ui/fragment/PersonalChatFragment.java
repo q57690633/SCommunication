@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.listener.MessageUnitClickListener;
+import com.huxin.communication.ui.house.release.ReleaseActivity;
+import com.huxin.communication.ui.house.release.ReleaseBuyActivity;
+import com.huxin.communication.ui.house.release.ReleaseRentActivity;
+import com.huxin.communication.ui.house.release.ReleseLaseActivity;
 import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
@@ -156,28 +160,28 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     public void onClick(int iconResId) {
         switch (iconResId) {
             case R.drawable.tab_icon_sell:
-                Intent intent = new Intent(getActivity(), SellActivity.class);
+                Intent intent = new Intent(getActivity(), ReleaseActivity.class);
                 intent.putExtra("type", "C2C");
                 intent.putExtra("peer", chatId);
                 startActivityForResult(intent, 2);
                 break;
             case R.drawable.tab_icon_rent:
-                Intent intentRent = new Intent(getActivity(), RentActivity.class);
+                Intent intentRent = new Intent(getActivity(), ReleseLaseActivity.class);
                 intentRent.putExtra("type", "C2C");
                 intentRent.putExtra("peer", chatId);
-                getActivity().startActivity(intentRent);
+                startActivityForResult(intentRent, 2);
                 break;
             case R.drawable.tab_icon_qiugou:
-                Intent intentQiuGou = new Intent(getActivity(), QiuGouActivity.class);
+                Intent intentQiuGou = new Intent(getActivity(), ReleaseBuyActivity.class);
                 intentQiuGou.putExtra("type", "C2C");
                 intentQiuGou.putExtra("peer", chatId);
-                getActivity().startActivity(intentQiuGou);
+                startActivityForResult(intentQiuGou, 2);
                 break;
             case R.drawable.tab_icon_qiuzu:
-                Intent intentQiuZu= new Intent(getActivity(), QiuZuActivity.class);
+                Intent intentQiuZu= new Intent(getActivity(), ReleaseRentActivity.class);
                 intentQiuZu.putExtra("type", "C2C");
                 intentQiuZu.putExtra("peer", chatId);
-                getActivity().startActivity(intentQiuZu);
+                startActivityForResult(intentQiuZu, 2);
                 break;
             case R.drawable.tab_icon_guoneiyou:
                 Intent intentGuoNei = new Intent(getActivity(), DomesticDetailsActivity.class);

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_divider"
+    android:orientation="horizontal"
+    android:id="@+id/ticketing_line">
+
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/image_ticket_addr"
+            android:layout_width="100dp"
+            android:layout_height="178dp"
+            android:layout_margin="11dp"
+            android:background="@color/blue"
+            android:scaleType="centerCrop" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sign_hot_piaowu"
+            android:layout_alignParentRight="true"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/ticket_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:text="第九街VR体验馆"
+                android:textColor="@color/register_font"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地址："
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:id="@+id/ticket_addr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="保定东街与防洪堤交叉口东南50米"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="成人："
+                    android:textColor="@color/register_font"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:id="@+id/original_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="80元"
+                    android:textColor="@color/register_font"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="1.4米以下儿童及70岁以上老人免票"
+                android:textColor="@color/register_font"
+                android:textSize="14sp" />
+
+
+           <android.support.v7.widget.RecyclerView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/recycler_ticket"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

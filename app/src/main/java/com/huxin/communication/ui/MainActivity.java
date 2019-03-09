@@ -18,6 +18,7 @@ import com.huxin.communication.ui.fragment.InformationFragment;
 import com.huxin.communication.ui.fragment.ShopCarFragment;
 import com.huxin.communication.ui.fragment.UsersFragment;
 import com.huxin.communication.widgets.tab.TabLayout;
+import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,10 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabClickLi
 
         mTabLayout = (TabLayout) findViewById(R.id.main_tabLayout);
 //        mTabLayout.setBackgroundResource(R.color.white);
+        if(mTabLayout == null) {
+            mTabLayout = (TabLayout) findViewById(R.id.main_tabLayout);
+            KyLog.object(mTabLayout);
+        }
         mTabLayout.setTabLabelColor(R.color.tabDef, R.color.blue);
     }
 

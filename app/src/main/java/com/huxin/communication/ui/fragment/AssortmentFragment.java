@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -30,8 +31,6 @@ import com.huxin.communication.ui.house.phone.AddFriendActivity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
     private ImageView mImageView;
     private RelativeLayout mRelativeLayoutStick;
     private EditText mEditTextSearch;
-    private RelativeLayout mRelativeLayoutText;
+    private LinearLayout mLinearLayoutText;
 
 
     private RecyclerView mRecyclerViewGroup;
@@ -113,7 +112,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         mRecyclerViewCompany = view.findViewById(R.id.company_recycler);
         mRelativeLayoutStick = view.findViewById(R.id.stick_rl);
         mEditTextSearch = view.findViewById(R.id.editText_assortment);
-        mRelativeLayoutText = view.findViewById(R.id.rl_text);
+        mLinearLayoutText = view.findViewById(R.id.rl_text);
 
 
         mImageView.setOnClickListener(this);
@@ -155,9 +154,9 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mSearch = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(mSearch)){
-                    mRelativeLayoutText.setVisibility(View.GONE);
+                    mLinearLayoutText.setVisibility(View.GONE);
                 }else {
-                    mRelativeLayoutText.setVisibility(View.VISIBLE);
+                    mLinearLayoutText.setVisibility(View.VISIBLE);
                 }
 
             }

@@ -130,6 +130,7 @@ public class ChatAdapter extends IChatAdapter {
                 }
             }
         }*/
+        Log.i(TAG, "viewType = " + viewType);
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
@@ -154,6 +155,7 @@ public class ChatAdapter extends IChatAdapter {
                 holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
                 break;
             case MessageInfo.MSG_TYPE_CUSTOM + 1:
+                Log.i(TAG, "MessageInfo.MSG_TYPE_CUSTOM + 1");
                 if (mRecycleView.isDivided()) {
                     holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
                 }else {
@@ -355,35 +357,27 @@ public class ChatAdapter extends IChatAdapter {
                     String str = new String(data);
                     Log.i(TAG, "str = " + str);
                     JSONObject jsonObject = new JSONObject(str);
-                    String list = jsonObject.getString("listBean");
-                    JSONArray listBean = new JSONArray(list);
-                    JSONObject bean = listBean.getJSONObject(0);
-                    String totalPrice = bean.getString("totalPrice");
-                    String stick = bean.getString("stick");
-                    String title = bean.getString("title");
-                    String id = bean.getString("id");
-                    String keying = bean.getString("keying");
-                    String villageName = bean.getString("villageName");
-                    String tabName = bean.getString("tabName");
-                    String exclusive = bean.getString("exclusive");
-                    String orientation = bean.getString("orientation");
-                    String unitPrice = bean.getString("unitPrice");
-                    String houseType = bean.getString("houseType");
-                    if(chatHolder.getClass() != ChatCustomHolder.class) {
-                        Log.i(TAG, "chatHolder.getClass() = " + chatHolder.getClass());
-                        return;
-                    }
-                    final ChatCustomHolder customHolder = ((ChatCustomHolder) chatHolder);
+                    String villageName = jsonObject.getString("villageName");
+                    String houseType = jsonObject.getString("houseType");
+                    String acreage = jsonObject.getString("acreage");
+                    String totalPrice = jsonObject.getString("totalPrice");
+                    int stick = jsonObject.getInt("stick");
+                    String unitPrice = jsonObject.getString("unitPrice");
+                    String orientation = jsonObject.getString("orientation");
+                    String tabId = jsonObject.getString("tabId");
+                    ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
                     customHolder.villageName.setText(villageName);
                     customHolder.houseType.setText(houseType);
+                    customHolder.acreage.setText(acreage);
+                    customHolder.totalPrice.setText(totalPrice);
                     customHolder.unitPrice.setText(unitPrice);
                     customHolder.orientation.setText(orientation);
-                    String[] tab = tabName.split(",");
-                    ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-                    gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
-                    customHolder.tabName.setLayoutManager(gridLayoutManager);
-                    customHolder.tabName.setAdapter(adapter);
+                    customHolder.stick.setVisibility(View.GONE);
+                    /*if(stick == 0) {
+                        customHolder.stick.setVisibility(View.GONE);
+                    }else {
+                        customHolder.stick.setVisibility(View.VISIBLE);
+                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -917,19 +911,33 @@ public class ChatAdapter extends IChatAdapter {
 
     class ChatCustomHolder extends BaseChatHolder {
 
-        private TextView villageName;
-        private TextView houseType;
-        private TextView unitPrice;
-        private TextView orientation;
-        private RecyclerView tabName;
+        private LinearLayout houseLayout;
+        private LinearLayout travelLayout;
+        private LinearLayout ticketingLayout;
+        private TextView villageName;//name
+        private TextView houseType;//几房几厅
+        private TextView acreage;//面积
+        private TextView totalPrice;//总价
+        private TextView stick;//置顶
+        private TextView unitPrice;//单价
+        private TextView orientation;//朝向
+        private RecyclerView tabName_line;//标签
 
         public ChatCustomHolder(View itemView) {
             super(itemView);
-            villageName = itemView.findViewById(R.id.tv_villageName);
-            houseType = itemView.findViewById(R.id.tv_houseType);
-            unitPrice = itemView.findViewById(R.id.tv_unitPrice);
-            orientation = itemView.findViewById(R.id.tv_orientation);
-            tabName = itemView.findViewById(R.id.rv_tabName);
+            houseLayout = itemView.findViewById(R.id.house_id);
+            travelLayout = itemView.findViewById(R.id.travel_id);
+            ticketingLayout = itemView.findViewById(R.id.ticketing_id);
+            tabName_line = itemView.findViewById(R.id.tabName_line_sell);
+            if(houseLayout != null) {
+                villageName = houseLayout.findViewById(R.id.villageName_sell);
+                houseType = houseLayout.findViewById(R.id.houseType_sell);
+                acreage = houseLayout.findViewById(R.id.acreage_sell);
+                totalPrice = houseLayout.findViewById(R.id.totalPrice_sell);
+                stick = houseLayout.findViewById(R.id.stick_sell);
+                unitPrice = houseLayout.findViewById(R.id.unitPrice_sell);
+                orientation = houseLayout.findViewById(R.id.orientation_sell);
+            }
         }
     }
 }

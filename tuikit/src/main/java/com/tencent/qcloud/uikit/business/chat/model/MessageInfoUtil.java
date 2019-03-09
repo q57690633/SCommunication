@@ -309,6 +309,7 @@ public class MessageInfoUtil {
                 } else {
                     msgInfo.setExtra("[自定义消息]");
                 }
+                msgInfo.setMsgType(MessageInfo.MSG_TYPE_CUSTOM);
             } else if (type == TIMElemType.GroupTips) {
                 TIMGroupTipsElem groupTips = (TIMGroupTipsElem) ele;
                 TIMGroupTipsType tipsType = groupTips.getTipsType();

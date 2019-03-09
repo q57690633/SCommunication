@@ -39,6 +39,7 @@ import com.huxin.communication.entity.RegisterEntity;
 import com.huxin.communication.entity.RemoveCollectEntity;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.SaleOfScreeningNewEntity;
 import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
@@ -422,18 +423,18 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("public/addSaleProduct")
-    Observable<Response<SaleOfScreeningEntity>> addSaleProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
-                                                               @Field("houseType") String houseType, @Field("totalPrice") String totalPrice,
-                                                               @Field("floorNumber") String floorNumber, @Field("totalFloorNumber") String totalFloorNumber,
-                                                               @Field("newOrOld") String newOrOld, @Field("loans") String loans,
-                                                               @Field("keying") String keying, @Field("houseHoldAppliances") String houseHoldAppliances,
-                                                               @Field("fitment") String fitment, @Field("permit") String permit,
-                                                               @Field("orientation") String orientation, @Field("purpose") String purpose,
-                                                               @Field("title") String title, @Field("uid") String uid,
-                                                               @Field("stick") String stick, @Field("exclusive") String exclusive,
-                                                               @Field("houseNumber") String houseNumber, @Field("pdu") String pdu,
-                                                               @Field("floorSize") String floorSize, @Field("tabId") String tabId,
-                                                               @Field("token") String token);
+    Observable<Response<SaleOfScreeningNewEntity>> addSaleProduct(@Field("villageName") String villageName, @Field("acreage") String acreage,
+                                                                  @Field("houseType") String houseType, @Field("totalPrice") String totalPrice,
+                                                                  @Field("floorNumber") String floorNumber, @Field("totalFloorNumber") String totalFloorNumber,
+                                                                  @Field("newOrOld") String newOrOld, @Field("loans") String loans,
+                                                                  @Field("keying") String keying, @Field("houseHoldAppliances") String houseHoldAppliances,
+                                                                  @Field("fitment") String fitment, @Field("permit") String permit,
+                                                                  @Field("orientation") String orientation, @Field("purpose") String purpose,
+                                                                  @Field("title") String title, @Field("uid") String uid,
+                                                                  @Field("stick") String stick, @Field("exclusive") String exclusive,
+                                                                  @Field("houseNumber") String houseNumber, @Field("pdu") String pdu,
+                                                                  @Field("floorSize") String floorSize, @Field("tabId") String tabId,
+                                                                  @Field("token") String token);
 
     /**
      * 添加出租信息

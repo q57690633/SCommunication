@@ -70,87 +70,98 @@
                 android:minHeight="50dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:orientation="horizontal">
+                <include android:id="@+id/house_id"
+                    android:visibility="visible"
+                    layout="@layout/chat_adapter_custom_house_item"></include>
 
-                    <TextView
-                        android:id="@+id/tv_villageName"
+                <include android:id="@+id/travel_id"
+                    android:visibility="gone"
+                    layout="@layout/chat_adapter_custom_travel_item"></include>
+
+                <include android:id="@+id/ticketing_id"
+                    android:visibility="gone"
+                    layout="@layout/chat_adapter_custom_ticketing_item"></include>
+
+<!--
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="6dp"
-                        android:text="1111"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:gravity="center"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_houseType"
+                        <TextView
+                            android:id="@+id/tv_villageName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="6dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_houseType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="6dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="6dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="6dp"
-                        android:text="1111"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:gravity="center"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_area"
-                        android:text="111"
+                        <TextView
+                            android:id="@+id/tv_unitPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="30dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_orientation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="6dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="6dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:gravity="center"
+                        android:minHeight="40dp"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_tabName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:orientation="horizontal">
+                        </android.support.v7.widget.RecyclerView>
 
-                    <TextView
-                        android:id="@+id/tv_unitPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="30dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_orientation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:padding="6dp"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:orientation="vertical">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_tabName"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    </android.support.v7.widget.RecyclerView>
-
-                </LinearLayout>
+                    </LinearLayout>
+-->
 
             </LinearLayout>
 

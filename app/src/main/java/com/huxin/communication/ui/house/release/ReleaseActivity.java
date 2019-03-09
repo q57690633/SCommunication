@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.release;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,6 +37,9 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -125,10 +129,14 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private TextView mTextViewAddVillageName;
     private SelectByLikeAdapter mSelectBylikeAdapter;
 
+    private String type = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        type = getIntent().getStringExtra("type");
 
 
     }
@@ -750,8 +758,22 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
                 //返回图片的地址
-                Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
-                startActivity(intent);
+                if("".equalsIgnoreCase(type)) {
+                    Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else {
+                    try {
+                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", data);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
