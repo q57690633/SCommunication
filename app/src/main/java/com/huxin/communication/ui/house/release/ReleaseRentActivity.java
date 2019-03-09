@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.release;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,6 +32,9 @@ import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,12 +95,12 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
     private HttpUtil httpUtil;
 
-
+    private String type = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        type = getIntent().getStringExtra("type");
 
     }
 
@@ -486,8 +490,22 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
                 //返回图片的地址
-                Intent intent = new Intent(ReleaseRentActivity.this, MainActivity.class);
-                startActivity(intent);
+                if("".equalsIgnoreCase(type)) {
+                    Intent intent = new Intent(ReleaseRentActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else {
+                    try {
+                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", data);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

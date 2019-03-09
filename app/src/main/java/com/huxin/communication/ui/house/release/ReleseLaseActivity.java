@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.house.release;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,6 +36,9 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,12 +123,13 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private boolean isclickedStick = true;
     private ImageView mImageViewStick;
 
-
+    private String type = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        type = getIntent().getStringExtra("type");
     }
 
     @Override
@@ -793,8 +798,22 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 super.onResponse(response, id);
                 //返回图片的地址
                 KyLog.d(response);
-                Intent intent = new Intent(ReleseLaseActivity.this, MainActivity.class);
-                startActivity(intent);
+                if("".equalsIgnoreCase(type)) {
+                    Intent intent = new Intent(ReleseLaseActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else {
+                    try {
+                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", data);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
