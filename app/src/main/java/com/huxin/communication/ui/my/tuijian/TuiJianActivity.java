@@ -23,8 +23,11 @@ import com.huxin.communication.adpter.TuiJianPhoneAdapter;
 import com.huxin.communication.adpter.TuijianCompanyAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.FamousEntity;
+import com.huxin.communication.entity.UserInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.TuiJianPhoneListener;
+import com.huxin.communication.listener.TuiJianStarPhoneListener;
+import com.huxin.communication.listener.TuijianCompanyListener;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -32,7 +35,7 @@ import com.sky.kylog.KyLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TuiJianActivity extends BaseActivity implements View.OnClickListener ,TuiJianPhoneListener {
+public class TuiJianActivity extends BaseActivity implements View.OnClickListener, TuiJianPhoneListener,TuiJianStarPhoneListener ,TuijianCompanyListener {
 
 
     private ListView mListView;
@@ -42,6 +45,8 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     private PhoneRecyclerAdapter mRecyclerAdapter;
     private List<String> list = new ArrayList<>();
     private List<FamousEntity> lists = new ArrayList<>();
+    private List<String> userInfo = new ArrayList<>();
+
 
 
     private ImageView mImageView;
@@ -76,7 +81,6 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         mRecyclerViewStick = findViewById(R.id.stick_recycler);
         mRecyclerViewCompany = findViewById(R.id.company_recycler);
         mRelativeLayoutStick = findViewById(R.id.stick_rl);
-
 
 
         mTextView.setOnClickListener(this);
@@ -128,22 +132,25 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
 
-                    if (beanList != null && beanList.size() > 0)  {
+                    if (beanList != null && beanList.size() > 0) {
                         KyLog.object(AddressBookEntity.getCompany());
                         LinearLayoutManager manager = new LinearLayoutManager(this);
-                        mCompanyAdapter = new TuijianCompanyAdapter(AddressBookEntity.getCompany(),this);
+                        mCompanyAdapter = new TuijianCompanyAdapter(AddressBookEntity.getCompany(), this);
                         mRecyclerViewCompany.setAdapter(mCompanyAdapter);
+                        mCompanyAdapter.setTuiJianPhoneListener(this);
                         mRecyclerViewCompany.setLayoutManager(manager);
                     }
 
                     if (AddressBookEntity.getStarList() != null && AddressBookEntity.getStarList().size() > 0) {
                         KyLog.object(AddressBookEntity.getStarList());
                         LinearLayoutManager manager = new LinearLayoutManager(this);
-                        mStickAdapter = new TuiJIanStickAdapter(AddressBookEntity.getStarList(),this);
+                        mStickAdapter = new TuiJIanStickAdapter(AddressBookEntity.getStarList(), this);
                         mRecyclerViewStick.setAdapter(mStickAdapter);
                         mRecyclerViewStick.setLayoutManager(manager);
+                        mStickAdapter.setTuiJianStarListener(this);
+
                         mRelativeLayoutStick.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         mRelativeLayoutStick.setVisibility(View.GONE);
 
                     }
@@ -151,7 +158,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                     if (AddressBookEntity.getFriendList() != null && AddressBookEntity.getFriendList().size() > 0) {
                         KyLog.object(AddressBookEntity.getFriendList());
 
-                        for (int i = 0;i < AddressBookEntity.getFriendList().size(); i++) {
+                        for (int i = 0; i < AddressBookEntity.getFriendList().size(); i++) {
                             FamousEntity famousEntity2 = new FamousEntity();
                             famousEntity2.setName(AddressBookEntity.getFriendList().get(i).getUsername());
                             famousEntity2.setImage(AddressBookEntity.getFriendList().get(i).getHeadUrl());
@@ -181,12 +188,66 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
 
     @Override
-    public void updateImage(String image,boolean b) {
-        if (b){
+    public void updateImage(String image, boolean b) {
+        if (b) {
             list.add(image);
-        }else {
+        } else {
             list.remove(image);
         }
         mRecyclerAdapter.setList(list);
+    }
+
+    @Override
+    public void updateUserInfo(String userinfo, boolean b) {
+        if (b) {
+            userInfo.add(userinfo);
+        } else {
+            userInfo.remove(userinfo);
+        }
+        KyLog.d(userinfo);
+        KyLog.object(userInfo);
+
+
+    }
+
+    @Override
+    public void starPhone(String image, boolean b) {
+        if (b) {
+            list.add(image);
+        } else {
+            list.remove(image);
+        }
+        mRecyclerAdapter.setList(list);
+    }
+
+    @Override
+    public void starUserInfo(String userinfo, boolean b) {
+        if (b) {
+            userInfo.add(userinfo);
+        } else {
+            userInfo.remove(userinfo);
+        }
+        KyLog.object(userInfo);
+
+    }
+
+    @Override
+    public void updataCompany(String image, boolean b) {
+        if (b) {
+            list.add(image);
+        } else {
+            list.remove(image);
+        }
+        mRecyclerAdapter.setList(list);
+    }
+
+    @Override
+    public void CompanyUserInfo(String userinfo, boolean b) {
+        if (b) {
+            userInfo.add(userinfo);
+        } else {
+            userInfo.remove(userinfo);
+        }
+        KyLog.d(userinfo);
     }
 }

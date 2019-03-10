@@ -14,6 +14,11 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.UserInfoEntity;
+import com.huxin.communication.listener.TuiJianPhoneListener;
+import com.huxin.communication.listener.TuiJianStarPhoneListener;
+import com.huxin.communication.listener.TuijianCompanyListener;
+import com.huxin.communication.utils.JsonUitil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -26,9 +31,16 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
     private Activity mActivity;
     private LayoutInflater mInflater;
     private boolean isClicked = true;
+    private TuijianCompanyListener mTuiJianPhoneListener;
+
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
+
+
+    public void setTuiJianPhoneListener(TuijianCompanyListener tuiJianPhoneListener) {
+        mTuiJianPhoneListener = tuiJianPhoneListener;
+    }
 
 
     //更新adpter的数据和选择状态
@@ -40,13 +52,27 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
 
 
     //获得选中条目的结果
-    public ArrayList<AddressBookEntity.CompanyBean> getSelectedItem() {
+    public ArrayList<AddressBookEntity.CompanyBean> getSelectedItem(int position) {
         ArrayList<AddressBookEntity.CompanyBean> selectList = new ArrayList<>();
         if (mList != null && mList.size() > 0) {
             for (int i = 0; i < mList.size(); i++) {
                 if (isItemChecked(i)) {
                     selectList.add(mList.get(i));
                 }
+                if (mTuiJianPhoneListener != null) {
+                    ArrayList<UserInfoEntity> listUserInfo = new ArrayList<>();
+                    UserInfoEntity userInfoEntity = new UserInfoEntity();
+                    userInfoEntity.setImageHead(mList.get(position).getHeadUrl());
+                    userInfoEntity.setName(mList.get(position).getCompanyName());
+                    userInfoEntity.setPhone(mList.get(position).getPhone());
+                    listUserInfo.add(userInfoEntity);
+                    mTuiJianPhoneListener.updataCompany(mList.get(position).getHeadUrl(), isItemChecked(position));
+                    if (listUserInfo.size() > 0) {
+                        mTuiJianPhoneListener.CompanyUserInfo(JsonUitil.getData(listUserInfo), isItemChecked(position));
+                    }
+                }
+
+
             }
         }
         return selectList;
@@ -74,7 +100,7 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
                     setItemChecked(Hoder.getAdapterPosition(), true);
                 }
                 notifyItemChanged(Hoder.getAdapterPosition());
-                getSelectedItem();
+                getSelectedItem(Hoder.getAdapterPosition());
 
                 Log.d("qiugou", "isClicked == " + isClicked);
 

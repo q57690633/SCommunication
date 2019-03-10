@@ -21,7 +21,10 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.FamousEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
+import com.huxin.communication.entity.UserInfoEntity;
 import com.huxin.communication.listener.TuiJianPhoneListener;
+import com.huxin.communication.utils.JsonUitil;
+import com.huxin.communication.utils.JsonUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import java.util.List;
 public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
 
     private List<FamousEntity> list = null;
+
     private Context mContext;
     private LayoutInflater mInflater;
     private int[] ints;
@@ -92,7 +96,7 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
 //        setinte(viewHolder.tvLetter, position, mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
 
-        if (TextUtils.isEmpty(list.get(position).getImage())) {
+        if (!TextUtils.isEmpty(list.get(position).getImage())) {
             ImageLoader.getInstance().displayImage(list.get(position).getImage(), viewHolder.image);
         } else {
             viewHolder.image.setBackgroundResource(R.drawable.head2);
@@ -102,7 +106,16 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (mTuiJianPhoneListener != null) {
+                    ArrayList<UserInfoEntity> listUserInfo = new ArrayList<>();
+                    UserInfoEntity userInfoEntity = new UserInfoEntity();
+                    userInfoEntity.setImageHead(list.get(position).getImage());
+                    userInfoEntity.setName(list.get(position).getName());
+                    userInfoEntity.setPhone(list.get(position).getPhone());
+                    listUserInfo.add(userInfoEntity);
                     mTuiJianPhoneListener.updateImage(list.get(position).getImage(), b);
+                    if (listUserInfo.size() > 0) {
+                        mTuiJianPhoneListener.updateUserInfo(JsonUitil.getData(listUserInfo), b);
+                    }
                 }
             }
         });
