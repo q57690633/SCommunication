@@ -53,6 +53,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/houseType_sell"
                 android:text="129㎡"
+                android:lines="1"
+                android:ellipsize="end"
                 android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
@@ -63,6 +65,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/acreage_sell"
                 android:text="180万"
+                android:lines="1"
+                android:ellipsize="end"
                 android:textColor="@color/red_setting"
                 android:textSize="16dp" />
 
@@ -74,7 +78,7 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="8dp"
-                android:background="@color/red_setting"
+                android:background="@drawable/biaoqian_radius_red"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="233套相似"
@@ -136,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="11dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal" />
     </LinearLayout>

@@ -57,10 +57,10 @@ public class QiuGouAdapter extends RecyclerView.Adapter<QiuGouAdapter.MyViewHode
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getUnitPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMinPrice() + "~" + list.get(position).getMaxPrice()));
-        holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getMinAcreage() + "~" + list.get(position).getMaxAcreage()));
-        holder.mTextViewAcreage.setText(String.valueOf(""));
+        holder.mTextViewTotalPrice.setVisibility(View.GONE);
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMinPrice() + "~" + list.get(position).getMaxPrice()) + "元");
+        holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getMinAcreage() + "~" + list.get(position).getMaxAcreage())+"㎡");
+        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()+ "㎡"));
 
         if (list.get(position).getKeying() == 1){
             holder.mImageViewKeying.setVisibility(View.VISIBLE);

@@ -447,6 +447,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        setEnabled(true);
         getCollectProduct("","","","","","","",String.valueOf(newOrOld),
                 "","","","",
                 "","","",String.valueOf(productType),"1");
@@ -1370,6 +1371,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+                setEnabled(false);
 
                 break;
             case R.id.toolbar_quxiao:
@@ -1378,6 +1380,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+                setEnabled(true);
                 break;
             case R.id.delete_collect:
 //                addCollectTravel(productType);
@@ -1438,7 +1441,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
             mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
             mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
         }
@@ -1452,7 +1455,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
             mHouseSearchAdapter = new HouseSearchAdapter(list, this);
             mRecyclerView.setAdapter(mHouseSearchAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1589,38 +1592,38 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mAdapterTableName = new ShaiXuanTabNameAdapter(setOccupation(), this, 3);
         mRecyclerViewJiaJuJiaDian.setAdapter(mAdapterTableName);
         mRecyclerViewJiaJuJiaDian.setLayoutManager(manager);
-        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
 
 
         GridLayoutManager managerChaoXiang = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setChaoXiang(), this, 1);
         mRecyclerViewChaoXaing.setAdapter(mAdapterTableName);
         mRecyclerViewChaoXaing.setLayoutManager(managerChaoXiang);
-        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerFangBen = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setFangBen(), this, 2);
         mRecyclerViewFangBen.setAdapter(mAdapterTableName);
         mRecyclerViewFangBen.setLayoutManager(managerFangBen);
-        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerZhuangXiu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setZhuangXiu(), this, 5);
         mRecyclerViewZhuangXiu.setAdapter(mAdapterTableName);
         mRecyclerViewZhuangXiu.setLayoutManager(managerZhuangXiu);
-        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerLouLing = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setLouLing(), this, 4);
         mRecyclerViewLouLing.setAdapter(mAdapterTableName);
         mRecyclerViewLouLing.setLayoutManager(managerLouLing);
-        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerYongTu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setYongTu(), this, 6);
         mRecyclerViewYongTu.setAdapter(mAdapterTableName);
         mRecyclerViewYongTu.setLayoutManager(managerYongTu);
-        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
     }
 
@@ -1798,6 +1801,27 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 
         }
         return true;
+    }
+
+    private void setEnabled(boolean isFocusable) {
+        mLinearLayoutFangXing.setClickable(isFocusable);
+        mLinearLayoutMore.setClickable(isFocusable);
+        mLinearLayoutPrice.setClickable(isFocusable);
+        mLinearLayoutSort.setClickable(isFocusable);
+        mLinearLayoutMeasure.setClickable(isFocusable);
+        mRecyclerViewDuoXuan.setClickable(isFocusable);
+        mLinearLayoutQuYu.setClickable(isFocusable);
+
+
+        mLinearLayoutFangXing.setFocusable(isFocusable);
+        mLinearLayoutMore.setFocusable(isFocusable);
+        mLinearLayoutPrice.setFocusable(isFocusable);
+        mLinearLayoutSort.setFocusable(isFocusable);
+        mLinearLayoutMeasure.setFocusable(isFocusable);
+        mRecyclerViewDuoXuan.setFocusable(isFocusable);
+        mLinearLayoutQuYu.setFocusable(isFocusable);
+
+
     }
 
 }

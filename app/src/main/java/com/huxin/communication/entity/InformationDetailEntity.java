@@ -100,6 +100,15 @@ public class InformationDetailEntity {
     private String paymentType;
     private String remark;
     private String files;
+    private long showTime;
+
+    public long getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(long showTime) {
+        this.showTime = showTime;
+    }
 
     public int getId() {
         return id;

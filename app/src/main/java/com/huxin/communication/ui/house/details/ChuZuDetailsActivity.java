@@ -24,6 +24,7 @@ import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.my.MyInformation.MyInformationActivity;
+import com.huxin.communication.utils.DateUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -169,22 +170,24 @@ public class ChuZuDetailsActivity extends BaseActivity {
             mAdpter = new SellDetailsAdapter(list, this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(managerLine);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
+
     private void setData(List<InformationDetailEntity> list) {
         mTextViewTotalFloorNumber.setText(String.valueOf(list.get(0).getTotalFloorNumber()));
         mTextViewvillageName.setText(list.get(0).getVillageName());
         mTextViewhouseHoldAppliances.setText(String.valueOf(list.get(0).getHouseHoldAppliances()));
-        mTextViewAcreage.setText(String.valueOf(list.get(0).getAcreage()));
         mTextViewhouseType.setText(String.valueOf(list.get(0).getHouseType()));
-        mTextViewTotalPrice.setText(String.valueOf(list.get(0).getTotalPrice()));
         mTextViewFitment.setText(String.valueOf(list.get(0).getFitment()));
-        mTextViewUnitPrice.setText(String.valueOf(list.get(0).getUnitPrice()));
         mTextViewOrientation.setText(String.valueOf(list.get(0).getOrientation()));
-        mTextViewfindNumber.setText(String.valueOf(list.get(0).getFindNumber()));
-        mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()));
-        mTextViewPublicTime.setText(String.valueOf(list.get(0).getPublicTime()));
+
+        mTextViewAcreage.setText(String.valueOf(list.get(0).getAcreage()) + "㎡");
+        mTextViewTotalPrice.setText(String.valueOf(list.get(0).getTotalPrice()) + "万");
+        mTextViewUnitPrice.setText(String.valueOf(list.get(0).getUnitPrice()) + "㎡");
+        mTextViewfindNumber.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
+        mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
+        mTextViewPublicTime.setText(DateUtil.timeslashData(String.valueOf(list.get(0).getShowTime())));
         if (list.size() >= 2) {
             mTextViewMoreSimilar.setText("更多相似房源(" + (list.size() - 1) + ")");
         } else {
@@ -313,10 +316,11 @@ public class ChuZuDetailsActivity extends BaseActivity {
                 intent.putExtra("TARGET_ID", targetId);
                 startActivity(intent);
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(ChuZuDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
-                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChuZuDetailsActivity.this, "用户Id == " + userId + " \n" + "imlogin fail" + errMsg
+                        + " \n" + "imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
                 KyLog.e("imlogin fail", errMsg);
             }
         });

@@ -314,6 +314,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        setEnabled(true);
         gettingAroundTravel("", "", "", ""
                 , "", "", "", "", "",
                 "", "", "",
@@ -972,6 +973,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.toolbar_right:
+                setEnabled(false);
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
                 mTextViewGuanLi.setVisibility(View.GONE);
                 mRecyclerViewDuoXuan.setVisibility(View.VISIBLE);
@@ -980,6 +982,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
                 break;
             case R.id.toolbar_quxiao:
+                setEnabled(true);
                 mTextViewQuXiao.setVisibility(View.GONE);
                 mTextViewGuanLi.setVisibility(View.VISIBLE);
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
@@ -1222,38 +1225,38 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mAdapterTableName = new ShaiXuanTabNameAdapter(setDiDian(), this, 12);
         mRecyclerViewDiDian.setAdapter(mAdapterTableName);
         mRecyclerViewDiDian.setLayoutManager(manager);
-        mRecyclerViewDiDian.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewDiDian.addItemDecoration(new SpaceItemDecoration(0, 25));
 
 
         GridLayoutManager managerChaoXiang = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setHuoDong(), this, 7);
         mRecyclerViewHuoDong.setAdapter(mAdapterTableName);
         mRecyclerViewHuoDong.setLayoutManager(managerChaoXiang);
-        mRecyclerViewHuoDong.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewHuoDong.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerFangBen = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setJiaoTong(), this, 11);
         mRecyclerViewJiaoTong.setAdapter(mAdapterTableName);
         mRecyclerViewJiaoTong.setLayoutManager(managerFangBen);
-        mRecyclerViewJiaoTong.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewJiaoTong.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerLouLing = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setQiTa(), this, 10);
         mRecyclerViewQiTa.setAdapter(mAdapterTableName);
         mRecyclerViewQiTa.setLayoutManager(managerLouLing);
-        mRecyclerViewQiTa.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewQiTa.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerYongTu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setXiaoFei(), this, 9);
         mRecyclerViewXiaoFei.setAdapter(mAdapterTableName);
         mRecyclerViewXiaoFei.setLayoutManager(managerYongTu);
-        mRecyclerViewXiaoFei.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewXiaoFei.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerZhuShu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setZhuShu(), this, 8);
         mRecyclerViewZhuShu.setAdapter(mAdapterTableName);
         mRecyclerViewZhuShu.setLayoutManager(managerZhuShu);
-        mRecyclerViewZhuShu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewZhuShu.addItemDecoration(new SpaceItemDecoration(0, 25));
     }
 
 
@@ -1451,5 +1454,23 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
         }
         return true;
+    }
+    private void setEnabled(boolean isFocusable) {
+        mLinearLayoutChuFa.setClickable(isFocusable);
+        mLinearLayoutMore.setClickable(isFocusable);
+        mLinearLayoutPrice.setClickable(isFocusable);
+        mLinearLayoutSort.setClickable(isFocusable);
+        mLinearLayoutMuDi.setClickable(isFocusable);
+        mRecyclerViewDuoXuan.setClickable(isFocusable);
+
+
+        mLinearLayoutChuFa.setFocusable(isFocusable);
+        mLinearLayoutMore.setFocusable(isFocusable);
+        mLinearLayoutPrice.setFocusable(isFocusable);
+        mLinearLayoutSort.setFocusable(isFocusable);
+        mLinearLayoutMuDi.setFocusable(isFocusable);
+        mRecyclerViewDuoXuan.setFocusable(isFocusable);
+
+
     }
 }

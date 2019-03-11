@@ -105,7 +105,7 @@
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="19dp"
-                    android:background="@color/red_setting"
+                    android:background="@drawable/biaoqian_radius_red"
                     android:text="233套相似"
                     android:lines="1"
                     android:ellipsize="end"

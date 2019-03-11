@@ -14,6 +14,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.utils.DateUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -110,17 +111,17 @@ public class QiuGouDetailsActivity extends BaseActivity {
         mAdapter = new QIuZuDetailsAdapter(getTableNameList(entity), this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
 
 
         mTextViewTitle.setText(String.valueOf(entity.getTitle()));
         mTextViewHouseType.setText(String.valueOf(entity.getHouseType()));
         mTextViewPermit.setText(String.valueOf(entity.getPermit()));
-        mTextViewAcreage.setText(String.valueOf(entity.getMinAcreage() + " ~ " + entity.getMaxAcreage()));
         mTextViewFloorAge.setText(String.valueOf(entity.getFloorAge()));
         mTextViewPublicTim.setText(String.valueOf(entity.getPermit()));
-        mTextViewPublicNumber.setText(String.valueOf(entity.getPublicNumber()));
-        mTextViewfindNumber.setText(String.valueOf(entity.getFindNumber()));
+        mTextViewAcreage.setText(String.valueOf(entity.getMinAcreage() + " ~ " + entity.getMaxAcreage()) + "㎡");
+        mTextViewPublicNumber.setText(DateUtil.timeslashData(String.valueOf(entity.getShowTime())));
+        mTextViewfindNumber.setText(String.valueOf(entity.getFindNumber())+ "次");
 
     }
 

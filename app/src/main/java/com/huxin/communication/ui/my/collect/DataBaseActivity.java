@@ -40,7 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DataBaseActivity extends BaseActivity implements View.OnClickListener,EditText.OnEditorActionListener {
+public class DataBaseActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
@@ -201,7 +201,6 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     private EditText mEditTextSearch;
 
 
-
     private Set<String> setHouseTypeList = new HashSet<>();
 
     private Set<String> setTableNameList = new HashSet<>();
@@ -233,7 +232,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initViews() {
         setToolbarCenterMode("", MODE_BACK);
-        uid = getIntent().getIntExtra("uid",0);
+        uid = getIntent().getIntExtra("uid", 0);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
@@ -288,8 +287,6 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         mRecyclerViewYongTu = (RecyclerView) findViewById(R.id.shaixuan_yongtu_recycler);
         mTextViewQuYu = (TextView) findViewById(R.id.quyu_tv);
         mLinearLayoutQuYu = (LinearLayout) findViewById(R.id.quyu);
-
-
 
 
         mRelativeLayoutSearch = (RelativeLayout) findViewById(R.id.search_rl);
@@ -425,13 +422,13 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-
-        if (uid == 0){
+        setEnabled(true);
+        if (uid == 0) {
             uid = PreferenceUtil.getInt(UID);
         }
-        getPersonProduct("","",
-                "","","","","",String.valueOf(newOrOld),
-                "","","","","","","",String.valueOf(productType),
+        getPersonProduct("", "",
+                "", "", "", "", "", String.valueOf(newOrOld),
+                "", "", "", "", "", "", "", String.valueOf(productType),
                 "1");
     }
 
@@ -460,9 +457,9 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                     + "-1" + "," + "-1";
         }
         KyLog.d(villageName);
-        getPersonProduct(villageName,"",
-                "","","","","",String.valueOf(newOrOld),
-                "","","","","","","",String.valueOf(productType),
+        getPersonProduct(villageName, "",
+                "", "", "", "", "", String.valueOf(newOrOld),
+                "", "", "", "", "", "", "", String.valueOf(productType),
                 "1");
     }
 
@@ -475,6 +472,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerViewDuoXuan.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+                setEnabled(false);
                 break;
             case R.id.toolbar_quxiao:
                 mTextViewQuXiao.setVisibility(View.GONE);
@@ -482,6 +480,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+                setEnabled(true);
                 break;
             case R.id.fangxin:
                 mLinearLayoutSorts.setVisibility(View.GONE);
@@ -590,16 +589,16 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 }
                 KyLog.d(stringBuffer.toString());
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1","",
-                        "",stringBuffer.toString(),"","","",String.valueOf(newOrOld),
-                        "","","","","","","",String.valueOf(productType),
+                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                        "", stringBuffer.toString(), "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", String.valueOf(productType),
                         "1");
                 break;
             case R.id.measure_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1",minAcreage,
-                        maxAcreage,"","","","",String.valueOf(newOrOld),
-                        "","","","","","","",String.valueOf(productType),
+                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", minAcreage,
+                        maxAcreage, "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", String.valueOf(productType),
                         "1");
                 break;
             case R.id.more_Determine:
@@ -612,24 +611,24 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 KyLog.d(yongtu);
                 KyLog.d(jiajujiadian);
 
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1","",
-                        "","",minPrice,maxPrice,"",String.valueOf(newOrOld),
-                        chaoxiang,jiajujiadian,zhaungxiu,fangben,yongtu,"",louling,String.valueOf(productType),
+                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                        "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
+                        chaoxiang, jiajujiadian, zhaungxiu, fangben, yongtu, "", louling, String.valueOf(productType),
                         "1");
                 break;
 
             case R.id.sort_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1","",
-                        "","","","","",String.valueOf(newOrOld),
-                        "","","","","","","",String.valueOf(productType),
+                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                        "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", String.valueOf(productType),
                         "1");
                 break;
             case R.id.price_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1","",
-                        "","",minPrice,maxPrice,"",String.valueOf(newOrOld),
-                        "","","","","","","",String.valueOf(productType),
+                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                        "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", String.valueOf(productType),
                         "1");
                 break;
             case R.id.shunxu:
@@ -996,35 +995,35 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
             case R.id.canel_chaoxiang:
                 updata();
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.canel_fangxing:
                 updata();
 
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.canel_mianji:
                 updata();
 
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.canel_paixu:
                 updata();
 
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.canel_price:
                 updata();
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.tv1:
@@ -1347,8 +1346,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 2;
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.qiugou:
@@ -1361,8 +1360,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 3;
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","3",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "3",
                         "1");
                 break;
             case R.id.qiuzhu:
@@ -1375,8 +1374,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 4;
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
             case R.id.sell:
@@ -1389,8 +1388,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.white));
                 newOrOld = 1;
-                getPersonProduct("","","","","","","",String.valueOf(newOrOld),
-                        "","","","","","","","1",
+                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                        "", "", "", "", "", "", "", "1",
                         "1");
                 break;
 
@@ -1467,38 +1466,38 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         mAdapterTableName = new ShaiXuanTabNameAdapter(setOccupation(), this, 3);
         mRecyclerViewJiaJuJiaDian.setAdapter(mAdapterTableName);
         mRecyclerViewJiaJuJiaDian.setLayoutManager(manager);
-        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
 
 
         GridLayoutManager managerChaoXiang = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setChaoXiang(), this, 1);
         mRecyclerViewChaoXaing.setAdapter(mAdapterTableName);
         mRecyclerViewChaoXaing.setLayoutManager(managerChaoXiang);
-        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerFangBen = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setFangBen(), this, 2);
         mRecyclerViewFangBen.setAdapter(mAdapterTableName);
         mRecyclerViewFangBen.setLayoutManager(managerFangBen);
-        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerZhuangXiu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setZhuangXiu(), this, 5);
         mRecyclerViewZhuangXiu.setAdapter(mAdapterTableName);
         mRecyclerViewZhuangXiu.setLayoutManager(managerZhuangXiu);
-        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerLouLing = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setLouLing(), this, 4);
         mRecyclerViewLouLing.setAdapter(mAdapterTableName);
         mRecyclerViewLouLing.setLayoutManager(managerLouLing);
-        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerYongTu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setYongTu(), this, 6);
         mRecyclerViewYongTu.setAdapter(mAdapterTableName);
         mRecyclerViewYongTu.setLayoutManager(managerYongTu);
-        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
     }
 
@@ -1538,7 +1537,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
@@ -1551,7 +1550,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mHouseSearchDuoXuanAdapter = new HouseSearchDuoXuanAdapter(list, this);
             mRecyclerViewDuoXuan.setAdapter(mHouseSearchDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
         }
@@ -1565,8 +1564,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mHouseSearchAdapter = new HouseSearchAdapter(list, this);
             mRecyclerView.setAdapter(mHouseSearchAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
-        }else {
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
@@ -1579,7 +1578,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         showProgressDialog();
         ApiModule.getInstance().getPersonProduct(villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
-                permit, purpose, ownership, floorAge, productType, curPage,uid)
+                permit, purpose, ownership, floorAge, productType, curPage, uid)
                 .subscribe(personProductEntity -> {
                     KyLog.object(personProductEntity + "");
                     if (personProductEntity != null) {
@@ -1704,5 +1703,26 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
         }
         return true;
+    }
+
+    private void setEnabled(boolean isFocusable) {
+        mLinearLayoutFangXing.setClickable(isFocusable);
+        mLinearLayoutMore.setClickable(isFocusable);
+        mLinearLayoutPrice.setClickable(isFocusable);
+        mLinearLayoutSort.setClickable(isFocusable);
+        mLinearLayoutMeasure.setClickable(isFocusable);
+        mRecyclerViewDuoXuan.setClickable(isFocusable);
+        mLinearLayoutQuYu.setClickable(isFocusable);
+
+
+        mLinearLayoutFangXing.setFocusable(isFocusable);
+        mLinearLayoutMore.setFocusable(isFocusable);
+        mLinearLayoutPrice.setFocusable(isFocusable);
+        mLinearLayoutSort.setFocusable(isFocusable);
+        mLinearLayoutMeasure.setFocusable(isFocusable);
+        mRecyclerViewDuoXuan.setFocusable(isFocusable);
+        mLinearLayoutQuYu.setFocusable(isFocusable);
+
+
     }
 }

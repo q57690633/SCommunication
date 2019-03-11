@@ -91,47 +91,47 @@ public class ShaiXuanTabNameAdapter extends RecyclerView.Adapter<ShaiXuanTabName
                 notifyItemChanged(hoder.getAdapterPosition());
                 getSelectedItem();
 
-                Iterator<String> iterator=strings.iterator();
-                String userStr = null;
-                while(iterator.hasNext()){
-                    userStr += iterator.next() + ",";
-                }
+//                Iterator<String> iterator=strings.iterator();
+//                String userStr = null;
+//                while(iterator.hasNext()){
+//                    userStr += iterator.next() + ",";
+//                }
 
 //                Toast.makeText(mContext, "已选择" + getSelectedItem().size() + "项", Toast.LENGTH_SHORT).show();
 
                 if (type == 1) {
-                    PreferenceUtil.putString(Constanst.CHAO_XIANG,userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.CHAO_XIANG,strings.toString());
                 } else if (type == 2) {
-                    PreferenceUtil.putString(Constanst.FANG_BEN, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.FANG_BEN,strings.toString());
                 } else if (type == 3) {
-                    PreferenceUtil.putString(Constanst.JIA_JU_JIA_DIAN, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.JIA_JU_JIA_DIAN, strings.toString());
 
                 } else if (type == 4) {
-                    PreferenceUtil.putString(Constanst.LOU_LING, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.LOU_LING, strings.toString());
 
                 } else if (type == 5) {
-                    PreferenceUtil.putString(Constanst.ZHUANG_XIU, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.ZHUANG_XIU, strings.toString());
 
                 } else if (type == 6) {
-                    PreferenceUtil.putString(Constanst.YONG_TU, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.YONG_TU, strings.toString());
 
                 } else if (type == 7) {
-                    PreferenceUtil.putString(Constanst.HUO_DONG,userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.HUO_DONG,strings.toString());
 
                 } else if (type == 8) {
-                    PreferenceUtil.putString(Constanst.ZHU_SHU, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.ZHU_SHU, strings.toString());
 
                 } else if (type == 9) {
-                    PreferenceUtil.putString(Constanst.XIAO_FEI, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.XIAO_FEI, strings.toString());
 
                 } else if (type == 10) {
-                    PreferenceUtil.putString(Constanst.QI_TA, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.QI_TA, strings.toString());
 
                 } else if (type == 11) {
-                    PreferenceUtil.putString(Constanst.JIAO_TONG, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.JIAO_TONG, strings.toString());
 
                 } else if (type == 12) {
-                    PreferenceUtil.putString(Constanst.DI_DIAN, userStr.substring(4,userStr.length() - 1).trim());
+                    PreferenceUtil.putString(Constanst.DI_DIAN, strings.toString());
 
                 }
             }

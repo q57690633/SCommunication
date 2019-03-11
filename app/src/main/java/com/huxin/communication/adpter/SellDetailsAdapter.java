@@ -113,7 +113,7 @@ public class SellDetailsAdapter extends RecyclerView.Adapter<SellDetailsAdapter.
             mAdapterTableName = new DetailsTableNameAdapter(getTableNameList(list.get(position).getTabName()), mContext);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -124,7 +124,7 @@ public class SellDetailsAdapter extends RecyclerView.Adapter<SellDetailsAdapter.
             mImageAdapter = new SellDetailsImageAdapter(getTableNameList(list.get(position).getPhotoUrl()), mContext);
             recyclerView.setAdapter(mImageAdapter);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 }

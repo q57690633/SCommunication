@@ -51,6 +51,7 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
 
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SellActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
+public class SellActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
 
     private RecyclerView mRecyclerView;
@@ -451,7 +452,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-
+        setEnabled(true);
 
 
         getSaleOfScreening("", "", "", "", "", "", "", "", "", "",
@@ -466,10 +467,13 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
         if (!isClickQuYu) {
             return;
         }
+        String selectName = null;
         String areaOne = PreferenceUtil.getString(Constanst.SCREEN_AREAONE_NAME);
         String areaTwo = PreferenceUtil.getString(Constanst.SCREEN_TWOAONE_NAME);
-        String selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
-                substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME))) {
+            selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
+                    substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+        }
         if (!TextUtils.isEmpty(areaOne) && !TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
             villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + areaOne + ","
                     + areaTwo + "," + selectName;
@@ -878,8 +882,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice3.setTextColor(getResources().getColor(R.color.white));
-                mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewPrice4.setTextColor(getResources().getColor(R.color.white));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
@@ -910,6 +914,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "120";
                 maxPrice = "130";
+                KyLog.d("price == 5");
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -992,13 +997,13 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice3.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewPrice9.setTextColor(getResources().getColor(R.color.white));
                 minPrice = "";
                 maxPrice = "";
                 break;
@@ -1398,6 +1403,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+                setEnabled(false);
 
                 break;
             case R.id.toolbar_quxiao:
@@ -1406,6 +1412,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
                 mRecyclerViewDuoXuan.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+                setEnabled(true);
 
                 break;
             case R.id.collect_btn:
@@ -1498,38 +1505,38 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
         mAdapterTableName = new ShaiXuanTabNameAdapter(setOccupation(), this, 3);
         mRecyclerViewJiaJuJiaDian.setAdapter(mAdapterTableName);
         mRecyclerViewJiaJuJiaDian.setLayoutManager(manager);
-        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewJiaJuJiaDian.addItemDecoration(new SpaceItemDecoration(0, 25));
 
 
         GridLayoutManager managerChaoXiang = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setChaoXiang(), this, 1);
         mRecyclerViewChaoXaing.setAdapter(mAdapterTableName);
         mRecyclerViewChaoXaing.setLayoutManager(managerChaoXiang);
-        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewChaoXaing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerFangBen = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setFangBen(), this, 2);
         mRecyclerViewFangBen.setAdapter(mAdapterTableName);
         mRecyclerViewFangBen.setLayoutManager(managerFangBen);
-        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewFangBen.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerZhuangXiu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setZhuangXiu(), this, 5);
         mRecyclerViewZhuangXiu.setAdapter(mAdapterTableName);
         mRecyclerViewZhuangXiu.setLayoutManager(managerZhuangXiu);
-        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewZhuangXiu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerLouLing = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setLouLing(), this, 4);
         mRecyclerViewLouLing.setAdapter(mAdapterTableName);
         mRecyclerViewLouLing.setLayoutManager(managerLouLing);
-        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewLouLing.addItemDecoration(new SpaceItemDecoration(0, 25));
 
         GridLayoutManager managerYongTu = new GridLayoutManager(this, 4);
         mAdapterTableName = new ShaiXuanTabNameAdapter(setYongTu(), this, 6);
         mRecyclerViewYongTu.setAdapter(mAdapterTableName);
         mRecyclerViewYongTu.setLayoutManager(managerYongTu);
-        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
+//        mRecyclerViewYongTu.addItemDecoration(new SpaceItemDecoration(0, 25));
 
     }
 
@@ -1597,13 +1604,11 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
             mRecyclerView.setAdapter(mHouseSearchAdapter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
     private void getSaleOfScreening(String villageName,
@@ -1651,6 +1656,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
     /**
      * 搜索
+     *
      * @param productType
      * @param newOrOld
      * @param condition
@@ -1659,10 +1665,10 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
      */
     private void selectFrame(String productType, String newOrOld,
                              String condition, String stick,
-                             String collectType,String uid) {
+                             String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType,uid)
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");
@@ -1808,7 +1814,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
     public static String getData(ArrayList<SaleOfScreeningEntity.ListBean> Salelist, int houseType) {
         String str = "";
-        try{
+        try {
             JSONObject jsonObject1 = new JSONObject();
             List<JSONObject> jsonList = new ArrayList<>();
             if (Salelist != null && Salelist.size() > 0) {
@@ -1834,7 +1840,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
             str = jsonObject1.toString();
             KyLog.i("getData str = " + str);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return str;
@@ -1892,12 +1898,12 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        switch(i){
+        switch (i) {
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    selectFrame("1", newOrOld, search, null, null,null);
-                }else {
+                    selectFrame("1", newOrOld, search, null, null, null);
+                } else {
                     Toast.makeText(SellActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
                 }
                 KyLog.d("Done_content: " + search);
@@ -1905,5 +1911,26 @@ public class SellActivity extends BaseActivity implements View.OnClickListener ,
 
         }
         return true;
+    }
+
+    private void setEnabled(boolean isFocusable) {
+        mLinearLayoutFangXing.setClickable(isFocusable);
+        mLinearLayoutMore.setClickable(isFocusable);
+        mLinearLayoutPrice.setClickable(isFocusable);
+        mLinearLayoutSort.setClickable(isFocusable);
+        mLinearLayoutMeasure.setClickable(isFocusable);
+        mRecyclerViewDuoXuan.setClickable(isFocusable);
+        mLinearLayoutQuYu.setClickable(isFocusable);
+
+
+        mLinearLayoutFangXing.setFocusable(isFocusable);
+        mLinearLayoutMore.setFocusable(isFocusable);
+        mLinearLayoutPrice.setFocusable(isFocusable);
+        mLinearLayoutSort.setFocusable(isFocusable);
+        mLinearLayoutMeasure.setFocusable(isFocusable);
+        mRecyclerViewDuoXuan.setFocusable(isFocusable);
+        mLinearLayoutQuYu.setFocusable(isFocusable);
+
+
     }
 }

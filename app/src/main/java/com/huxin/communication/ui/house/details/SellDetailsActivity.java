@@ -23,6 +23,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.utils.DateUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -171,13 +172,13 @@ public class SellDetailsActivity extends BaseActivity {
             mAdapterTableName = new DetailsTableNameAdapter(getTableNameList(list, 0), this);
             mRecyclerViewTableName.setAdapter(mAdapterTableName);
             mRecyclerViewTableName.setLayoutManager(manager);
-            mRecyclerViewTableName.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewTableName.addItemDecoration(new SpaceItemDecoration(0, 15));
 
             LinearLayoutManager managerLine = new LinearLayoutManager(this);
             mAdpter = new SellDetailsAdapter(list, this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(managerLine);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -185,15 +186,15 @@ public class SellDetailsActivity extends BaseActivity {
         mTextViewTotalFloorNumber.setText(String.valueOf(list.get(0).getTotalFloorNumber()));
         mTextViewvillageName.setText(list.get(0).getVillageName());
         mTextViewhouseHoldAppliances.setText(String.valueOf(list.get(0).getHouseHoldAppliances()));
-        mTextViewAcreage.setText(String.valueOf(list.get(0).getAcreage()));
         mTextViewhouseType.setText(String.valueOf(list.get(0).getHouseType()));
-        mTextViewTotalPrice.setText(String.valueOf(list.get(0).getTotalPrice()));
-        mTextViewFitment.setText(String.valueOf(list.get(0).getFitment()));
-        mTextViewUnitPrice.setText(String.valueOf(list.get(0).getUnitPrice()));
         mTextViewOrientation.setText(String.valueOf(list.get(0).getOrientation()));
-        mTextViewfindNumber.setText(String.valueOf(list.get(0).getFindNumber()));
-        mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()));
-        mTextViewPublicTime.setText(String.valueOf(list.get(0).getPublicTime()));
+        mTextViewFitment.setText(String.valueOf(list.get(0).getFitment()));
+        mTextViewAcreage.setText(String.valueOf(list.get(0).getAcreage()) + "㎡");
+        mTextViewTotalPrice.setText(String.valueOf(list.get(0).getTotalPrice()) + "万");
+        mTextViewUnitPrice.setText(String.valueOf(list.get(0).getUnitPrice()) + "㎡");
+        mTextViewfindNumber.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
+        mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
+        mTextViewPublicTime.setText(DateUtil.timeslashData(String.valueOf(list.get(0).getShowTime())));
         if (list.size() >= 2) {
             mTextViewMoreSimilar.setText("更多相似房源(" + (list.size() - 1) + ")");
         } else {
