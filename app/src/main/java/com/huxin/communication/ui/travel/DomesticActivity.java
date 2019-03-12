@@ -273,7 +273,6 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewErRiYou.setOnClickListener(this);
         mTextViewSanSiRiYou.setOnClickListener(this);
 
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -511,7 +510,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
-                minPrice = "";
+                minPrice = "0";
                 maxPrice = "500";
                 break;
             case R.id.price2:
@@ -1019,7 +1018,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             mZhouBianDuoXuanAdapter = new ZhouBianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mZhouBianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }else {
             mRecyclerView.setVisibility(View.GONE);
@@ -1035,7 +1034,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             mAdpter = new RecylerViewDomesticAdpter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();

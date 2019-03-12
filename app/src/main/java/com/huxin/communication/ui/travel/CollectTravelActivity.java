@@ -263,7 +263,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         mTextViewGuoWaiYou.setOnClickListener(this);
         mTextViewPiaoWu.setOnClickListener(this);
 
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+//        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -1104,8 +1104,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mZhouBianDuoXuanAdapter = new ZhouBianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mZhouBianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -1116,8 +1117,10 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mAdpter = new ZhouBianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
-        }else {
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
+        } else {
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
     }
@@ -1128,7 +1131,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mJinWaiDuoXuanAdapter = new JinWaiDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mJinWaiDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1138,9 +1141,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this);
-            mRecyclerView.setAdapter(mAdpter);
+            mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1153,7 +1156,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mTicketingDuoXuanAdapter = new TicketingDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mTicketingDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1165,7 +1168,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mTicketAdapter = new TicketingAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();

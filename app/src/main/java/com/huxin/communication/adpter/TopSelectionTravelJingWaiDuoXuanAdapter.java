@@ -115,17 +115,20 @@ public class TopSelectionTravelJingWaiDuoXuanAdapter extends RecyclerView.Adapte
 
     private void setTextView(List<ForeignStickEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+
+            String[] strings = list.get(position).getTagName().split(",");
+            KyLog.d(list.get(position).getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(mContext, 5);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

@@ -27,7 +27,7 @@ import java.util.List;
  * Created by yangzanxiong on 2018/12/14.
  */
 
-public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyViewHoder>{
+public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyViewHoder> {
     private List<AroundTravelEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
@@ -47,7 +47,7 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
-                intent.putExtra("position",hoder.getAdapterPosition());
+                intent.putExtra("position", hoder.getAdapterPosition());
                 mContext.startActivity(intent);
             }
         });
@@ -67,8 +67,8 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getSpotName());
 
-        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewPhoto);
-        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(),holder.mImageViewHeadUrl);
+        ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
+        ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
 
 
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
@@ -128,17 +128,20 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
 
     private void setTextView(List<AroundTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+
+            String[] strings = list.get(position).getTagName().split(",");
+            KyLog.d(list.get(position).getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

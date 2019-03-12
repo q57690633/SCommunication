@@ -394,7 +394,7 @@ public class SellActivity extends BaseActivity implements View.OnClickListener, 
         mTextViewDeterminePrice.setOnClickListener(this);
         mTextViewGuanLi.setOnClickListener(this);
         mTextViewQuXiao.setOnClickListener(this);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+//        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
 
         mTextViewCollect.setOnClickListener(this);

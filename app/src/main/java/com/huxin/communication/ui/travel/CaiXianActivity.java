@@ -247,7 +247,6 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         mTextViewGuoNeiYou.setOnClickListener(this);
         mTextViewGuoWaiYou.setOnClickListener(this);
 
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -1063,7 +1062,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mCaiXianDuoXuanAdapter = new CaiXianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mCaiXianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         } else {
 
@@ -1081,7 +1080,9 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mAdpter = new CaiXianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
         } else {
 
             mRecyclerView.setVisibility(View.GONE);
@@ -1090,7 +1091,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void setForeignDuoXuanData(CaixianForeignTravelEntity entity) {
+    private void setForeignDuoXuanData(ForeignTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
 
@@ -1098,7 +1099,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mDuoXuanForeignAdapter = new CaiXianDuoXuanForeignAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mDuoXuanForeignAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         } else {
             mRecyclerView.setVisibility(View.GONE);
@@ -1115,7 +1116,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mForeignAdapter = new CaiXianForeignAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mForeignAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1169,6 +1170,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                     KyLog.object(foreignTravelEntity);
                     if (foreignTravelEntity != null) {
                         setForeignData(foreignTravelEntity);
+                        setForeignDuoXuanData(foreignTravelEntity);
                     }
 
                 }, throwable -> {

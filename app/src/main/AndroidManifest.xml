@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.huxin.communication">
+
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,19 +12,16 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
-
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<!--
+
+    <!--
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
--->
-
+    -->
     <application
         android:name=".HuXinApplication"
         android:allowBackup="true"
@@ -33,17 +31,109 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialDesign">
 
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="com.huxin.communication.fileProvider"-->
-            <!--android:grantUriPermissions="true"-->
-            <!--android:exported="false">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/files_paths" />-->
-        <!--</provider>-->
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="com.huxin.communication.fileProvider" -->
+        <!-- android:grantUriPermissions="true" -->
+        <!-- android:exported="false"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/files_paths" /> -->
+        <!-- </provider> -->
 
         <activity android:name=".ui.MainActivity">
+
+        </activity>
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.ForgetPassWordActivity" />
+        <activity android:name=".ui.RegisterOneActivity" />
+        <activity android:name=".ui.RegisterInformationActivity" />
+        <activity android:name=".ui.my.setting.SettingActivity" />
+        <activity android:name=".ui.my.MyInformation.MyInformationActivity" />
+        <activity android:name=".ui.my.setting.NewMessageActivity" />
+        <activity android:name=".ui.my.feedback.FeedbackActivity" />
+        <activity android:name=".ui.my.MyInformation.ChangePhoneActivity" />
+        <activity android:name=".ui.my.MyInformation.WorkMessageActivity" />
+        <activity android:name=".ui.my.MyInformation.ChangeHeadActivity" />
+        <activity android:name=".ui.my.setting.AboutActivity" />
+        <activity android:name=".ui.house.sell.SellActivity" />
+        <activity android:name=".ui.travel.DomesticActivity" />
+        <activity android:name=".ui.house.release.ReleaseActivity" />
+        <activity android:name=".ui.house.release.ReleseLaseActivity" />
+        <activity android:name=".ui.house.release.ReleaseInterfaceActivity" />
+        <activity android:name=".ui.house.release.ReleaseBuyActivity" />
+        <activity android:name=".ui.house.release.ReleaseRentActivity" />
+        <activity android:name=".ui.house.release.AddResidentialActivity" />
+        <activity android:name=".ui.travel.release.ReleaseGuoNeiActivity" />
+        <activity android:name=".ui.travel.release.ReleaseInterfaceActivity" />
+        <activity android:name=".ui.travel.release.OverseasReleaseActivity" />
+        <activity android:name=".ui.travel.release.ReleaseTicketingActivity" />
+        <activity android:name=".ui.travel.release.ReleaseZhouBoundaryActivity" />
+        <activity android:name=".ui.house.phone.AddFriendActivity" />
+        <activity android:name=".ui.house.phone.DetailedInformationActivity" />
+        <activity android:name=".ui.house.phone.FriendDetailedActivity" />
+        <activity android:name=".ui.house.phone.InvitationActivity" />
+        <activity android:name=".ui.house.match.MatchActivity" />
+        <activity android:name=".ui.my.collect.CollectionActivity" />
+        <activity android:name=".ui.house.sell.RentActivity" />
+        <activity android:name=".ui.house.sell.QiuGouActivity" />
+        <activity android:name=".ui.house.sell.QiuZuActivity" />
+        <activity android:name=".ui.house.TopSelectionActivity" />
+        <activity android:name=".ui.my.collect.DataBaseActivity" />
+        <activity android:name=".ui.house.details.ChuZuDetailsActivity" />
+        <activity android:name=".ui.house.details.QiuGouDetailsActivity" />
+        <activity android:name=".ui.house.details.QiuZuDetailsActivity" />
+        <activity android:name=".ui.travel.details.TicketingDetailsActivity" />
+        <activity android:name=".ui.house.sell.SimilarDetailsActivity" />
+        <activity android:name=".ui.house.MessageRemindActivity" />
+        <activity android:name=".ui.InvitationActivity" />
+        <activity android:name=".ui.house.details.SellDetailsActivity" />
+        <activity android:name=".ui.travel.ZhouBianActivity" />
+        <activity android:name=".ui.travel.JinWaiActivity" />
+        <activity android:name=".ui.travel.TicketingActivity" />
+        <activity android:name=".ui.travel.details.JinWaiDetailsActivity" />
+        <activity android:name=".ui.travel.details.ZhouBianDetailsActivity" />
+        <activity android:name=".ui.travel.TopSelectionTravelActivity" />
+        <activity android:name=".ui.travel.CaiXianActivity" />
+        <activity android:name=".ui.travel.CollectTravelActivity" />
+        <activity android:name=".ui.my.collect.DataBaseTravelActivity" />
+        <activity android:name=".ui.my.history.HistroyActivity" />
+        <activity android:name=".ui.KeFuActivity" />
+        <activity android:name=".ui.my.tuijian.TuiJianActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.ProvincesActivity" />
+        <activity android:name=".ui.CityActivity" />
+        <activity android:name=".ui.CountyActivity" />
+        <activity android:name=".ui.ProvincesTravelActivity" />
+        <activity android:name=".ui.CityTravelActivity" />
+        <activity android:name=".ui.InlandSpotActivity" />
+        <activity android:name=".ui.ForeignNationActivity" />
+        <activity android:name=".ui.ForeignCityActivity" />
+        <activity android:name=".ui.ForeignSpotActivity" />
+        <activity android:name=".ui.house.sell.AreaOneScreenActivity" />
+        <activity android:name=".ui.house.sell.AreaTwoScreenActivity" />
+        <activity android:name=".ui.house.sell.SelectPlotActivity" />
+        <activity android:name=".ui.travel.ShuaiShuanInlandSpotActivity" />
+        <activity android:name=".ui.TIMChatActivity" />
+        <activity android:name=".ui.house.release.AddVillageNameActivity" />
+        <activity android:name=".ui.ClipImageActivity" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx890797a15ec36142" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.FirstActivity"
+            android:label="@string/title_activity_first"
+            android:theme="@style/Theme.MaterialDesign" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,227 +141,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.LoginActivity"
-             />
-        <activity
-            android:name=".ui.ForgetPassWordActivity"
-             />
-        <activity
-            android:name=".ui.RegisterOneActivity"
-            />
-        <activity
-            android:name=".ui.RegisterInformationActivity"
-           />
-        <activity
-            android:name=".ui.my.setting.SettingActivity"
-            />
-        <activity
-            android:name=".ui.my.MyInformation.MyInformationActivity"
-             />
-        <activity
-            android:name=".ui.my.setting.NewMessageActivity"
-             />
-        <activity
-            android:name=".ui.my.feedback.FeedbackActivity"
-            />
-        <activity
-            android:name=".ui.my.MyInformation.ChangePhoneActivity"
-             />
-        <activity
-            android:name=".ui.my.MyInformation.WorkMessageActivity"
-           />
-        <activity
-            android:name=".ui.my.MyInformation.ChangeHeadActivity"
-            />
-        <activity
-            android:name=".ui.my.setting.AboutActivity"
-            />
-        <activity
-            android:name=".ui.house.sell.SellActivity"
-             />
-        <activity
-            android:name=".ui.travel.DomesticActivity"
-             />
-        <activity
-            android:name=".ui.house.release.ReleaseActivity"
-            />
-        <activity
-            android:name=".ui.house.release.ReleseLaseActivity"
-           />
-        <activity
-            android:name=".ui.house.release.ReleaseInterfaceActivity"
-            />
-        <activity
-            android:name=".ui.house.release.ReleaseBuyActivity"
-            />
-        <activity
-            android:name=".ui.house.release.ReleaseRentActivity"
-            />
-        <activity
-            android:name=".ui.house.release.AddResidentialActivity" />
-        <activity
-            android:name=".ui.travel.release.ReleaseGuoNeiActivity"
-           />
-        <activity
-            android:name=".ui.travel.release.ReleaseInterfaceActivity"
-           />
-        <activity
-            android:name=".ui.travel.release.OverseasReleaseActivity"
-            />
-        <activity
-            android:name=".ui.travel.release.ReleaseTicketingActivity" />
-        <activity
-            android:name=".ui.travel.release.ReleaseZhouBoundaryActivity" />
-        <activity
-            android:name=".ui.house.phone.AddFriendActivity" />
-        <activity
-            android:name=".ui.house.phone.DetailedInformationActivity" />
-        <activity
-            android:name=".ui.house.phone.FriendDetailedActivity" />
-        <activity
-            android:name=".ui.house.phone.InvitationActivity" />
-        <activity
-            android:name=".ui.house.match.MatchActivity"
-            />
-        <activity
-            android:name=".ui.my.collect.CollectionActivity"
-           />
-        <activity
-            android:name=".ui.house.sell.RentActivity"
-             />
-        <activity
-            android:name=".ui.house.sell.QiuGouActivity"
-            />
-        <activity
-            android:name=".ui.house.sell.QiuZuActivity"
-            />
-        <activity
-            android:name=".ui.house.TopSelectionActivity"
-            />
-        <activity
-            android:name=".ui.my.collect.DataBaseActivity"
-            />
-        <activity
-            android:name=".ui.house.details.ChuZuDetailsActivity"
-             />
-        <activity
-            android:name=".ui.house.details.QiuGouDetailsActivity"
-           />
-        <activity
-            android:name=".ui.house.details.QiuZuDetailsActivity"
-             />
-        <activity
-            android:name=".ui.travel.details.TicketingDetailsActivity"
-           />
-        <activity
-            android:name=".ui.house.sell.SimilarDetailsActivity"
-            />
-        <activity
-            android:name=".ui.house.MessageRemindActivity"
-            />
-        <activity
-            android:name=".ui.InvitationActivity"
-           />
-        <activity
-            android:name=".ui.house.details.SellDetailsActivity"
-           />
-        <activity
-            android:name=".ui.travel.ZhouBianActivity"
-            />
-        <activity
-            android:name=".ui.travel.JinWaiActivity"
-           />
-        <activity
-            android:name=".ui.travel.TicketingActivity"
-             />
-        <activity
-            android:name=".ui.travel.details.JinWaiDetailsActivity"
-           />
-        <activity
-            android:name=".ui.travel.details.ZhouBianDetailsActivity"
-            />
-        <activity
-            android:name=".ui.travel.TopSelectionTravelActivity"
-            />
-        <activity
-            android:name=".ui.travel.CaiXianActivity"
-            />
-        <activity
-            android:name=".ui.travel.CollectTravelActivity"
-             />
-        <activity
-            android:name=".ui.my.collect.DataBaseTravelActivity"
-            />
-        <activity
-            android:name=".ui.my.history.HistroyActivity"
-            />
-        <activity
-            android:name=".ui.KeFuActivity"
-            />
-        <activity
-            android:name=".ui.my.tuijian.TuiJianActivity"
-            />
-        <activity
-            android:name=".ui.RegisterActivity"
-           />
-        <activity
-            android:name=".ui.ProvincesActivity"
-            />
-        <activity
-            android:name=".ui.CityActivity"
-           />
-        <activity
-            android:name=".ui.CountyActivity"
-           />
-        <activity
-            android:name=".ui.ProvincesTravelActivity"
-          />
-        <activity
-            android:name=".ui.CityTravelActivity"
-            />
-        <activity
-            android:name=".ui.InlandSpotActivity"
-            />
-        <activity
-            android:name=".ui.ForeignNationActivity"
-            />
-        <activity
-            android:name=".ui.ForeignCityActivity"
-             />
-        <activity
-            android:name=".ui.ForeignSpotActivity"
-           />
-
-        <activity
-            android:name=".ui.house.sell.AreaOneScreenActivity"
-            />
-        <activity
-            android:name=".ui.house.sell.AreaTwoScreenActivity"
-             />
-        <activity
-            android:name=".ui.house.sell.SelectPlotActivity"
-            />
-        <activity
-            android:name=".ui.travel.ShuaiShuanInlandSpotActivity"
-            />
-
-        <activity android:name=".ui.TIMChatActivity"/>
-
-        <activity android:name=".ui.house.release.AddVillageNameActivity"/>
-
-        <activity android:name=".ui.ClipImageActivity"/>
-
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx890797a15ec36142"/>
-            </intent-filter>
-
-        </activity>
+            android:name=".StartActivity"
+            android:label="@string/title_activity_start"
+            android:theme="@style/Theme.MaterialDesign"></activity>
     </application>
 
 </manifest>

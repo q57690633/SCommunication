@@ -445,7 +445,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             mHeadTravelAdapter = new HeadTravelAdapter(homeTravelEntity.getAroundHead(), getContext());
                             mRecyclerViewHead.setAdapter(mHeadLineAdapter);
                             mRecyclerViewHead.setLayoutManager(manager);
-                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
                         }
 
                         if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
@@ -453,7 +453,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             mHeadTravelJinWaiAdapter = new HeadTravelJinWaiAdapter(homeTravelEntity.getForeignHead(), getContext());
                             mRecyclerViewHead.setAdapter(mHeadLineAdapter);
                             mRecyclerViewHead.setLayoutManager(manager);
-                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
                         }
 
                         if (homeTravelEntity.getTicketHead() != null && homeTravelEntity.getTicketHead().size() > 0) {
@@ -461,7 +461,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             mTravelTicketAdapter = new HeadTravelTicketAdapter(homeTravelEntity.getTicketHead(), getContext());
                             mRecyclerViewHead.setAdapter(mHeadLineAdapter);
                             mRecyclerViewHead.setLayoutManager(manager);
-                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
                         }
 
                     }

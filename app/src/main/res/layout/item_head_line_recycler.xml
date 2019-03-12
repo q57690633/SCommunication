@@ -7,10 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="15dp"
+       android:layout_margin="5dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -39,49 +36,53 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
                     android:text="出售"
                     android:textColor="@color/red_setting"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/villageName"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
                     android:text="独家房源"
+                    android:layout_marginLeft="20dp"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/houseType"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="海洋花园"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/totalPrice"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="洋房8层"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/acreage"
-                    android:layout_width="0dp"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
                     android:text="总高11层"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
             </LinearLayout>

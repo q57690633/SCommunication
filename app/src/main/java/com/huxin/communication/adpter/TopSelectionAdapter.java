@@ -55,10 +55,10 @@ public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapte
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()) + "元/㎡");
+        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
         if (list.get(position).getKeying()==1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);
@@ -120,17 +120,20 @@ public class TopSelectionAdapter extends RecyclerView.Adapter<TopSelectionAdapte
 
     private void setTextView(List<TopSelectionEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTabName().split(",");
-        KyLog.d(list.get(position).getTabName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+
+            String[] strings = list.get(position).getTabName().split(",");
+            KyLog.d(list.get(position).getTabName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

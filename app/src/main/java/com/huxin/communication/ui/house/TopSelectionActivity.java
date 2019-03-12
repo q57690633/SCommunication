@@ -219,7 +219,7 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("置顶精选", MODE_BACK);
+        setToolbarCenterMode("", MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
 
@@ -425,7 +425,7 @@ public class TopSelectionActivity extends BaseActivity implements View.OnClickLi
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
         selectStick("", "", "", "", "", "", "", "", "", "",
-                "", "", "", "0", 0, PreferenceUtil.getString(Constanst.CITY_NAME),
+                "", "", "", "0", 1, PreferenceUtil.getString(Constanst.CITY_NAME),
                 PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
 //        addCollectTravel();
     }

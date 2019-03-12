@@ -32,6 +32,7 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.collect.CollectionActivity;
 import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -278,7 +279,6 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewErRiYou.setOnClickListener(this);
         mTextViewSanSiRiYou.setOnClickListener(this);
 
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -516,7 +516,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
-                minPrice = "";
+                minPrice = "0";
                 maxPrice = "500";
                 break;
             case R.id.price2:
@@ -1024,7 +1024,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             mZhouBianDuoXuanAdapter = new ZhouBianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mZhouBianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         } else {
 
@@ -1041,7 +1041,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             mAdpter = new ZhouBianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1084,7 +1086,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,ZhouBianActivity.class);
+                    Intent intent =  new Intent(this,CollectTravelActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {

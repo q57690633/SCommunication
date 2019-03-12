@@ -30,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuanAdapter.MyViewHoder>{
+public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuanAdapter.MyViewHoder> {
     private List<AroundTravelEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
@@ -39,6 +39,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
+
     public ZhouBianDuoXuanAdapter(List<AroundTravelEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
@@ -47,6 +48,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
             throw new IllegalArgumentException("model Data must not be null");
         }
     }
+
     //更新adpter的数据和选择状态
     public void updateDataSet(ArrayList<AroundTravelEntity.ListBean> list) {
         this.list = list;
@@ -86,9 +88,9 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
                 }
                 notifyItemChanged(hoder.getAdapterPosition());
                 getSelectedItem();
-                Iterator<String> iterator=setTab.iterator();
+                Iterator<String> iterator = setTab.iterator();
                 String userStr = null;
-                while(iterator.hasNext()){
+                while (iterator.hasNext()) {
                     userStr += iterator.next() + ",";
                 }
                 if (!TextUtils.isEmpty(userStr)) {
@@ -98,6 +100,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
         });
         return hoder;
     }
+
     //设置给定位置条目的选择状态
     private void setItemChecked(int position, boolean isChecked) {
         mSelectedPositions.put(position, isChecked);
@@ -150,7 +153,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
     @Override
     public int getItemCount() {
-       return list.size();
+        return list.size();
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {
@@ -193,7 +196,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
             mTextViewSpotName = (TextView) itemView.findViewById(R.id.spotName);
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
-            mImageViewDuoXuan =(ImageView) itemView.findViewById(R.id.image_duoxuan);
+            mImageViewDuoXuan = (ImageView) itemView.findViewById(R.id.image_duoxuan);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }
@@ -201,17 +204,19 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
     private void setTextView(List<AroundTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+            String[] strings = list.get(position).getTagName().split(",");
+            KyLog.d(list.get(position).getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

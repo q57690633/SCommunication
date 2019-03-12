@@ -127,5 +127,7 @@
     <string name="msg_file">[文件]</string>
     <string name="msg_custom">[消息]</string>
     <string name="msg_face">[表情]</string>
+    <string name="title_activity_first">FirstActivity</string>
+    <string name="title_activity_start">StartActivity</string>
 
 </resources>

@@ -207,10 +207,13 @@ public class CollectDuoXuanAdapter extends RecyclerView.Adapter<CollectDuoXuanAd
     private void setTextView(List<CollectEntity.ListBean> list, int position, RecyclerView linearLayout) {
 
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTabName().split(",");
-        KyLog.d(list.get(position).getTabName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+
+            String[] strings = list.get(position).getTabName().split(",");
+            KyLog.d(list.get(position).getTabName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(mContext, 5);

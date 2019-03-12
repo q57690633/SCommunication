@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.CaixianForeignTravelEntity;
+import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
@@ -21,12 +22,12 @@ import java.util.List;
 
 public class CaiXianDuoXuanForeignAdapter extends RecyclerView.Adapter<CaiXianDuoXuanForeignAdapter.MyViewHoder>{
 
-    private List<CaixianForeignTravelEntity.ListBean> list;
+    private List<ForeignTravelEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public CaiXianDuoXuanForeignAdapter(List<CaixianForeignTravelEntity.ListBean> list, Context mContext) {
+    public CaiXianDuoXuanForeignAdapter(List<ForeignTravelEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -114,19 +115,22 @@ public class CaiXianDuoXuanForeignAdapter extends RecyclerView.Adapter<CaiXianDu
         }
     }
 
-    private void setTextView(List<CaixianForeignTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(List<ForeignTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(list.get(position).getTagName())) {
+
+            String[] strings = list.get(position).getTagName().split(",");
+            KyLog.d(list.get(position).getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 

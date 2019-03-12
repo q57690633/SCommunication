@@ -76,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
+                android:gravity="center"
                 android:layout_marginLeft="19dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/biaoqian_radius_red"

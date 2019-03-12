@@ -1,6 +1,7 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
@@ -17,6 +18,7 @@ import com.huxin.communication.entity.BuyerScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
     private boolean isClicked = false;
     private StringBuffer buffer;
     private int position = -1;
+    private TableNameAdapter mAdapterTableName;
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
@@ -128,10 +131,10 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
 
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()));
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()));
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()) + "元/㎡");
+        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()));
 
         if (isItemChecked(position)) {
             holder.mImageViewClicked.setVisibility(View.VISIBLE);
@@ -183,7 +186,7 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
         private TextView mTextViewStick;
         private TextView mTextViewUnitPrice;
         private TextView mTextViewOrientation;
-        private LinearLayout mLinearLayoutTabName;
+        private RecyclerView mLinearLayoutTabName;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -199,28 +202,29 @@ public class TopSelectionDuoXuanAdapter extends RecyclerView.Adapter<TopSelectio
             mTextViewStick = (TextView) itemView.findViewById(R.id.stick_duoxuan_sell);
             mTextViewUnitPrice = (TextView) itemView.findViewById(R.id.unitPrice_duoxuan_sell);
             mTextViewOrientation = (TextView) itemView.findViewById(R.id.orientation_duoxuan_sell);
-            mLinearLayoutTabName = (LinearLayout) itemView.findViewById(R.id.tabName_line_duoxuan_sell);
+            mLinearLayoutTabName = (RecyclerView) itemView.findViewById(R.id.tabName_line_duoxuan_sell);
         }
     }
 
-    private void setTextView(List<TopSelectionEntity.ListBean> list, int position, LinearLayout linearLayout) {
+    private void setTextView(List<TopSelectionEntity.ListBean> list, int position, RecyclerView linearLayout) {
 
-        String[] strings = list.get(position).getTabName().split(",");
-//            LinearLayout mLinearLayout = new LinearLayout(mContext);
-        ViewGroup.LayoutParams vlp = new LinearLayout.LayoutParams
-                (ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ((LinearLayout.LayoutParams) vlp).rightMargin = 20;
-//            mLinearLayout.setGravity(LinearLayout.HORIZONTAL);
-//            mLinearLayout.setLayoutParams(vlp);
-        for (int i = 0; i < strings.length; i++) {
-            TextView tv1 = new TextView(mContext);
-            tv1.setLayoutParams(vlp);//设置TextView的布局
-            tv1.setBackgroundColor(mContext.getResources().getColor(R.color.blue));
-            tv1.setTextColor(mContext.getResources().getColor(R.color.white));
-            tv1.setTextSize(12);
-            tv1.setText(strings[i]);
-            linearLayout.addView(tv1);
+        List<String> list1 = new ArrayList<>();
+        if (!TextUtils.isEmpty(list.get(position).getTabName())) {
+
+            String[] strings = list.get(position).getTabName().split(",");
+            KyLog.d(list.get(position).getTabName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
+        if (list1.size() > 0) {
+            GridLayoutManager manager = new GridLayoutManager(mContext, 5);
+            mAdapterTableName = new TableNameAdapter(list1, mContext);
+            linearLayout.setAdapter(mAdapterTableName);
+            linearLayout.setLayoutManager(manager);
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+        }
+
 
 
     }

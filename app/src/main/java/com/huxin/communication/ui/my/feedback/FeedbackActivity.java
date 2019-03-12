@@ -13,19 +13,23 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
 import com.huxin.communication.ui.house.release.ReleaseActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -50,7 +54,7 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
 
     private HttpUtil httpUtil;
 
-    private int adviceType = 0;
+    private int adviceType = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +76,63 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
         mTextViewNeiRong = findViewById(R.id.neirong);
         mRecyclerViewAddPicture = findViewById(R.id.recyclerView);
         mEditTextFanKui = findViewById(R.id.fankui);
+        mTextViewTiJiao = findViewById(R.id.tijiao);
 
 
         mTextViewTiJIan.setOnClickListener(this);
         mTextViewNeiRong.setOnClickListener(this);
         mTextViewBug.setOnClickListener(this);
         mTextViewGongNen.setOnClickListener(this);
+        mTextViewTiJiao.setOnClickListener(this);
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adviceType == 1){
+            mTextViewBug.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewGongNen.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+            mTextViewNeiRong.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewTiJIan.setBackgroundResource(R.drawable.biaoqian_radius);
+
+            mTextViewTiJIan.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewBug.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewNeiRong.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewGongNen.setTextColor(getResources().getColor(R.color.white));
+        }else if (adviceType == 2){
+            mTextViewBug.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewGongNen.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewNeiRong.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewTiJIan.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+
+            mTextViewTiJIan.setTextColor(getResources().getColor(R.color.white));
+            mTextViewBug.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewNeiRong.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewGongNen.setTextColor(getResources().getColor(R.color.login_walling_fort));
+        }else if (adviceType == 3){
+            mTextViewBug.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewGongNen.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewNeiRong.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+            mTextViewTiJIan.setBackgroundResource(R.drawable.biaoqian_radius);
+
+            mTextViewTiJIan.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewBug.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewNeiRong.setTextColor(getResources().getColor(R.color.white));
+            mTextViewGongNen.setTextColor(getResources().getColor(R.color.login_walling_fort));
+        }else if (adviceType == 4){
+            mTextViewBug.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+            mTextViewGongNen.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewNeiRong.setBackgroundResource(R.drawable.biaoqian_radius);
+            mTextViewTiJIan.setBackgroundResource(R.drawable.biaoqian_radius);
+
+            mTextViewTiJIan.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewBug.setTextColor(getResources().getColor(R.color.white));
+            mTextViewNeiRong.setTextColor(getResources().getColor(R.color.login_walling_fort));
+            mTextViewGongNen.setTextColor(getResources().getColor(R.color.login_walling_fort));
+        }
     }
 
     @Override
@@ -168,14 +221,24 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private String url = "http://39.105.203.33/jlkf/mutual-trust/user/returnAdvice";
 
-    private void uploadImage(ArrayList<ImageItem> pathList) {
-        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+    private void uploadImage(ArrayList<ImageItem> pathList, String advice, int adviceType) {
+        showProgressDialog();
+        String url = "http://39.105.203.33/jlkf/mutual-trust/user/returnAdvice";
+
+        Map<String, String> map = new HashMap<>();
+        map.put("advice", advice);
+        map.put("adviceType", String.valueOf(adviceType));
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("token", PreferenceUtil.getString(TOKEN));
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
+                cancelProgressDialog();
+                Toast.makeText(FeedbackActivity.this, e + "", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -183,6 +246,9 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                 super.onResponse(response, id);
                 KyLog.d(response);
                 //返回图片的地址
+                cancelProgressDialog();
+                Toast.makeText(FeedbackActivity.this, "请求成功", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -248,18 +314,13 @@ public class FeedbackActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.tijiao:
                 String str = mEditTextFanKui.getText().toString().trim();
-                if (!TextUtils.isEmpty(str)) {
-                    returnAdvice(str, adviceType);
+                if (!TextUtils.isEmpty(str) && adviceType != 0)  {
+//                    returnAdvice(str, adviceType);
+                    uploadImage(selImageList, str, adviceType);
                 } else {
-                    Toast.makeText(this, "请输入反馈的信息", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "请输入反馈的信息或选择意见类型", Toast.LENGTH_SHORT).show();
                 }
-                uploadImage(selImageList);
                 break;
         }
     }
-
-
-
-
-
 }

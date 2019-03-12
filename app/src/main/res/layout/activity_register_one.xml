@@ -13,7 +13,7 @@
         android:layout_below="@id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@color/blue"
+        android:background="@drawable/logo1"
         android:scaleType="centerCrop" />
 
     <LinearLayout

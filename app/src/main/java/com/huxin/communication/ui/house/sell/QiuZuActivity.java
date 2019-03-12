@@ -580,6 +580,10 @@ public class QiuZuActivity extends BaseActivity implements View.OnClickListener,
                 mImageViewSort.setBackgroundResource(R.drawable.icon_triangle_pre);
                 mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+                mTextViewzongjiaDG.setVisibility(View.GONE);
+                mTextViewzongjiaGD.setVisibility(View.GONE);
+                mTextViewdanjiaDG.setText("月租从低到高");
+                mTextViewdanjiaGD.setText("月租从高到低");
                 break;
 
             case R.id.quyu:
