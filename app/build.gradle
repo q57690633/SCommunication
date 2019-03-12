@@ -61,7 +61,7 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.1.1'
 
 
-    api 'com.tencent.imsdk:imsdk:3.5.0.211'
+    api 'com.tencent.imsdk:imsdk:4.0.0.1'
     // implementation 'com.tencent.imsdk:tuikit:0.0.1.198'
 
     compile 'com.lzy.widget:imagepicker:0.5.4'

@@ -349,16 +349,22 @@ public class ChatAdapter extends IChatAdapter {
                     TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
                     byte[] data = customElem.getData();
                     String str = new String(data);
-                    Log.i(TAG, "str = " + str);
+                    Log.i(TAG, "str1 = " + str);
+                    String totalPrice = "";
+                    String unitPrice = "";
                     JSONObject jsonObject = new JSONObject(str);
-                    String villageName = jsonObject.getString("villageName");
-                    String houseType = jsonObject.getString("houseType");
-                    String acreage = jsonObject.getString("acreage");
-                    String totalPrice = jsonObject.getString("totalPrice");
-                    int stick = jsonObject.getInt("stick");
-                    String unitPrice = jsonObject.getString("unitPrice");
-                    String orientation = jsonObject.getString("orientation");
-                    String tabId = jsonObject.getString("tabId");
+                    JSONObject jsonData = jsonObject.getJSONObject("data");
+                    if(jsonObject.getInt("type") == 1) {
+                        totalPrice = jsonData.getString("totalPrice");
+                        unitPrice = jsonData.getString("unitPrice");
+                    }
+                    String villageName = jsonData.getString("villageName");
+                    String houseType = jsonData.getString("houseType");
+                    String acreage = jsonData.getString("acreage");
+                    int stick = jsonData.getInt("stick");
+                    String orientation = jsonData.getString("orientation");
+                    String tabId = jsonData.getString("tabId");
+                    String tabName = jsonData.getString("tabName");
                     ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
                     customHolder.villageName.setText(villageName);
                     customHolder.houseType.setText(houseType);
@@ -372,6 +378,12 @@ public class ChatAdapter extends IChatAdapter {
                     }else {
                         customHolder.stick.setVisibility(View.VISIBLE);
                     }*/
+                    String[] tab = tabName.split(",");
+                    ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                    gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                    customHolder.tabName_line.setLayoutManager(gridLayoutManager);
+                    customHolder.tabName_line.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
