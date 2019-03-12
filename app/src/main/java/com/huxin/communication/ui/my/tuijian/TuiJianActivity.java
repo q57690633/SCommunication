@@ -1,9 +1,11 @@
 package com.huxin.communication.ui.my.tuijian;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -28,9 +30,15 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.TuiJianPhoneListener;
 import com.huxin.communication.listener.TuiJianStarPhoneListener;
 import com.huxin.communication.listener.TuijianCompanyListener;
+import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.ui.house.phone.AddFriendActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +66,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
     private TuiJIanStickAdapter mStickAdapter;
     private TuijianCompanyAdapter mCompanyAdapter;
+
+    private JSONObject resultJson = new JSONObject();
+    private int targetId = 0;
 
 
     @Override
@@ -108,8 +119,13 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_phone_person:
-//                Intent intent = new Intent(TuiJianActivity.this, AddFriendActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("data", resultJson.toString());
+                bundle.putString("TARGET_TYPE", "C2C");
+                bundle.putString("TARGET_ID", targetId + "");
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.back:
                 finish();
@@ -206,8 +222,20 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         }
         KyLog.d(userinfo);
         KyLog.object(userInfo);
-
-
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (String info : userInfo) {
+                info = info.substring(1, info.length() - 1);
+                JSONObject infoJSONObj = new JSONObject(info);
+                targetId = infoJSONObj.getInt("id");
+                jsonArray.put(infoJSONObj);
+            }
+            resultJson.put("type", 3);
+            resultJson.put("info", jsonArray);
+            Log.i("updateUserInfo", "resultJson.toString() = " + resultJson.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

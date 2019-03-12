@@ -22,6 +22,7 @@ public class JsonUitil {
                     jsonObject.put("name", SaleEntity.getName());
                     jsonObject.put("phone", SaleEntity.getPhone());
                     jsonObject.put("imageUrl", SaleEntity.getImageHead());
+                    jsonObject.put("id", SaleEntity.getUid());
                     jsonList.add(jsonObject);
                 }
             }

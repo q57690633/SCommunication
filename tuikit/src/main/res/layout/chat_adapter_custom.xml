@@ -82,6 +82,10 @@
                     android:visibility="gone"
                     layout="@layout/chat_adapter_custom_ticketing_item"></include>
 
+                <include android:id="@+id/business_card_id"
+                    android:visibility="gone"
+                    layout="@layout/chat_adapter_custom_business_card_item"></include>
+
 <!--
                     <LinearLayout
                         android:layout_width="wrap_content"

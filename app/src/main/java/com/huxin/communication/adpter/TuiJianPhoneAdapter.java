@@ -111,7 +111,12 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
                     userInfoEntity.setImageHead(list.get(position).getImage());
                     userInfoEntity.setName(list.get(position).getName());
                     userInfoEntity.setPhone(list.get(position).getPhone());
-                    listUserInfo.add(userInfoEntity);
+                    userInfoEntity.setUid(list.get(position).getId());
+                    if(listUserInfo.size() == 0) {
+                        listUserInfo.add(userInfoEntity);
+                    }else {
+                        Toast.makeText(mContext, "暂时只能分享给一位好友，请重新选择", Toast.LENGTH_SHORT).show();
+                    }
                     mTuiJianPhoneListener.updateImage(list.get(position).getImage(), b);
                     if (listUserInfo.size() > 0) {
                         mTuiJianPhoneListener.updateUserInfo(JsonUitil.getData(listUserInfo), b);

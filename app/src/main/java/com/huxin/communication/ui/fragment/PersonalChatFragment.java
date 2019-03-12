@@ -56,6 +56,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     private PageTitleBar chatTitleBar;
     private String type = "";
     private String chatId = "";
+    private String data = "";
 
     @Nullable
     @Override
@@ -66,8 +67,10 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(datas != null) {
             chatId = datas.getString("TARGET_ID");
             type = datas.getString("TARGET_TYPE");
+            data = datas.getString("data");
         }
         initView();
+        sendBusinessCard();
         return mBaseView;
     }
 
@@ -154,6 +157,24 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
             units.add(favoriteUnit);
         }
         return units;
+    }
+
+    private void sendBusinessCard() {
+        if(data == null) {
+            return;
+        }
+        try {
+            JSONObject dataJson = new JSONObject(data);
+            ChatBottomInputGroup.MessageHandler msgHandler = new ChatBottomInputGroup.MessageHandler() {
+                @Override
+                public void sendMessage(MessageInfo msg) {
+                    chatPanel.sendMessage(msg);
+                }
+            };
+            msgHandler.sendMessage(MessageInfoUtil.buildCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -56,5 +56,6 @@ dependencies {
     // ~80KB
     //    implementation(name: 'imsdk_4.0.0.1', ext: 'aar')
     api 'com.tencent.imsdk:imsdk:4.0.0.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
 }
 
