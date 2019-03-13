@@ -4,6 +4,15 @@ public class UserInfoEntity {
     private String name;
     private String imageHead;
     private String phone;
+    private int uid;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
     public String getName() {
         return name;

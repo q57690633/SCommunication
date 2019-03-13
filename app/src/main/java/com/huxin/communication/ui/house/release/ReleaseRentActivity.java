@@ -495,7 +495,9 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                     startActivity(intent);
                 }else {
                     try {
-                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.put("type", 4);
+                        String data = jsonObject.toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("msg", data);
                         Intent intent = getIntent();

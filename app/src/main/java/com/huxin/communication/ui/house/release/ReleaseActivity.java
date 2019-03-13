@@ -763,7 +763,9 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                     startActivity(intent);
                 }else {
                     try {
-                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.put("type", 1);
+                        String data = jsonObject.toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("msg", data);
                         Intent intent = getIntent();

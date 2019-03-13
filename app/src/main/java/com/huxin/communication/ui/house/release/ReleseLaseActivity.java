@@ -803,7 +803,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                     startActivity(intent);
                 }else {
                     try {
-                        String data = new JSONObject(response).getJSONObject("data").toString();
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.put("type", 2);
+                        String data = jsonObject.toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("msg", data);
                         Intent intent = getIntent();

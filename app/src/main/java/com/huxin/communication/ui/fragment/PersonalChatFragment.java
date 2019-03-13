@@ -56,6 +56,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     private PageTitleBar chatTitleBar;
     private String type = "";
     private String chatId = "";
+    private String data = "";
 
     @Nullable
     @Override
@@ -66,8 +67,10 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(datas != null) {
             chatId = datas.getString("TARGET_ID");
             type = datas.getString("TARGET_TYPE");
+            data = datas.getString("data");
         }
         initView();
+        sendBusinessCard();
         return mBaseView;
     }
 
@@ -156,6 +159,24 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         return units;
     }
 
+    private void sendBusinessCard() {
+        if(data == null) {
+            return;
+        }
+        try {
+            JSONObject dataJson = new JSONObject(data);
+            ChatBottomInputGroup.MessageHandler msgHandler = new ChatBottomInputGroup.MessageHandler() {
+                @Override
+                public void sendMessage(MessageInfo msg) {
+                    chatPanel.sendMessage(msg);
+                }
+            };
+            msgHandler.sendMessage(MessageInfoUtil.buildCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(int iconResId) {
         switch (iconResId) {
@@ -193,19 +214,19 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 Intent intentZhouBian = new Intent(getActivity(), ZhouBianDetailsActivity.class);
                 intentZhouBian.putExtra("type", "C2C");
                 intentZhouBian.putExtra("peer", chatId);
-                getActivity().startActivity(intentZhouBian);
+                startActivityForResult(intentZhouBian, 2);
                 break;
             case R.drawable.tab_icon_jingwaiyou:
                 Intent intentJingWai = new Intent(getActivity(), JinWaiDetailsActivity.class);
                 intentJingWai.putExtra("type", "C2C");
                 intentJingWai.putExtra("peer", chatId);
-                getActivity().startActivity(intentJingWai);
+                startActivityForResult(intentJingWai, 2);
                 break;
             case R.drawable.tab_icon_piowu:
                 Intent intentPiaoWu = new Intent(getActivity(), TicketingDetailsActivity.class);
                 intentPiaoWu.putExtra("type", "C2C");
                 intentPiaoWu.putExtra("peer", chatId);
-                getActivity().startActivity(intentPiaoWu);
+                startActivityForResult(intentPiaoWu, 2);
                 break;
             case R.drawable.tab_icon_photo:
                 new SendImageMessageUtil(this, chatPanel).openAlbum();
