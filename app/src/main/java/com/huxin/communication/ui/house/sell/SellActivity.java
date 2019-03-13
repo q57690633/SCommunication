@@ -1668,12 +1668,12 @@ public class SellActivity extends BaseActivity implements View.OnClickListener, 
                              String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid,"1")
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");
-                        setSearchData(saleOfScreeningEntities);
-                        setSearchDuoXuanData(saleOfScreeningEntities);
+                        setData(saleOfScreeningEntities);
+                        setDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();

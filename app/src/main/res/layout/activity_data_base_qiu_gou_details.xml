@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/widget_toobar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="小区选择："
+                android:textColor="@color/register_font"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/villageName_rent_release"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="72dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="小区名称"
+                android:padding="9dp"
+                android:textColorHint="@color/login_walling_fort" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/village_search_layout"
+            layout="@layout/villagename_search"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/villageName_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不限小区，全市求购"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/unlimitedEstate_rent_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_normal" />
+
+                <ImageView
+                    android:id="@+id/unlimitedEstate_rent_release_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_selected"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="价格要求："
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/minPrice_rent_release"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="最低价格"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/login_walling_fort"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="万"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="~"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/maxPrice_rent_release"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="最高价格"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/login_walling_fort"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="万"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="面积要求："
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/minAcreage_rent_release"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="最小面积"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/login_walling_fort"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="~"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/maxAcreage_rent_release"
+                    android:layout_width="72dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="最大面积"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/login_walling_fort"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="㎡"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_release1_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release1_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="居室（必填）"
+                        android:textColor="@color/red_setting"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toRightOf="@id/release1_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_release2_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release2_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="楼龄"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release2_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_release3_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release3_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="房本要求"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release3_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/remark_rent_release"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="标题信息（30字内）"
+                android:padding="9dp"
+                android:textColorHint="@color/login_walling_fort" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="其他要求"
+                android:textColor="@color/register_font"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_release_rent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="置顶"
+                    android:textColor="@color/red_setting"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/stick_rent_release"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/icon_circle_normal" />
+
+                <ImageView
+                    android:id="@+id/stick_rent_release_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_selected"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="点此前往充值"
+                    android:textColor="@color/red_setting"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="19dp"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

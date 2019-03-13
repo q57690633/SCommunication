@@ -42,6 +42,7 @@ import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningNewEntity;
 import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectFrameEntity;
+import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
@@ -1320,14 +1321,93 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<List<SelectFrameEntity>> selectFrame(String productType, String newOrOld,
-                                                           String condition, String stick, String collectType,String uid) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType)
+    public Observable<SaleOfScreeningEntity> selectFrame(String productType, String newOrOld,
+                                                           String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 房产出租搜索接口
+     *
+     * @return
+     */
+    public Observable<RentalScreeningEntity> selectRentFrame(String productType, String newOrOld,
+                                                     String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectRentFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 房产求购搜索接口
+     *
+     * @return
+     */
+    public Observable<BuyerScreeningEntity> selectQiuGouFrame(String productType, String newOrOld,
+                                                             String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuGouFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 房产求租搜索接口
+     *
+     * @return
+     */
+    public Observable<WantedScreeningEntity> selectQiuZuFrame(String productType, String newOrOld,
+                                                             String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuZuFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+
+    /**
+     * 房产求租搜索接口
+     *
+     * @return
+     */
+    public Observable<CollectEntity> selectCollectFrame(String productType, String newOrOld,
+                                                              String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectCollectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 房产求租搜索接口
+     *
+     * @return
+     */
+    public Observable<PersonProductEntity> selectDataBaseFrame(String productType, String newOrOld,
+                                                              String condition, String stick, String collectType,String uid,String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectDataBaseFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 房产求租搜索接口
+     *
+     * @return
+     */
+    public Observable<SelectMessageEntity> selectMessage(String uid) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectMessage(PreferenceUtil.getString(TOKEN), uid)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
     /**
      * Map转换类 (将Response类转换为需要的实体类)
      *

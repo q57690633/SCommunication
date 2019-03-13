@@ -1647,17 +1647,17 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
      * @param stick
      * @param collectType
      */
-    private void selectFrame(String productType, String newOrOld,
+    private void selectQiuGouFrame(String productType, String newOrOld,
                              String condition, String stick,
                              String collectType,String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType,uid)
+        ApiModule.getInstance().selectQiuGouFrame(productType, newOrOld, condition, stick, collectType,uid,"1")
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");
-                        setSearchData(saleOfScreeningEntities);
-                        setSearchDuoXuanData(saleOfScreeningEntities);
+                        setData(saleOfScreeningEntities);
+                        setDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();
@@ -1837,7 +1837,7 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    selectFrame("3", newOrOld, search, null, null,null);
+                    selectQiuGouFrame("3", newOrOld, search, null, null,null);
                 }else {
                     Toast.makeText(QiuGouActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
                 }

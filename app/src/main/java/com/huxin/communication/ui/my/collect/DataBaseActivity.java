@@ -1522,7 +1522,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mAdpterDuoXuan = new DataBaseDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mAdpterDuoXuan);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
         }
@@ -1536,7 +1536,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mAdpter = new DataBaseAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1603,17 +1603,17 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
      * @param stick
      * @param collectType
      */
-    private void selectFrame(String productType, String newOrOld,
+    private void selectDataBaseFrame(String productType, String newOrOld,
                              String condition, String stick,
                              String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+        ApiModule.getInstance().selectDataBaseFrame(productType, newOrOld, condition, stick, collectType, uid,"1")
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");
-                        setSearchData(saleOfScreeningEntities);
-                        setSearchDuoXuanData(saleOfScreeningEntities);
+                        setData(saleOfScreeningEntities);
+                        setDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();
@@ -1694,7 +1694,7 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    selectFrame(String.valueOf(newOrOld), "", search, null, null, String.valueOf(PreferenceUtil.getInt(UID)));
+                    selectDataBaseFrame(String.valueOf(newOrOld), "", search, null, null, String.valueOf(PreferenceUtil.getInt(UID)));
                 } else {
                     Toast.makeText(DataBaseActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
                 }

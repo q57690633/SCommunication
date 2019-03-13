@@ -1,19 +1,23 @@
 package com.huxin.communication.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class PersonProductEntity {
+public class PersonProductEntity implements Parcelable {
 
 
     /**
      * curPage : 1
-     * pageSize : 1
-     * list : [{"acreage":23,"areaId":102,"areaOne":"","city":"","curPage":"","element":0,"exclusive":2,"files":[],"findNumber":0,"fitment":"简装","floorAge":"","floorNumber":2,"floorSize":"","houseHoldAppliances":"无家具无家电","houseNumber":"2","houseType":"三居室","id":62,"keying":1,"loans":1,"maxAcreage":0,"maxPrice":0,"minAcreage":0,"minPrice":0,"newOrOld":2,"orientation":"东南","ownership":"","paymentType":"","pdu":"","permit":"不满两年","photoUrl":"","productType":1,"publicNumber":1,"publicTime":{"date":18,"day":1,"hours":1,"minutes":36,"month":1,"nanos":0,"seconds":25,"time":1550424985000,"timezoneOffset":-480,"year":119},"purpose":"商住两用","remark":"","secondId":208,"simpleNumber":0,"stick":2,"stickTime":1550424985313,"tabClassify":"","tabId":"","tabName":"","title":"标题","totalFloorNumber":9,"totalPrice":12,"uid":80,"unitPrice":0,"userModel":{"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""},"villageName":"原乡小区"}]
+     * pageSize : 15
+     * list :
      */
 
     private String curPage;
     private int pageSize;
-    private List<ListBean> list;
+    private ArrayList<ListBean> list;
 
     public String getCurPage() {
         return curPage;
@@ -31,72 +35,87 @@ public class PersonProductEntity {
         this.pageSize = pageSize;
     }
 
-    public List<ListBean> getList() {
+    public ArrayList<ListBean> getList() {
         return list;
     }
 
-    public void setList(List<ListBean> list) {
+    public void setList(ArrayList<ListBean> list) {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Parcelable {
+
         /**
-         * acreage : 23.0
-         * areaId : 102
+         * acreage : 120
+         * areaId : 248
          * areaOne :
          * city :
+         * collectState : 0
          * curPage :
+         * dateNumber : 0
          * element : 0
          * exclusive : 2
          * files : []
-         * findNumber : 0
-         * fitment : 简装
+         * findNumber : 2
+         * fitment :
+         * fitmentList : []
          * floorAge :
-         * floorNumber : 2
+         * floorAgeList : []
+         * floorNumber : 0
          * floorSize :
-         * houseHoldAppliances : 无家具无家电
-         * houseNumber : 2
-         * houseType : 三居室
-         * id : 62
-         * keying : 1
-         * loans : 1
-         * maxAcreage : 0.0
-         * maxPrice : 0.0
-         * minAcreage : 0.0
-         * minPrice : 0.0
+         * houseHoldAppliances :
+         * houseList : []
+         * houseNumber :
+         * houseType : 一室
+         * houseTypeList : []
+         * id : 253
+         * keying : 2
+         * loans : 2
+         * maxAcreage : 0
+         * maxPrice : 0
+         * minAcreage : 0
+         * minPrice : 0
          * newOrOld : 2
-         * orientation : 东南
+         * orientation :
+         * orientationList : []
          * ownership :
          * paymentType :
          * pdu :
-         * permit : 不满两年
-         * photoUrl :
+         * permit :
+         * permitList : []
+         * photoUrl : http://39.105.203.33/upload/1552454247369/1552454247369_276.jpg
          * productType : 1
          * publicNumber : 1
-         * publicTime : {"date":18,"day":1,"hours":1,"minutes":36,"month":1,"nanos":0,"seconds":25,"time":1550424985000,"timezoneOffset":-480,"year":119}
-         * purpose : 商住两用
+         * publicTime : {"date":13,"day":3,"hours":13,"minutes":17,"month":2,"nanos":0,"seconds":27,"time":1552454247000,"timezoneOffset":-480,"year":119}
+         * purpose :
+         * purposeList : []
          * remark :
-         * secondId : 208
+         * saleAndStick : 0
+         * secondId : 636
+         * showTime : 0
          * simpleNumber : 0
-         * stick : 2
-         * stickTime : 1550424985313
+         * stick : 1
+         * stickTime : 1552454247412
          * tabClassify :
          * tabId :
          * tabName :
-         * title : 标题
-         * totalFloorNumber : 9
-         * totalPrice : 12.0
-         * uid : 80
-         * unitPrice : 0.0
-         * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""}
-         * villageName : 原乡小区
+         * title :
+         * totalFloorNumber : 0
+         * totalPrice : 111
+         * uid : 156
+         * unitPrice : 9250
+         * unlimitedEstate : 0
+         * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","phoneState":0,"positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""}
+         * villageName : 馨和小区
          */
 
-        private double acreage;
+        private int acreage;
         private int areaId;
         private String areaOne;
         private String city;
+        private int collectState;
         private String curPage;
+        private int dateNumber;
         private int element;
         private int exclusive;
         private int findNumber;
@@ -110,10 +129,10 @@ public class PersonProductEntity {
         private int id;
         private int keying;
         private int loans;
-        private double maxAcreage;
-        private double maxPrice;
-        private double minAcreage;
-        private double minPrice;
+        private int maxAcreage;
+        private int maxPrice;
+        private int minAcreage;
+        private int minPrice;
         private int newOrOld;
         private String orientation;
         private String ownership;
@@ -126,7 +145,9 @@ public class PersonProductEntity {
         private PublicTimeBean publicTime;
         private String purpose;
         private String remark;
+        private int saleAndStick;
         private int secondId;
+        private int showTime;
         private int simpleNumber;
         private int stick;
         private long stickTime;
@@ -135,18 +156,26 @@ public class PersonProductEntity {
         private String tabName;
         private String title;
         private int totalFloorNumber;
-        private double totalPrice;
+        private int totalPrice;
         private int uid;
-        private double unitPrice;
+        private int unitPrice;
+        private int unlimitedEstate;
         private UserModelBean userModel;
         private String villageName;
-        private List<?> files;
+        private List<String> files;
+        private List<String> fitmentList;
+        private List<String> floorAgeList;
+        private List<String> houseList;
+        private List<String> houseTypeList;
+        private List<String> orientationList;
+        private List<String> permitList;
+        private List<String> purposeList;
 
-        public double getAcreage() {
+        public int getAcreage() {
             return acreage;
         }
 
-        public void setAcreage(double acreage) {
+        public void setAcreage(int acreage) {
             this.acreage = acreage;
         }
 
@@ -174,12 +203,28 @@ public class PersonProductEntity {
             this.city = city;
         }
 
+        public int getCollectState() {
+            return collectState;
+        }
+
+        public void setCollectState(int collectState) {
+            this.collectState = collectState;
+        }
+
         public String getCurPage() {
             return curPage;
         }
 
         public void setCurPage(String curPage) {
             this.curPage = curPage;
+        }
+
+        public int getDateNumber() {
+            return dateNumber;
+        }
+
+        public void setDateNumber(int dateNumber) {
+            this.dateNumber = dateNumber;
         }
 
         public int getElement() {
@@ -286,35 +331,35 @@ public class PersonProductEntity {
             this.loans = loans;
         }
 
-        public double getMaxAcreage() {
+        public int getMaxAcreage() {
             return maxAcreage;
         }
 
-        public void setMaxAcreage(double maxAcreage) {
+        public void setMaxAcreage(int maxAcreage) {
             this.maxAcreage = maxAcreage;
         }
 
-        public double getMaxPrice() {
+        public int getMaxPrice() {
             return maxPrice;
         }
 
-        public void setMaxPrice(double maxPrice) {
+        public void setMaxPrice(int maxPrice) {
             this.maxPrice = maxPrice;
         }
 
-        public double getMinAcreage() {
+        public int getMinAcreage() {
             return minAcreage;
         }
 
-        public void setMinAcreage(double minAcreage) {
+        public void setMinAcreage(int minAcreage) {
             this.minAcreage = minAcreage;
         }
 
-        public double getMinPrice() {
+        public int getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(double minPrice) {
+        public void setMinPrice(int minPrice) {
             this.minPrice = minPrice;
         }
 
@@ -414,12 +459,28 @@ public class PersonProductEntity {
             this.remark = remark;
         }
 
+        public int getSaleAndStick() {
+            return saleAndStick;
+        }
+
+        public void setSaleAndStick(int saleAndStick) {
+            this.saleAndStick = saleAndStick;
+        }
+
         public int getSecondId() {
             return secondId;
         }
 
         public void setSecondId(int secondId) {
             this.secondId = secondId;
+        }
+
+        public int getShowTime() {
+            return showTime;
+        }
+
+        public void setShowTime(int showTime) {
+            this.showTime = showTime;
         }
 
         public int getSimpleNumber() {
@@ -486,11 +547,11 @@ public class PersonProductEntity {
             this.totalFloorNumber = totalFloorNumber;
         }
 
-        public double getTotalPrice() {
+        public int getTotalPrice() {
             return totalPrice;
         }
 
-        public void setTotalPrice(double totalPrice) {
+        public void setTotalPrice(int totalPrice) {
             this.totalPrice = totalPrice;
         }
 
@@ -502,12 +563,20 @@ public class PersonProductEntity {
             this.uid = uid;
         }
 
-        public double getUnitPrice() {
+        public int getUnitPrice() {
             return unitPrice;
         }
 
-        public void setUnitPrice(double unitPrice) {
+        public void setUnitPrice(int unitPrice) {
             this.unitPrice = unitPrice;
+        }
+
+        public int getUnlimitedEstate() {
+            return unlimitedEstate;
+        }
+
+        public void setUnlimitedEstate(int unlimitedEstate) {
+            this.unlimitedEstate = unlimitedEstate;
         }
 
         public UserModelBean getUserModel() {
@@ -526,24 +595,81 @@ public class PersonProductEntity {
             this.villageName = villageName;
         }
 
-        public List<?> getFiles() {
+        public List<String> getFiles() {
             return files;
         }
 
-        public void setFiles(List<?> files) {
+        public void setFiles(List<String> files) {
             this.files = files;
         }
 
-        public static class PublicTimeBean {
+        public List<?> getFitmentList() {
+            return fitmentList;
+        }
+
+        public void setFitmentList(List<String> fitmentList) {
+            this.fitmentList = fitmentList;
+        }
+
+        public List<String> getFloorAgeList() {
+            return floorAgeList;
+        }
+
+        public void setFloorAgeList(List<String> floorAgeList) {
+            this.floorAgeList = floorAgeList;
+        }
+
+        public List<String> getHouseList() {
+            return houseList;
+        }
+
+        public void setHouseList(List<String> houseList) {
+            this.houseList = houseList;
+        }
+
+        public List<String> getHouseTypeList() {
+            return houseTypeList;
+        }
+
+        public void setHouseTypeList(List<String> houseTypeList) {
+            this.houseTypeList = houseTypeList;
+        }
+
+        public List<String> getOrientationList() {
+            return orientationList;
+        }
+
+        public void setOrientationList(List<String> orientationList) {
+            this.orientationList = orientationList;
+        }
+
+        public List<String> getPermitList() {
+            return permitList;
+        }
+
+        public void setPermitList(List<String> permitList) {
+            this.permitList = permitList;
+        }
+
+        public List<String> getPurposeList() {
+            return purposeList;
+        }
+
+        public void setPurposeList(List<String> purposeList) {
+            this.purposeList = purposeList;
+        }
+
+        public static class PublicTimeBean implements Parcelable {
+
             /**
-             * date : 18
-             * day : 1
-             * hours : 1
-             * minutes : 36
-             * month : 1
+             * date : 13
+             * day : 3
+             * hours : 13
+             * minutes : 17
+             * month : 2
              * nanos : 0
-             * seconds : 25
-             * time : 1550424985000
+             * seconds : 27
+             * time : 1552454247000
              * timezoneOffset : -480
              * year : 119
              */
@@ -638,9 +764,57 @@ public class PersonProductEntity {
             public void setYear(int year) {
                 this.year = year;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeInt(this.date);
+                dest.writeInt(this.day);
+                dest.writeInt(this.hours);
+                dest.writeInt(this.minutes);
+                dest.writeInt(this.month);
+                dest.writeInt(this.nanos);
+                dest.writeInt(this.seconds);
+                dest.writeLong(this.time);
+                dest.writeInt(this.timezoneOffset);
+                dest.writeInt(this.year);
+            }
+
+            public PublicTimeBean() {
+            }
+
+            protected PublicTimeBean(Parcel in) {
+                this.date = in.readInt();
+                this.day = in.readInt();
+                this.hours = in.readInt();
+                this.minutes = in.readInt();
+                this.month = in.readInt();
+                this.nanos = in.readInt();
+                this.seconds = in.readInt();
+                this.time = in.readLong();
+                this.timezoneOffset = in.readInt();
+                this.year = in.readInt();
+            }
+
+            public static final Creator<PublicTimeBean> CREATOR = new Creator<PublicTimeBean>() {
+                @Override
+                public PublicTimeBean createFromParcel(Parcel source) {
+                    return new PublicTimeBean(source);
+                }
+
+                @Override
+                public PublicTimeBean[] newArray(int size) {
+                    return new PublicTimeBean[size];
+                }
+            };
         }
 
-        public static class UserModelBean {
+        public static class UserModelBean implements Parcelable {
+
             /**
              * advice :
              * area :
@@ -657,6 +831,7 @@ public class PersonProductEntity {
              * matchingMonth : 0
              * password :
              * phone :
+             * phoneState : 0
              * positions :
              * province :
              * registerType : 0
@@ -686,6 +861,7 @@ public class PersonProductEntity {
             private int matchingMonth;
             private String password;
             private String phone;
+            private int phoneState;
             private String positions;
             private String province;
             private int registerType;
@@ -819,6 +995,14 @@ public class PersonProductEntity {
                 this.phone = phone;
             }
 
+            public int getPhoneState() {
+                return phoneState;
+            }
+
+            public void setPhoneState(int phoneState) {
+                this.phoneState = phoneState;
+            }
+
             public String getPositions() {
                 return positions;
             }
@@ -914,6 +1098,271 @@ public class PersonProductEntity {
             public void setUsersig(String usersig) {
                 this.usersig = usersig;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.advice);
+                dest.writeString(this.area);
+                dest.writeInt(this.authCode);
+                dest.writeString(this.cOrP);
+                dest.writeString(this.city);
+                dest.writeString(this.companyName);
+                dest.writeString(this.county);
+                dest.writeString(this.headUrl);
+                dest.writeString(this.identifier);
+                dest.writeString(this.industryType);
+                dest.writeString(this.invitationCode);
+                dest.writeString(this.licenseCode);
+                dest.writeInt(this.matchingMonth);
+                dest.writeString(this.password);
+                dest.writeString(this.phone);
+                dest.writeInt(this.phoneState);
+                dest.writeString(this.positions);
+                dest.writeString(this.province);
+                dest.writeInt(this.registerType);
+                dest.writeInt(this.secondAuthCode);
+                dest.writeString(this.secondPhone);
+                dest.writeInt(this.stickNumber);
+                dest.writeString(this.storeName);
+                dest.writeInt(this.time);
+                dest.writeString(this.token);
+                dest.writeInt(this.uid);
+                dest.writeString(this.username);
+                dest.writeString(this.usersig);
+            }
+
+            public UserModelBean() {
+            }
+
+            protected UserModelBean(Parcel in) {
+                this.advice = in.readString();
+                this.area = in.readString();
+                this.authCode = in.readInt();
+                this.cOrP = in.readString();
+                this.city = in.readString();
+                this.companyName = in.readString();
+                this.county = in.readString();
+                this.headUrl = in.readString();
+                this.identifier = in.readString();
+                this.industryType = in.readString();
+                this.invitationCode = in.readString();
+                this.licenseCode = in.readString();
+                this.matchingMonth = in.readInt();
+                this.password = in.readString();
+                this.phone = in.readString();
+                this.phoneState = in.readInt();
+                this.positions = in.readString();
+                this.province = in.readString();
+                this.registerType = in.readInt();
+                this.secondAuthCode = in.readInt();
+                this.secondPhone = in.readString();
+                this.stickNumber = in.readInt();
+                this.storeName = in.readString();
+                this.time = in.readInt();
+                this.token = in.readString();
+                this.uid = in.readInt();
+                this.username = in.readString();
+                this.usersig = in.readString();
+            }
+
+            public static final Creator<UserModelBean> CREATOR = new Creator<UserModelBean>() {
+                @Override
+                public UserModelBean createFromParcel(Parcel source) {
+                    return new UserModelBean(source);
+                }
+
+                @Override
+                public UserModelBean[] newArray(int size) {
+                    return new UserModelBean[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.acreage);
+            dest.writeInt(this.areaId);
+            dest.writeString(this.areaOne);
+            dest.writeString(this.city);
+            dest.writeInt(this.collectState);
+            dest.writeString(this.curPage);
+            dest.writeInt(this.dateNumber);
+            dest.writeInt(this.element);
+            dest.writeInt(this.exclusive);
+            dest.writeInt(this.findNumber);
+            dest.writeString(this.fitment);
+            dest.writeString(this.floorAge);
+            dest.writeInt(this.floorNumber);
+            dest.writeString(this.floorSize);
+            dest.writeString(this.houseHoldAppliances);
+            dest.writeString(this.houseNumber);
+            dest.writeString(this.houseType);
+            dest.writeInt(this.id);
+            dest.writeInt(this.keying);
+            dest.writeInt(this.loans);
+            dest.writeInt(this.maxAcreage);
+            dest.writeInt(this.maxPrice);
+            dest.writeInt(this.minAcreage);
+            dest.writeInt(this.minPrice);
+            dest.writeInt(this.newOrOld);
+            dest.writeString(this.orientation);
+            dest.writeString(this.ownership);
+            dest.writeString(this.paymentType);
+            dest.writeString(this.pdu);
+            dest.writeString(this.permit);
+            dest.writeString(this.photoUrl);
+            dest.writeInt(this.productType);
+            dest.writeInt(this.publicNumber);
+            dest.writeParcelable(this.publicTime, flags);
+            dest.writeString(this.purpose);
+            dest.writeString(this.remark);
+            dest.writeInt(this.saleAndStick);
+            dest.writeInt(this.secondId);
+            dest.writeInt(this.showTime);
+            dest.writeInt(this.simpleNumber);
+            dest.writeInt(this.stick);
+            dest.writeLong(this.stickTime);
+            dest.writeString(this.tabClassify);
+            dest.writeString(this.tabId);
+            dest.writeString(this.tabName);
+            dest.writeString(this.title);
+            dest.writeInt(this.totalFloorNumber);
+            dest.writeInt(this.totalPrice);
+            dest.writeInt(this.uid);
+            dest.writeInt(this.unitPrice);
+            dest.writeInt(this.unlimitedEstate);
+            dest.writeParcelable(this.userModel, flags);
+            dest.writeString(this.villageName);
+            dest.writeStringList(this.files);
+            dest.writeStringList(this.fitmentList);
+            dest.writeStringList(this.floorAgeList);
+            dest.writeStringList(this.houseList);
+            dest.writeStringList(this.houseTypeList);
+            dest.writeStringList(this.orientationList);
+            dest.writeStringList(this.permitList);
+            dest.writeStringList(this.purposeList);
+        }
+
+        public ListBean() {
+        }
+
+        protected ListBean(Parcel in) {
+            this.acreage = in.readInt();
+            this.areaId = in.readInt();
+            this.areaOne = in.readString();
+            this.city = in.readString();
+            this.collectState = in.readInt();
+            this.curPage = in.readString();
+            this.dateNumber = in.readInt();
+            this.element = in.readInt();
+            this.exclusive = in.readInt();
+            this.findNumber = in.readInt();
+            this.fitment = in.readString();
+            this.floorAge = in.readString();
+            this.floorNumber = in.readInt();
+            this.floorSize = in.readString();
+            this.houseHoldAppliances = in.readString();
+            this.houseNumber = in.readString();
+            this.houseType = in.readString();
+            this.id = in.readInt();
+            this.keying = in.readInt();
+            this.loans = in.readInt();
+            this.maxAcreage = in.readInt();
+            this.maxPrice = in.readInt();
+            this.minAcreage = in.readInt();
+            this.minPrice = in.readInt();
+            this.newOrOld = in.readInt();
+            this.orientation = in.readString();
+            this.ownership = in.readString();
+            this.paymentType = in.readString();
+            this.pdu = in.readString();
+            this.permit = in.readString();
+            this.photoUrl = in.readString();
+            this.productType = in.readInt();
+            this.publicNumber = in.readInt();
+            this.publicTime = in.readParcelable(PublicTimeBean.class.getClassLoader());
+            this.purpose = in.readString();
+            this.remark = in.readString();
+            this.saleAndStick = in.readInt();
+            this.secondId = in.readInt();
+            this.showTime = in.readInt();
+            this.simpleNumber = in.readInt();
+            this.stick = in.readInt();
+            this.stickTime = in.readLong();
+            this.tabClassify = in.readString();
+            this.tabId = in.readString();
+            this.tabName = in.readString();
+            this.title = in.readString();
+            this.totalFloorNumber = in.readInt();
+            this.totalPrice = in.readInt();
+            this.uid = in.readInt();
+            this.unitPrice = in.readInt();
+            this.unlimitedEstate = in.readInt();
+            this.userModel = in.readParcelable(UserModelBean.class.getClassLoader());
+            this.villageName = in.readString();
+            this.files = in.createStringArrayList();
+            this.fitmentList = in.createStringArrayList();
+            this.floorAgeList = in.createStringArrayList();
+            this.houseList = in.createStringArrayList();
+            this.houseTypeList = in.createStringArrayList();
+            this.orientationList = in.createStringArrayList();
+            this.permitList = in.createStringArrayList();
+            this.purposeList = in.createStringArrayList();
+        }
+
+        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
+            @Override
+            public ListBean createFromParcel(Parcel source) {
+                return new ListBean(source);
+            }
+
+            @Override
+            public ListBean[] newArray(int size) {
+                return new ListBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.curPage);
+        dest.writeInt(this.pageSize);
+        dest.writeTypedList(this.list);
+    }
+
+    public PersonProductEntity() {
+    }
+
+    protected PersonProductEntity(Parcel in) {
+        this.curPage = in.readString();
+        this.pageSize = in.readInt();
+        this.list = in.createTypedArrayList(ListBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<PersonProductEntity> CREATOR = new Parcelable.Creator<PersonProductEntity>() {
+        @Override
+        public PersonProductEntity createFromParcel(Parcel source) {
+            return new PersonProductEntity(source);
+        }
+
+        @Override
+        public PersonProductEntity[] newArray(int size) {
+            return new PersonProductEntity[size];
+        }
+    };
 }

@@ -1495,17 +1495,17 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
      * @param stick
      * @param collectType
      */
-    private void selectFrame(String productType, String newOrOld,
+    private void selectCollectFrame(String productType, String newOrOld,
                              String condition, String stick,
                              String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
+        ApiModule.getInstance().selectCollectFrame(productType, newOrOld, condition, stick, collectType, uid,"1")
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");
-                        setSearchData(saleOfScreeningEntities);
-                        setSearchDuoXuanData(saleOfScreeningEntities);
+                        setData(saleOfScreeningEntities);
+                        setDuoXuanData(saleOfScreeningEntities);
                     }
 
                     cancelProgressDialog();
@@ -1792,7 +1792,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    selectFrame(String.valueOf(newOrOld), "", search, null, String.valueOf(1), String.valueOf(PreferenceUtil.getInt(UID)));
+                    selectCollectFrame(String.valueOf(newOrOld), "", search, null, String.valueOf(1), String.valueOf(PreferenceUtil.getInt(UID)));
                 } else {
                     Toast.makeText(CollectionActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();
                 }

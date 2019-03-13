@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.PersonProductEntity;
+import com.huxin.communication.ui.house.details.DataBaseDetailsActivity;
+import com.huxin.communication.ui.house.details.DataBaseQiuGouDetailsActivity;
 import com.huxin.communication.ui.house.details.SellDetailsActivity;
 import com.huxin.communication.ui.house.sell.SimilarDetailsActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
@@ -28,12 +30,12 @@ import java.util.List;
 
 public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.MyViewHoder> {
 
-    private List<PersonProductEntity.ListBean> list;
+    private ArrayList<PersonProductEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
 
-    public DataBaseAdapter(List<PersonProductEntity.ListBean> list, Context mContext) {
+    public DataBaseAdapter(ArrayList<PersonProductEntity.ListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);
@@ -46,10 +48,17 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.MyView
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SellDetailsActivity.class);
-                KyLog.d(list.get(hoder.getAdapterPosition()).getId() + "");
-                intent.putExtra("pid", list.get(hoder.getAdapterPosition()).getId());
-                mContext.startActivity(intent);
+                if (list.get(hoder.getAdapterPosition()).getProductType() == 1 ||
+                        list.get(hoder.getAdapterPosition()).getProductType() == 2) {
+                    Intent intent = new Intent(mContext, DataBaseDetailsActivity.class);
+                    intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    mContext.startActivity(intent);
+                }else if (list.get(hoder.getAdapterPosition()).getProductType() == 3 ||
+                        list.get(hoder.getAdapterPosition()).getProductType() == 4){
+                    Intent intent = new Intent(mContext, DataBaseQiuGouDetailsActivity.class);
+                    intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    mContext.startActivity(intent);
+                }
             }
         });
         hoder.mTextView.setOnClickListener(new View.OnClickListener() {

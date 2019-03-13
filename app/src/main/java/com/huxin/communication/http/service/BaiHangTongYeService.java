@@ -42,6 +42,7 @@ import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningNewEntity;
 import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectFrameEntity;
+import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
@@ -1022,9 +1023,71 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
-    Observable<Response<List<SelectFrameEntity>>> selectFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+    Observable<Response<SaleOfScreeningEntity>> selectFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
                                                         @Field("condition") String condition, @Field("token") String token,
                                                         @Field("uid") String uid, @Field("stick") String stick,
-                                                        @Field("collectType") String collectType);
+                                                        @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+    /**
+     * 房产出租搜索接口
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectFrame")
+    Observable<Response<RentalScreeningEntity>> selectRentFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+                                                            @Field("condition") String condition, @Field("token") String token,
+                                                            @Field("uid") String uid, @Field("stick") String stick,
+                                                            @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+
+
+    /**
+     * 房产求购搜索接口
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectFrame")
+    Observable<Response<BuyerScreeningEntity>> selectQiuGouFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+                                                                @Field("condition") String condition, @Field("token") String token,
+                                                                @Field("uid") String uid, @Field("stick") String stick,
+                                                                @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+    /**
+     * 房产求租搜索接口
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectFrame")
+    Observable<Response<WantedScreeningEntity>> selectQiuZuFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+                                                                @Field("condition") String condition, @Field("token") String token,
+                                                                @Field("uid") String uid, @Field("stick") String stick,
+                                                                @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+
+    /**
+     * 收藏搜索接口
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectFrame")
+    Observable<Response<CollectEntity>> selectCollectFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+                                                                 @Field("condition") String condition, @Field("token") String token,
+                                                                 @Field("uid") String uid, @Field("stick") String stick,
+                                                                 @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+
+    /**
+     * 房产数据库搜索接口
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/selectFrame")
+    Observable<Response<PersonProductEntity>> selectDataBaseFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
+                                                                 @Field("condition") String condition, @Field("token") String token,
+                                                                 @Field("uid") String uid, @Field("stick") String stick,
+                                                                 @Field("collectType") String collectType,@Field("curPage") String curPage);
+
+
+    /**
+     * 房产发布消息
+     */
+    @FormUrlEncoded
+    @POST("public/selectMessage")
+    Observable<Response<SelectMessageEntity>> selectMessage(@Field("token") String token, @Field("uid") String uid);
 
 }

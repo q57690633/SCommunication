@@ -1640,18 +1640,18 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
      * @param stick
      * @param collectType
      */
-    private void selectFrame(String productType, String newOrOld,
+    private void selectRentFrame(String productType, String newOrOld,
                              String condition, String stick,
                              String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectFrame(productType, newOrOld, condition, stick, collectType, uid)
-                .subscribe(saleOfScreeningEntities -> {
-                    if (saleOfScreeningEntities != null) {
-                        KyLog.object(saleOfScreeningEntities + "");
+        ApiModule.getInstance().selectRentFrame(productType, newOrOld, condition, stick, collectType, uid,"1")
+                .subscribe(rentalScreeningEntity -> {
+                    if (rentalScreeningEntity != null) {
+                        KyLog.object(rentalScreeningEntity + "");
                     }
-                    setSearchData(saleOfScreeningEntities);
-                    setSearchDuoXuanData(saleOfScreeningEntities);
+                    setData(rentalScreeningEntity);
+                    setDuoXuanData(rentalScreeningEntity);
                     cancelProgressDialog();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -1831,7 +1831,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    selectFrame("2", newOrOld, search, null, null, null);
+                    selectRentFrame("2", newOrOld, search, null, null, null);
 
                 } else {
                     Toast.makeText(RentActivity.this, "请填写手机号", Toast.LENGTH_SHORT).show();

@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/widget_toobar" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="14dp">
+
+            <EditText
+                android:id="@+id/villageName_ed_release"
+                android:layout_width="152dp"
+                android:layout_height="wrap_content"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="小区名（必填）"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="9dp"
+                android:textColorHint="@color/red_setting"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/acreage_ed_release"
+
+                android:layout_width="102dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="面积（必填）"
+                android:paddingBottom="9dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="9dp"
+                android:textColorHint="@color/red_setting"
+                android:textSize="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:text="㎡"
+                android:textColor="@color/register_font"
+                android:textSize="12dp" />
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/village_search_layout"
+            layout="@layout/villagename_search"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/villageName_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="14dp">
+
+                <TextView
+                    android:id="@+id/houseType_ed_release"
+
+                    android:layout_width="152dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="居室（必填）"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/red_setting"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/totalPrice_ed_release"
+
+                    android:layout_width="102dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="价格（必填）"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:textColorHint="@color/red_setting"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:text="万元"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/floorNumber_ed_release"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="所在楼层"
+                    android:padding="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
+                    android:text="/"
+                    android:textColor="@color/login_walling_fort" />
+
+
+                <EditText
+                    android:id="@+id/totalFloorNumber_ed_release"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="总楼层"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="新房"
+                            android:textColor="@color/register_font"
+                            android:textSize="14dp" />
+
+                        <ImageView
+                            android:id="@+id/new_tv_release_click"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_circle_selected"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/new_tv_release"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_circle_normal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="33dp"
+                            android:text="二手房"
+                            android:textColor="@color/register_font"
+                            android:textSize="14dp" />
+
+                        <ImageView
+                            android:id="@+id/Old_tv_release"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_circle_normal"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/Old_tv_release_click"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_circle_selected" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="不对外显示真实楼层数"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="12dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="可否贷款"
+                        android:textColor="@color/register_font"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:id="@+id/loans_tv_release"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_circle_normal" />
+
+                    <ImageView
+                        android:id="@+id/loans_tv_release_click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_circle_selected"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18dp"
+                        android:text="有无钥匙"
+                        android:textColor="@color/register_font"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:id="@+id/keying_tv_release"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_circle_normal" />
+
+                    <ImageView
+                        android:id="@+id/keying_tv_release_click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_circle_selected"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_Occupation_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/Occupation_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="家具家电情况"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="27dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/Occupation_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_release_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="49dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:padding="10dp"
+                        android:text="装修情况"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_release1_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release1_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="房本情况"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release1_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_release2_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release2_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="朝向"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release2_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_release3_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release3_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="住宅类型"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release3_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/title_ed_release"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="标题信息（30字内）"
+                android:padding="9dp"
+                android:textColorHint="@color/login_walling_fort" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="房屋亮点标签"
+                android:textColor="@color/register_font"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_release_sell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingRight="30dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置独家标签"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（需输入详细地址，不对外显示）"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="17dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/exclusive_ed_release"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:text="独家"
+                    android:textColor="@color/register_font" />
+
+                <EditText
+                    android:id="@+id/floorSize_ed_release"
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center"
+                    android:hint="楼号"
+                    android:padding="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:textColor="@color/register_font" />
+
+                <EditText
+                    android:id="@+id/pdu_ed_release"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center"
+                    android:hint="单元号"
+                    android:padding="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:textColor="@color/register_font" />
+
+                <EditText
+                    android:id="@+id/houseNumber_ed_release"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center"
+                    android:hint="居室"
+                    android:padding="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingRight="7dp"
+                    android:textColor="@color/register_font" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="置顶"
+                    android:textColor="@color/red_setting"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/stick_ed_release"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/icon_circle_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="点此前往充值"
+                    android:textColor="@color/red_setting"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="14dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:text="上传照片(最多9张)"
+                android:textColor="@color/register_font"
+                android:textSize="14dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/list_item_image" />
+
+            <TextView
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="19dp"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
