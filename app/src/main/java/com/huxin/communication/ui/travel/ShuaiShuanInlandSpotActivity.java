@@ -142,7 +142,7 @@ public class ShuaiShuanInlandSpotActivity extends BaseActivity {
             mAdapter = new ShuaiShuanInlandSpotAdapter(list, ShuaiShuanInlandSpotActivity.this);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(spaceItemDecoration);
+//            mRecyclerView.addItemDecoration(spaceItemDecoration);
         }
 
     }

@@ -43,7 +43,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
     @Override
     public MyViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        if (PreferenceUtil.getInt("type") == 1) {
+//        if (PreferenceUtil.getInt("type") == 1) {
             View view = mInflater.inflate(R.layout.recycler_home_item, parent, false);
             hoder = new MyViewHoder(view);
             hoder.Tm.setOnClickListener(new View.OnClickListener() {
@@ -59,10 +59,10 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                 }
             });
 
-        } else {
-            View view = mInflater.inflate(R.layout.recycler_home_item_travel, parent, false);
-            hoder = new MyViewHoder(view);
-        }
+//        } else {
+//            View view = mInflater.inflate(R.layout.recycler_home_item_travel, parent, false);
+//            hoder = new MyViewHoder(view);
+//        }
         return hoder;
     }
 

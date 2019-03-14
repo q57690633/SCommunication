@@ -925,15 +925,15 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                                       String goals_name, String t_activity_id,
                                       String t_stay_id, String t_other_id,
                                       String t_address_id, String t_traffic_id,
-                                      String t_overseas_id,
-                                      String t_consume_id, String sort_type,
+                                      String t_overseas_id
+                   ,                   String t_consume_id, String sort_type,
                                       String minPri_maxPri, String number_days,
                                       String keyWord, String curPage, String uid,
                                       String line_or_throw) {
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, line_or_throw)
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, line_or_throw,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);

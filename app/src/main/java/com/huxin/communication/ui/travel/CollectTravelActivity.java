@@ -309,59 +309,59 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             if (travelType == 1 || travelType == 2) {
                 gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), "", qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType));
+                        null, null, null,
+                        "1", null, null, String.valueOf(travelType));
             } else if (travelType == 3) {
-                gettingForeignTravel(ChufaCityCode, "", "", MuDi.substring(1, MuDi.length() - 1), "", huodong, zhushu, qita,
-                        didian, jiaotong, "", xiaofei, productType, "", "", "",
+                gettingForeignTravel(ChufaCityCode, null, null, MuDi.substring(1, MuDi.length() - 1), null, huodong, zhushu, qita,
+                        didian, jiaotong, null, xiaofei, productType, null, null, null,
                         "1");
             } else {
-                getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "", productType, "", "1");
+                getTicketInfo("1", ChufaCityCode, null, null,
+                        null, null, productType, null, "1");
             }
 
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode, "", "", qita
+                gettingAroundTravel(ChufaCityCode, null, null, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType));
+                        null, null, null,
+                        "1", null, null, String.valueOf(travelType));
             } else if (travelType == 3) {
-                gettingForeignTravel(ChufaCityCode, "", "", "", "", huodong, zhushu, qita,
-                        didian, jiaotong, "", xiaofei, productType, "", "", "",
+                gettingForeignTravel(ChufaCityCode, null, null, null, null, huodong, zhushu, qita,
+                        didian, jiaotong, null, xiaofei, productType, null, null, null,
                         "1");
             } else {
-                getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "", productType, "", "1");
+                getTicketInfo("1", ChufaCityCode, null, null,
+                        null, null, productType, null, "1");
             }
 
         } else if (!TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), "", ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType));
+                gettingAroundTravel(null, MuDi.substring(1, MuDi.length() - 1), null, null
+                        , null, null, null, null, null,
+                        null, null, null,
+                        "1", null, null, String.valueOf(travelType));
             } else if (travelType == 3) {
-                gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "",
-                        "", "", "", xiaofei, productType, "", "", "",
+                gettingForeignTravel(null, null, null, MuDi.substring(1, MuDi.length() - 1), null, null, null, null,
+                        null, null, null, xiaofei, productType, null, null, null,
                         "1");
             } else {
-                getTicketInfo("1", "", "", "",
-                        "", "", productType, "", "1");
+                getTicketInfo("1", null, null, null,
+                        null, null, productType, null, "1");
             }
         } else {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("", "", "", ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType));
+                gettingAroundTravel(null, null, null, null
+                        , null, null, null, null, null,
+                        null, null, null,
+                        "1", null, null, String.valueOf(travelType));
             } else if (travelType == 3) {
-                gettingForeignTravel("", "", "", "", "", "", "", "",
-                        "", "", "", "", "", "", "", "",
+                gettingForeignTravel(null, null, null, null, null, null, null, null,
+                        null, null, null, null, null, null, null, null,
                         "1");
             } else {
-                getTicketInfo("1", "", "", "",
-                        "", "", productType, "", "1");
+                getTicketInfo("1", null, null, null,
+                        null, null, productType, null, "1");
             }
         }
 
@@ -371,17 +371,17 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
-            gettingAroundTravel("", "", "", ""
-                    , "", "", "", "", "",
-                    "", "", "",
-                    "1", "", "", String.valueOf(travelType));
+            gettingAroundTravel(null, null, null, null
+                    , null, null, null, null, null,
+                    null, null, null,
+                    "1", null, null, String.valueOf(travelType));
         } else if (travelType == 3) {
-            gettingForeignTravel("", "", "", "", "", "", "", "",
-                    "", "", "", "", "", "", "", "",
+            gettingForeignTravel(null, null, null, null, null, null, null, null,
+                    null, null, null, null, null, null, null, null,
                     "1");
         } else {
-            getTicketInfo("1", "", "", "",
-                    "", "", productType, "", "1");
+            getTicketInfo("1", null, null, null,
+                    null, null, productType, null, "1");
         }
     }
 
@@ -487,17 +487,17 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 KyLog.d(xiaofei);
 
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel("", "", "", qita
+                    gettingAroundTravel(null, null, null, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
-                            "", "", "",
-                            "1", "", "", String.valueOf(travelType));
+                            null, null, null,
+                            "1", null, null, String.valueOf(travelType));
                 } else if (travelType == 3) {
-                    gettingForeignTravel("", "", "", "", "", huodong, zhushu, qita,
-                            didian, jiaotong, "", xiaofei, productType, "", "", "",
+                    gettingForeignTravel(null, null, null, null, null, huodong, zhushu, qita,
+                            didian, jiaotong, null, xiaofei, productType, null, null, null,
                             "1");
                 } else {
-                    getTicketInfo("1", "", "", "",
-                            "", "", productType, "", "1");
+                    getTicketInfo("1", null, null, null,
+                            null, null, productType, null, "1");
                 }
                 break;
             case R.id.price_Determine:
@@ -506,50 +506,50 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 if (travelType == 1 || travelType == 2) {
                     //国内和周边
                     if (Integer.parseInt(minPrice) < 500) {
-                        gettingAroundTravel("", "", "", ""
-                                , "", "", "", "", "",
-                                0 + "," + maxPrice, "", "",
-                                "1", "", "", String.valueOf(travelType));
+                        gettingAroundTravel(null, null, null, null
+                                , null, null, null, null, null,
+                                0 + "," + maxPrice, null, null,
+                                "1", null, null, String.valueOf(travelType));
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        gettingAroundTravel("", "", "", ""
-                                , "", "", "", "", "",
-                                minPrice + "," + maxPrice, "", "",
-                                "1", "", "", String.valueOf(travelType));
+                        gettingAroundTravel(null, null, null, null
+                                , null, null, null, null, null,
+                                minPrice + "," + maxPrice, null, null,
+                                "1", null, null, String.valueOf(travelType));
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        gettingAroundTravel("", "", "", ""
-                                , "", "", "", "", "",
-                                7000 + "," + 1000000, "", "",
-                                "1", "", "", String.valueOf(travelType));
+                        gettingAroundTravel(null, null, null, null
+                                , null, null, null, null, null,
+                                7000 + "," + 1000000, null, null,
+                                "1", null, null, String.valueOf(travelType));
                     }
                 } else if (travelType == 3) {
                     //境外游
                     if (Integer.parseInt(minPrice) < 500) {
-                        gettingForeignTravel("", "", "", "", "", "", "", "",
-                                "", "", "", "", "", 0 + "," + maxPrice, "", "",
+                        gettingForeignTravel(null, null, null, null, null, null, null, null,
+                                null, null, null, null, null, 0 + "," + maxPrice, null, null,
                                 "1");
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        gettingForeignTravel("", "", "", "", "", "", "", "",
-                                "", "", "", "", "", minPrice + "," + maxPrice, "", "",
+                        gettingForeignTravel(null, null, null, null, null, null, null, null,
+                                null, null, null, null, null, minPrice + "," + maxPrice, null, null,
                                 "1");
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        gettingForeignTravel("", "", "", "", "", "", "", "",
-                                "", "", "", "", "", 7000 + "," + 1000000, "", "",
+                        gettingForeignTravel(null, null, null, null, null, null, null, null,
+                                null, null, null, null, null, 7000 + "," + 1000000, null, null,
                                 "1");
                     }
                 } else {
                     //票务
                     if (Integer.parseInt(minPrice) < 500) {
-                        getTicketInfo("1", "", 0 + "," + maxPrice, "",
-                                "", "", "", "", "1");
+                        getTicketInfo("1", null, 0 + "," + maxPrice, null,
+                                null, null, null, null, "1");
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        getTicketInfo("1", "", minPrice + "," + maxPrice, "",
-                                "", "", "", "", "1");
+                        getTicketInfo("1", null, minPrice + "," + maxPrice, null,
+                                null, null, null, null, "1");
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        getTicketInfo("1", "", 7000 + "," + 1000000, "",
-                                "", "", "", "", "1");
+                        getTicketInfo("1", null, 7000 + "," + 1000000, null,
+                                null, null, null, null, "1");
                     }
                 }
 
@@ -557,17 +557,17 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             case R.id.sort_Determine:
                 updata();
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel("", "", productType, ""
-                            , "", "", "", "", "",
-                            "", "", "",
-                            "1", "", "", String.valueOf(travelType));
+                    gettingAroundTravel(null, null, productType, null
+                            , null, null, null, null, null,
+                            null, null, null,
+                            "1", null, null, String.valueOf(travelType));
                 } else if (travelType == 3) {
-                    gettingForeignTravel("", "", "", "", "", "", "", "",
-                            "", "", "", "", productType, "", "", "",
+                    gettingForeignTravel(null, null, null, null, null, null, null, null,
+                            null, null, null, null, productType, null, null, null,
                             "1");
                 } else {
-                    getTicketInfo("1", "", "", "",
-                            "", "", productType, "", "1");
+                    getTicketInfo("1", null, null, null,
+                            null, null, productType, null, "1");
                 }
 
                 break;
@@ -1018,10 +1018,10 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(1));
+                gettingAroundTravel(null, null, null, null
+                        , null, null, null, null, null,
+                        null, null, null,
+                        "1", null, null, String.valueOf(1));
                 travelType = 1;
                 break;
             case R.id.guoneiyou:
@@ -1033,10 +1033,10 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(2));
+                gettingAroundTravel(null, null, null, null
+                        , null, null, null, null, null,
+                        null, null, null,
+                        "1", null, null, String.valueOf(2));
                 travelType = 2;
                 break;
             case R.id.jingwaiyou:
@@ -1048,8 +1048,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingForeignTravel("", "", "", "", "", "", "", "",
-                        "", "", "", "", "", "", "", "",
+                gettingForeignTravel(null, null, null, null, null, null, null, null,
+                        null, null, null, null, null, null, null, null,
                         "1");
                 travelType = 3;
                 break;
@@ -1062,8 +1062,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.white));
-                getTicketInfo("1", "", "", "",
-                        "", "", "", "", "1");
+                getTicketInfo("1", null, null, null,
+                        null, null, null, null, "1");
                 travelType = 4;
                 break;
             case R.id.toolbar_right:
@@ -1190,7 +1190,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
         ApiModule.getInstance().getCollectAround(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind)
+                numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind,String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
@@ -1216,7 +1216,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
         ApiModule.getInstance().getCollectForeign(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)))
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)),String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
@@ -1244,7 +1244,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
         ApiModule.getInstance().getCollectTicket(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)))
+                keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)),String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     if (ticketInfoEntity != null) {

@@ -129,7 +129,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private TextView mTextViewAddVillageName;
     private SelectByLikeAdapter mSelectBylikeAdapter;
 
-    private String type = "";
+    private String type = null;
 
 
     @Override
@@ -604,7 +604,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                         mTabAdapter = new ReleaseTabAdapter(selectTabEntity.getTag(), this);
                         mRecyclerView.setAdapter(mTabAdapter);
                         mRecyclerView.setLayoutManager(manager);
-                        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
                     }
 
                 }, throwable -> {
@@ -647,11 +647,12 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode + "");
+        KyLog.d(requestCode + "=== data  == " + data ) ;
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                    KyLog.object(images);
                 if (images != null) {
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
@@ -711,7 +712,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         KyLog.d(purpose + "");
         KyLog.d(houseType + "");
 //        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
-
+        showProgressDialog();
         if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
@@ -749,7 +750,8 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
-                KyLog.d("image == " + e.toString());
+                    KyLog.d("image == " + e.toString());
+                cancelProgressDialog();
 
             }
 
@@ -757,8 +759,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
+                cancelProgressDialog();
+                Toast.makeText(ReleaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+
                 //返回图片的地址
-                if("".equalsIgnoreCase(type)) {
+                if(TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else {

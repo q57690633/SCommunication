@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText mEditTextPassWord;
     private TextView mTextviewRegister;
     private TimeCount mTimeCount;
+
+    private ImageView mImageViewChickbox;
+    private ImageView mImageViewChicked;
+    private TextView mTextViewWalling;
+
+    private boolean isClicked = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mTextVieSendCode = (TextView) findViewById(R.id.send_code);
         mTextviewRegister = (TextView) findViewById(R.id.register);
         mEditTextSendCode = (EditText) findViewById(R.id.verification_code);
+
+        mTextViewWalling = (TextView) findViewById(R.id.tv_walling);
+        mImageViewChickbox = (ImageView) findViewById(R.id.checkBos);
+        mImageViewChicked = (ImageView) findViewById(R.id.checkBos_clicked);
+
+        mImageViewChickbox.setOnClickListener(this);
         mTextviewRegister.setOnClickListener(this);
         mTextVieSendCode.setOnClickListener(this);
     }
@@ -57,10 +71,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register:
-                registerData();
+                if (isClicked) {
+                    registerData();
+                } else {
+                    Toast.makeText(this, "请同意《互信用户服务协议》及《互信隐私权政策》", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.send_code:
                 SendMessageData();
+                break;
+            case R.id.checkBos:
+                if (isClicked) {
+                    mImageViewChicked.setVisibility(View.GONE);
+                    isClicked = false;
+                } else {
+                    mImageViewChicked.setVisibility(View.VISIBLE);
+                    isClicked = true;
+                }
                 break;
 
         }

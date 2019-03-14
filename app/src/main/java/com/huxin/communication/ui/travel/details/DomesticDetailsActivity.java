@@ -138,7 +138,8 @@ public class DomesticDetailsActivity extends BaseActivity {
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel("", "", "", ""
                 , "", "", "", "", "",
-                "", "", "","1", "", "", null,"2","")
+                "", "", "","1", "", "", null,"2","",
+                "0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     mList = aroundTravelEntity.getList();

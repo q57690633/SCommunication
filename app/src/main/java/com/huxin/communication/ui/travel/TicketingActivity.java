@@ -927,7 +927,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         showProgressDialog();
         ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                keyWord, curPage, null)
+                keyWord, curPage, null,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     if (ticketInfoEntity != null) {

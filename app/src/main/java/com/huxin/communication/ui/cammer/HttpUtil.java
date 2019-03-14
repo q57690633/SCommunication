@@ -42,13 +42,18 @@ public class HttpUtil {
         Map<String, File> files = new HashMap<>();
         if (pathList != null && pathList.size() > 0) {
             for (int i = 0; i < pathList.size(); i++) {
-                String newPath = BitmapUtils.compressImageUpload(pathList.get(i).path);
-                files.put(pathList.get(i).name + i, new File(newPath));
+//                String newPath = BitmapUtils.compressImageUpload(pathList.get(i).path);
+                String[] path = pathList.get(i).path.split("/");
+                String str = path[path.length - 1];
+                KyLog.d(str);
+                files.put(str + i, new File(pathList.get(i).path));
+//                files.put(pathList.get(i).name + i, new File(newPath));
+
             }
         }
 
-        KyLog.d(files + "");
-        KyLog.d(url + "");
+        KyLog.d(files + "travel");
+        KyLog.d(url + "travel");
 
         mPost.url(url)
                 .params(params)

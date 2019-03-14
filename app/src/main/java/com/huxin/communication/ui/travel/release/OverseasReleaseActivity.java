@@ -513,7 +513,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 TotalPriceChild, finalPriceChild, ReturnPriceChild, address, traffic, cons,
                 activity, stay, other, TravelTitle, Generalize, null,
                 String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC))
+                String.valueOf(zeroC),"")
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -759,6 +759,8 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         map.put("stick_hot", String.valueOf(hot));
         map.put("stick_zeroC", String.valueOf(zeroC));
         map.put("token", PreferenceUtil.getString(TOKEN));
+        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+
 
         String url="http://39.105.203.33/jlkf/mutual-trust/travel/issueForeignRoute";
 

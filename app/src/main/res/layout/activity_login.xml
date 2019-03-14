@@ -56,45 +56,7 @@
             android:background="@color/login_line" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="38dp"
-            android:layout_marginRight="38dp"
-            android:layout_marginTop="14dp"
-            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/checkBos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/btn_square_normal" />
-                <ImageView
-                    android:id="@+id/checkBos_clicked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/btn_square_press"
-                    android:visibility="gone"/>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_walling"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="我已阅读并同意《互信用户服务协议》及《互信隐私权政策》"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="12dp" />
-
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/login"

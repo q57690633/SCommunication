@@ -123,7 +123,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private boolean isclickedStick = true;
     private ImageView mImageViewStick;
 
-    private String type = "";
+    private String type = null;
 
 
     @Override
@@ -757,7 +757,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        showProgressDialog();
 
         Map<String,String> map = new HashMap<>();
         map.put("villageName",VillageName);
@@ -791,6 +791,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d(e + " cuowu == " +  "call == " + call  );
+                Toast.makeText(ReleseLaseActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
+                cancelProgressDialog();
             }
 
             @Override
@@ -798,7 +801,9 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 super.onResponse(response, id);
                 //返回图片的地址
                 KyLog.d(response);
-                if("".equalsIgnoreCase(type)) {
+                cancelProgressDialog();
+                Toast.makeText(ReleseLaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleseLaseActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else {

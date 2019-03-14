@@ -1064,7 +1064,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows)
+                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);

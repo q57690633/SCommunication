@@ -36,15 +36,14 @@ import java.util.List;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private ImageView mImageViewChickbox;
     private ImageView mImageViewChicked;
+    private TextView mTextViewWalling;
 
     private TextView mTextViewForgetPassWord;
-    private TextView mTextViewWalling;
     private TextView mTextViewLogin;
     private TextView mTextViewRegister;
 
     private EditText mEditTextPhone;
     private EditText mEditTextPassWord;
-    private boolean isClicked = false;
 
     public static void jumpTo(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -71,14 +70,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         mTextViewLogin = (TextView) findViewById(R.id.login);
         mTextViewRegister = (TextView) findViewById(R.id.register);
-        mTextViewWalling = (TextView) findViewById(R.id.tv_walling);
         mTextViewForgetPassWord = (TextView) findViewById(R.id.forget_password);
 
-        mImageViewChickbox = (ImageView) findViewById(R.id.checkBos);
 
-        mImageViewChicked = (ImageView) findViewById(R.id.checkBos_clicked);
-
-        mImageViewChickbox.setOnClickListener(this);
         mTextViewLogin.setOnClickListener(this);
         mTextViewForgetPassWord.setOnClickListener(this);
         mTextViewRegister.setOnClickListener(this);
@@ -98,20 +92,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 Intent intent = new Intent(this, ForgetPassWordActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.checkBos:
-                if (isClicked) {
-                    mImageViewChicked.setVisibility(View.GONE);
-                    isClicked = false;
-                } else {
-                    mImageViewChicked.setVisibility(View.VISIBLE);
-                    isClicked = true;
-                }
-                break;
+
             case R.id.login:
                 loginData();
-//                Intent intentLogin = new Intent(this, MainActivity.class);
-//                startActivity(intentLogin);
-//                PreferenceUtil.putInt("type", 1);
                 break;
             case R.id.register:
                 Intent intentRegister = new Intent(this, RegisterOneActivity.class);
@@ -125,82 +108,77 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         String phone = mEditTextPhone.getText().toString().trim();
         String password = mEditTextPassWord.getText().toString().trim();
         if (!TextUtils.isEmpty(password) && !TextUtils.isEmpty(phone)) {
+            showProgressDialog();
+            ApiModule.getInstance().logins(phone, password)
+                    .subscribe(loginEntity -> {
+                        KyLog.i("----------登录---------");
+                        KyLog.object(loginEntity);
 
-
-            if (isClicked) {
-                showProgressDialog();
-                ApiModule.getInstance().logins(phone, password)
-                        .subscribe(loginEntity -> {
-                            KyLog.i("----------登录---------");
-                            KyLog.object(loginEntity);
-
-                            if (TextUtils.isEmpty(loginEntity.getCity())) {
-                                Intent intent = new Intent(this, RegisterInformationActivity.class);
-                                startActivity(intent);
-                                return;
-                            }
+                        if (TextUtils.isEmpty(loginEntity.getCity())) {
+                            Intent intent = new Intent(this, RegisterInformationActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
 //                            Intent intentLogin = new Intent(this, MainActivity.class);
 //                            startActivity(intentLogin);
-                            PreferenceUtil.putInt("type", loginEntity.getRegisterType());
-                            PreferenceUtil.putString(TOKEN, loginEntity.getToken());
-                            PreferenceUtil.putInt(UID, loginEntity.getUid());
-                            PreferenceUtil.putString("usersig", loginEntity.getUsersig());
-                            PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
-                            PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
-                            PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getArea());
-                            if (!TextUtils.isEmpty(loginEntity.getProvince())) {
-                                PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
+                        PreferenceUtil.putInt("type", loginEntity.getRegisterType());
+                        PreferenceUtil.putString(TOKEN, loginEntity.getToken());
+                        PreferenceUtil.putInt(UID, loginEntity.getUid());
+                        PreferenceUtil.putString("usersig", loginEntity.getUsersig());
+                        PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
+                        PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
+                        PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getArea());
+                        if (!TextUtils.isEmpty(loginEntity.getProvince())) {
+                            PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
+                        }
+
+                        PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
+                        PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
+                        PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
+                        PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
+                        PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
+                        PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
+                        PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
+                        PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
+                        PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
+
+
+                        TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
+                            @Override
+                            public void onError(int i, String s) {
+                                Toast.makeText(LoginActivity.this, "error" + s, Toast.LENGTH_SHORT).show();
+
                             }
 
-                            PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
-                            PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
-                            PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
-                            PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
-                            PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
-                            PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
-                            PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
-                            PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
-                            PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
-
-
-                            TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
-                                @Override
-                                public void onError(int i, String s) {
-                                    Toast.makeText(LoginActivity.this, "error" + s, Toast.LENGTH_SHORT).show();
-
-                                }
-
-                                @Override
-                                public void onSuccess() {
-                                    Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intentLogin);
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                            @Override
+                            public void onSuccess() {
+                                Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intentLogin);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 //
-                                }
-                            });
-
-                            cancelProgressDialog();
-                        }, throwable -> {
-                            cancelProgressDialog();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(LoginActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                                    KyLog.d(throwable.toString());
-
-
-                                }
-                            });
+                            }
                         });
 
-            } else {
-                Toast.makeText(this, "请同意《互信用户服务协议》及《互信隐私权政策》", Toast.LENGTH_SHORT).show();
-            }
+                        cancelProgressDialog();
+                    }, throwable -> {
+                        cancelProgressDialog();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                KyLog.d(throwable.toString());
+
+
+                            }
+                        });
+                    });
+
+
         } else {
             Toast.makeText(this, "请填写手机号码或密码", Toast.LENGTH_SHORT).show();
         }

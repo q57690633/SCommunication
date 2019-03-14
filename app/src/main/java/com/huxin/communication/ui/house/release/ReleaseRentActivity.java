@@ -95,7 +95,7 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
     private HttpUtil httpUtil;
 
-    private String type = "";
+    private String type = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -454,7 +454,7 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
-
+            showProgressDialog();
 
         Map<String,String> map = new HashMap<>();
         map.put("villageName",VillageName);
@@ -482,6 +482,9 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d("image == " + e.toString());
+                Toast.makeText(ReleaseRentActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
+                cancelProgressDialog();
 
             }
 
@@ -489,8 +492,10 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
+                cancelProgressDialog();
+                Toast.makeText(ReleaseRentActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 //返回图片的地址
-                if("".equalsIgnoreCase(type)) {
+                if(TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseRentActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else {

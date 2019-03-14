@@ -531,7 +531,8 @@ public interface BaiHangTongYeService {
                                                                  @Field("token") String token, @Field("keyWord") String keyWord,
                                                                  @Field("curPage") String curPage,
                                                                  @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid,
-                                                                 @Field("travel_kind") String travel_kind, @Field("lineOrThrow") String lineOrThrow);
+                                                                 @Field("travel_kind") String travel_kind, @Field("lineOrThrow") String lineOrThrow,
+                                                                 @Field("ifSevenInfo") String ifSevenInfo, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 国外游筛选和搜索
@@ -550,7 +551,8 @@ public interface BaiHangTongYeService {
                                                                    @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
                                                                    @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                    @Field("token") String token, @Field("keyWord") String keyWord,
-                                                                   @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw);
+                                                                   @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
+                                                                   @Field("ifSevenInfo") String ifSevenInfo, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 票务筛选
@@ -565,7 +567,8 @@ public interface BaiHangTongYeService {
                                                          @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
                                                          @Field("sort_type") String sort_type, @Field("token") String token,
                                                          @Field("keyWord") String keyWord,
-                                                         @Field("curPage") String curPage, @Field("uid") String uid);
+                                                         @Field("curPage") String curPage, @Field("uid") String uid,
+                                                         @Field("ifSevenInfo") String ifSevenInfo, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 踩线或甩位-国外
@@ -583,7 +586,8 @@ public interface BaiHangTongYeService {
                                                                                  @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
                                                                                  @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,
                                                                                  @Field("t_overseas_id") String t_overseas_id, @Field("minPri_maxPri") String minPri_maxPri,
-                                                                                 @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type);
+                                                                                 @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
+                                                                                 @Field("ifSevenInfo") String ifSevenInfo, @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -595,7 +599,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/selectHome")
-    Observable<Response<HomeTravelEntity>> getTravelHome(@Field("city_name") String city_name, @Field("token") String token);
+    Observable<Response<HomeTravelEntity>> getTravelHome(@Field("city_name") String city_name, @Field("token") String token, @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -625,7 +629,7 @@ public interface BaiHangTongYeService {
                                                               @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                                               @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
                                                               @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
-                                                              @Field("travel_kind") String travel_kind);
+                                                              @Field("travel_kind") String travel_kind,@Field("user_idForCol") String user_idForCol);
 
     /**
      * 发布国外游
@@ -652,7 +656,7 @@ public interface BaiHangTongYeService {
                                                                 @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
                                                                 @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
                                                                 @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot,
-                                                                @Field("stick_zeroC") String stick_zeroC);
+                                                                @Field("stick_zeroC") String stick_zeroC,@Field("user_idForCol") String user_idForCol);
 
     /**
      * 发布票务
@@ -681,7 +685,8 @@ public interface BaiHangTongYeService {
                                                                    @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
                                                                    @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                                                    @Field("generalize") String generalize, @Field("original_price_total") String original_price_total,
-                                                                   @Field("final_price_total") String final_price_total, @Field("ticket_pro_code") String ticket_pro_code);
+                                                                   @Field("final_price_total") String final_price_total, @Field("ticket_pro_code") String ticket_pro_code,
+                                                                   @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -755,7 +760,7 @@ public interface BaiHangTongYeService {
                                                               @Field("token") String token, @Field("keyWord") String keyWord,
                                                               @Field("curPage") String curPage,
                                                               @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid,
-                                                              @Field("travel_kind") String travel_kind);
+                                                              @Field("travel_kind") String travel_kind,@Field("user_idForCol") String user_idForCol);
 
     /**
      * 个人收藏查询-境外
@@ -771,7 +776,7 @@ public interface BaiHangTongYeService {
                                                                 @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
                                                                 @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                 @Field("token") String token, @Field("keyWord") String keyWord,
-                                                                @Field("curPage") String curPage, @Field("uid") String uid);
+                                                                @Field("curPage") String curPage, @Field("uid") String uid,@Field("user_idForCol") String user_idForCol);
 
     /**
      * 个人收藏查询-票务
@@ -783,7 +788,7 @@ public interface BaiHangTongYeService {
                                                             @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
                                                             @Field("sort_type") String sort_type, @Field("token") String token,
                                                             @Field("keyWord") String keyWord,
-                                                            @Field("curPage") String curPage, @Field("uid") String uid);
+                                                            @Field("curPage") String curPage, @Field("uid") String uid,@Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -870,7 +875,8 @@ public interface BaiHangTongYeService {
                                                                    @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
                                                                    @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                                                    @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
-                                                                   @Field("goals_city_code") String goals_city_code, @Field("id") String id);
+                                                                   @Field("goals_city_code") String goals_city_code, @Field("id") String id,
+                                                                   @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -890,7 +896,8 @@ public interface BaiHangTongYeService {
                                                                      @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
                                                                      @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                      @Field("token") String token, @Field("keyWord") String keyWord,
-                                                                     @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw);
+                                                                     @Field("curPage") String curPage, @Field("uid") String uid, @Field("line_or_throw") String line_or_throw,
+                                                                     @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -906,7 +913,8 @@ public interface BaiHangTongYeService {
                                                                  @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
                                                                  @Field("sort_type") String sort_type, @Field("token") String token,
                                                                  @Field("keyWord") String keyWord,
-                                                                 @Field("curPage") String curPage, @Field("uid") String uid);
+                                                                 @Field("curPage") String curPage, @Field("uid") String uid,
+                                                                 @Field("ifSevenInfo") String ifSevenInfo,@Field("user_idForCol") String user_idForCol);
 
     /**
      * 跳转到vip

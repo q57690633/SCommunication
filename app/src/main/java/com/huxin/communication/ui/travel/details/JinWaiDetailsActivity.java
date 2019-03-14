@@ -136,7 +136,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel("", "", "", ""
                 , "", "", "", "", "",
-                "", "", "", "", "", "","","1",null,"")
+                "", "", "", "", "", "","","1",null,"",
+                "0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     mList = foreignTravelEntity.getList();
 

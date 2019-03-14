@@ -390,7 +390,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 null, null, null, String.valueOf(stick), String.valueOf(caixian),
                 null, String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
                 String.valueOf(zeroC), null,
-                OriginalPriceTotal, FinalPriceTotal, "")
+                OriginalPriceTotal, FinalPriceTotal, "",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -605,6 +605,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         map.put("original_price_total", OriginalPriceTotal);
         map.put("final_price_total", FinalPriceTotal);
         map.put("ticket_pro_code", "");
+        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+
 
         String url="http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
 

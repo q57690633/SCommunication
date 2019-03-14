@@ -135,7 +135,7 @@ public class TicketingDetailsActivity extends BaseActivity {
     private void gettingForeignTravel() {
         showProgressDialog();
         ApiModule.getInstance().getTicketInfo("1", PreferenceUtil.getString(Constanst.CITY_NATION_NAME), "", ""
-                , "", "", "", "", "1",null)
+                , "", "", "", "", "1",null,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     mList = ticketInfoEntity.getList();

@@ -496,7 +496,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 Address, Traffic, Consume, Activity, Stay, Other,
                 TravelTitle, Generalize, String.valueOf(stick), String.valueOf(caixian), null, String.valueOf(news),
                 String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME), "1")
+                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME), "1","")
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -747,23 +747,28 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
         map.put("travel_kind", "1");
         map.put("token", PreferenceUtil.getString(TOKEN));
+        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+
 
 
         String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueAroundRoute";
+        KyLog.object(map);
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
-                KyLog.d(e + "");
+                KyLog.d(e + "travel");
+                cancelProgressDialog();
             }
 
             @Override
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
                 //返回图片的地址
-                KyLog.d(response);
+                cancelProgressDialog();
+                KyLog.d(response + "travel");
                 Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
                 startActivity(intent);
             }

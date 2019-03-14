@@ -434,7 +434,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private void initDataTravel() {
 //        showProgressDialog();
-        ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME))
+        ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME),String.valueOf(PreferenceUtil.getInt("uid")))
                 .subscribe(homeTravelEntity -> {
 //                    cancelProgressDialog();
                     if (homeTravelEntity != null) {

@@ -97,7 +97,7 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
     private SelectByLikeAdapter mSelectBylikeAdapter;
 
     private HttpUtil httpUtil;
-    private String type = "";
+    private String type = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -460,7 +460,7 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
             return;
         }
 
-
+        showProgressDialog();
         Map<String,String> map = new HashMap<>();
         map.put("villageName",VillageName);
         map.put("unlimitedEstate",String.valueOf(unlimitedEstate));
@@ -485,6 +485,9 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d("image == " + e.toString());
+                Toast.makeText(ReleaseBuyActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
+                cancelProgressDialog();
 
             }
 
@@ -492,8 +495,10 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
             public void onResponse(String response, int id) {
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
+                cancelProgressDialog();
+                Toast.makeText(ReleaseBuyActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 //返回图片的地址
-                if("".equalsIgnoreCase(type)) {
+                if(TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseBuyActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else {

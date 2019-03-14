@@ -131,9 +131,10 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     private void gettingAroundTravel() {
         showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel(null, null, null, null
-                , null, null, null, null, null,
-                null, null, null,"1", null, null, null,"1","")
+        ApiModule.getInstance().gettingAroundTravel("", "", "", ""
+                , "", "", "", "", "",
+                "", "", "","1", "", "", "","1","",
+                "0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     mList = aroundTravelEntity.getList();
