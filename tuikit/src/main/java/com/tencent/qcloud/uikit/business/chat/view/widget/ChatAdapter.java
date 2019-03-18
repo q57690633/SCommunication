@@ -138,7 +138,6 @@ public class ChatAdapter extends IChatAdapter {
             case MessageInfo.MSG_TYPE_HOUSE_CUSTOM + 1:
             case MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM + 1:
             case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM + 1:
-                Log.i(TAG, "MessageInfo.MSG_TYPE_CUSTOM + 1");
                 if (mRecycleView.isDivided()) {
                     holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
                 }else {
@@ -394,7 +393,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }else if(jsonObject.getInt("houseType") == 3){
                         //求购
@@ -419,7 +418,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }else if(jsonObject.getInt("houseType") == 4){
                         //求租
@@ -444,7 +443,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
@@ -479,7 +478,48 @@ public class ChatAdapter extends IChatAdapter {
                     byte[] data = customElem.getData();
                     String str = new String(data);
                     Log.i(TAG, "MSG_TYPE_TRAVEL_CUSTOM str = " + str);
-                    JSONObject jsonObject = new JSONObject(str);
+                    JSONArray arrData = new JSONArray(str);
+                    for(int i = 0; i < arrData.length(); i++) {
+                        JSONObject object = arrData.getJSONObject(i).getJSONObject("data");
+                        JSONArray list = object.getJSONArray("list");
+                        for(int j = 0; j < list.length(); j++) {
+                            JSONObject dataObj = list.getJSONObject(i);
+                            String userName = dataObj.getString("username");
+                            String departName = dataObj.getString("depart_name");
+                            String goalsCity = dataObj.getString("goals_city");
+                            String totalPrice = dataObj.getString("totalPrice");
+                            String returnPrice = dataObj.getString("finalPrice");
+                            String totalPriceChild = dataObj.getString("totalPriceChild");
+                            String returnPriceChild = dataObj.getString("finalPriceChild");
+                            String spotName = dataObj.getString("spotName");
+                            String tagName = dataObj.getString("tagName");
+                            ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                            customHolder.houseLayout.setVisibility(View.GONE);
+                            customHolder.travelLayout.setVisibility(View.VISIBLE);
+                            customHolder.ticketingLayout.setVisibility(View.GONE);
+                            customHolder.businessCardLayout.setVisibility(View.GONE);
+                            customHolder.travelUserName.setText(userName);
+                            customHolder.travelDepartName.setText(departName);
+                            customHolder.travelGoalsCity.setText(goalsCity);
+                            totalPrice = mContext.getResources().getString(R.string.custom_travel_adult) + totalPrice;
+                            returnPrice = mContext.getResources().getString(R.string.custom_travel_return) + returnPrice;
+                            totalPriceChild = mContext.getResources().getString(R.string.custom_travel_child) + totalPriceChild;
+                            returnPriceChild = mContext.getResources().getString(R.string.custom_travel_return) + returnPriceChild;
+                            customHolder.travelTotalPrice.setText(totalPrice);
+                            customHolder.travelReturnPrice.setText(returnPrice);
+                            customHolder.travelTotalPriceChild.setText(totalPriceChild);
+                            customHolder.travelReturnPriceChild.setText(returnPriceChild);
+                            customHolder.travelSpotName.setText(spotName);
+                            ImageLoader.getInstance().displayImage(dataObj.getString("headUrl"), customHolder.travelHeadUrl);
+                            String[] tab = tagName.split(",");
+                            ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                            customHolder.travelTabRv.setLayoutManager(gridLayoutManager);
+                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.travelTabRv.setAdapter(adapter);
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1017,6 +1057,7 @@ public class ChatAdapter extends IChatAdapter {
         private LinearLayout travelLayout;
         private LinearLayout ticketingLayout;
         private LinearLayout businessCardLayout;
+        //房产
         private TextView villageName;//name
         private TextView houseType;//几房几厅
         private TextView acreage;//面积
@@ -1026,9 +1067,22 @@ public class ChatAdapter extends IChatAdapter {
         private TextView unitPrice;//单价
         private TextView orientation;//朝向
         private RecyclerView tabName_line;//标签
+        //名片
         private ImageView businessCardHeadUrl;
         private TextView businessCardName;
         private TextView businessCardPhone;
+        //旅游
+        private TextView travelUserName;
+        private TextView travelDepartName;
+        private TextView travelGoalsCity;
+        private TextView travelNumberDays;
+        private TextView travelTotalPrice;
+        private TextView travelReturnPrice;
+        private TextView travelTotalPriceChild;
+        private TextView travelReturnPriceChild;
+        private TextView travelSpotName;
+        private RecyclerView travelTabRv;
+        private ImageView travelHeadUrl;
 
         public ChatCustomHolder(View itemView) {
             super(itemView);
@@ -1051,6 +1105,19 @@ public class ChatAdapter extends IChatAdapter {
                 businessCardHeadUrl = businessCardLayout.findViewById(R.id.headUrl_iv);
                 businessCardName = businessCardLayout.findViewById(R.id.name_tv);
                 businessCardPhone = businessCardLayout.findViewById(R.id.phone_tv);
+            }
+            if(travelLayout != null) {
+                travelUserName = travelLayout.findViewById(R.id.username);
+                travelDepartName = travelLayout.findViewById(R.id.depart_name);
+                travelGoalsCity = travelLayout.findViewById(R.id.goals_city);
+                travelNumberDays = travelLayout.findViewById(R.id.numberDays);
+                travelTotalPrice = travelLayout.findViewById(R.id.totalPrice);
+                travelReturnPrice = travelLayout.findViewById(R.id.returnPrice);
+                travelTotalPriceChild = travelLayout.findViewById(R.id.totalPriceChild);
+                travelReturnPriceChild = travelLayout.findViewById(R.id.returnPriceChild);
+                travelSpotName = travelLayout.findViewById(R.id.spotName);
+                travelTabRv = travelLayout.findViewById(R.id.recycler_travel);
+                travelHeadUrl = travelLayout.findViewById(R.id.headUrl);
             }
         }
     }

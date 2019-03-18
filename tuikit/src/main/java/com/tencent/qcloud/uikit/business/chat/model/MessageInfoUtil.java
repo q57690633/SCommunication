@@ -33,6 +33,7 @@ import com.tencent.qcloud.uikit.common.UIKitConstants;
 import com.tencent.qcloud.uikit.common.utils.FileUtil;
 import com.tencent.qcloud.uikit.common.utils.ImageUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -347,6 +348,14 @@ public class MessageInfoUtil {
                         msgInfo.setMsgType(MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM);
                     }
                 } catch (JSONException e) {
+                    try {
+                        JSONArray array = new JSONArray(data);
+                        if(2 == array.getJSONObject(0).getInt("type")) {
+                            msgInfo.setMsgType(MessageInfo.MSG_TYPE_TRAVEL_CUSTOM);
+                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
                     e.printStackTrace();
                 }
                 if (data.equals(GROUP_CREATE)) {

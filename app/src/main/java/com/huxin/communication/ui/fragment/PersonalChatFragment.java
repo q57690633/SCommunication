@@ -50,6 +50,7 @@ import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -284,7 +285,19 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(resultCode == Activity.RESULT_OK && requestCode == 2) {
             String str = data.getStringExtra("msg");
             KyLog.i("onActivityResult str = " + str);
-            msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(str.getBytes(), "sell message"));
+            try {
+                JSONObject dataJson = new JSONObject(str);
+                if(dataJson.getInt("type") == 1) {
+                    msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(str.getBytes(), "sell message"));
+                }
+                if(dataJson.getInt("type") == 2) {
+                    JSONArray arr = dataJson.getJSONArray("arrData");
+                    msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(arr.toString().getBytes(), "sell message"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
         if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
             new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);

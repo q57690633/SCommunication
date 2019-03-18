@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.travel.release;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +42,7 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -883,11 +885,21 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                     startActivity(intent);
                 } else {
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
+                        JSONObject res = new JSONObject();
+
+                        JSONArray array = new JSONArray();
+                        JSONObject jsonObject = new JSONObject();
                         jsonObject.put("type", 2);
-                        String data = jsonObject.toString();
+                        jsonObject.put("travelType", 2);
+                        JSONObject data = new JSONObject(response).getJSONObject("data");
+                        jsonObject.put("data", data);
+                        array.put(jsonObject);
+
+                        res.put("type", 2);
+                        res.put("arrData" , array);
+                        String result = res.toString();
                         Bundle bundle = new Bundle();
-                        bundle.putString("msg", data);
+                        bundle.putString("msg", result);
                         Intent intent = getIntent();
                         intent.putExtras(bundle);
                         setResult(android.app.Activity.RESULT_OK, intent);
