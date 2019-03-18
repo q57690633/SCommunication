@@ -166,6 +166,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_overseas_release);
+        httpUtil = new HttpUtil();
 
         type = getIntent().getStringExtra("type");
 
@@ -174,6 +175,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     @Override
     protected void initViews() {
         setToolbarCenterMode("发布境外游线路", MODE_BACK);
+
         mRelativeLayoutOccupationType = (RelativeLayout) findViewById(R.id.rl_travel_Occupation_type);
         mRelativeLayoutMudiType = (RelativeLayout) findViewById(R.id.rl_travel_mudi_type);
         mRelativeLayoutHotType = (RelativeLayout) findViewById(R.id.rl_travel_hot_type);
@@ -880,6 +882,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         map.put("stick_zeroC", String.valueOf(zeroC));
         map.put("token", PreferenceUtil.getString(TOKEN));
         map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+        KyLog.object(map);
 
 
         String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueForeignRoute";
