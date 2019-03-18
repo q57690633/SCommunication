@@ -146,6 +146,19 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".StartActivity"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.details.DataBaseDetailsActivity"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.details.DataBaseQiuGouDetailsActivity"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.travel.WebViewActivity"
+            android:theme="@style/Theme.MaterialDesign"/>
+
     </application>
 
 </manifest>
