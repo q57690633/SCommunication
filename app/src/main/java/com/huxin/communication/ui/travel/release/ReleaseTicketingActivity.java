@@ -566,7 +566,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
 
     private void setActivityData(List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
-        if (list.size() > 0) {
+        if (list != null && list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
             TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
@@ -576,7 +576,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     }
 
     private void setThemeListData(List<TabTravelNameEntity.ThemeList> list, RecyclerView recyclerView) {
-        if (list.size() > 0) {
+        if (list != null && list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
             TableTravelOverseasAdapter mAdapterTableName = new TableTravelOverseasAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
