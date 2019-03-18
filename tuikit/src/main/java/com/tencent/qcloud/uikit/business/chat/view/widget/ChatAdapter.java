@@ -41,6 +41,7 @@ import com.tencent.qcloud.uikit.api.chat.IChatProvider;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.view.ChatIconView;
 import com.tencent.qcloud.uikit.business.chat.view.ChatListView;
+import com.tencent.qcloud.uikit.business.chat.view.itemdecoration.GridSpacingItemDecoration;
 import com.tencent.qcloud.uikit.common.BackgroundTasks;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
 import com.tencent.qcloud.uikit.common.component.audio.UIKitAudioArmMachine;
@@ -114,23 +115,6 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-        /*if(this.mDataSource != null) {
-            if(this.mDataSource.size() != 0) {
-                if(count == this.mDataSource.size()) {
-                    count--;
-                }
-                MessageInfo info = this.mDataSource.get(count);
-                if(info != null) {
-                    TIMElemType type = info.getTIMMessage().getElement(0).getType();
-                    if(type == TIMElemType.Custom) {
-                        TIMCustomElem elem = (TIMCustomElem) info.getTIMMessage().getElement(0);
-                        byte[] data = elem.getData();
-                        customMsgData = new String(data);
-                        mIsCustomMessage = true;
-                    }
-                }
-            }
-        }*/
         Log.i(TAG, "viewType = " + viewType);
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
@@ -146,10 +130,14 @@ public class ChatAdapter extends IChatAdapter {
                     holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
                 }
                 break;
-            case MessageInfo.MSG_TYPE_CUSTOM:
+            case MessageInfo.MSG_TYPE_HOUSE_CUSTOM:
+            case MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM:
+            case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM:
                 holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom, parent, false));
                 break;
-            case MessageInfo.MSG_TYPE_CUSTOM + 1:
+            case MessageInfo.MSG_TYPE_HOUSE_CUSTOM + 1:
+            case MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM + 1:
+            case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM + 1:
                 Log.i(TAG, "MessageInfo.MSG_TYPE_CUSTOM + 1");
                 if (mRecycleView.isDivided()) {
                     holder = new ChatCustomHolder(inflater.inflate(R.layout.chat_adapter_custom_self, parent, false));
@@ -344,93 +332,154 @@ public class ChatAdapter extends IChatAdapter {
                     }
                 }
                 break;
-            case MessageInfo.MSG_TYPE_CUSTOM:
-            case MessageInfo.MSG_TYPE_CUSTOM + 1:
+            case MessageInfo.MSG_TYPE_HOUSE_CUSTOM:
+            case MessageInfo.MSG_TYPE_HOUSE_CUSTOM + 1:
                 try {
                     TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
                     byte[] data = customElem.getData();
                     String str = new String(data);
-                    Log.i(TAG, "str1 = " + str);
+                    Log.i(TAG, "MSG_TYPE_HOUSE_CUSTOM str = " + str);
                     String totalPrice = "";
                     String unitPrice = "";
                     JSONObject jsonObject = new JSONObject(str);
-                    if(jsonObject.has("data")) {
-                        JSONObject jsonData = jsonObject.getJSONObject("data");
-                        if(jsonObject.getInt("type") == 1) {
-                            totalPrice = jsonData.getString("totalPrice");
-                            unitPrice = jsonData.getString("unitPrice");
-                            String villageName = jsonData.getString("villageName");
-                            String houseType = jsonData.getString("houseType");
-                            String acreage = jsonData.getString("acreage");
-                            int stick = jsonData.getInt("stick");
-                            String orientation = jsonData.getString("orientation");
-                            String tabId = jsonData.getString("tabId");
-                            String tabName = jsonData.getString("tabName");
-                            String productType = jsonData.getString("productType");
-
-                            ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
-                            customHolder.villageName.setText(villageName);
-                            customHolder.houseType.setText(houseType);
-                            customHolder.acreage.setText(acreage);
-                            customHolder.totalPrice.setText(totalPrice);
-                            customHolder.unitPrice.setText(unitPrice);
-                            customHolder.orientation.setText(orientation);
-                            customHolder.stick.setVisibility(View.GONE);
-                            if (productType.equals("1")){
-                                customHolder.productType.setBackgroundResource(R.drawable.sign_chhshou);
-                            }else if (productType.equals("2")){
-                                customHolder.productType.setBackgroundResource(R.drawable.sign_chuzu);
-                            }else if (productType.equals("3")){
-                                customHolder.productType.setBackgroundResource(R.drawable.sign_qiugou);
-                            }else if (productType.equals("1")){
-                                customHolder.productType.setBackgroundResource(R.drawable.sign_qiuzu);
-                            }
-                            String[] tab = tabName.split(",");
-                            ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-                            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
-                            customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                            customHolder.tabName_line.setAdapter(adapter);
-                        }else {
-                            String villageName = jsonData.getString("villageName");
-                            String houseType = jsonData.getString("houseType");
-                            String acreage = jsonData.getString("acreage");
-                            int stick = jsonData.getInt("stick");
-                            String orientation = jsonData.getString("orientation");
-                            String tabId = jsonData.getString("tabId");
-                            String tabName = jsonData.getString("tabName");
-                            ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
-                            customHolder.villageName.setText(villageName);
-                            customHolder.houseType.setText(houseType);
-                            customHolder.acreage.setText(acreage);
-                            customHolder.totalPrice.setText(totalPrice);
-                            customHolder.unitPrice.setText(unitPrice);
-                            customHolder.orientation.setText(orientation);
-                            customHolder.stick.setVisibility(View.GONE);
-                            String[] tab = tabName.split(",");
-                            ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
-                            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
-                            customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                            customHolder.tabName_line.setAdapter(adapter);
-                        }
-                    }
-                    if(jsonObject.getInt("type") == 3) {
+                    JSONArray arr = jsonObject.getJSONArray("data");
+                    JSONObject jsonData = arr.getJSONObject(0);
+                    if(jsonObject.getInt("houseType") == 1) {
+                        //出售
+                        totalPrice = jsonData.getString("totalPrice");
+                        unitPrice = jsonData.getString("unitPrice");
+                        String villageName = jsonData.getString("villageName");
+                        String houseType = jsonData.getString("houseType");
+                        String acreage = jsonData.getString("acreage");
+                        int stick = jsonData.getInt("stick");
+                        String orientation = jsonData.getString("orientation");
+                        String tabId = jsonData.getString("tabId");
+                        String tabName = jsonData.getString("tabName");
                         ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
-                        customHolder.houseLayout.setVisibility(View.GONE);
-                        customHolder.travelLayout.setVisibility(View.GONE);
-                        customHolder.ticketingLayout.setVisibility(View.GONE);
-                        customHolder.businessCardLayout.setVisibility(View.VISIBLE);
-                        JSONObject dataObj = jsonObject.getJSONArray("info").getJSONObject(0);
-                        ImageLoader.getInstance().displayImage(dataObj.getString("imageUrl"), customHolder.businessCardHeadUrl);
-                        customHolder.businessCardName.setText(dataObj.getString("name"));
-                        customHolder.businessCardPhone.setText(dataObj.getString("phone"));
-                    }
-                    /*if(stick == 0) {
+                        customHolder.villageName.setText(villageName);
+                        customHolder.houseType.setText(houseType);
+                        customHolder.acreage.setText(acreage);
+                        customHolder.totalPrice.setText(totalPrice);
+                        customHolder.unitPrice.setText(unitPrice);
+                        customHolder.orientation.setText(orientation);
                         customHolder.stick.setVisibility(View.GONE);
-                    }else {
-                        customHolder.stick.setVisibility(View.VISIBLE);
-                    }*/
+                        customHolder.productType.setBackgroundResource(R.drawable.sign_chhshou);
+                        String[] tab = tabName.split(",");
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+                        gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                        customHolder.tabName_line.setLayoutManager(gridLayoutManager);
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
+                        customHolder.tabName_line.setAdapter(adapter);
+                    }else if(jsonObject.getInt("houseType") == 2){
+                        //出租
+                        String villageName = jsonData.getString("villageName");
+                        String houseType = jsonData.getString("houseType");
+                        String acreage = jsonData.getString("acreage");
+                        int stick = jsonData.getInt("stick");
+                        String orientation = jsonData.getString("orientation");
+                        String tabId = jsonData.getString("tabId");
+                        String tabName = jsonData.getString("tabName");
+                        ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                        customHolder.villageName.setText(villageName);
+                        customHolder.houseType.setText(houseType);
+                        customHolder.acreage.setText(acreage);
+                        customHolder.totalPrice.setText(totalPrice);
+                        customHolder.unitPrice.setText(unitPrice);
+                        customHolder.orientation.setText(orientation);
+                        customHolder.stick.setVisibility(View.GONE);
+                        customHolder.productType.setBackgroundResource(R.drawable.sign_chuzu);
+                        String[] tab = tabName.split(",");
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+                        gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                        customHolder.tabName_line.setLayoutManager(gridLayoutManager);
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.setAdapter(adapter);
+                    }else if(jsonObject.getInt("houseType") == 3){
+                        //求购
+                        String villageName = jsonData.getString("villageName");
+                        String houseType = jsonData.getString("houseType");
+                        String acreage = jsonData.getString("acreage");
+                        int stick = jsonData.getInt("stick");
+                        String orientation = jsonData.getString("orientation");
+                        String tabId = jsonData.getString("tabId");
+                        String tabName = jsonData.getString("tabName");
+                        ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                        customHolder.villageName.setText(villageName);
+                        customHolder.houseType.setText(houseType);
+                        customHolder.acreage.setText(acreage);
+                        customHolder.totalPrice.setText(totalPrice);
+                        customHolder.unitPrice.setText(unitPrice);
+                        customHolder.orientation.setText(orientation);
+                        customHolder.stick.setVisibility(View.GONE);
+                        customHolder.productType.setBackgroundResource(R.drawable.sign_qiugou);
+                        String[] tab = tabName.split(",");
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+                        gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                        customHolder.tabName_line.setLayoutManager(gridLayoutManager);
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.setAdapter(adapter);
+                    }else if(jsonObject.getInt("houseType") == 4){
+                        //求租
+                        String villageName = jsonData.getString("villageName");
+                        String houseType = jsonData.getString("houseType");
+                        String acreage = jsonData.getString("acreage");
+                        int stick = jsonData.getInt("stick");
+                        String orientation = jsonData.getString("orientation");
+                        String tabId = jsonData.getString("tabId");
+                        String tabName = jsonData.getString("tabName");
+                        ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                        customHolder.villageName.setText(villageName);
+                        customHolder.houseType.setText(houseType);
+                        customHolder.acreage.setText(acreage);
+                        customHolder.totalPrice.setText(totalPrice);
+                        customHolder.unitPrice.setText(unitPrice);
+                        customHolder.orientation.setText(orientation);
+                        customHolder.stick.setVisibility(View.GONE);
+                        customHolder.productType.setBackgroundResource(R.drawable.sign_qiuzu);
+                        String[] tab = tabName.split(",");
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
+                        gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                        customHolder.tabName_line.setLayoutManager(gridLayoutManager);
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(1, 0));
+                        customHolder.tabName_line.setAdapter(adapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM:
+            case MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM + 1:
+                try {
+                    TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
+                    byte[] data = customElem.getData();
+                    String str = new String(data);
+                    Log.i(TAG, "MSG_TYPE_BUSINESS_CARD_CUSTOM str = " + str);
+                    JSONObject jsonObject = new JSONObject(str);
+                    ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                    customHolder.houseLayout.setVisibility(View.GONE);
+                    customHolder.travelLayout.setVisibility(View.GONE);
+                    customHolder.ticketingLayout.setVisibility(View.GONE);
+                    customHolder.businessCardLayout.setVisibility(View.VISIBLE);
+                    JSONObject dataObj = jsonObject.getJSONArray("info").getJSONObject(0);
+                    ImageLoader.getInstance().displayImage(dataObj.getString("imageUrl"), customHolder.businessCardHeadUrl);
+                    customHolder.businessCardName.setText(dataObj.getString("name"));
+                    customHolder.businessCardPhone.setText(dataObj.getString("phone"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM:
+            case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM + 1:
+                try {
+                    TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
+                    byte[] data = customElem.getData();
+                    String str = new String(data);
+                    Log.i(TAG, "MSG_TYPE_TRAVEL_CUSTOM str = " + str);
+                    JSONObject jsonObject = new JSONObject(str);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

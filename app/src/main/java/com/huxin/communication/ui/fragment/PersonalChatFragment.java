@@ -49,6 +49,7 @@ import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,23 +62,40 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     private String type = "";
     private String chatId = "";
     private String data = "";
+    private String from = "";
+    private ChatBottomInputGroup.MessageHandler msgHandler;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment_personal, container, false);
+        init();
+        if("tuijian".equalsIgnoreCase(from)) {
+            sendBusinessCard();
+        }
+        if("zhuanfa".equalsIgnoreCase(from)) {
+            sendZhuanFa();
+        }
+        return mBaseView;
+    }
+
+    private void init() {
+        msgHandler = new ChatBottomInputGroup.MessageHandler() {
+            @Override
+            public void sendMessage(MessageInfo msg) {
+                chatPanel.sendMessage(msg);
+            }
+        };
         Bundle datas = getArguments();
         //由会话列表传入的会话ID
         if(datas != null) {
             chatId = datas.getString("TARGET_ID");
             type = datas.getString("TARGET_TYPE");
             data = datas.getString("data");
+            from = datas.getString("from");
         }
         initView();
-        sendBusinessCard();
-        return mBaseView;
     }
-
 
     private void initView() {
         List<MessageOperaUnit> units = initUnitList();
@@ -169,13 +187,31 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         }
         try {
             JSONObject dataJson = new JSONObject(data);
-            ChatBottomInputGroup.MessageHandler msgHandler = new ChatBottomInputGroup.MessageHandler() {
-                @Override
-                public void sendMessage(MessageInfo msg) {
-                    chatPanel.sendMessage(msg);
+            msgHandler.sendMessage(MessageInfoUtil.buildBussinessCardCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendZhuanFa() {
+        if(data == null) {
+            return;
+        }
+        try {
+            JSONObject dataJson = new JSONObject(data);
+            for(int i = 0; i < dataJson.getJSONArray("data").length(); i++) {
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("type", Integer.parseInt(dataJson.getString("type")));
+                jsonObj.put("houseType", Integer.parseInt(dataJson.getString("houseType")));
+                JSONArray arr = new JSONArray();
+                jsonObj.put("data", arr.put(dataJson.getJSONArray("data").get(i)));
+                if("1".equalsIgnoreCase(dataJson.getString("type"))) {
+                    msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
                 }
-            };
-            msgHandler.sendMessage(MessageInfoUtil.buildCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+                if("2".equalsIgnoreCase(dataJson.getString("type"))) {
+                    msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
+                }
+            }
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -248,13 +284,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(resultCode == Activity.RESULT_OK && requestCode == 2) {
             String str = data.getStringExtra("msg");
             KyLog.i("onActivityResult str = " + str);
-            ChatBottomInputGroup.MessageHandler msgHandler = new ChatBottomInputGroup.MessageHandler() {
-                @Override
-                public void sendMessage(MessageInfo msg) {
-                    chatPanel.sendMessage(msg);
-                }
-            };
-            msgHandler.sendMessage(MessageInfoUtil.buildCustomMessage(str.getBytes(), "sell message"));
+            msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(str.getBytes(), "sell message"));
         }
         if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
             new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);

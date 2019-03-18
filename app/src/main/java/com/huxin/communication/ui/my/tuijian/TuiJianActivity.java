@@ -70,12 +70,16 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     private JSONObject resultJson = new JSONObject();
     private int targetId = 0;
 
+    private String from = "tuijian";
+    private String data = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        from = getIntent().getStringExtra("from");
+        data = getIntent().getStringExtra("data");
     }
 
     @Override
@@ -121,7 +125,11 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_phone_person:
                 Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("data", resultJson.toString());
+                if("tuijian".equalsIgnoreCase(from)) {
+                    data = resultJson.toString();
+                }
+                bundle.putString("data", data);
+                bundle.putString("from", from);
                 bundle.putString("TARGET_TYPE", "C2C");
                 bundle.putString("TARGET_ID", targetId + "");
                 intent.putExtras(bundle);

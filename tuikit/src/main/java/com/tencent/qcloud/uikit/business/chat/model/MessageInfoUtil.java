@@ -33,6 +33,9 @@ import com.tencent.qcloud.uikit.common.UIKitConstants;
 import com.tencent.qcloud.uikit.common.utils.FileUtil;
 import com.tencent.qcloud.uikit.common.utils.ImageUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,7 @@ public class MessageInfoUtil {
         return info;
     }
 
-    public static MessageInfo buildCustomMessage(byte[] data, String desc) {
+    public static MessageInfo buildHouseCustomMessage(byte[] data, String desc) {
         MessageInfo info = new MessageInfo();
         TIMMessage TIMMsg = new TIMMessage();
         TIMCustomElem ele = new TIMCustomElem();
@@ -73,7 +76,39 @@ public class MessageInfoUtil {
         info.setSelf(true);
         info.setTIMMessage(TIMMsg);
         info.setFromUser(TIMManager.getInstance().getLoginUser());
-        info.setMsgType(MessageInfo.MSG_TYPE_CUSTOM);
+        info.setMsgType(MessageInfo.MSG_TYPE_HOUSE_CUSTOM);
+        return info;
+    }
+
+    public static MessageInfo buildBussinessCardCustomMessage(byte[] data, String desc) {
+        MessageInfo info = new MessageInfo();
+        TIMMessage TIMMsg = new TIMMessage();
+        TIMCustomElem ele = new TIMCustomElem();
+        ele.setData(data);
+        ele.setDesc(desc);
+        TIMMsg.addElement(ele);
+        info.setExtra("[消息]");
+        info.setMsgTime(System.currentTimeMillis());
+        info.setSelf(true);
+        info.setTIMMessage(TIMMsg);
+        info.setFromUser(TIMManager.getInstance().getLoginUser());
+        info.setMsgType(MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM);
+        return info;
+    }
+
+    public static MessageInfo buildTravelCustomMessage(byte[] data, String desc) {
+        MessageInfo info = new MessageInfo();
+        TIMMessage TIMMsg = new TIMMessage();
+        TIMCustomElem ele = new TIMCustomElem();
+        ele.setData(data);
+        ele.setDesc(desc);
+        TIMMsg.addElement(ele);
+        info.setExtra("[消息]");
+        info.setMsgTime(System.currentTimeMillis());
+        info.setSelf(true);
+        info.setTIMMessage(TIMMsg);
+        info.setFromUser(TIMManager.getInstance().getLoginUser());
+        info.setMsgType(MessageInfo.MSG_TYPE_TRAVEL_CUSTOM);
         return info;
     }
 
@@ -300,6 +335,20 @@ public class MessageInfoUtil {
             if (type == TIMElemType.Custom) {
                 TIMCustomElem customElem = (TIMCustomElem) ele;
                 String data = new String(customElem.getData());
+                try {
+                    JSONObject json = new JSONObject(data);
+                    if(json.getInt("type") == 1) {
+                        msgInfo.setMsgType(MessageInfo.MSG_TYPE_HOUSE_CUSTOM);
+                    }
+                    if(json.getInt("type") == 2) {
+                        msgInfo.setMsgType(MessageInfo.MSG_TYPE_TRAVEL_CUSTOM);
+                    }
+                    if(json.getInt("type") == 3) {
+                        msgInfo.setMsgType(MessageInfo.MSG_TYPE_BUSINESS_CARD_CUSTOM);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (data.equals(GROUP_CREATE)) {
                     msgInfo.setMsgType(MessageInfo.MSG_TYPE_GROUP_CREATE);
                     msgInfo.setExtra(new String(customElem.getExt()));
@@ -309,7 +358,7 @@ public class MessageInfoUtil {
                 } else {
                     msgInfo.setExtra("[自定义消息]");
                 }
-                msgInfo.setMsgType(MessageInfo.MSG_TYPE_CUSTOM);
+
             } else if (type == TIMElemType.GroupTips) {
                 TIMGroupTipsElem groupTips = (TIMGroupTipsElem) ele;
                 TIMGroupTipsType tipsType = groupTips.getTipsType();

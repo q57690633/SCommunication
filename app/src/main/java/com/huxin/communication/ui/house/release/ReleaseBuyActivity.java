@@ -34,6 +34,7 @@ import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.sky.kylog.KyLog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -511,11 +512,17 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
                     startActivity(intent);
                 }else {
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        jsonObject.put("type", 3);
-                        String data = jsonObject.toString();
+                        JSONObject res = new JSONObject(response);
+                        JSONObject data = res.getJSONObject("data");
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("type", 1);
+                        jsonObject.put("houseType", 3);
+                        JSONArray arr = new JSONArray();
+                        arr.put(data);
+                        jsonObject.put("data", arr);
+                        String result = jsonObject.toString();
                         Bundle bundle = new Bundle();
-                        bundle.putString("msg", data);
+                        bundle.putString("msg", result);
                         Intent intent = getIntent();
                         intent.putExtras(bundle);
                         setResult(Activity.RESULT_OK, intent);

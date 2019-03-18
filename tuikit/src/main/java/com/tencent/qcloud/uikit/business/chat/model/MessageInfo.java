@@ -42,10 +42,23 @@ public class MessageInfo {
     public static final int MSG_TYPE_CUSTOM_FACE = 0x70;
 
     /**
-     * 自定义类型消息
+     * 房产自定义类型消息
      * made by libh
      */
-    public static final int MSG_TYPE_CUSTOM = 0x80;
+    public static final int MSG_TYPE_HOUSE_CUSTOM = 0x80;
+
+    /**
+     * 名片自定义类型消息
+     * made by libh
+     */
+    public static final int MSG_TYPE_BUSINESS_CARD_CUSTOM = 0x90;
+
+    /**
+     * 旅游自定义类型消息
+     * made by libh
+     */
+    public static final int MSG_TYPE_TRAVEL_CUSTOM = 0x95;
+
 
     /**
      * 提示类信息
