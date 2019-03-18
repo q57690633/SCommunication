@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<<<<<<< Updated upstream
     -->
     <application
         android:name=".HuXinApplication"
@@ -40,6 +41,15 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/files_paths" /> -->
         <!-- </provider> -->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="com.huxin.communication.fileProvider"-->
+            <!--android:grantUriPermissions="true"-->
+            <!--android:exported="false">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/provider_paths" />-->
+        <!--</provider>-->
 
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.LoginActivity" />
@@ -132,22 +142,10 @@
             android:theme="@style/Theme.MaterialDesign">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                    <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".StartActivity"
-            android:theme="@style/Theme.MaterialDesign" />
-        <activity
-            android:name=".ui.house.details.DataBaseDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
-        <activity
-            android:name=".ui.house.details.DataBaseQiuGouDetailsActivity"
-            android:theme="@style/Theme.MaterialDesign" />
-        <activity
-            android:name=".ui.travel.WebViewActivity"
-            android:theme="@style/Theme.MaterialDesign"/>
+
     </application>
 
 </manifest>

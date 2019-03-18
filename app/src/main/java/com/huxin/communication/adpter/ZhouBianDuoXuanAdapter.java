@@ -149,6 +149,13 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
             holder.mImageViewDuoXuan.setBackgroundResource(R.drawable.icon_circle_normal);
         }
 
+        if (TextUtils.isEmpty(list.get(position).getQrCode_url())){
+            holder.mTextViewKanxingcheng.setVisibility(View.GONE);
+        }else {
+            holder.mTextViewKanxingcheng.setVisibility(View.VISIBLE);
+
+        }
+
         if (list.get(position).getStick_hot() == 1){
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
         }

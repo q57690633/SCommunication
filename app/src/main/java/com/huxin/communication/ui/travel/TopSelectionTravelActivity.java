@@ -367,18 +367,18 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode);
-        KyLog.d(MuDi);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+        KyLog.d(ChufaCityCode+ "travel");
+        KyLog.d(MuDi+ "travel");
 
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode,  MuDi.substring(1, MuDi.length() - 1), productType, qita
+                gettingAroundTravel(ChufaCityCode,  MuDi, productType, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
             } else if (travelType == 3) {
-                gettingForeignTravel(ChufaCityCode, "", "", MuDi.substring(1, MuDi.length() - 1), "", huodong, zhushu, qita ,
+                gettingForeignTravel(ChufaCityCode, "", "", MuDi, "", huodong, zhushu, qita ,
                         didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
                         "1", "");
             } else {
@@ -403,12 +403,12 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
         } else if (!TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("",  MuDi.substring(1, MuDi.length() - 1), productType, ""
+                gettingAroundTravel("",  MuDi, productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
             } else if (travelType == 3) {
-                gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "" ,
+                gettingForeignTravel("", "", "", MuDi, "", "", "", "" ,
                         "", "", "", xiaofei, String.valueOf(productType), "", "", "",
                         "1", "");
             } else {
@@ -516,6 +516,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                }
                 break;
 
 
@@ -523,6 +526,11 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                }
+
                 break;
             case R.id.more_Determine:
                 updata();
@@ -1240,6 +1248,8 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -1270,6 +1280,8 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                         setJinWaiData(foreignTravelEntity);
                         setJinWaiDuoXuanData(foreignTravelEntity);
                     }
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -1298,6 +1310,8 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                         setTicketData(ticketInfoEntity);
                         setTicketDuoXuanData(ticketInfoEntity);
                     }
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());

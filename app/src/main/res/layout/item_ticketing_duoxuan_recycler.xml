@@ -27,16 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
 
-            <ImageView
-                android:id="@+id/image_duoxuan_clicked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
+
 
         </RelativeLayout>
 
@@ -80,14 +73,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="5dp">
 
 
                     <TextView
                         android:id="@+id/ticket_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
+                        android:layout_marginTop="5dp"
                         android:text="第九街VR体验馆"
                         android:textColor="@color/register_font"
                         android:textSize="14sp" />
@@ -95,7 +88,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -120,7 +113,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -146,7 +139,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginRight="10dp"
                         android:text="1.4米以下儿童及70岁以上老人免票"
                         android:textColor="@color/register_font"
@@ -156,8 +149,8 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_ticket"
                         android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="20dp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

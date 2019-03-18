@@ -31,7 +31,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
     private List<TicketInfoEntity.ListBean> list;
     private Context mContext;
     private LayoutInflater mInflater;
-    private TableNameAdapter mAdapterTableName;
+    private TicketTableNameAdapter mAdapterTableName;
 
     public TicketingAdapter(List<TicketInfoEntity.ListBean> list, Context mContext) {
         this.list = list;
@@ -58,7 +58,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewAddr.setText(list.get(position).getTicket_addr());
         holder.mTextViewName.setText(list.get(position).getTicket_name());
-        holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()));
+        holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()) + "元");
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewAddr);
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
@@ -132,7 +132,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         }
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(mContext, 3);
-            mAdapterTableName = new TableNameAdapter(list1, mContext);
+            mAdapterTableName = new TicketTableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
 //            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));

@@ -11,10 +11,7 @@ import com.huxin.communication.entity.AroundStickEntity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.BuyerScreeningEntity;
 import com.huxin.communication.entity.CaixianForeignTravelEntity;
-import com.huxin.communication.entity.CollectAroundEntity;
 import com.huxin.communication.entity.CollectEntity;
-import com.huxin.communication.entity.CollectForeignEntity;
-import com.huxin.communication.entity.CollectTicketEntity;
 import com.huxin.communication.entity.CountyEntity;
 import com.huxin.communication.entity.ForeignCityEntity;
 import com.huxin.communication.entity.ForeignNationEntity;
@@ -28,7 +25,6 @@ import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.entity.InlandSpotEntity;
-import com.huxin.communication.entity.InvitationEntity;
 import com.huxin.communication.entity.LoginEntity;
 import com.huxin.communication.entity.MatchingProductEntity;
 import com.huxin.communication.entity.MoreSimpleEntity;
@@ -41,10 +37,10 @@ import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.SaleOfScreeningNewEntity;
 import com.huxin.communication.entity.SelectByLikeEntity;
-import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
+import com.huxin.communication.entity.TabTicketNameEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TicketStickEntity;
@@ -55,21 +51,12 @@ import com.huxin.communication.entity.UpdateUserPhoneEntity;
 import com.huxin.communication.entity.WantedScreeningEntity;
 import com.huxin.communication.http.Response;
 import com.huxin.communication.http.ResponseUntil;
-import com.lzy.imagepicker.bean.ImageItem;
 
-import java.io.File;
-import java.net.MulticastSocket;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 import rx.Observable;
 
 /**
@@ -699,6 +686,16 @@ public interface BaiHangTongYeService {
     @POST("travel/selectTab")
     Observable<Response<TabTravelNameEntity>> selectTab(@Field("tag_kind") String tag_kind, @Field("token") String token);
 
+
+    /**
+     * 查询标签
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("travel/selectTab")
+    Observable<Response<TabTicketNameEntity>> selectTicketTab(@Field("tag_kind") String tag_kind, @Field("token") String token);
 
     /**
      * 根据城市查目的地景点

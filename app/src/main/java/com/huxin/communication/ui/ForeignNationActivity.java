@@ -29,6 +29,7 @@ public class ForeignNationActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        setToolbarCenterMode("所选国家",MODE_BACK);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_provinces);
     }
 

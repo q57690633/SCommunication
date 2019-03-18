@@ -144,6 +144,31 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
             holder.mImageViewDuoXuan.setBackgroundResource(R.drawable.icon_circle_normal);
         }
 
+        if (list.get(position).getStick_hot() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
+        }
+        if (list.get(position).getStick_low() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_tejia);
+        }
+        if (list.get(position).getStick_new() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shangxin);
+        }
+        if (list.get(position).getStick_return() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_gaofanyong);
+        }
+        if (list.get(position).getStick_zeroC() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_ziwei);
+        }
+        if (list.get(position).getStick_better() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_jingpin);
+        }
+        if (list.get(position).getStick_rate() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_xingjiabi);
+        }
+        if (list.get(position).getStick_throw() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shuaiwei);
+        }
+
 
     }
 

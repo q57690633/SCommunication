@@ -303,9 +303,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode);
-        KyLog.d(MuDi);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+        KyLog.d(ChufaCityCode+ "travel");
+        KyLog.d(MuDi+ "travel");
 
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
@@ -506,6 +506,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                }
                 break;
 
 
@@ -513,6 +516,11 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                }
+
                 break;
             case R.id.more_Determine:
                 updata();
@@ -1235,6 +1243,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -1263,6 +1273,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                         setJinWaiData(foreignTravelEntity);
                         setJinWaiDuoXuanData(foreignTravelEntity);
                     }
+                    isClickQuYu = false;
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -1291,6 +1302,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                         setTicketData(ticketInfoEntity);
                         setTicketDuoXuanData(ticketInfoEntity);
                     }
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());

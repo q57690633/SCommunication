@@ -10,7 +10,15 @@ public class TabTravelNameEntity {
     private List<ActivityListBean> activityList;
     private List<StayListBean> stayList;
     private List<OtherListBean> otherList;
-    private List<OverseaslistBean> overseaslist;
+    private List<ThemeList> themeList;
+
+    public List<ThemeList> getThemeLists() {
+        return themeList;
+    }
+
+    public void setThemeLists(List<ThemeList> themeLists) {
+        this.themeList = themeLists;
+    }
 
     public List<AddressListBean> getAddressList() {
         return addressList;
@@ -60,13 +68,6 @@ public class TabTravelNameEntity {
         this.otherList = otherList;
     }
 
-    public List<OverseaslistBean> getOverseaslist() {
-        return overseaslist;
-    }
-
-    public void setOverseaslist(List<OverseaslistBean> overseaslist) {
-        this.overseaslist = overseaslist;
-    }
 
     public static class AddressListBean {
         /**
@@ -344,7 +345,7 @@ public class TabTravelNameEntity {
         }
     }
 
-    public static class OverseaslistBean {
+    public static class ThemeList {
         /**
          * id : 19
          * tagKind : 1

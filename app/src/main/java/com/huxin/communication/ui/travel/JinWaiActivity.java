@@ -333,13 +333,13 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
 
-        KyLog.d(ChufaCityCode);
-        KyLog.d(MuDi);
+        KyLog.d(ChufaCityCode  + "travel");
+        KyLog.d(MuDi + "travel");
 
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            gettingForeignTravel(ChufaCityCode, "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "",
+            gettingForeignTravel(ChufaCityCode, "", "", MuDi, "", "", "", "",
                     "", "", "", "", "", "", "", "",
                     "1", null, "");
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
@@ -347,7 +347,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                     "", "", "", "", "", "", "", "",
                     "1", null, "");
         } else if (!TextUtils.isEmpty(MuDi)) {
-            gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "",
+            gettingForeignTravel("", "", "", MuDi, "", "", "", "",
                     "", "", "", "", "", "", "", "",
                     "1", null, "");
         }else {
@@ -395,6 +395,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                }
                 break;
 
 
@@ -402,6 +405,11 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 Intent intentMudDi = new Intent(this, ForeignNationActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                }
+
                 break;
 
             case R.id.more_Determine:
@@ -979,6 +987,8 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                         setData(foreignTravelEntity);
                         setDuoXuanData(foreignTravelEntity);
                     }
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());

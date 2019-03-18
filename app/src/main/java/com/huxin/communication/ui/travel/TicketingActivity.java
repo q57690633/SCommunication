@@ -20,11 +20,16 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
+import com.huxin.communication.adpter.TableTravelActivityAdapter;
+import com.huxin.communication.adpter.TableTravelOtherAdapter;
+import com.huxin.communication.adpter.TableTravelOverseasAdapter;
 import com.huxin.communication.adpter.TicketingAdapter;
 import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.TabTicketNameEntity;
+import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TravelEntity;
 import com.huxin.communication.http.ApiModule;
@@ -144,6 +149,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
     private String type;
     private TextView mTextViewZhuanFa;
 
+    private LinearLayout mLinearLayoutSortTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +242,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
+        mLinearLayoutSortTime = findViewById(R.id.recycler_sort_time);
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -278,6 +287,10 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        mTextViewSpotTicket.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
+        mTextViewSpotTicket.setTextColor(getResources().getColor(R.color.white));
+        mTextViewQiTaTicket.setBackgroundResource(R.drawable.biaoqian_radius_top);
+        mTextViewQiTaTicket.setTextColor(getResources().getColor(R.color.register_font));
         setEnabled(true);
         getTicketInfo(String.valueOf(TicketType), "", "", "",
                 "", "", "", "", "1");
@@ -325,9 +338,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         if (!isClickQuYu) {
             return;
         }
-        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
+        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
 //        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode);
+        KyLog.d(ChufaCityCode + "tiket");
         if (!TextUtils.isEmpty(ChufaCityCode)) {
             getTicketInfo(String.valueOf(TicketType), ChufaCityCode, "", "",
                     "", "", "", "", "1");
@@ -354,8 +367,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
-                setMoreData();
                 setDetleTabData();
+                selectTravelTab();
+
                 break;
             case R.id.price:
                 mLinearLayoutSorts.setVisibility(View.GONE);
@@ -382,12 +396,24 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewSort.setBackgroundResource(R.drawable.icon_triangle_pre);
                 mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
+                mTextViewZuiXin.setText("总价从低到高");
+                mTextViewChongDiDaoGao.setText("总价从高到低");
+                mTextViewChongDiDaoGaoFanXian.setText("发布时间顺序");
+                mTextViewChongShaoDaoDuoDay.setText("发布时间倒序");
+//                mTextViewChongDuoDaoShaoDay.setVisibility(View.GONE);
+//                mTextViewZuiWan.setVisibility(View.GONE);
+//                mTextViewChongGaoDaoDi.setVisibility(View.GONE);
+//                mTextViewChongGaoDaoDiFanXian.setVisibility(View.GONE);
+                mLinearLayoutSortTime.setVisibility(View.GONE);
+
                 break;
 
             case R.id.mudidi_line:
                 Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
                 break;
 
             case R.id.spot_tv:
@@ -396,6 +422,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewQiTaTicket.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewQiTaTicket.setTextColor(getResources().getColor(R.color.register_font));
                 TicketType = 1;
+                getTicketInfo(String.valueOf(TicketType), "", "", "",
+                        "", "", "", "", "1");
                 break;
 
 
@@ -405,7 +433,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewSpotTicket.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSpotTicket.setTextColor(getResources().getColor(R.color.register_font));
                 TicketType = 2;
-
+                getTicketInfo(String.valueOf(TicketType), "", "", "",
+                        "", "", "", "", "1");
                 break;
 
             case R.id.more_Determine:
@@ -417,20 +446,20 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 KyLog.d(huodong);
                 KyLog.d(qita);
                 KyLog.d(xiaofei);
-                getTicketInfo(String.valueOf(TicketType), "", "", jiaotong,
+                getTicketInfo(String.valueOf(TicketType), "", "", xiaofei,
                         huodong, qita, "", "", "1");
 
                 break;
             case R.id.price_Determine:
                 updata();
-                if (Integer.parseInt(minPrice) < 500) {
+                if (Integer.parseInt(minPrice) < 10) {
                     getTicketInfo(String.valueOf(TicketType), "", 0 + "," + maxPrice, "",
                             "", "", "", "", "1");
-                } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
+                } else if (Integer.parseInt(minPrice) >= 10 && Integer.parseInt(minPrice) <= 300) {
                     getTicketInfo(String.valueOf(TicketType), "", minPrice + "," + maxPrice, "",
                             "", "", "", "", "1");
-                } else if (Integer.parseInt(minPrice) > 7000) {
-                    getTicketInfo(String.valueOf(TicketType), "", 7000 + "," + 1000000, "",
+                } else if (Integer.parseInt(minPrice) > 300) {
+                    getTicketInfo(String.valueOf(TicketType), "", minPrice + "," + 1000000, "",
                             "", "", "", "", "1");
                 }
                 break;
@@ -440,20 +469,20 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                         "", "", productType, "", "1");
                 break;
             case R.id.price1:
-                mTextViewPrice1.setBackgroundResource(R.color.blue);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
-                mTextViewPrice1.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice1.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
@@ -469,21 +498,21 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "10";
                 break;
             case R.id.price2:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.blue);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice2.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice2.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
@@ -498,22 +527,22 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "30";
                 break;
             case R.id.price3:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.blue);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice3.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice3.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
@@ -527,23 +556,23 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "50";
                 break;
             case R.id.price4:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.blue);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice4.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice4.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
@@ -556,18 +585,18 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "70";
                 break;
             case R.id.price5:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.blue);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -586,25 +615,24 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "90";
                 break;
             case R.id.price6:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.blue);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
-
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice6.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice6.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
@@ -615,18 +643,18 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "110";
                 break;
             case R.id.price7:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.blue);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -634,7 +662,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice4.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice7.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice7.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
@@ -644,18 +672,18 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "130";
                 break;
             case R.id.price8:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.blue);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -664,7 +692,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice5.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice8.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice8.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
@@ -673,18 +701,18 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "150";
                 break;
             case R.id.price9:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.blue);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -694,7 +722,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice6.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice9.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice9.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
@@ -702,19 +730,18 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 maxPrice = "200";
                 break;
             case R.id.price10:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.blue);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
-
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice3.setTextColor(getResources().getColor(R.color.register_font));
@@ -724,25 +751,25 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice7.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice10.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice10.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "200";
                 maxPrice = "250";
                 break;
             case R.id.price11:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.blue);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -754,24 +781,24 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice8.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice11.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice11.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "250";
                 maxPrice = "300";
                 break;
             case R.id.price12:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.blue);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -784,7 +811,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice10.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice11.setTextColor(getResources().getColor(R.color.register_font));
-                mTextViewPrice12.setTextColor(getResources().getColor(R.color.white));
+                mTextViewPrice12.setTextColor(getResources().getColor(R.color.blue));
                 minPrice = "300";
                 maxPrice = "";
                 break;
@@ -799,7 +826,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
 
-                productType = "3";
+                productType = "1";
                 break;
             case R.id.congdidaogao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -810,7 +837,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "1";
+                productType = "2";
                 break;
             case R.id.congdidaogao_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -821,7 +848,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = "3";
                 break;
             case R.id.zuiwan:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -843,7 +870,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "7";
+                productType = "4";
                 break;
             case R.id.conggaodaodi:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -903,7 +930,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 //                addCollectTravel(productType);
                 if (mXuanAdapter.getSelectedItem().size() > 0) {
                     zhuanfa(mXuanAdapter);
-                }else {
+                } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -931,7 +958,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             mRecyclerViewDuoXuan.setLayoutManager(manager);
 //            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
@@ -948,7 +975,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
@@ -965,7 +992,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         showProgressDialog();
         ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                keyWord, curPage, null,"0",String.valueOf(PreferenceUtil.getInt(UID)))
+                keyWord, curPage, null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     if (ticketInfoEntity != null) {
@@ -973,6 +1000,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                         setData(ticketInfoEntity);
                         setDuoXuanData(ticketInfoEntity);
                     }
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -981,6 +1010,25 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 });
     }
 
+
+    private void selectTravelTab() {
+        showProgressDialog();
+        ApiModule.getInstance().selectTravelTab("2")
+                .subscribe(tabTicketNameEntity -> {
+                    KyLog.object(tabTicketNameEntity.getThemeLists());
+                    cancelProgressDialog();
+                    setActivityData(tabTicketNameEntity.getActivityList(), mRecyclerViewHuoDong);
+                    setThemeListData(tabTicketNameEntity.getThemeLists(), mRecyclerViewDiDian);
+                    setOtherData(tabTicketNameEntity.getOtherList(), mRecyclerViewQiTa);
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
     private void addTravelCollect(int travelType) {
         KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
         showProgressDialog();
@@ -988,7 +1036,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,TicketingActivity.class);
+                    Intent intent = new Intent(this, TicketingActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
@@ -998,106 +1046,33 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 });
     }
 
-    private List<String> setDiDian() {
-        Kouweilist = new ArrayList<String>();
-        Kouweilist.add("主题乐园");
-        Kouweilist.add("动物园");
-        Kouweilist.add("地质公园");
-        Kouweilist.add("热带雨林");
-        Kouweilist.add("海边");
-        Kouweilist.add("海岛");
-        Kouweilist.add("草原");
-        Kouweilist.add("沙漠");
-        Kouweilist.add("峡谷");
-        Kouweilist.add("登山");
-        Kouweilist.add("雪山");
-        Kouweilist.add("湖泊");
-        Kouweilist.add("江河");
-        Kouweilist.add("瀑布");
-        Kouweilist.add("都市");
-        Kouweilist.add("古镇");
 
-        Kouweilist.add("古迹");
-        Kouweilist.add("寺庙");
-        Kouweilist.add("长城");
-        Kouweilist.add("海洋馆");
-        Kouweilist.add("玻璃栈道");
-        return Kouweilist;
+    private void setThemeListData(List<TabTravelNameEntity.ThemeList> list, RecyclerView recyclerView) {
+        KyLog.object(list);
+        if (list != null && list.size() > 0) {
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
+            TableTravelOverseasAdapter mAdapterTableName = new TableTravelOverseasAdapter(list, this);
+            recyclerView.setAdapter(mAdapterTableName);
+            recyclerView.setLayoutManager(manager);
+        }
     }
 
-    private List<String> setHuoDong() {
-        Kouweilist = new ArrayList<String>();
-        Kouweilist.add("自驾");
-        Kouweilist.add("托展");
-        Kouweilist.add("户外");
-        Kouweilist.add("摄影");
-        Kouweilist.add("休闲");
-        Kouweilist.add("美食");
-        Kouweilist.add("购物");
-        Kouweilist.add("纯玩");
-        Kouweilist.add("赏花");
-        Kouweilist.add("艺术");
-        Kouweilist.add("蜜月");
-        Kouweilist.add("亲子");
-        Kouweilist.add("游学");
-        Kouweilist.add("画展");
-        Kouweilist.add("宗教");
-        Kouweilist.add("漂流");
-        Kouweilist.add("温泉");
-        Kouweilist.add("蹦极");
-        Kouweilist.add("潜水");
-        Kouweilist.add("冲浪");
-        Kouweilist.add("滑雪");
-        Kouweilist.add("骑马");
-
-        Kouweilist.add("热气球");
-        Kouweilist.add("马戏团");
-        Kouweilist.add("嘉年华");
-        Kouweilist.add("演出");
-        Kouweilist.add("音乐节");
-        Kouweilist.add("演唱会");
-        Kouweilist.add("啤酒节");
-        Kouweilist.add("博览会");
-        return Kouweilist;
+    private void setActivityData(List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
+        if (list != null && list.size() > 0) {
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
+            TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
+            recyclerView.setAdapter(mAdapterTableName);
+            recyclerView.setLayoutManager(manager);
+        }
     }
 
-
-    private List<String> setQiTa() {
-        Kouweilist = new ArrayList<String>();
-        Kouweilist.add("一卡通");
-        Kouweilist.add("代金券");
-        Kouweilist.add("折扣群");
-        Kouweilist.add("游乐场");
-        Kouweilist.add("洗车");
-        Kouweilist.add("汗蒸");
-        Kouweilist.add("保健");
-
-        Kouweilist.add("足疗");
-        Kouweilist.add("租车");
-        return Kouweilist;
-    }
-
-
-    private void setMoreData() {
-        GridLayoutManager manager = new GridLayoutManager(this, 4);
-        mAdapterTableName = new ShaiXuanTabNameAdapter(setDiDian(), this, 12);
-        mRecyclerViewDiDian.setAdapter(mAdapterTableName);
-        mRecyclerViewDiDian.setLayoutManager(manager);
-//        mRecyclerViewDiDian.addItemDecoration(new SpaceItemDecoration(0, 25));
-
-
-        GridLayoutManager managerChaoXiang = new GridLayoutManager(this, 4);
-        mAdapterTableName = new ShaiXuanTabNameAdapter(setHuoDong(), this, 7);
-        mRecyclerViewHuoDong.setAdapter(mAdapterTableName);
-        mRecyclerViewHuoDong.setLayoutManager(managerChaoXiang);
-//        mRecyclerViewHuoDong.addItemDecoration(new SpaceItemDecoration(0, 25));
-
-
-        GridLayoutManager managerLouLing = new GridLayoutManager(this, 4);
-        mAdapterTableName = new ShaiXuanTabNameAdapter(setQiTa(), this, 10);
-        mRecyclerViewQiTa.setAdapter(mAdapterTableName);
-        mRecyclerViewQiTa.setLayoutManager(managerLouLing);
-//        mRecyclerViewQiTa.addItemDecoration(new SpaceItemDecoration(0, 25));
+    private void setOtherData(List<TabTravelNameEntity.OtherListBean> list, RecyclerView recyclerView) {
+        if (list != null && list.size() > 0) {
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
+            TableTravelOtherAdapter mAdapterTableName = new TableTravelOtherAdapter(list, this);
+            recyclerView.setAdapter(mAdapterTableName);
+            recyclerView.setLayoutManager(manager);
+        }
     }
 
 
@@ -1107,25 +1082,14 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             PreferenceUtil.removeSp(Constanst.HUO_DONG, Constanst.SP_NAME);
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHU_SHU))) {
-            PreferenceUtil.removeSp(Constanst.ZHU_SHU, Constanst.SP_NAME);
-
-        }
-
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.XIAO_FEI))) {
-            PreferenceUtil.removeSp(Constanst.XIAO_FEI, Constanst.SP_NAME);
-        }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.QI_TA))) {
             PreferenceUtil.removeSp(Constanst.QI_TA, Constanst.SP_NAME);
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIAO_TONG))) {
-            PreferenceUtil.removeSp(Constanst.JIAO_TONG, Constanst.SP_NAME);
-        }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DI_DIAN))) {
-            PreferenceUtil.removeSp(Constanst.DI_DIAN, Constanst.SP_NAME);
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_OVERSEAS_NAME))) {
+            PreferenceUtil.removeSp(Constanst.TICKET_OVERSEAS_NAME, Constanst.SP_NAME);
         }
 
 
@@ -1133,44 +1097,24 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     private void setTabData() {
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.ZHU_SHU))) {
-            zhushu = PreferenceUtil.getString(Constanst.ZHU_SHU)
-                    .substring(1, PreferenceUtil.getString(Constanst.ZHU_SHU).length() - 1);
-        } else {
-            zhushu = "";
-        }
-
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.DI_DIAN))) {
-            didian = PreferenceUtil.getString(Constanst.DI_DIAN)
-                    .substring(1, PreferenceUtil.getString(Constanst.DI_DIAN).length() - 1);
-        } else {
-            didian = "";
-        }
-
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.JIAO_TONG))) {
-            jiaotong = PreferenceUtil.getString(Constanst.JIAO_TONG)
-                    .substring(1, PreferenceUtil.getString(Constanst.JIAO_TONG).length() - 1);
-        } else {
-            jiaotong = "";
-        }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.HUO_DONG))) {
-            huodong = PreferenceUtil.getString(Constanst.HUO_DONG)
-                    .substring(1, PreferenceUtil.getString(Constanst.HUO_DONG).length() - 1);
+            huodong = PreferenceUtil.getString(Constanst.HUO_DONG);
+
         } else {
             huodong = "";
         }
 
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.QI_TA))) {
-            qita = PreferenceUtil.getString(Constanst.QI_TA)
-                    .substring(1, PreferenceUtil.getString(Constanst.QI_TA).length() - 1);
+            qita = PreferenceUtil.getString(Constanst.QI_TA);
+
         } else {
             qita = "";
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.XIAO_FEI))) {
-            xiaofei = PreferenceUtil.getString(Constanst.XIAO_FEI)
-                    .substring(1, PreferenceUtil.getString(Constanst.XIAO_FEI).length() - 1);
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_OVERSEAS_NAME))) {
+            xiaofei = PreferenceUtil.getString(Constanst.TICKET_OVERSEAS_NAME);
+
         } else {
             xiaofei = "";
         }
@@ -1186,7 +1130,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         //获取单聊会话
         if (type.equalsIgnoreCase("C2C")) {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
-        }else {
+        } else {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
         }
         TIMMessage msg = new TIMMessage();

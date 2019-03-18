@@ -339,17 +339,19 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+        KyLog.d(ChufaCityCode+ "travel");
+        KyLog.d(MuDi+ "travel");
+
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
 
             if (lineOrThrow == 1) {
-                gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), productType, ""
+                gettingAroundTravel(ChufaCityCode, MuDi, productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
             } else {
-                gettingForeignTravel(ChufaCityCode, "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "",
+                gettingForeignTravel(ChufaCityCode, "", "", MuDi, "", "", "", "",
                         "", "", "", "", "", "", "", "",
                         "1", null, String.valueOf(lineOrThrow));
             }
@@ -369,12 +371,12 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
         } else if (!TextUtils.isEmpty(MuDi)) {
             if (lineOrThrow == 1) {
-                gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), productType, ""
+                gettingAroundTravel("", MuDi, productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
             } else {
-                gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "",
+                gettingForeignTravel("", "", "", MuDi, "", "", "", "",
                         "", "", "", "", "", "", "", "",
                         "1", null, String.valueOf(lineOrThrow));
             }
@@ -478,6 +480,9 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                }
                 break;
 
 
@@ -485,6 +490,11 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                }
+
                 break;
 
             case R.id.more_Determine:

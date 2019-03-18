@@ -90,6 +90,8 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotal_price_child() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
         holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getTravel_title()));
+        holder.mTextViewCompanyName.setText(String.valueOf(list.get(position).getCompanyName()));
+
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -158,6 +160,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         private TextView mTextViewSpotName;
         private TextView mTextViewKanxingcheng;
         private TextView mTextViewSendMessage;
+        private TextView mTextViewCompanyName;
 
         private RecyclerView mRecyclerView;
 
@@ -179,6 +182,8 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             mTextViewSpotName = (TextView) itemView.findViewById(R.id.spotName);
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
+            mTextViewCompanyName =  itemView.findViewById(R.id.company_name);
+
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }

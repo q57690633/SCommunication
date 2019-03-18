@@ -408,7 +408,6 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 break;
 
             case R.id.confirm:
-//                addRentProduct();
                 uploadImage(selImageList);
                 break;
             case R.id.new_tv_release:
@@ -848,6 +847,30 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             }
         });
     }
+//    private String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
+//
+//    /**
+//     * 上传图片
+//     * @param pathList
+//     */
+//    private void uploadImage(ArrayList<ImageItem> pathList) {
+//        KyLog.d("uploadImage");
+//        httpUtil.postFileRequest(url, null, pathList, new MyStringCallBack() {
+//
+//            @Override
+//            public void onError(Call call, Exception e, int id) {
+//                super.onError(call, e, id);
+//                KyLog.d(e + " cuowu == " +  "call == " + call  );
+//            }
+//
+//            @Override
+//            public void onResponse(String response, int id) {
+//                super.onResponse(response, id);
+//                //返回图片的地址
+//                KyLog.d(response);
+//            }
+//        });
+//    }
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
         SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);

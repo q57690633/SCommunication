@@ -45,6 +45,7 @@ import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
+import com.huxin.communication.entity.TabTicketNameEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TicketStickEntity;
@@ -922,6 +923,18 @@ public class ApiModule {
      */
     public Observable<TabTravelNameEntity> selectTravelTab(String tag_kind) {
         return ApiFactory.getFactory().BaiHangTongYeService().selectTab(tag_kind, PreferenceUtil.getString(TOKEN))
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 查询标签
+     *
+     * @return
+     */
+    public Observable<TabTicketNameEntity> selectTicketTravelTab(String tag_kind) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectTicketTab(tag_kind, PreferenceUtil.getString(TOKEN))
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());

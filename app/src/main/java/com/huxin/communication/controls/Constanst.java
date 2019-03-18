@@ -168,6 +168,9 @@ public class Constanst {
 
     public static final String TICKET_CITY_NAME = "ticket_city_name";
 
+    public static final String TICKET_OVERSEAS_NAME = "ticket_overseas_name";
+
+
 
 
     public static final int REQUEST_SYSTEM_PIC = 3;

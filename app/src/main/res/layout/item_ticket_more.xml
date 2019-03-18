@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,7 +94,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
-                android:background="@color/login_forget_password_code_fort"
+                android:background="@drawable/biaoqian_radius"
                 android:gravity="center"
                 android:paddingBottom="15dp"
                 android:paddingTop="14dp"
@@ -108,7 +109,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="21dp"
                 android:layout_weight="1"
-                android:background="@color/blue"
+                android:background="@drawable/biaoqian_radius_blue"
                 android:gravity="center"
                 android:paddingBottom="15dp"
                 android:paddingTop="14dp"

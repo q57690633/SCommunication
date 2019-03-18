@@ -14,10 +14,12 @@
 
         <TextView
             android:id="@+id/tv_table_name"
-            android:layout_width="55dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:background="@drawable/biaoqian_radius_blue"
             android:gravity="center"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:text="近地铁也"
             android:textColor="@color/white"
             android:textSize="15sp" />

@@ -554,7 +554,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                     KyLog.object(tabTravelNameEntity + "");
                     cancelProgressDialog();
                     setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
-                    setThemeListData(tabTravelNameEntity.getOverseaslist(), mRecyclerViewtheme);
+                    setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
 
 
                 }, throwable -> {
@@ -575,7 +575,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
     }
 
-    private void setThemeListData(List<TabTravelNameEntity.OverseaslistBean> list, RecyclerView recyclerView) {
+    private void setThemeListData(List<TabTravelNameEntity.ThemeList> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
             TableTravelOverseasAdapter mAdapterTableName = new TableTravelOverseasAdapter(list, this);

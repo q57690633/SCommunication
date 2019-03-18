@@ -307,6 +307,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewPrice10.setOnClickListener(this);
         mTextViewPrice11.setOnClickListener(this);
         mTextViewPrice12.setOnClickListener(this);
+        mRelativeLayoutDay.setOnClickListener(this);
 
         mTextViewZuiXin.setOnClickListener(this);
         mTextViewChongDiDaoGao.setOnClickListener(this);
@@ -378,10 +379,11 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+        KyLog.d(ChufaCityCode+ "travel");
+        KyLog.d(MuDi + "travel");
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), productType, ""
+            gettingAroundTravel(ChufaCityCode, MuDi, productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
@@ -391,7 +393,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
         } else  if (!TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), productType, ""
+            gettingAroundTravel("", MuDi, productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
@@ -543,6 +545,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 intent.putExtra("type", 1);
                 startActivity(intent);
                 isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                }
                 break;
 
 
@@ -550,6 +555,11 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
                 intentMudDi.putExtra("type", 3);
                 startActivity(intentMudDi);
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                }
+
                 break;
 
 
@@ -1154,6 +1164,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
+                    isClickQuYu = false;
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
