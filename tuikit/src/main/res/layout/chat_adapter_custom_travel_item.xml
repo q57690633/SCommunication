@@ -36,14 +36,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="胡八一"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14dp" />
 
                 <TextView
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -71,7 +71,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="保定"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <ImageView
@@ -92,7 +92,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="哈尔滨"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="行程天数：3天"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14dp" />
 
         <LinearLayout
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="成人：580元"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14dp" />
 
 
@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="成人：580元"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14dp" />
 
 
@@ -164,7 +164,7 @@
             android:layout_marginRight="29dp"
             android:layout_marginTop="10dp"
             android:text="【最美古韵】济南 泰山 双高三日游"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14dp" />
 
 
