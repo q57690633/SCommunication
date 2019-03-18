@@ -83,12 +83,12 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private List<MyPopVlaues> Kouweilist;
     private List<MyPopVlaues> keshulist;
-    private String houseHoldAppliances = "";
-    private String fitment = "";
-    private String permit = "";
-    private String orientation = "";
-    private String purpose = "";
-    private String houseType = "";
+    private String houseHoldAppliances;
+    private String fitment;
+    private String permit;
+    private String orientation;
+    private String purpose;
+    private String houseType;
     private boolean isclicked = true;
     private boolean isclickeds = true;
 
@@ -762,22 +762,39 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         Map<String,String> map = new HashMap<>();
         map.put("villageName",VillageName);
         map.put("acreage",Acreage);
-        map.put("houseType",houseType);
         map.put("totalPrice",totalPrice);
         map.put("floorNumber",floorNumber);
         map.put("totalFloorNumber",totalFloorNumber);
-        map.put("fitment",fitment);
+
+
+        if (!TextUtils.isEmpty(houseHoldAppliances)) {
+            map.put("houseHoldAppliances", houseHoldAppliances);
+        }
+        if (!TextUtils.isEmpty(fitment)) {
+            map.put("fitment", fitment);
+        }
+        if (!TextUtils.isEmpty(permit)) {
+            map.put("permit", permit);
+        }
+        if (!TextUtils.isEmpty(orientation)) {
+            map.put("orientation", orientation);
+
+        }
+        if (!TextUtils.isEmpty(purpose)) {
+            map.put("purpose", purpose);
+
+        }
+        if (!TextUtils.isEmpty(houseType)) {
+            map.put("houseType", houseType);
+        }
+
         map.put("keying",String.valueOf(keying));
-        map.put("paymentType",permit);
         map.put("title",title);
         map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
         map.put("stick",String.valueOf(stick));
         map.put("pdu",pdu);
-        map.put("orientation",orientation);
         map.put("tabId",tableId);
         map.put("exclusive",String.valueOf(exclusive));
-        map.put("purpose",purpose);
-        map.put("houseHoldAppliances",houseHoldAppliances);
         map.put("floorSize",floorSize);
         map.put("houseNumber",houseNumber);
         map.put("token",PreferenceUtil.getString(TOKEN));

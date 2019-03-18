@@ -91,22 +91,27 @@
 
                             <TextView
                                 android:id="@+id/username"
-                                android:layout_width="wrap_content"
+                                android:layout_width="70dp"
+                                android:lines="1"
+                                android:ellipsize="end"
                                 android:layout_height="wrap_content"
                                 android:text="胡八一"
                                 android:textColor="@color/register_font"
                                 android:textSize="14dp" />
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="江苏喜洋洋"
                                 android:textColor="@color/register_font"
+                                android:lines="1"
+                                android:ellipsize="end"
                                 android:textSize="14dp" />
 
                             <TextView
                                 android:id="@+id/userCity"
-                                android:layout_width="wrap_content"
+                                android:layout_width="70dp"
+                                android:lines="1"
+                                android:ellipsize="end"
                                 android:layout_height="wrap_content"
                                 android:text="齐齐哈尔"
                                 android:textColor="@color/register_font"

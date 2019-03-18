@@ -352,16 +352,16 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
         String maxPrice = mEditTextmaxPrice.getText().toString().trim();
         String minAcreage = mEditTextminAcreage.getText().toString().trim();
         String remark = mEditTextremark.getText().toString().trim();
-        String tableId ;
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
             tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
-        }else {
+        } else {
             tableId = "";
 
         }
 
-        if (TextUtils.isEmpty(VillageName)  && TextUtils.isEmpty(fitment) && TextUtils.isEmpty(HouseType)){
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(fitment) && TextUtils.isEmpty(HouseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -374,7 +374,7 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                     cancelProgressDialog();
 //                    KyLog.d(response.getResultMsg());
 //                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this,MainActivity.class);
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
 
                 }, throwable -> {
@@ -441,38 +441,50 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
         String maxPrice = mEditTextmaxPrice.getText().toString().trim();
         String minAcreage = mEditTextminAcreage.getText().toString().trim();
         String remark = mEditTextremark.getText().toString().trim();
-        String tableId ;
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
             tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
-        }else {
+        } else {
             tableId = "";
 
         }
 
-        if (TextUtils.isEmpty(VillageName)  && TextUtils.isEmpty(fitment) && TextUtils.isEmpty(HouseType)){
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(fitment) && TextUtils.isEmpty(HouseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
-            showProgressDialog();
+        showProgressDialog();
 
-        Map<String,String> map = new HashMap<>();
-        map.put("villageName",VillageName);
-        map.put("unlimitedEstate",String.valueOf(unlimitedEstate));
-        map.put("minPrice",minPrice);
-        map.put("maxPrice",maxPrice);
-        map.put("minAcreage",minAcreage);
-        map.put("maxAcreage",maxAcreage);
-        map.put("houseType",HouseType);
-        map.put("fitment",fitment);
-        map.put("paymentType",PaymentType);
-        map.put("householdAppliances",HseholdAppliances);
-        map.put("remark",remark);
-        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
-        map.put("stick",String.valueOf(stick));
-        map.put("tabId",tableId);
-        map.put("token",PreferenceUtil.getString(TOKEN));
+        Map<String, String> map = new HashMap<>();
+        map.put("villageName", VillageName);
+        map.put("unlimitedEstate", String.valueOf(unlimitedEstate));
+        map.put("minPrice", minPrice);
+        map.put("maxPrice", maxPrice);
+        map.put("minAcreage", minAcreage);
+        map.put("maxAcreage", maxAcreage);
 
+        if (!TextUtils.isEmpty(HouseType)) {
+            map.put("houseType", HouseType);
+
+        }
+        if (!TextUtils.isEmpty(PaymentType)) {
+            map.put("paymentType", PaymentType);
+
+        }
+        if (!TextUtils.isEmpty(fitment)) {
+            map.put("fitment", fitment);
+        }
+
+        if (!TextUtils.isEmpty(HseholdAppliances)) {
+            map.put("householdAppliances", HseholdAppliances);
+        }
+
+        map.put("remark", remark);
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick", String.valueOf(stick));
+        map.put("tabId", tableId);
+        map.put("token", PreferenceUtil.getString(TOKEN));
 
 
         String url = "http://39.105.203.33/jlkf/mutual-trust/public/addWantedProduct";
@@ -495,10 +507,10 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                 cancelProgressDialog();
                 Toast.makeText(ReleaseRentActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 //返回图片的地址
-                if(TextUtils.isEmpty(type)) {
+                if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseRentActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         jsonObject.put("type", 4);

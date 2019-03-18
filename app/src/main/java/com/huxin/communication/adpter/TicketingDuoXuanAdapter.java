@@ -155,6 +155,7 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
     class MyViewHoder extends RecyclerView.ViewHolder {
         private LinearLayout mLinearLayout;
         private ImageView mImageViewAddr;
+        private ImageView mImageViewStickName;
         private TextView mTextViewName;
         private TextView mTextViewOriginalPrice;
         private TextView mTextViewAddr;
@@ -172,6 +173,7 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
             mTextViewAddr = (TextView) itemView.findViewById(R.id.ticket_addr);
             mTextViewOriginalPrice = (TextView) itemView.findViewById(R.id.original_price);
             mImageViewDuoXuan = (ImageView) itemView.findViewById(R.id.image_duoxuan);
+            mImageViewStickName = itemView.findViewById(R.id.image_stick);
 
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_ticket);
@@ -189,7 +191,7 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
             }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

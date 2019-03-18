@@ -136,7 +136,7 @@ public class DomesticDetailsActivity extends BaseActivity {
 
     private void gettingAroundTravel() {
         showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel("", "", "", ""
+        ApiModule.getInstance().gettingAroundTravel("", "", 0, ""
                 , "", "", "", "", "",
                 "", "", "","1", "", "", null,"2","",
                 "0",String.valueOf(PreferenceUtil.getInt(UID)))

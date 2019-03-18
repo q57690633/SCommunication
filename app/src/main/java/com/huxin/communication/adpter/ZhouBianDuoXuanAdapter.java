@@ -132,7 +132,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturnPrice() + "元");
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
-        holder.mTextViewSpotName.setText(list.get(position).getSpotName());
+        holder.mTextViewSpotName.setText(list.get(position).getTravelTitle());
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -147,6 +147,31 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
         } else {
             holder.mImageViewDuoXuan.setBackgroundResource(R.drawable.icon_circle_normal);
+        }
+
+        if (list.get(position).getStick_hot() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
+        }
+        if (list.get(position).getStick_low() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_tejia);
+        }
+        if (list.get(position).getStick_new() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shangxin);
+        }
+        if (list.get(position).getStick_return() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_gaofanyong);
+        }
+        if (list.get(position).getStick_zeroC() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_ziwei);
+        }
+        if (list.get(position).getStick_better() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_jingpin);
+        }
+        if (list.get(position).getStick_rate() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_xingjiabi);
+        }
+        if (list.get(position).getStick_throw() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shuaiwei);
         }
 
     }

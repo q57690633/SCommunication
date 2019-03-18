@@ -523,7 +523,7 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/gettingAroundTravel")
     Observable<Response<AroundTravelEntity>> gettingAroundTravel(@Field("depart_code") String depart_code, @Field("goalsId") String goalsId,
-                                                                 @Field("sort_type") String sort_type, @Field("tOtherId") String tOtherId,
+                                                                 @Field("sort_type") int sort_type, @Field("tOtherId") String tOtherId,
                                                                  @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
                                                                  @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,
                                                                  @Field("tConsumeId") String tConsumeId, @Field("minPri_maxPri") String minPri_maxPri,

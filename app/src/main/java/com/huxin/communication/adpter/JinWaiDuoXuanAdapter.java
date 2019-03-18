@@ -128,7 +128,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotal_price_child() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
-        holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getSort_type()));
+        holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getTravel_title()));
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);

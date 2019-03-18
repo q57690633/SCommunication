@@ -14,11 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.ui.LoginActivity;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -68,8 +71,14 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        setOnBinner();
-
+        KyLog.d(PreferenceUtil.getString("start"));
+        if (TextUtils.isEmpty(PreferenceUtil.getString("start"))){
+            setOnBinner();
+        }else {
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+        }
+        PreferenceUtil.putString("start","start");
     }
 
 

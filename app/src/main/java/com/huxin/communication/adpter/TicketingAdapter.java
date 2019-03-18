@@ -47,7 +47,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, TicketingDetailsActivity.class);
-                intent.putExtra("position",hoder.getAdapterPosition());
+                intent.putExtra("list", list.get(hoder.getAdapterPosition()));
                 mContext.startActivity(intent);
             }
         });
@@ -63,6 +63,30 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
         }
+        if (list.get(position).getStick_hot() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
+        }
+        if (list.get(position).getStick_low() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_tejia);
+        }
+        if (list.get(position).getStick_new() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shangxin);
+        }
+        if (list.get(position).getStick_return() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_gaofanyong);
+        }
+        if (list.get(position).getStick_zeroC() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_ziwei);
+        }
+        if (list.get(position).getStick_better() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_jingpin);
+        }
+        if (list.get(position).getStick_rate() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_xingjiabi);
+        }
+        if (list.get(position).getStick_throw() == 1){
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shuaiwei);
+        }
 
     }
 
@@ -74,6 +98,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
     class MyViewHoder extends RecyclerView.ViewHolder {
         private LinearLayout mLinearLayout;
         private ImageView mImageViewAddr;
+        private ImageView mImageViewStickName;
         private TextView mTextViewName;
         private TextView mTextViewOriginalPrice;
         private TextView mTextViewAddr;
@@ -90,6 +115,8 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             mTextViewOriginalPrice = (TextView) itemView.findViewById(R.id.original_price);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_ticket);
+
+            mImageViewStickName = itemView.findViewById(R.id.image_stick);
         }
     }
 
@@ -104,7 +131,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

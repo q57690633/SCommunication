@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -39,6 +40,7 @@
                 android:layout_height="44dp">
 
                 <ImageView
+                    android:id="@+id/back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
@@ -69,7 +71,6 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="18dp"
             android:layout_marginTop="16dp"
-            android:text="泰国蓝宝石海景 曼谷 芭提雅 沙美岛 人妖表演 泰式按摩 六日游"
             android:textColor="#333333"
             android:textSize="17sp" />
 
@@ -93,7 +94,6 @@
                     android:id="@+id/depart_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="北京"
                     android:textColor="#f23426"
                     android:textSize="16sp" />
 
@@ -126,7 +126,6 @@
                     android:id="@+id/goals_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="曼谷"
                     android:textColor="#f23426"
                     android:textSize="16sp" />
 
@@ -152,7 +151,6 @@
                     android:id="@+id/numberDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6天"
                     android:textColor="#f23426"
                     android:textSize="16sp" />
 
@@ -177,7 +175,6 @@
                 android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="成人：3820元"
                 android:textColor="#333333"
                 android:textSize="14sp" />
 
@@ -186,7 +183,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
-                android:text="返佣：800元"
                 android:textColor="#f23426"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -202,7 +198,6 @@
                 android:id="@+id/totalPriceChild"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="儿童：3820元"
                 android:textColor="#666666"
                 android:textSize="14sp" />
 
@@ -211,7 +206,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="返佣：800元"
                 android:textColor="#666666"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -235,7 +229,6 @@
                 android:id="@+id/spotName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="大皇宫  清迈小镇  泰式按摩  人妖表演  七珍佛山  曼谷唐人街  夜游湄南河"
                 android:textColor="#333333"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -284,7 +277,6 @@
                     android:id="@+id/view_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="153次"
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -308,7 +300,6 @@
                     android:id="@+id/issue_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15次"
                     android:textColor="#333333"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -356,27 +347,29 @@
                 android:scaleType="centerCrop" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/username"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
-                    android:text="胡八一"
                     android:textColor="#333333"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/companyName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
                     android:layout_marginTop="4dp"
-                    android:text="创居不动产"
                     android:textColor="#333333"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="16sp" />
             </LinearLayout>
 

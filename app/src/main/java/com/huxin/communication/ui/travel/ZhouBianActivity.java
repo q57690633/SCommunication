@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,8 +27,10 @@ import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.HouseEntity;
+import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.entity.RentalScreeningEntity;
 import com.huxin.communication.entity.TravelEntity;
 import com.huxin.communication.http.ApiModule;
@@ -47,7 +52,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZhouBianActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener {
+public class ZhouBianActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -92,11 +97,13 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     private ZhouBianAdapter mAdpter;
 
     private List<String> list = new ArrayList<>();
-    private int numberDays;
+    private int numberDays = 1;
 
     private EditText mEditTextSearch;
     private int NumberDays = 1;
 
+    private EditText mEditTextMax;
+    private EditText mEditTextMin;
 
 
     //********************************
@@ -137,13 +144,10 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     private TextView mTextViewChongDuoDaoShaoDay;
 
 
-    private EditText mEditTextMax;
-    private EditText mEditTextMin;
-
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType;
 
     private String zhushu;
     private String didian;
@@ -153,8 +157,18 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     private String xiaofei;
 
     private List<String> Kouweilist;
+    private List<MyPopVlaues> Koulist;
+
 
     private TextView mTextViewCollect;
+
+    private RelativeLayout mRelativeLayoutDay;
+    private EditText mEditTextminDay;
+    private EditText mEditTextMaxDay;
+    private TextView mTextViewDayType;
+    private ReleaseDialog mReleaseDialog;
+
+    private String day;
 
 
     private boolean isClickQuYu = false;
@@ -248,8 +262,8 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewPrice12 = (TextView) findViewById(R.id.price12);
 
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZuiXin = (TextView) findViewById(R.id.zuixin);
         mTextViewChongDiDaoGao = (TextView) findViewById(R.id.congdidaogao);
@@ -263,6 +277,13 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
         mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+
+        mRelativeLayoutDay = findViewById(R.id.rl_travel_hot_type);
+        mEditTextMaxDay = findViewById(R.id.ed_day_max);
+        mEditTextminDay = findViewById(R.id.ed_day_min);
+        mTextViewDayType = findViewById(R.id.travel_hot_type);
+
 
         mEditTextSearch.setOnEditorActionListener(this);
 
@@ -308,6 +329,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mLinearLayoutChuFa.setOnClickListener(this);
         mTextViewZhuanFa.setOnClickListener(this);
 
+        mRelativeLayoutDay.setOnClickListener(this);
 
 
     }
@@ -315,10 +337,46 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
-        gettingAroundTravel("", "", "", ""
+        gettingAroundTravel("", "", productType, ""
                 , "", "", "", "", "",
-                "", "", "",
+                "", String.valueOf(numberDays), "",
                 "1", "", "", null, String.valueOf(1), "");
+
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
     @Override
@@ -328,29 +386,29 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
+        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
         KyLog.d(ChufaCityCode);
         KyLog.d(MuDi);
 
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), "", ""
+            gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", null, String.valueOf(1), "");
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
-            gettingAroundTravel(ChufaCityCode, "", "", ""
+            gettingAroundTravel(ChufaCityCode, "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", null, String.valueOf(1), "");
-        } else  if (!TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), "", ""
+        } else if (!TextUtils.isEmpty(MuDi)) {
+            gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", null, String.valueOf(1), "");
         } else {
-            gettingAroundTravel("", "", "", ""
+            gettingAroundTravel("", "", productType, ""
                     , "", "", "", "", "",
-                    "", "", "",
+                    "", String.valueOf(numberDays), "",
                     "1", "", "", null, String.valueOf(1), "");
         }
 
@@ -449,6 +507,17 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 startActivity(intentMudDi);
                 break;
             case R.id.more_Determine:
+
+                String minDay = mEditTextminDay.getText().toString().trim();
+                String maxDay = mEditTextMaxDay.getText().toString().trim();
+                if (TextUtils.isEmpty(minDay)){
+                    minDay = "";
+                }
+
+                if (TextUtils.isEmpty(maxDay)){
+                    maxDay = "";
+                }
+
                 updata();
                 setTabData();
                 KyLog.d(zhushu);
@@ -459,25 +528,25 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 KyLog.d(xiaofei);
 
 
-                gettingAroundTravel("", "", "", qita
+                gettingAroundTravel("", "", productType, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
-                        "", "", "",
-                        "1", "", "", null, String.valueOf(1), "");
+                        "", day, "",
+                        "1", minDay, maxDay, null, String.valueOf(1), "");
                 break;
             case R.id.price_Determine:
                 updata();
                 if (Integer.parseInt(minPrice) < 500) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             0 + "," + maxPrice, "", "",
                             "1", "", "", null, String.valueOf(1), "");
                 } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             minPrice + "," + maxPrice, "", "",
                             "1", "", "", null, String.valueOf(1), "");
                 } else if (Integer.parseInt(minPrice) > 7000) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             7000 + "," + 1000000, "", "",
                             "1", "", "", null, String.valueOf(1), "");
@@ -485,9 +554,10 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.sort_Determine:
                 updata();
+                KyLog.d(productType + "");
                 gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
-                        "", "", "",
+                        "", String.valueOf(numberDays), "",
                         "1", "", "", null, String.valueOf(1), "");
                 break;
             case R.id.price1:
@@ -635,6 +705,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "2000";
                 maxPrice = "2500";
+                break;
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -849,7 +920,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
 
-                productType = "3";
+                productType = 3;
                 break;
             case R.id.congdidaogao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -860,7 +931,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "1";
+                productType = 1;
                 break;
             case R.id.congdidaogao_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -871,7 +942,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.zuiwan:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -882,7 +953,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.day_congshaodaoduo:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -893,7 +964,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "7";
+                productType = 7;
                 break;
             case R.id.conggaodaodi:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -904,7 +975,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.conggaodaodi_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -915,7 +986,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.day_congduodaoshao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -926,7 +997,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.blue));
-                productType = "8";
+                productType = 8;
                 break;
 
             case R.id.yiriyou:
@@ -937,7 +1008,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 numberDays = 1;
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "1", "",
                         "1", "", "", null, String.valueOf(1), "");
@@ -951,7 +1022,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 numberDays = 2;
 
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "2", "",
                         "1", "", "", null, String.valueOf(1), "");
@@ -966,7 +1037,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.white));
                 numberDays = 3;
 
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "3", "",
                         "1", "", "", null, String.valueOf(1), "");
@@ -995,12 +1066,27 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 addTravelCollect(1);
                 break;
             case R.id.delete_collect:
-//                addCollectTravel(productType);
                 if (mZhouBianDuoXuanAdapter.getSelectedItem().size() > 0) {
                     zhuanfa(mZhouBianDuoXuanAdapter);
-                }else {
+                } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
+                break;
+
+            case R.id.rl_travel_hot_type:
+                mReleaseDialog = new ReleaseDialog(this, setDayType());
+                mReleaseDialog.setCancelable(true);
+
+                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mTextViewDayType.setText(setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1));
+                        day = setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1);
+                        KyLog.d(day);
+                        mReleaseDialog.cancel();
+                    }
+                });
+                mReleaseDialog.show();
                 break;
         }
     }
@@ -1054,7 +1140,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
 
     private void gettingAroundTravel(String depart_code, String goalsId,
-                                     String sort_type, String tOtherId,
+                                     int sort_type, String tOtherId,
                                      String tActivityId, String tStayId,
                                      String tAddressId, String tTrafficId,
                                      String tConsumeId, String minPri_maxPri,
@@ -1064,7 +1150,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goalsId,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows,"0",String.valueOf(PreferenceUtil.getInt(UID)))
+                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
@@ -1086,7 +1172,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,CollectTravelActivity.class);
+                    Intent intent = new Intent(this, CollectTravelActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
@@ -1221,6 +1307,16 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         return Kouweilist;
     }
 
+    private List<MyPopVlaues> setDayType() {
+        Koulist = new ArrayList<MyPopVlaues>();
+        Koulist.add(new MyPopVlaues("1天"));
+        Koulist.add(new MyPopVlaues("2天"));
+        Koulist.add(new MyPopVlaues("3天"));
+        Koulist.add(new MyPopVlaues("4天"));
+
+        return Koulist;
+    }
+
 
     private void setMoreData() {
         GridLayoutManager manager = new GridLayoutManager(this, 4);
@@ -1347,7 +1443,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         //获取单聊会话
         if (type.equalsIgnoreCase("C2C")) {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
-        }else {
+        } else {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
         }
         TIMMessage msg = new TIMMessage();
@@ -1444,7 +1540,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             "", String.valueOf(numberDays), search,
                             "1", "", "", null, String.valueOf(1), "");
@@ -1457,6 +1553,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         }
         return true;
     }
+
     private void setEnabled(boolean isFocusable) {
         mLinearLayoutChuFa.setClickable(isFocusable);
         mLinearLayoutMore.setClickable(isFocusable);

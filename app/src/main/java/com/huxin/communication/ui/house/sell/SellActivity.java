@@ -368,8 +368,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener, 
         mTextViewdanjiaGD = (TextView) findViewById(R.id.danjia_conggaodaodi);
         mTextViewmianjiBD = (TextView) findViewById(R.id.mianji_congdadaoxiao);
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
@@ -458,6 +458,42 @@ public class SellActivity extends BaseActivity implements View.OnClickListener, 
         getSaleOfScreening("", "", "", "", "", "", "", "", "", "",
                 "", "", "", "0", 0, PreferenceUtil.getString(Constanst.CITY_NAME),
                 PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
+
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
     @Override
@@ -915,6 +951,8 @@ public class SellActivity extends BaseActivity implements View.OnClickListener, 
                 minPrice = "120";
                 maxPrice = "130";
                 KyLog.d("price == 5");
+                break;
+
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);

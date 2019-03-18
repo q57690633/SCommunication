@@ -26,12 +26,14 @@ import com.huxin.communication.adpter.HeadHouseAdapter;
 import com.huxin.communication.adpter.HeadTravelAdapter;
 import com.huxin.communication.adpter.HeadTravelJinWaiAdapter;
 import com.huxin.communication.adpter.HeadTravelTicketAdapter;
+import com.huxin.communication.adpter.HomeTravelAdapter;
 import com.huxin.communication.adpter.HomeViewPagerAdapter;
 import com.huxin.communication.adpter.RecyclerHomeAdpter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.base.HomeFragmentMsgDBHelper;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.GetMessageEntity;
+import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InlandCityEntity;
@@ -64,6 +66,7 @@ import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.SQLiteUtil;
 import com.huxin.communication.view.AutoScrollLayoutManager;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -101,8 +104,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private RecyclerView mRecyclerView;
     private RecyclerHomeAdpter mAdpter;
     private HeadHouseAdapter mHeadLineAdapter;
-    private HeadTravelAdapter mHeadTravelAdapter;
-    private HeadTravelJinWaiAdapter mHeadTravelJinWaiAdapter;
+    private HomeTravelAdapter mHeadTravelAdapter;
     private HeadTravelTicketAdapter mTravelTicketAdapter;
 
 
@@ -440,29 +442,69 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     if (homeTravelEntity != null) {
                         KyLog.d(homeTravelEntity.getCarousel().size() + "");
                         setTravelOnBinner(homeTravelEntity.getCarousel());
+
+
+                        List<HeadTravelEntivty> list = new ArrayList<>();
                         if (homeTravelEntity.getAroundHead() != null && homeTravelEntity.getAroundHead().size() > 0) {
-                            AutoScrollLayoutManager manager = new AutoScrollLayoutManager(getContext());
-                            mHeadTravelAdapter = new HeadTravelAdapter(homeTravelEntity.getAroundHead(), getContext());
-                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
-                            mRecyclerViewHead.setLayoutManager(manager);
-//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                            for (HomeTravelEntity.AroundHeadBean aroundHeadBean : homeTravelEntity.getAroundHead()) {
+                                HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
+                                headTravelEntivty.setTravelTitle(aroundHeadBean.getTravelTitle());
+                                headTravelEntivty.setDepart_name(aroundHeadBean.getDepart_name());
+                                headTravelEntivty.setGoals_city(aroundHeadBean.getGoals_city());
+                                headTravelEntivty.setTotalPrice(aroundHeadBean.getTotalPrice());
+                                headTravelEntivty.setHeadUrl(aroundHeadBean.getHeadUrl());
+                                headTravelEntivty.setNumberDays(aroundHeadBean.getNumberDays());
+                                headTravelEntivty.setProductType(1);
+                                list.add(headTravelEntivty);
+                            }
                         }
 
-                        if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
-                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                            mHeadTravelJinWaiAdapter = new HeadTravelJinWaiAdapter(homeTravelEntity.getForeignHead(), getContext());
-                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
-                            mRecyclerViewHead.setLayoutManager(manager);
-//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                            if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
+                                for (HomeTravelEntity.ForeignHeadBean foreignHeadBean : homeTravelEntity.getForeignHead()) {
+                                    HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
+                                    headTravelEntivty.setTravel_title(foreignHeadBean.getTravel_title());
+                                    headTravelEntivty.setDepart_name(foreignHeadBean.getDepart_name());
+                                    headTravelEntivty.setGoals_city(foreignHeadBean.getGoals_city());
+                                    headTravelEntivty.setTotal_price(foreignHeadBean.getTotal_price());
+                                    headTravelEntivty.setNumber_days(foreignHeadBean.getNumber_days());
+                                    headTravelEntivty.setHeadUrl(foreignHeadBean.getHeadUrl());
+                                    headTravelEntivty.setProductType(2);
+                                    list.add(headTravelEntivty);
+                                }
                         }
+
 
                         if (homeTravelEntity.getTicketHead() != null && homeTravelEntity.getTicketHead().size() > 0) {
+                            for (HomeTravelEntity.TicketHeadBean ticketHeadBean : homeTravelEntity.getTicketHead()) {
+                                HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
+                                headTravelEntivty.setTicket_name(ticketHeadBean.getTicket_name());
+                                headTravelEntivty.setOriginal_price(ticketHeadBean.getOriginal_price());
+                                headTravelEntivty.setTicket_city_name(ticketHeadBean.getTicket_city_name());
+                                headTravelEntivty.setFinal_price(ticketHeadBean.getFinal_price());
+                                headTravelEntivty.setHeadUrl(ticketHeadBean.getHeadUrl());
+                                headTravelEntivty.setProductType(3);
+                                list.add(headTravelEntivty);
+                            }
+                        }
+
+                        KyLog.d(list.size() + "");
+                        KyLog.object(list);
+
+                        if (list.size() > 0) {
                             LinearLayoutManager manager = new LinearLayoutManager(getContext());
-                            mTravelTicketAdapter = new HeadTravelTicketAdapter(homeTravelEntity.getTicketHead(), getContext());
-                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+                            mHeadTravelAdapter = new HomeTravelAdapter(list, getContext());
+                            mRecyclerViewHead.setAdapter(mHeadTravelAdapter);
                             mRecyclerViewHead.setLayoutManager(manager);
 //                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
                         }
+//
+//                        if (homeTravelEntity.getTicketHead() != null && homeTravelEntity.getTicketHead().size() > 0) {
+//                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//                            mTravelTicketAdapter = new HeadTravelTicketAdapter(homeTravelEntity.getTicketHead(), getContext());
+//                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
+//                            mRecyclerViewHead.setLayoutManager(manager);
+////                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                        }
 
                     }
 

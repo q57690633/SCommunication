@@ -1,9 +1,16 @@
 package com.huxin.communication.utils;
 
+import android.widget.Toast;
+
+import com.aitangba.pickdatetime.DatePickDialog;
+import com.aitangba.pickdatetime.OnSureListener;
+import com.aitangba.pickdatetime.bean.DateParams;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import static com.huxin.communication.HuXinApplication.mContext;
 
 /**
  * 时间工具
@@ -494,6 +501,27 @@ public class DateUtil {
 			}
 			return week;
 		}
+
+	public static void showDatePickDialog(@DateParams.Type int... style) {
+		Calendar todayCal = Calendar.getInstance();
+		Calendar startCal = Calendar.getInstance();
+		Calendar endCal = Calendar.getInstance();
+		endCal.add(Calendar.YEAR, 6);
+
+		new DatePickDialog.Builder()
+				.setTypes(style)
+				.setCurrentDate(todayCal.getTime())
+				.setStartDate(startCal.getTime())
+				.setEndDate(endCal.getTime())
+				.setOnSureListener(new OnSureListener() {
+					@Override
+					public void onSure(Date date) {
+						String message = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
+						Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+					}
+				})
+				.show(mContext);
+	}
 
 }
 

@@ -23,6 +23,10 @@ import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.ui.travel.release.OverseasReleaseActivity;
+import com.huxin.communication.ui.travel.release.ReleaseGuoNeiActivity;
+import com.huxin.communication.ui.travel.release.ReleaseTicketingActivity;
+import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.utils.SendImageMessageUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
@@ -205,25 +209,25 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 startActivityForResult(intentQiuZu, 2);
                 break;
             case R.drawable.tab_icon_guoneiyou:
-                Intent intentGuoNei = new Intent(getActivity(), DomesticDetailsActivity.class);
+                Intent intentGuoNei = new Intent(getActivity(), ReleaseGuoNeiActivity.class);
                 intentGuoNei.putExtra("type", "C2C");
                 intentGuoNei.putExtra("peer", chatId);
                 startActivityForResult(intentGuoNei, 2);
                 break;
             case R.drawable.tab_icon_zhoubianyou:
-                Intent intentZhouBian = new Intent(getActivity(), ZhouBianDetailsActivity.class);
+                Intent intentZhouBian = new Intent(getActivity(), ReleaseZhouBoundaryActivity.class);
                 intentZhouBian.putExtra("type", "C2C");
                 intentZhouBian.putExtra("peer", chatId);
                 startActivityForResult(intentZhouBian, 2);
                 break;
             case R.drawable.tab_icon_jingwaiyou:
-                Intent intentJingWai = new Intent(getActivity(), JinWaiDetailsActivity.class);
+                Intent intentJingWai = new Intent(getActivity(), OverseasReleaseActivity.class);
                 intentJingWai.putExtra("type", "C2C");
                 intentJingWai.putExtra("peer", chatId);
                 startActivityForResult(intentJingWai, 2);
                 break;
             case R.drawable.tab_icon_piowu:
-                Intent intentPiaoWu = new Intent(getActivity(), TicketingDetailsActivity.class);
+                Intent intentPiaoWu = new Intent(getActivity(), ReleaseTicketingActivity.class);
                 intentPiaoWu.putExtra("type", "C2C");
                 intentPiaoWu.putExtra("peer", chatId);
                 startActivityForResult(intentPiaoWu, 2);

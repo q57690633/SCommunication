@@ -1,8 +1,11 @@
 package com.huxin.communication.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class TicketInfoEntity {
+public class TicketInfoEntity implements Parcelable {
 
     /**
      * curPage : 1
@@ -38,7 +41,9 @@ public class TicketInfoEntity {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Parcelable {
+
+
         /**
          * companyName :
          * curPage :
@@ -161,8 +166,17 @@ public class TicketInfoEntity {
         private String userCity;
         private String username;
         private int view_count;
-        private List<?> files;
+        private List<String> files;
         private String generalize;
+        private String isCollect;
+
+        public String getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(String isCollect) {
+            this.isCollect = isCollect;
+        }
 
         public String getGeneralize() {
             return generalize;
@@ -644,12 +658,194 @@ public class TicketInfoEntity {
             this.view_count = view_count;
         }
 
-        public List<?> getFiles() {
+        public List<String> getFiles() {
             return files;
         }
 
-        public void setFiles(List<?> files) {
+        public void setFiles(List<String> files) {
             this.files = files;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.companyName);
+            dest.writeString(this.curPage);
+            dest.writeInt(this.final_boat);
+            dest.writeInt(this.final_car);
+            dest.writeInt(this.final_price);
+            dest.writeInt(this.final_price_child);
+            dest.writeDouble(this.final_price_evening);
+            dest.writeInt(this.final_price_family);
+            dest.writeInt(this.final_price_parent_child);
+            dest.writeString(this.goals_city);
+            dest.writeString(this.headUrl);
+            dest.writeInt(this.id);
+            dest.writeInt(this.issue_count);
+            dest.writeString(this.issue_time);
+            dest.writeString(this.keyWord);
+            dest.writeInt(this.line_or_throw);
+            dest.writeInt(this.max_price);
+            dest.writeString(this.minPri_maxPri);
+            dest.writeInt(this.min_price);
+            dest.writeString(this.open_time);
+            dest.writeInt(this.original_boat);
+            dest.writeInt(this.original_car);
+            dest.writeInt(this.original_price);
+            dest.writeInt(this.original_price_child);
+            dest.writeDouble(this.original_price_evening);
+            dest.writeDouble(this.original_price_family);
+            dest.writeDouble(this.original_price_parent_child);
+            dest.writeString(this.photo_url);
+            dest.writeInt(this.return_boat);
+            dest.writeInt(this.return_car);
+            dest.writeInt(this.return_price);
+            dest.writeInt(this.return_price_child);
+            dest.writeInt(this.return_price_evening);
+            dest.writeInt(this.return_price_family);
+            dest.writeInt(this.return_price_parent_child);
+            dest.writeInt(this.sort_type);
+            dest.writeInt(this.stick);
+            dest.writeInt(this.stick_better);
+            dest.writeInt(this.stick_hot);
+            dest.writeInt(this.stick_low);
+            dest.writeString(this.stick_name);
+            dest.writeInt(this.stick_new);
+            dest.writeInt(this.stick_rate);
+            dest.writeInt(this.stick_return);
+            dest.writeInt(this.stick_throw);
+            dest.writeInt(this.stick_zeroC);
+            dest.writeString(this.tagName);
+            dest.writeString(this.ticket_activity_id);
+            dest.writeString(this.ticket_addr);
+            dest.writeString(this.ticket_city_name);
+            dest.writeString(this.ticket_name);
+            dest.writeString(this.ticket_other_id);
+            dest.writeString(this.ticket_pro_name);
+            dest.writeString(this.ticket_theme_id);
+            dest.writeInt(this.ticket_type);
+            dest.writeInt(this.uid);
+            dest.writeString(this.userCity);
+            dest.writeString(this.username);
+            dest.writeInt(this.view_count);
+            dest.writeStringList(this.files);
+            dest.writeString(this.generalize);
+        }
+
+        public ListBean() {
+        }
+
+        protected ListBean(Parcel in) {
+            this.companyName = in.readString();
+            this.curPage = in.readString();
+            this.final_boat = in.readInt();
+            this.final_car = in.readInt();
+            this.final_price = in.readInt();
+            this.final_price_child = in.readInt();
+            this.final_price_evening = in.readDouble();
+            this.final_price_family = in.readInt();
+            this.final_price_parent_child = in.readInt();
+            this.goals_city = in.readString();
+            this.headUrl = in.readString();
+            this.id = in.readInt();
+            this.issue_count = in.readInt();
+            this.issue_time = in.readString();
+            this.keyWord = in.readString();
+            this.line_or_throw = in.readInt();
+            this.max_price = in.readInt();
+            this.minPri_maxPri = in.readString();
+            this.min_price = in.readInt();
+            this.open_time = in.readString();
+            this.original_boat = in.readInt();
+            this.original_car = in.readInt();
+            this.original_price = in.readInt();
+            this.original_price_child = in.readInt();
+            this.original_price_evening = in.readDouble();
+            this.original_price_family = in.readDouble();
+            this.original_price_parent_child = in.readDouble();
+            this.photo_url = in.readString();
+            this.return_boat = in.readInt();
+            this.return_car = in.readInt();
+            this.return_price = in.readInt();
+            this.return_price_child = in.readInt();
+            this.return_price_evening = in.readInt();
+            this.return_price_family = in.readInt();
+            this.return_price_parent_child = in.readInt();
+            this.sort_type = in.readInt();
+            this.stick = in.readInt();
+            this.stick_better = in.readInt();
+            this.stick_hot = in.readInt();
+            this.stick_low = in.readInt();
+            this.stick_name = in.readString();
+            this.stick_new = in.readInt();
+            this.stick_rate = in.readInt();
+            this.stick_return = in.readInt();
+            this.stick_throw = in.readInt();
+            this.stick_zeroC = in.readInt();
+            this.tagName = in.readString();
+            this.ticket_activity_id = in.readString();
+            this.ticket_addr = in.readString();
+            this.ticket_city_name = in.readString();
+            this.ticket_name = in.readString();
+            this.ticket_other_id = in.readString();
+            this.ticket_pro_name = in.readString();
+            this.ticket_theme_id = in.readString();
+            this.ticket_type = in.readInt();
+            this.uid = in.readInt();
+            this.userCity = in.readString();
+            this.username = in.readString();
+            this.view_count = in.readInt();
+            this.files = in.createStringArrayList();
+            this.generalize = in.readString();
+        }
+
+        public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+            @Override
+            public ListBean createFromParcel(Parcel source) {
+                return new ListBean(source);
+            }
+
+            @Override
+            public ListBean[] newArray(int size) {
+                return new ListBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.curPage);
+        dest.writeInt(this.pageSize);
+        dest.writeTypedList(this.list);
+    }
+
+    public TicketInfoEntity() {
+    }
+
+    protected TicketInfoEntity(Parcel in) {
+        this.curPage = in.readString();
+        this.pageSize = in.readInt();
+        this.list = in.createTypedArrayList(ListBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<TicketInfoEntity> CREATOR = new Parcelable.Creator<TicketInfoEntity>() {
+        @Override
+        public TicketInfoEntity createFromParcel(Parcel source) {
+            return new TicketInfoEntity(source);
+        }
+
+        @Override
+        public TicketInfoEntity[] newArray(int size) {
+            return new TicketInfoEntity[size];
+        }
+    };
 }

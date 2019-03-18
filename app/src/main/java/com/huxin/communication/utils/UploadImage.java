@@ -1,5 +1,11 @@
 package com.huxin.communication.utils;
 
+import android.widget.Toast;
+
+import com.huxin.communication.ui.MainActivity;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.sky.kylog.KyLog;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -11,8 +17,22 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 public class UploadImage {
+
     private static final String TAG = "uploadFile";
     private static final int TIME_OUT = 10*10000000; //超时时间
     private static final String CHARSET = "utf-8"; //设置编码
@@ -95,6 +115,62 @@ public class UploadImage {
             e.printStackTrace();
             return "IO failed";
         }
+    }
+
+
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private  static OkHttpClient mOkHttpClient = new OkHttpClient();
+
+    /**
+     * 上传多张图片及参数
+     * @param reqUrl URL地址
+     * @param params 参数
+     * @param pic_key 上传图片的关键字
+     */
+    public static Observable<String> sendMultipart(String reqUrl,Map<String, String> params,String pic_key, List<File> files){
+        return Observable.create(new Observable.OnSubscribe<String>(){
+
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
+                multipartBodyBuilder.setType(MultipartBody.FORM);
+                //遍历map中所有参数到builder
+                if (params != null){
+                    for (String key : params.keySet()) {
+                        multipartBodyBuilder.addFormDataPart(key, params.get(key));
+                    }
+                }
+                //遍历paths中所有图片绝对路径到builder，并约定key如“upload”作为后台接受多张图片的key
+                if (files != null){
+                    for (File file : files) {
+                        multipartBodyBuilder.addFormDataPart(pic_key, file.getName(), RequestBody.create(MEDIA_TYPE_PNG, file));
+                    }
+                }
+                //构建请求体
+                RequestBody requestBody = multipartBodyBuilder.build();
+
+                Request.Builder RequestBuilder = new Request.Builder();
+                RequestBuilder.url(reqUrl);// 添加URL地址
+                RequestBuilder.post(requestBody);
+                Request request = RequestBuilder.build();
+                mOkHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        subscriber.onError(e);
+                        subscriber.onCompleted();
+                        call.cancel();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String str = response.body().string();
+                        subscriber.onNext(str);
+                        subscriber.onCompleted();
+                        call.cancel();
+                    }
+                });
+            }
+        });
     }
 
 }

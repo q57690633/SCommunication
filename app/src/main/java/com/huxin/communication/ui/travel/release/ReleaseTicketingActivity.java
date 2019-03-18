@@ -5,14 +5,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aitangba.pickdatetime.DatePickDialog;
+import com.aitangba.pickdatetime.OnSureListener;
+import com.aitangba.pickdatetime.bean.DateParams;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
 import com.huxin.communication.adpter.TableTravelOverseasAdapter;
@@ -20,20 +25,30 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.CityTravelActivity;
 import com.huxin.communication.ui.MainActivity;
+import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
 import com.huxin.communication.ui.house.release.ReleaseActivity;
+import com.huxin.communication.utils.DateUtil;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.session.IForceOfflineListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +56,9 @@ import java.util.Map;
 import okhttp3.Call;
 import retrofit2.http.Field;
 
-public class ReleaseTicketingActivity extends BaseActivity implements View.OnClickListener ,ImagePickerAdapter.OnRecyclerViewItemClickListener{
+import static com.huxin.communication.HuXinApplication.mContext;
+
+public class ReleaseTicketingActivity extends BaseActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
 
     private TextView mTextViewSpot;
     private TextView mTextViewOther;
@@ -49,9 +66,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     private LinearLayout mLinearLayoutOther;
 
     private EditText mEditTextTicketName;
-    private EditText mEditTextTicketAddr;
-    private EditText mEditTextStartTime;
-    private EditText mEditTextEndStart;
+
     private EditText mEditTextfinalprice;
     private EditText mEditTextoriginalprice;
     private EditText mEditTextFinalPriceChild;
@@ -74,30 +89,39 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
 
     private ImageView mImageViewStickNew;
-    private ImageView mImageViewStickNewClick;
+//    private ImageView mImageViewStickNewClick;
 
     private ImageView mImageViewStickLow;
-    private ImageView mImageViewStickLowClick;
+//    private ImageView mImageViewStickLowClick;
 
     private ImageView mImageViewStickBetter;
-    private ImageView mImageViewStickBetterClick;
+//    private ImageView mImageViewStickBetterClick;
 
     private ImageView mImageViewStickThrow;
-    private ImageView mImageViewStickThrowClick;
+//    private ImageView mImageViewStickThrowClick;
 
     private ImageView mImageViewStickRate;
-    private ImageView mImageViewStickRateClick;
+//    private ImageView mImageViewStickRateClick;
 
     private ImageView mImageViewStickReturn;
-    private ImageView mImageViewStickReturnClick;
+//    private ImageView mImageViewStickReturnClick;
 
     private ImageView mImageViewStickHot;
-    private ImageView mImageViewStickHotClick;
+//    private ImageView mImageViewStickHotClick;
 
     private ImageView mImageViewStickZeroC;
-    private ImageView mImageViewStickZeroClick;
+//    private ImageView mImageViewStickZeroClick;
 
     private TextView mTextViewConfirm;
+    private TextView mTextViewProvince;
+    private TextView mTextViewCity;
+    private TextView mEditTextStartTime;
+    private TextView mEditTextEndStart;
+
+    private RelativeLayout mRelativeLayoutProvince;
+    private RelativeLayout mRelativeLayoutCity;
+
+
     private int news = 0;
     private int low = 0;
     private int better = 0;
@@ -123,12 +147,19 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     private HttpUtil httpUtil;
 
 
-    private String Activity = "";
-    private String Other = "";
+    private String Activity;
+    private String Other;
+    private String type = null;
+
+    private  String endTime;
+    private  String startTime;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        type = getIntent().getStringExtra("type");
 
     }
 
@@ -146,9 +177,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mLinearLayoutOther = (LinearLayout) findViewById(R.id.other_rl);
 
         mEditTextTicketName = (EditText) findViewById(R.id.ticket_name);
-        mEditTextTicketAddr = (EditText) findViewById(R.id.ticket_addr);
-        mEditTextStartTime = (EditText) findViewById(R.id.start_time);
-        mEditTextEndStart = (EditText) findViewById(R.id.end_start);
+
         mEditTextfinalprice = (EditText) findViewById(R.id.final_price);
         mEditTextoriginalprice = (EditText) findViewById(R.id.original_price);
         mEditTextFinalPriceChild = (EditText) findViewById(R.id.final_price_child);
@@ -170,58 +199,69 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mRecyclerViewtheme = (RecyclerView) findViewById(R.id.ticket_theme);
 
 
-
-
         mImageViewStickNew = (ImageView) findViewById(R.id.stick_new);
-        mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
+//        mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
 
         mImageViewStickLow = (ImageView) findViewById(R.id.stick_low);
-        mImageViewStickLowClick = (ImageView) findViewById(R.id.stick_low_click);
+//        mImageViewStickLowClick = (ImageView) findViewById(R.id.stick_low_click);
 
         mImageViewStickBetter = (ImageView) findViewById(R.id.stick_better);
-        mImageViewStickBetterClick = (ImageView) findViewById(R.id.stick_better_click);
+//        mImageViewStickBetterClick = (ImageView) findViewById(R.id.stick_better_click);
 
         mImageViewStickThrow = (ImageView) findViewById(R.id.stick_throw);
-        mImageViewStickThrowClick = (ImageView) findViewById(R.id.stick_throw_click);
+//        mImageViewStickThrowClick = (ImageView) findViewById(R.id.stick_throw_click);
 
         mImageViewStickRate = (ImageView) findViewById(R.id.stick_rate);
-        mImageViewStickRateClick = (ImageView) findViewById(R.id.stick_rate_click);
+//        mImageViewStickRateClick = (ImageView) findViewById(R.id.stick_rate_click);
 
         mImageViewStickReturn = (ImageView) findViewById(R.id.stick_return);
-        mImageViewStickReturnClick = (ImageView) findViewById(R.id.stick_return_click);
+//        mImageViewStickReturnClick = (ImageView) findViewById(R.id.stick_return_click);
 
 
         mImageViewStickHot = (ImageView) findViewById(R.id.stick_hot);
-        mImageViewStickHotClick = (ImageView) findViewById(R.id.stick_hot_click);
+//        mImageViewStickHotClick = (ImageView) findViewById(R.id.stick_hot_click);
 
         mImageViewStickZeroC = (ImageView) findViewById(R.id.stick_zeroC);
-        mImageViewStickZeroClick = (ImageView) findViewById(R.id.stick_zeroC_click);
+//        mImageViewStickZeroClick = (ImageView) findViewById(R.id.stick_zeroC_click);
 
         mTextViewConfirm = (TextView) findViewById(R.id.confirm);
 
         mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
 
+        mRelativeLayoutProvince = findViewById(R.id.rl_travel_ticket_province);
+        mRelativeLayoutCity = findViewById(R.id.rl_travel_ticket_city);
+        mTextViewProvince = findViewById(R.id.travel_ticket_province);
+        mTextViewCity = findViewById(R.id.travel_ticket_city);
+        mEditTextStartTime =  findViewById(R.id.start_time);
+        mEditTextEndStart =  findViewById(R.id.end_start);
 
         mTextViewSpot.setOnClickListener(this);
         mTextViewOther.setOnClickListener(this);
 
         mImageViewStickNew.setOnClickListener(this);
-        mImageViewStickNewClick.setOnClickListener(this);
+//        mImageViewStickNewClick.setOnClickListener(this);
         mImageViewStickLow.setOnClickListener(this);
-        mImageViewStickLowClick.setOnClickListener(this);
+//        mImageViewStickLowClick.setOnClickListener(this);
         mImageViewStickBetter.setOnClickListener(this);
-        mImageViewStickBetterClick.setOnClickListener(this);
+//        mImageViewStickBetterClick.setOnClickListener(this);
         mImageViewStickThrow.setOnClickListener(this);
-        mImageViewStickThrowClick.setOnClickListener(this);
+//        mImageViewStickThrowClick.setOnClickListener(this);
         mImageViewStickRate.setOnClickListener(this);
-        mImageViewStickRateClick.setOnClickListener(this);
+//        mImageViewStickRateClick.setOnClickListener(this);
         mImageViewStickReturn.setOnClickListener(this);
-        mImageViewStickReturnClick.setOnClickListener(this);
+//        mImageViewStickReturnClick.setOnClickListener(this);
         mImageViewStickHot.setOnClickListener(this);
-        mImageViewStickHotClick.setOnClickListener(this);
+//        mImageViewStickHotClick.setOnClickListener(this);
         mImageViewStickZeroC.setOnClickListener(this);
-        mImageViewStickZeroClick.setOnClickListener(this);
+//        mImageViewStickZeroClick.setOnClickListener(this);
         mTextViewConfirm.setOnClickListener(this);
+
+        mRelativeLayoutCity.setOnClickListener(this);
+        mRelativeLayoutProvince.setOnClickListener(this);
+
+        mEditTextEndStart.setOnClickListener(this);
+        mEditTextStartTime.setOnClickListener(this);
+
     }
 
     @Override
@@ -235,6 +275,15 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
         mRecyclerViewAddPicture.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+        mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+
     }
 
     @Override
@@ -257,91 +306,181 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mTextViewSpot.setTextColor(getResources().getColor(R.color.register_font));
                 break;
             case R.id.stick_better:
-                mImageViewStickBetterClick.setVisibility(View.VISIBLE);
-                mImageViewStickBetter.setVisibility(View.GONE);
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
                 better = 1;
-                break;
-            case R.id.stick_better_click:
-                mImageViewStickBetterClick.setVisibility(View.GONE);
-                mImageViewStickBetter.setVisibility(View.VISIBLE);
-                better = 0;
-                break;
-            case R.id.stick_hot:
-                mImageViewStickHot.setVisibility(View.GONE);
-                mImageViewStickHotClick.setVisibility(View.VISIBLE);
-                hot = 1;
-                break;
-            case R.id.stick_hot_click:
-                mImageViewStickHotClick.setVisibility(View.GONE);
-                mImageViewStickHot.setVisibility(View.VISIBLE);
+
+                news = 0;
+                low = 0;
                 hot = 0;
-                break;
-//            case R.id.lineOrThrow_shuaiWei:
-//                break;
-//            case R.id.lineOrThrow_caixian:
-//                break;
-            case R.id.stick_new:
-                mImageViewStickNew.setVisibility(View.GONE);
-                mImageViewStickNewClick.setVisibility(View.VISIBLE);
-                news = 1;
-                break;
-            case R.id.stick_new_click:
-                mImageViewStickNewClick.setVisibility(View.GONE);
-                mImageViewStickNew.setVisibility(View.VISIBLE);
-                news = 0;
-                break;
-            case R.id.stick_low:
-                mImageViewStickLow.setVisibility(View.GONE);
-                mImageViewStickLowClick.setVisibility(View.VISIBLE);
-                low = 1;
-                break;
-            case R.id.stick_low_click:
-                mImageViewStickLowClick.setVisibility(View.GONE);
-                mImageViewStickLow.setVisibility(View.VISIBLE);
-                news = 0;
-                break;
-            case R.id.stick_throw:
-                mImageViewStickThrowClick.setVisibility(View.VISIBLE);
-                mImageViewStickThrow.setVisibility(View.GONE);
-                shuaiwei = 1;
-                break;
-            case R.id.stick_throw_click:
-                mImageViewStickThrowClick.setVisibility(View.GONE);
-                mImageViewStickThrow.setVisibility(View.VISIBLE);
                 shuaiwei = 0;
-                break;
-            case R.id.stick_rate:
-                mImageViewStickRateClick.setVisibility(View.VISIBLE);
-                mImageViewStickRate.setVisibility(View.GONE);
-                rate = 1;
-                break;
-            case R.id.stick_rate_click:
-                mImageViewStickRateClick.setVisibility(View.GONE);
-                mImageViewStickRate.setVisibility(View.VISIBLE);
                 rate = 0;
-                break;
-            case R.id.stick_return:
-                mImageViewStickReturnClick.setVisibility(View.VISIBLE);
-                mImageViewStickReturn.setVisibility(View.GONE);
-                returns = 1;
-                break;
-            case R.id.stick_return_click:
-                mImageViewStickReturnClick.setVisibility(View.GONE);
-                mImageViewStickReturn.setVisibility(View.VISIBLE);
                 returns = 0;
-                break;
-            case R.id.stick_zeroC:
-                mImageViewStickZeroClick.setVisibility(View.VISIBLE);
-                mImageViewStickZeroC.setVisibility(View.GONE);
-                zeroC = 1;
-                break;
-            case R.id.stick_zeroC_click:
-                mImageViewStickZeroClick.setVisibility(View.GONE);
-                mImageViewStickZeroC.setVisibility(View.VISIBLE);
                 zeroC = 0;
                 break;
+            case R.id.stick_hot:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+
+            case R.id.stick_new:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_low:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_throw:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_rate:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_return:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 1;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_zeroC:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 1;
+                break;
             case R.id.confirm:
-                issueTicketForeignRoute();
+//                issueTicketForeignRoute();
+                uploadImage(selImageList);
+                break;
+
+            case R.id.rl_travel_ticket_province:
+                Intent intent = new Intent(this, ProvincesTravelActivity.class);
+                intent.putExtra("type", 4);
+                startActivity(intent);
+                break;
+            case R.id.rl_travel_ticket_city:
+
+                Intent intentCity = new Intent(this, CityTravelActivity.class);
+                intentCity.putExtra("type", 4);
+                intentCity.putExtra(Constanst.PROVINCE_CODE, PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
+                startActivity(intentCity);
+                break;
+
+            case R.id.start_time:
+               StartDatePickDialog(DateParams.TYPE_HOUR, DateParams.TYPE_MINUTE);
+
+                break;
+            case R.id.end_start:
+                EndDatePickDialog(DateParams.TYPE_HOUR, DateParams.TYPE_MINUTE);
                 break;
         }
     }
@@ -366,7 +505,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
         String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
         String StartTime = mEditTextStartTime.getText().toString().trim();
-        String TicketAddr = mEditTextTicketAddr.getText().toString().trim();
+        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
         if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
             stick = 2;
@@ -384,13 +523,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        ApiModule.getInstance().issueTicketForeignRoute("", "", TicketName, TicketAddr, "1",
+        ApiModule.getInstance().issueTicketForeignRoute(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME), PreferenceUtil.getString(Constanst.TICKET_CITY_NAME), TicketName, TicketAddr, "1",
                 StartTime + "~" + EndStart, originalprice, finalprice, OiginalPriceChild, FinalPriceChild, OriginalPriceEvening, FinalPriceEvening,
                 OriginalPriceParentChild, FinalPriceParentChild, OriginalPriceFamily, FinalPriceFamily, OriginalBoat, FinalBoat, OriginalCar, FinalCar,
                 null, null, null, String.valueOf(stick), String.valueOf(caixian),
                 null, String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
                 String.valueOf(zeroC), null,
-                OriginalPriceTotal, FinalPriceTotal, "",String.valueOf(PreferenceUtil.getInt(UID)))
+                OriginalPriceTotal, FinalPriceTotal, "", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -431,7 +570,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -441,12 +580,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             TableTravelOverseasAdapter mAdapterTableName = new TableTravelOverseasAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
     /**
      * 打开相机
+     *
      * @param view
      * @param position
      */
@@ -463,7 +603,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                         //打开选择,本次允许选择的数量
                         ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                         Intent intent = new Intent(ReleaseTicketingActivity.this, ImageGridActivity.class);
-                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
                         startActivityForResult(intent, REQUEST_CODE_SELECT);
                         break;
                     case 1:
@@ -481,6 +621,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
     /**
      * 获取返回的图片信息
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -488,12 +629,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode  + "");
+        KyLog.d(requestCode + "");
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
                 }
@@ -502,7 +643,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             //预览图片返回
             if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.clear();
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
@@ -514,12 +655,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
     /**
      * 上传图片
+     *
      * @param pathList
      */
     private void uploadImage(ArrayList<ImageItem> pathList) {
 
         String TicketName = mEditTextTicketName.getText().toString().trim();
-        String EndStart = mEditTextEndStart.getText().toString().trim();
         String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
         String FinalCar = mEditTextFinalCar.getText().toString().trim();
         String finalprice = mEditTextfinalprice.getText().toString().trim();
@@ -536,8 +677,17 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         String OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
         String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
         String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
-        String StartTime = mEditTextStartTime.getText().toString().trim();
-        String TicketAddr = mEditTextTicketAddr.getText().toString().trim();
+        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
+
+        if (TextUtils.isEmpty(TicketAddr) && TextUtils.isEmpty(TicketName)) {
+            Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
+            Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
         Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
@@ -559,12 +709,19 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
         Map<String, String> map = new HashMap<>();
-        map.put("ticket_pro_name", "");
-        map.put("ticket_city_name", "");
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))) {
+            map.put("ticket_pro_name", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+            map.put("ticket_city_name", PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+        }
         map.put("ticket_name", TicketName);
-        map.put("ticket_addr", TicketAddr);
+        if (!TextUtils.isEmpty(TicketAddr)) {
+            map.put("ticket_addr", TicketAddr);
+        }
         map.put("ticket_type", "1");
-        map.put("open_time",  StartTime + "~" + EndStart);
+        map.put("open_time", startTime + "~" + endTime);
         map.put("original_price", originalprice);
         map.put("final_price", finalprice);
 
@@ -585,12 +742,18 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
         map.put("final_car", FinalCar);
         map.put("ticket_theme_id", "");
-        map.put("ticket_activity_id", Activity);
-        map.put("ticket_other_id", Other);
+        if (!TextUtils.isEmpty(Activity)) {
+            map.put("ticket_activity_id", Activity);
+        }
+        if (!TextUtils.isEmpty(Other)) {
+            map.put("ticket_other_id", Other);
+        }
+
         map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
         map.put("stick", String.valueOf(stick));
-
-        map.put("line_or_throw", String.valueOf(caixian));
+        if (caixian != 0) {
+            map.put("line_or_throw", String.valueOf(caixian));
+        }
         map.put("stick_new", String.valueOf(news));
         map.put("stick_low", String.valueOf(low));
         map.put("stick_better", String.valueOf(better));
@@ -604,12 +767,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         map.put("generalize", "");
         map.put("original_price_total", OriginalPriceTotal);
         map.put("final_price_total", FinalPriceTotal);
-        map.put("ticket_pro_code", "");
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
+            map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
+        }
         map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
 
-
-        String url="http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
-
+        KyLog.object(map);
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
 
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
@@ -627,8 +791,24 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 super.onResponse(response, id);
                 KyLog.d(response);
                 //返回图片的地址
-                Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (TextUtils.isEmpty(type)) {
+                    Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.put("type", 2);
+                        String data = jsonObject.toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", data);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(android.app.Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -640,4 +820,48 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
         return dialog;
     }
+
+    public  void StartDatePickDialog(@DateParams.Type int... style) {
+        Calendar todayCal = Calendar.getInstance();
+        Calendar startCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        endCal.add(Calendar.YEAR, 6);
+
+        new DatePickDialog.Builder()
+                .setTypes(style)
+                .setCurrentDate(todayCal.getTime())
+                .setStartDate(startCal.getTime())
+                .setEndDate(endCal.getTime())
+                .setOnSureListener(new OnSureListener() {
+                    @Override
+                    public void onSure(Date date) {
+                        startTime = new SimpleDateFormat("HH:mm").format(date);
+                        mEditTextStartTime.setText(startTime);
+                    }
+                })
+                .show(this);
+    }
+
+    public  void EndDatePickDialog(@DateParams.Type int... style) {
+        Calendar todayCal = Calendar.getInstance();
+        Calendar startCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
+        endCal.add(Calendar.YEAR, 6);
+
+        new DatePickDialog.Builder()
+                .setTypes(style)
+                .setCurrentDate(todayCal.getTime())
+                .setStartDate(startCal.getTime())
+                .setEndDate(endCal.getTime())
+                .setOnSureListener(new OnSureListener() {
+                    @Override
+                    public void onSure(Date date) {
+                         endTime = new SimpleDateFormat("HH:mm").format(date);
+                         mEditTextEndStart.setText(endTime);
+                    }
+                })
+                .show(this);
+    }
+
+
 }

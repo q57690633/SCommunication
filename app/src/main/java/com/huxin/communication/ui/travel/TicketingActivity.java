@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -279,6 +281,41 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         setEnabled(true);
         getTicketInfo(String.valueOf(TicketType), "", "", "",
                 "", "", "", "", "1");
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
 
@@ -547,6 +584,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 KyLog.d("5");
                 minPrice = "70";
                 maxPrice = "90";
+                break;
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);

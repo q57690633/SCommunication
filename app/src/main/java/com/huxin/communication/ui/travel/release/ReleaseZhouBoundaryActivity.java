@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.travel.release;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,12 +37,18 @@ import com.huxin.communication.ui.cammer.SelectDialog;
 import com.huxin.communication.ui.house.release.ReleaseActivity;
 import com.huxin.communication.ui.house.release.ReleseLaseActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.utils.UploadImage;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
+import com.tencent.qcloud.uikit.common.component.video.util.LogUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +56,9 @@ import java.util.Map;
 
 import okhttp3.Call;
 import retrofit2.http.Field;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
     private RelativeLayout mRelativeLayoutOccupationType;
@@ -142,12 +152,14 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     private HttpUtil httpUtil;
 
-    private String Traffic = "";
-    private String Address = "";
-    private String Consume = "";
-    private String Activity = "";
-    private String Stay = "";
-    private String Other = "";
+    private String Traffic;
+    private String Address;
+    private String Consume;
+    private String Activity;
+    private String Stay;
+    private String Other;
+
+    private String type = null;
 
 
     @Override
@@ -160,10 +172,13 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_release_zhou_boundary);
+        type = getIntent().getStringExtra("type");
+
     }
 
     @Override
     protected void initViews() {
+
         setToolbarCenterMode("发布周边游线路", MODE_BACK);
         mRelativeLayoutOccupationType = (RelativeLayout) findViewById(R.id.rl_travel_Occupation_type);
         mRelativeLayoutMudiType = (RelativeLayout) findViewById(R.id.rl_travel_mudi_type);
@@ -202,29 +217,29 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         getmImageViewCaiXianClick = (ImageView) findViewById(R.id.lineOrThrow_caixian_click);
 
         mImageViewStickNew = (ImageView) findViewById(R.id.stick_new);
-        mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
+//        mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
 
         mImageViewStickLow = (ImageView) findViewById(R.id.stick_low);
-        mImageViewStickLowClick = (ImageView) findViewById(R.id.stick_low_click);
+//        mImageViewStickLowClick = (ImageView) findViewById(R.id.stick_low_click);
 
         mImageViewStickBetter = (ImageView) findViewById(R.id.stick_better);
-        mImageViewStickBetterClick = (ImageView) findViewById(R.id.stick_better_click);
+//        mImageViewStickBetterClick = (ImageView) findViewById(R.id.stick_better_click);
 
         mImageViewStickThrow = (ImageView) findViewById(R.id.stick_throw);
-        mImageViewStickThrowClick = (ImageView) findViewById(R.id.stick_throw_click);
+//        mImageViewStickThrowClick = (ImageView) findViewById(R.id.stick_throw_click);
 
         mImageViewStickRate = (ImageView) findViewById(R.id.stick_rate);
-        mImageViewStickRateClick = (ImageView) findViewById(R.id.stick_rate_click);
+//        mImageViewStickRateClick = (ImageView) findViewById(R.id.stick_rate_click);
 
         mImageViewStickReturn = (ImageView) findViewById(R.id.stick_return);
-        mImageViewStickReturnClick = (ImageView) findViewById(R.id.stick_return_click);
+//        mImageViewStickReturnClick = (ImageView) findViewById(R.id.stick_return_click);
 
 
         mImageViewStickHot = (ImageView) findViewById(R.id.stick_hot);
-        mImageViewStickHotClick = (ImageView) findViewById(R.id.stick_hot_click);
+//        mImageViewStickHotClick = (ImageView) findViewById(R.id.stick_hot_click);
 
         mImageViewStickZeroC = (ImageView) findViewById(R.id.stick_zeroC);
-        mImageViewStickZeroClick = (ImageView) findViewById(R.id.stick_zeroC_click);
+//        mImageViewStickZeroClick = (ImageView) findViewById(R.id.stick_zeroC_click);
 
         mTextViewConfirm = (TextView) findViewById(R.id.confirm);
 
@@ -236,21 +251,21 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         mImageViewCaiXian.setOnClickListener(this);
         getmImageViewCaiXianClick.setOnClickListener(this);
         mImageViewStickNew.setOnClickListener(this);
-        mImageViewStickNewClick.setOnClickListener(this);
+//        mImageViewStickNewClick.setOnClickListener(this);
         mImageViewStickLow.setOnClickListener(this);
-        mImageViewStickLowClick.setOnClickListener(this);
+//        mImageViewStickLowClick.setOnClickListener(this);
         mImageViewStickBetter.setOnClickListener(this);
-        mImageViewStickBetterClick.setOnClickListener(this);
+//        mImageViewStickBetterClick.setOnClickListener(this);
         mImageViewStickThrow.setOnClickListener(this);
-        mImageViewStickThrowClick.setOnClickListener(this);
+//        mImageViewStickThrowClick.setOnClickListener(this);
         mImageViewStickRate.setOnClickListener(this);
-        mImageViewStickRateClick.setOnClickListener(this);
+//        mImageViewStickRateClick.setOnClickListener(this);
         mImageViewStickReturn.setOnClickListener(this);
-        mImageViewStickReturnClick.setOnClickListener(this);
+//        mImageViewStickReturnClick.setOnClickListener(this);
         mImageViewStickHot.setOnClickListener(this);
-        mImageViewStickHotClick.setOnClickListener(this);
+//        mImageViewStickHotClick.setOnClickListener(this);
         mImageViewStickZeroC.setOnClickListener(this);
-        mImageViewStickZeroClick.setOnClickListener(this);
+//        mImageViewStickZeroClick.setOnClickListener(this);
         mTextViewConfirm.setOnClickListener(this);
         mRelativeLayoutOccupationType.setOnClickListener(this);
         mRelativeLayoutMudiType.setOnClickListener(this);
@@ -281,26 +296,6 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.stick_better:
-                mImageViewStickBetterClick.setVisibility(View.VISIBLE);
-                mImageViewStickBetter.setVisibility(View.GONE);
-                better = 1;
-                break;
-            case R.id.stick_better_click:
-                mImageViewStickBetterClick.setVisibility(View.GONE);
-                mImageViewStickBetter.setVisibility(View.VISIBLE);
-                better = 0;
-                break;
-            case R.id.stick_hot:
-                mImageViewStickHot.setVisibility(View.GONE);
-                mImageViewStickHotClick.setVisibility(View.VISIBLE);
-                hot = 1;
-                break;
-            case R.id.stick_hot_click:
-                mImageViewStickHotClick.setVisibility(View.GONE);
-                mImageViewStickHot.setVisibility(View.VISIBLE);
-                hot = 0;
-                break;
             case R.id.lineOrThrow_shuaiWei:
                 mImageViewShuaiWeiClick.setVisibility(View.VISIBLE);
                 mImageViewShuaiWei.setVisibility(View.GONE);
@@ -315,66 +310,159 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 mImageViewShuaiWei.setVisibility(View.VISIBLE);
                 caixian = 1;
                 break;
-            case R.id.stick_new:
-                mImageViewStickNew.setVisibility(View.GONE);
-                mImageViewStickNewClick.setVisibility(View.VISIBLE);
-                news = 1;
-                break;
-            case R.id.stick_new_click:
-                mImageViewStickNewClick.setVisibility(View.GONE);
-                mImageViewStickNew.setVisibility(View.VISIBLE);
+            case R.id.stick_better:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
+                better = 1;
+
                 news = 0;
-                break;
-            case R.id.stick_low:
-                mImageViewStickLow.setVisibility(View.GONE);
-                mImageViewStickLowClick.setVisibility(View.VISIBLE);
-                low = 1;
-                break;
-            case R.id.stick_low_click:
-                mImageViewStickLowClick.setVisibility(View.GONE);
-                mImageViewStickLow.setVisibility(View.VISIBLE);
-                news = 0;
-                break;
-            case R.id.stick_throw:
-                mImageViewStickThrowClick.setVisibility(View.VISIBLE);
-                mImageViewStickThrow.setVisibility(View.GONE);
-                shuaiwei = 1;
-                break;
-            case R.id.stick_throw_click:
-                mImageViewStickThrowClick.setVisibility(View.GONE);
-                mImageViewStickThrow.setVisibility(View.VISIBLE);
+                low = 0;
+                hot = 0;
                 shuaiwei = 0;
-                break;
-            case R.id.stick_rate:
-                mImageViewStickRateClick.setVisibility(View.VISIBLE);
-                mImageViewStickRate.setVisibility(View.GONE);
-                rate = 1;
-                break;
-            case R.id.stick_rate_click:
-                mImageViewStickRateClick.setVisibility(View.GONE);
-                mImageViewStickRate.setVisibility(View.VISIBLE);
                 rate = 0;
+                returns = 0;
+                zeroC = 0;
                 break;
+            case R.id.stick_hot:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+
+            case R.id.stick_new:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_low:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_throw:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.stick_rate:
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+                break;
+
             case R.id.stick_return:
-                mImageViewStickReturnClick.setVisibility(View.VISIBLE);
-                mImageViewStickReturn.setVisibility(View.GONE);
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
                 returns = 1;
+                zeroC = 0;
                 break;
-            case R.id.stick_return_click:
-                mImageViewStickReturnClick.setVisibility(View.GONE);
-                mImageViewStickReturn.setVisibility(View.VISIBLE);
-                returns = 0;
-                break;
+
             case R.id.stick_zeroC:
-                mImageViewStickZeroClick.setVisibility(View.VISIBLE);
-                mImageViewStickZeroC.setVisibility(View.GONE);
-                returns = 1;
-                break;
-            case R.id.stick_zeroC_click:
-                mImageViewStickZeroClick.setVisibility(View.GONE);
-                mImageViewStickZeroC.setVisibility(View.VISIBLE);
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
                 returns = 0;
+                zeroC = 1;
                 break;
+
             case R.id.confirm:
 //                issueAroundRoute();
                 uploadImage(selImageList);
@@ -402,8 +490,8 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTextViewDayType.setText(setDayType().get(position).getName());
-                        day = setDayType().get(position).getName();
+                        mTextViewDayType.setText(setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1));
+                        day = setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1);
                         mReleaseDialog.cancel();
                     }
                 });
@@ -444,10 +532,10 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     private List<MyPopVlaues> setDayType() {
         Kouweilist = new ArrayList<MyPopVlaues>();
-        Kouweilist.add(new MyPopVlaues("1"));
-        Kouweilist.add(new MyPopVlaues("2"));
-        Kouweilist.add(new MyPopVlaues("3"));
-        Kouweilist.add(new MyPopVlaues("4"));
+        Kouweilist.add(new MyPopVlaues("1天"));
+        Kouweilist.add(new MyPopVlaues("2天"));
+        Kouweilist.add(new MyPopVlaues("3天"));
+        Kouweilist.add(new MyPopVlaues("4天"));
 
         return Kouweilist;
     }
@@ -496,7 +584,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 Address, Traffic, Consume, Activity, Stay, Other,
                 TravelTitle, Generalize, String.valueOf(stick), String.valueOf(caixian), null, String.valueOf(news),
                 String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME), "1","")
+                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME), "1", "")
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -541,7 +629,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -551,7 +639,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelAddressListAdapter mAdapterTableName = new TableTravelAddressListAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -561,7 +649,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelConsAdapter mAdapterTableName = new TableTravelConsAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -571,7 +659,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelOtherAdapter mAdapterTableName = new TableTravelOtherAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -581,7 +669,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelStayAdapter mAdapterTableName = new TableTravelStayAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -591,7 +679,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             TableTravelTrafficAdapter mAdapterTableName = new TableTravelTrafficAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -685,10 +773,15 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
         Stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
         Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
-        if (pickupPrice.equals("有周边接送费")) {
-            pickupPrices = 1;
-        } else {
-            pickupPrices = 0;
+        if (!TextUtils.isEmpty(pickupPrice)) {
+            if (pickupPrice.equals("有周边接送费")) {
+                pickupPrices = 1;
+            } else {
+                pickupPrices = 0;
+            }
+        }else {
+            Toast.makeText(this, "请选择有无接送费", Toast.LENGTH_SHORT).show();
+            return;
         }
         if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
             stick = 2;
@@ -706,6 +799,29 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+
+            Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
+            Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        KyLog.d(low + "");
+        KyLog.d(rate + "");
+        KyLog.d(returns + "");
+        KyLog.d(shuaiwei + "");
+        KyLog.d(hot + "");
+        KyLog.d(news + "");
+
+
         Map<String, String> map = new HashMap<>();
         map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
         map.put("depart_pro_code", PreferenceUtil.getString(Constanst.PROVINCE_CODE));
@@ -715,18 +831,34 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         map.put("totalPrice", TotalPrice);
         map.put("finalPrice", FinalPrice);
         map.put("returnPrice", ReturnPrice);
-        map.put("pickupPrice", pickupPrice);
+        map.put("pickupPrice", String.valueOf(pickupPrices));
 
         map.put("totalPriceChild", TotalPriceChild);
         map.put("finalPriceChild", finalPriceChild);
         map.put("returnPriceChild", ReturnPriceChild);
-        map.put("tAddressId", Address);
-        map.put("tTrafficId", Traffic);
-        map.put("tConsumeId", Consume);
+        if (!TextUtils.isEmpty(Address)) {
+            map.put("tAddressId", Address);
+        }
+        if (!TextUtils.isEmpty(Traffic)) {
 
-        map.put("tActivityId", Activity);
-        map.put("tStayId", Stay);
-        map.put("tOtherId", Other);
+            map.put("tTrafficId", Traffic);
+        }
+        if (!TextUtils.isEmpty(Consume)) {
+
+            map.put("tConsumeId", Consume);
+        }
+        if (!TextUtils.isEmpty(Activity)) {
+
+            map.put("tActivityId", Activity);
+        }
+        if (!TextUtils.isEmpty(Stay)) {
+
+            map.put("tStayId", Stay);
+        }
+        if (!TextUtils.isEmpty(Other)) {
+
+            map.put("tOtherId", Other);
+        }
         map.put("travelTitle", TravelTitle);
         map.put("generalize", Generalize);
         map.put("stick", String.valueOf(stick));
@@ -750,7 +882,6 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
 
 
-
         String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueAroundRoute";
         KyLog.object(map);
 
@@ -759,7 +890,8 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
-                KyLog.d(e + "travel");
+                KyLog.d("release === " + e);
+                Toast.makeText(ReleaseZhouBoundaryActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
                 cancelProgressDialog();
             }
 
@@ -768,11 +900,63 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 super.onResponse(response, id);
                 //返回图片的地址
                 cancelProgressDialog();
-                KyLog.d(response + "travel");
-                Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
-                startActivity(intent);
+                KyLog.d("release == " + response);
+                Toast.makeText(ReleaseZhouBoundaryActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(type)) {
+                    Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonObject.put("type", 2);
+                        String data = jsonObject.toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", data);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(android.app.Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
+//        List<File> list = new ArrayList<>();
+//        if (selImageList != null && selImageList.size() > 0) {
+//            for (int i = 0; i < selImageList.size(); i++) {
+//                File file = new File(pathList.get(i).path);
+//                list.add(file);
+//            }
+//        }
+//        KyLog.object(list);
+//        if (list.size() > 0) {
+//            UploadImage.sendMultipart(url, map, "files", list)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribeOn(Schedulers.newThread())
+//                    .subscribe(new Subscriber<String>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable throwable) {
+//                            cancelProgressDialog();
+//                            KyLog.i("release == " + throwable);
+//                        }
+//
+//                        @Override
+//                        public void onNext(String s) {
+//                            cancelProgressDialog();
+//                            KyLog.i("release === " + s);
+//                            Toast.makeText(ReleaseZhouBoundaryActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    });
+//        }
+
     }
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {

@@ -584,11 +584,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     }
 
     private Map<String, File> setImageData(List<ImageItem> compressFile) {
-        Map<String,File> files = new HashMap<>();
+        Map<String, File> files = new HashMap<>();
         if (compressFile != null && !compressFile.isEmpty()) {
             for (int i = 0; i < compressFile.size(); i++) {
                 String newPath = BitmapUtils.compressImageUpload(compressFile.get(i).path);
-                files.put("files\"; filename=\" " + compressFile.get(i).name+i,new File(newPath));
+                files.put("files\"; filename=\" " + compressFile.get(i).name + i, new File(newPath));
             }
 
         }
@@ -647,12 +647,12 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode + "=== data  == " + data ) ;
+        KyLog.d(requestCode + "=== data  == " + data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                    KyLog.object(images);
+                KyLog.object(images);
                 if (images != null) {
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
@@ -719,30 +719,44 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         }
 
 
-        Map<String,String> map = new HashMap<>();
-        map.put("villageName",VillageName);
-        map.put("acreage",Acreage);
-        map.put("houseType",houseType);
-        map.put("totalPrice",totalPrice);
-        map.put("floorNumber",floorNumber);
-        map.put("totalFloorNumber",totalFloorNumber);
-        map.put("newOrOld",String.valueOf(NeworOld));
-        map.put("loans",String.valueOf(loans));
-        map.put("keying",String.valueOf(keying));
-        map.put("houseHoldAppliances",houseHoldAppliances);
-        map.put("fitment",fitment);
-        map.put("permit",permit);
-        map.put("orientation",orientation);
-        map.put("purpose",purpose);
-        map.put("title",title);
-        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
-        map.put("stick",String.valueOf(stick));
-        map.put("exclusive",String.valueOf(exclusive));
-        map.put("houseNumber",houseNumber);
-        map.put("pdu",pdu);
-        map.put("floorSize",floorNumber);
-        map.put("tabId",tableId);
-        map.put("token",PreferenceUtil.getString(TOKEN));
+        Map<String, String> map = new HashMap<>();
+        map.put("villageName", VillageName);
+        map.put("acreage", Acreage);
+        map.put("totalPrice", totalPrice);
+        map.put("floorNumber", floorNumber);
+        map.put("totalFloorNumber", totalFloorNumber);
+        map.put("newOrOld", String.valueOf(NeworOld));
+        map.put("loans", String.valueOf(loans));
+        map.put("keying", String.valueOf(keying));
+        if (!TextUtils.isEmpty(houseHoldAppliances)) {
+            map.put("houseHoldAppliances", houseHoldAppliances);
+        }
+        if (!TextUtils.isEmpty(fitment)) {
+            map.put("fitment", fitment);
+        }
+        if (!TextUtils.isEmpty(permit)) {
+            map.put("permit", permit);
+        }
+        if (!TextUtils.isEmpty(orientation)) {
+            map.put("orientation", orientation);
+
+        }
+        if (!TextUtils.isEmpty(purpose)) {
+            map.put("purpose", purpose);
+
+        }
+        if (!TextUtils.isEmpty(houseType)) {
+            map.put("houseType", houseType);
+        }
+
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick", String.valueOf(stick));
+        map.put("exclusive", String.valueOf(exclusive));
+        map.put("houseNumber", houseNumber);
+        map.put("pdu", pdu);
+        map.put("floorSize", floorNumber);
+        map.put("tabId", tableId);
+        map.put("token", PreferenceUtil.getString(TOKEN));
 
         String url = "http://39.105.203.33/jlkf/mutual-trust/public/addSaleProduct";
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
@@ -750,7 +764,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
-                    KyLog.d("image == " + e.toString());
+                KyLog.d("image == " + e.toString());
                 cancelProgressDialog();
 
             }
@@ -763,10 +777,10 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                 Toast.makeText(ReleaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
 
                 //返回图片的地址
-                if(TextUtils.isEmpty(type)) {
+                if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         jsonObject.put("type", 1);
@@ -809,7 +823,7 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
                         mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
                         mRecyclerViewSearch.setLayoutManager(manager);
-                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {

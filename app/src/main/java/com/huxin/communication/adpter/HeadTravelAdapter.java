@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
+import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.HomeTravelEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -16,14 +17,14 @@ import java.util.List;
 
 public class HeadTravelAdapter extends RecyclerView.Adapter<HeadTravelAdapter.MyViewHoder> {
 
-    private List<HomeTravelEntity.AroundHeadBean> list;
+    private List<HeadTravelEntivty> list;
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
     private int type;
 
 
-    public HeadTravelAdapter(List<HomeTravelEntity.AroundHeadBean> list, Context mContext) {
+    public HeadTravelAdapter(List<HeadTravelEntivty> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
         mInflater = LayoutInflater.from(mContext);

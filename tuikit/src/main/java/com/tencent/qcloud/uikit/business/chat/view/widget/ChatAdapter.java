@@ -366,6 +366,8 @@ public class ChatAdapter extends IChatAdapter {
                             String orientation = jsonData.getString("orientation");
                             String tabId = jsonData.getString("tabId");
                             String tabName = jsonData.getString("tabName");
+                            String productType = jsonData.getString("productType");
+
                             ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
                             customHolder.villageName.setText(villageName);
                             customHolder.houseType.setText(houseType);
@@ -374,6 +376,15 @@ public class ChatAdapter extends IChatAdapter {
                             customHolder.unitPrice.setText(unitPrice);
                             customHolder.orientation.setText(orientation);
                             customHolder.stick.setVisibility(View.GONE);
+                            if (productType.equals("1")){
+                                customHolder.productType.setBackgroundResource(R.drawable.sign_chhshou);
+                            }else if (productType.equals("2")){
+                                customHolder.productType.setBackgroundResource(R.drawable.sign_chuzu);
+                            }else if (productType.equals("3")){
+                                customHolder.productType.setBackgroundResource(R.drawable.sign_qiugou);
+                            }else if (productType.equals("1")){
+                                customHolder.productType.setBackgroundResource(R.drawable.sign_qiuzu);
+                            }
                             String[] tab = tabName.split(",");
                             ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
@@ -962,6 +973,7 @@ public class ChatAdapter extends IChatAdapter {
         private TextView acreage;//面积
         private TextView totalPrice;//总价
         private TextView stick;//置顶
+        private ImageView productType;//类型
         private TextView unitPrice;//单价
         private TextView orientation;//朝向
         private RecyclerView tabName_line;//标签
@@ -984,6 +996,7 @@ public class ChatAdapter extends IChatAdapter {
                 stick = houseLayout.findViewById(R.id.stick_sell);
                 unitPrice = houseLayout.findViewById(R.id.unitPrice_sell);
                 orientation = houseLayout.findViewById(R.id.orientation_sell);
+                productType = houseLayout.findViewById(R.id.type);
             }
             if(businessCardLayout != null) {
                 businessCardHeadUrl = businessCardLayout.findViewById(R.id.headUrl_iv);

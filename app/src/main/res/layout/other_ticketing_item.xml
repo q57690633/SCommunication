@@ -21,6 +21,7 @@
         android:orientation="horizontal">
 
         <TextView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -29,16 +30,60 @@
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/rl_travel_ticket_province"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:background="@drawable/biaoqian_radius"
+            android:gravity="center"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                android:id="@+id/travel_ticket_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="选择省"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_travel_ticket_city"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/biaoqian_radius"
+            android:gravity="center"
             android:layout_marginTop="14dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:hint="地址"
-            android:padding="9dp"
-            android:textColorHint="@color/login_walling_fort" />
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:id="@+id/travel_ticket_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="选择市"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -46,29 +91,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
+
             android:text="开放时间："
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:hint="时间"
-            android:padding="9dp"
-            android:textColorHint="@color/login_walling_fort" />
+            android:background="@drawable/biaoqian_radius"
+            android:hint="最早时间"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/login_walling_fort"
+            android:textSize="14dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="至"
+            android:textColor="@color/register_font"
+            android:textSize="16dp" />
 
+        <TextView
+            android:id="@+id/end_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/biaoqian_radius"
+            android:hint="最晚时间"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/login_walling_fort"
+            android:textSize="14dp" />
     </LinearLayout>
 
     <TextView

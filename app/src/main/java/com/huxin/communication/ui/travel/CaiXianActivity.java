@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -126,7 +128,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType;
 
     private String zhushu;
     private String didian;
@@ -220,8 +222,8 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         mTextViewPrice12 = (TextView) findViewById(R.id.price12);
 
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZuiXin = (TextView) findViewById(R.id.zuixin);
         mTextViewChongDiDaoGao = (TextView) findViewById(R.id.congdidaogao);
@@ -283,7 +285,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 //        setDuoXuanData();
         setEnabled(true);
         if (lineOrThrow == 1) {
-            gettingAroundTravel("", "", "", ""
+            gettingAroundTravel("", "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -292,6 +294,42 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                     "", "", "", "", "", "", "", "",
                     "1", null, String.valueOf(lineOrThrow));
         }
+
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
     @Override
@@ -306,7 +344,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
 
             if (lineOrThrow == 1) {
-                gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), "", ""
+                gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -318,7 +356,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
             if (lineOrThrow == 1) {
-                gettingAroundTravel(ChufaCityCode,"" , "", ""
+                gettingAroundTravel(ChufaCityCode,"" , productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -331,7 +369,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
         } else if (!TextUtils.isEmpty(MuDi)) {
             if (lineOrThrow == 1) {
-                gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), "", ""
+                gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -344,7 +382,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
         } else {
             if (lineOrThrow == 1) {
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -460,7 +498,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 KyLog.d(xiaofei);
 
                 if (lineOrThrow == 1) {
-                    gettingAroundTravel("", "", "", qita
+                    gettingAroundTravel("", "", productType, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
                             "", "", "",
                             "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -501,7 +539,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else if (Integer.parseInt(minPrice) > 7000) {
                     if (lineOrThrow == 1) {
-                        gettingAroundTravel("", "", "", ""
+                        gettingAroundTravel("", "", productType, ""
                                 , "", "", "", "", "",
                                 7000 + "," + 1000000, "", "",
                                 "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -673,6 +711,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "2000";
                 maxPrice = "2500";
+                break;
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -887,7 +926,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
 
-                productType = "3";
+                productType = 3;
                 break;
             case R.id.congdidaogao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -898,7 +937,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "1";
+                productType = 1;
                 break;
             case R.id.congdidaogao_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -909,7 +948,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.zuiwan:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -920,7 +959,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.day_congshaodaoduo:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -931,7 +970,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "7";
+                productType = 7;
                 break;
             case R.id.conggaodaodi:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -942,7 +981,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.conggaodaodi_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -953,7 +992,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.day_congduodaoshao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -964,7 +1003,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.blue));
-                productType = "8";
+                productType = 8;
                 break;
 
             case R.id.caixian:
@@ -991,7 +1030,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewGuoNeiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewGuoWaiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "1", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -1004,7 +1043,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewGuoNeiYou.setTextColor(getResources().getColor(R.color.white));
                 mTextViewGuoWaiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "2", "",
                         "1", "", "", "", String.valueOf(2), "");
@@ -1019,7 +1058,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewGuoWaiYou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.white));
                 gettingForeignTravel("", "", "", "", "", "", "", "",
-                        "", "", "", "", "", "", "", "",
+                        "", "", "", "", String.valueOf(productType), "", "", "",
                         "1", null, String.valueOf(lineOrThrow));
                 break;
 
@@ -1126,7 +1165,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
     //国内
     private void gettingAroundTravel(String depart_code, String goalsId,
-                                     String sort_type, String tOtherId,
+                                     int sort_type, String tOtherId,
                                      String tActivityId, String tStayId,
                                      String tAddressId, String tTrafficId,
                                      String tConsumeId, String minPri_maxPri,
@@ -1164,7 +1203,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid,"0S", line_or_throw,String.valueOf(PreferenceUtil.getInt(UID)))
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid,"0", line_or_throw,String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);

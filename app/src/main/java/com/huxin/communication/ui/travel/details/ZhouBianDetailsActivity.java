@@ -71,9 +71,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     private int big_index = 0;// 大焦点图自动切换初始位置
 
-    private int position;
-
-    private List<AroundTravelEntity.ListBean> mList;
+    private AroundTravelEntity.ListBean listBean;
 
 
     @Override
@@ -103,70 +101,58 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         mTextViewIssueCount = (TextView) findViewById(R.id.issue_count);
         mTextViewGeneralize = (TextView) findViewById(R.id.generalize);
         mTextViewUsername = (TextView) findViewById(R.id.username);
-        mTextViewCompanyName = (TextView) findViewById(R.id.company_name);
+        mTextViewCompanyName = (TextView) findViewById(R.id.companyName);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
-        position = getIntent().getIntExtra("position", 0);
+        listBean = getIntent().getParcelableExtra("list");
 
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //String userSig = PreferenceUtil.getString("usersig");
-                if (mList != null && mList.size() > 0) {
+                if (listBean != null) {
                     //KyLog.i("uid = " + mList.get(0).getUid());
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    onRecvUserSig(userId, userSig, String.valueOf(mList.get(0).getUid()));
+                    onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
                 }
+            }
+        });
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        gettingAroundTravel();
+        setData(listBean);
+        setOnBinner(listBean);
+        setTextView(listBean, mRecyclerView);
     }
 
-    private void gettingAroundTravel() {
-        showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel("", "", "", ""
-                , "", "", "", "", "",
-                "", "", "","1", "", "", "","1","",
-                "0",String.valueOf(PreferenceUtil.getInt(UID)))
-                .subscribe(aroundTravelEntity -> {
-                    cancelProgressDialog();
-                    mList = aroundTravelEntity.getList();
 
-                    KyLog.object(aroundTravelEntity);
-                    setOnBinner(aroundTravelEntity.getList());
-                    setData(aroundTravelEntity);
-                    setTextView(aroundTravelEntity.getList(),position,mRecyclerView);
-
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void setData(AroundTravelEntity entity) {
-        if (entity.getList() != null && entity.getList().size() > 0) {
-            mTextViewTravelTitle.setText(entity.getList().get(position).getTravelTitle());
-            mTextViewDepartName.setText(entity.getList().get(position).getDepart_name());
-            mTextViewGoalsCity.setText(entity.getList().get(position).getGoals_city());
-            mTextViewNumberDays.setText(String.valueOf(entity.getList().get(position).getNumberDays()));
-            mTextViewTotalPrice.setText(String.valueOf(entity.getList().get(position).getTotalPrice()));
-            mTextViewReturnPrice.setText(String.valueOf(entity.getList().get(position).getReturnPrice()));
-            mTextViewTotalPriceChild.setText(String.valueOf(entity.getList().get(position).getTotalPriceChild()));
-            mTextViewReturnPriceChild.setText(String.valueOf(entity.getList().get(position).getReturnPriceChild()));
-            mTextViewSpotName.setText(String.valueOf(entity.getList().get(position).getSpotName()));
-            mTextViewViewCount.setText(String.valueOf(entity.getList().get(position).getView_count()));
-            mTextViewIssueCount.setText(String.valueOf(entity.getList().get(position).getIssue_count()));
-            mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
-            mTextViewUsername.setText(entity.getList().get(position).getUsername());
-            mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
+    private void setData(AroundTravelEntity.ListBean entity) {
+        if (entity != null) {
+            mTextViewTravelTitle.setText(entity.getTravelTitle());
+            mTextViewDepartName.setText(entity.getDepart_name());
+            mTextViewGoalsCity.setText(entity.getGoals_city());
+            mTextViewNumberDays.setText(String.valueOf(entity.getNumberDays()) + "天");
+            mTextViewTotalPrice.setText(String.valueOf("成人：" + entity.getTotalPrice()) + "元");
+            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturnPrice()) + "元");
+            mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotalPriceChild()) + "元");
+            mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturnPriceChild()) + "元");
+            mTextViewSpotName.setText(String.valueOf(entity.getSpotName()));
+            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+            mTextViewGeneralize.setText(entity.getGeneralize());
+            mTextViewUsername.setText(entity.getUsername());
+            mTextViewCompanyName.setText(entity.getCompanyName());
         }
     }
 
@@ -244,10 +230,10 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(List<AroundTravelEntity.ListBean> list) {
+    private void setOnBinner(AroundTravelEntity.ListBean listBean) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(list.get(position).getPhoto_url())) {
-            String[] str = list.get(position).getPhoto_url().split(",");
+        if (!TextUtils.isEmpty(listBean.getPhoto_url())) {
+            String[] str = listBean.getPhoto_url().split(",");
             for (String strs : str) {
                 imageList.add(strs);
             }
@@ -282,20 +268,21 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     }
 
 
-
-    private void setTextView(List<AroundTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(AroundTravelEntity.ListBean entity, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(entity.getTagName())) {
+            String[] strings = entity.getTagName().split(",");
+            KyLog.d(entity.getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 3);
+            GridLayoutManager manager = new GridLayoutManager(this, 5);
             mAdapterTableName = new TableNameAdapter(list1, this);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 
@@ -310,10 +297,11 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                 intent.putExtra("TARGET_ID", targetId);
                 startActivity(intent);
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(ZhouBianDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
-                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ZhouBianDetailsActivity.this, "用户Id == " + userId + " \n" + "imlogin fail" + errMsg
+                        + " \n" + "imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
                 KyLog.e("imlogin fail", errMsg);
             }
         });

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -142,13 +144,16 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     private TextView mTextViewChongDuoDaoShaoDay;
 
 
+
+
+
     private EditText mEditTextMax;
     private EditText mEditTextMin;
 
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType;
 
     private String zhushu;
     private String didian;
@@ -272,7 +277,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mTextViewGuoNeiYou.setOnClickListener(this);
         mTextViewGuoWaiYou.setOnClickListener(this);
         mTextViewPiaoWu.setOnClickListener(this);
-        mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         mTextViewPrice1.setOnClickListener(this);
         mTextViewPrice2.setOnClickListener(this);
@@ -306,7 +310,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
-            gettingAroundTravel("",  "", "", ""
+            gettingAroundTravel("",  "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", String.valueOf(travelType), "");
@@ -316,8 +320,44 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                     "1", "");
         } else {
             getTicketInfo("1", "", "", "",
-                    "", "", productType, "", "1");
+                    "", "", "", "", "1");
         }
+
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
     @Override
@@ -333,51 +373,51 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode,  MuDi.substring(1, MuDi.length() - 1), "", qita
+                gettingAroundTravel(ChufaCityCode,  MuDi.substring(1, MuDi.length() - 1), productType, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
             } else if (travelType == 3) {
                 gettingForeignTravel(ChufaCityCode, "", "", MuDi.substring(1, MuDi.length() - 1), "", huodong, zhushu, qita ,
-                        didian, jiaotong, "", xiaofei, productType, "", "", "",
+                        didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
                         "1", "");
             } else {
                 getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "", productType, "", "1");
+                        "", "", String.valueOf(productType), "", "1");
             }
 
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode,  "", "", qita
+                gettingAroundTravel(ChufaCityCode,  "", productType, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
             } else if (travelType == 3) {
                 gettingForeignTravel(ChufaCityCode, "", "", "", "", huodong, zhushu, qita ,
-                        didian, jiaotong, "", xiaofei, productType, "", "", "",
+                        didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
                         "1", "");
             } else {
                 getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "", productType, "", "1");
+                        "", "",String.valueOf( productType), "", "1");
             }
 
         } else if (!TextUtils.isEmpty(MuDi)) {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("",  MuDi.substring(1, MuDi.length() - 1), "", ""
+                gettingAroundTravel("",  MuDi.substring(1, MuDi.length() - 1), productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
             } else if (travelType == 3) {
                 gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "" ,
-                        "", "", "", xiaofei, productType, "", "", "",
+                        "", "", "", xiaofei, String.valueOf(productType), "", "", "",
                         "1", "");
             } else {
                 getTicketInfo("1", "", "", "",
-                        "", "", productType, "", "1");
+                        "", "", String.valueOf(productType), "", "1");
             }
         } else {
             if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("",  "", "", ""
+                gettingAroundTravel("",  "", productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(travelType), "");
@@ -387,7 +427,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                         "1", "");
             } else {
                 getTicketInfo("1", "", "", "",
-                        "", "", productType, "", "1");
+                        "", "", String.valueOf(productType), "", "1");
             }
         }
 
@@ -495,17 +535,17 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 KyLog.d(xiaofei);
 
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel("", "", "", qita
+                    gettingAroundTravel("", "", productType, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
                             "", "", "",
                             "1", "", "", String.valueOf(travelType), "");
                 } else if (travelType == 3) {
                     gettingForeignTravel("", "", "", "", "", huodong, zhushu, qita ,
-                            didian, jiaotong, "", xiaofei, productType, "", "", "",
+                            didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
                             "1", "");
                 } else {
                     getTicketInfo("1", "", "", "",
-                            "", "", productType, "", "1");
+                            "", "", String.valueOf(productType), "", "1");
                 }
                 break;
             case R.id.price_Determine:
@@ -514,18 +554,18 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 if (travelType == 1 || travelType == 2) {
                     //国内和周边
                     if (Integer.parseInt(minPrice) < 500) {
-                        gettingAroundTravel("", "", "", ""
+                        gettingAroundTravel("", "", productType, ""
                                 , "", "", "", "", "",
                                 0 + "," + maxPrice, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        gettingAroundTravel("", "", "", ""
+                        gettingAroundTravel("", "", productType, ""
                                 , "", "", "", "", "",
                                 minPrice + "," + maxPrice, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        gettingAroundTravel("", "", "", ""
+                        gettingAroundTravel("", "", productType, ""
                                 , "", "", "", "", "",
                                 7000 + "," + 1000000, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
@@ -571,11 +611,11 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                             "1", "", "", String.valueOf(travelType), "");
                 } else if (travelType == 3) {
                     gettingForeignTravel("", "", "", "", "", "", "", "",
-                            "", "", "", "", productType, "", "", "",
+                            "", "", "", "", String.valueOf(productType), "", "", "",
                             "1", "");
                 } else {
                     getTicketInfo("1", "", "", "",
-                            "", "", productType, "", "1");
+                            "", "", String.valueOf(productType), "", "1");
                 }
 
                 break;
@@ -724,6 +764,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "2000";
                 maxPrice = "2500";
+                break;
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -938,7 +979,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
 
-                productType = "3";
+                productType = 3;
                 break;
             case R.id.congdidaogao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -949,7 +990,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "1";
+                productType = 1;
                 break;
             case R.id.congdidaogao_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -960,7 +1001,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.zuiwan:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -971,7 +1012,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.day_congshaodaoduo:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -982,7 +1023,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "7";
+                productType = 7;
                 break;
             case R.id.conggaodaodi:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -993,7 +1034,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.conggaodaodi_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -1004,7 +1045,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.day_congduodaoshao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -1015,7 +1056,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.blue));
-                productType = "8";
+                productType = 8;
                 break;
             case R.id.duantuyou:
                 mTextViewDuanTuYou.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
@@ -1026,7 +1067,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(1), "");
@@ -1041,7 +1082,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(2), "");
@@ -1112,7 +1153,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mZhouBianDuoXuanAdapter = new ZhouBianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mZhouBianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1124,7 +1165,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mAdpter = new ZhouBianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -1134,7 +1177,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mJinWaiDuoXuanAdapter = new JinWaiDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mJinWaiDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1146,7 +1189,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         }
     }
 
@@ -1156,7 +1199,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mTicketingDuoXuanAdapter = new TicketingDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mTicketingDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1168,7 +1211,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mTicketAdapter = new TicketingAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
-            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1180,7 +1223,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
      * 国内和周边
      */
     private void gettingAroundTravel(String depart_code, String goalsId,
-                                     String sort_type, String tOtherId,
+                                     int sort_type, String tOtherId,
                                      String tActivityId, String tStayId,
                                      String tAddressId, String tTrafficId,
                                      String tConsumeId, String minPri_maxPri,

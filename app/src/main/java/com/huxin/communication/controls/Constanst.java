@@ -162,6 +162,13 @@ public class Constanst {
 
     public static final String ISMESSAGEALERT_TYPE = "isMessageAlert_type";
 
+    public static final String TICKET_PROVINCE_NAME = "ticket_province_name";
+
+    public static final String TICKET_PROVINCE_CODE = "ticket_province_code";
+
+    public static final String TICKET_CITY_NAME = "ticket_city_name";
+
+
 
     public static final int REQUEST_SYSTEM_PIC = 3;
 

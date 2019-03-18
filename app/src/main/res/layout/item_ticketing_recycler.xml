@@ -24,7 +24,6 @@
                 android:layout_width="100dp"
                 android:layout_height="178dp"
                 android:layout_margin="11dp"
-                android:background="@color/blue"
                 android:scaleType="centerCrop" />
 
 
@@ -37,11 +36,11 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/image_stick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/sign_hot_piaowu" />
+                android:scaleType="centerCrop" />
 
 
             <LinearLayout
@@ -123,7 +122,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_ticket"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="25dp"
+                    android:layout_marginTop="20dp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

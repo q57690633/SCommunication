@@ -14,12 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.util.m;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
@@ -52,6 +54,7 @@ public class TicketingDetailsActivity extends BaseActivity {
     private TextView mTextViewGeneralize;
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
+    private TextView mTextViewPriceEveing;
 
     private RecyclerView mRecyclerView;
 
@@ -80,6 +83,9 @@ public class TicketingDetailsActivity extends BaseActivity {
 
     private int position;
 
+    private TicketInfoEntity.ListBean listBean;
+
+
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_ticketing_details);
@@ -105,11 +111,12 @@ public class TicketingDetailsActivity extends BaseActivity {
         mTextViewGeneralize = (TextView) findViewById(R.id.generalize);
         mTextViewUsername = (TextView) findViewById(R.id.username);
         mTextViewCompanyName = (TextView) findViewById(R.id.company_name);
+        mTextViewPriceEveing = findViewById(R.id.return_price_evening);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
-        position = getIntent().getIntExtra("position", 0);
+        listBean = getIntent().getParcelableExtra("list");
 
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,50 +132,60 @@ public class TicketingDetailsActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        gettingForeignTravel();
+        setData(listBean);
+        setOnBinner(listBean);
+        setTextView(listBean,mRecyclerView);
     }
 
-    private void gettingForeignTravel() {
-        showProgressDialog();
-        ApiModule.getInstance().getTicketInfo("1", PreferenceUtil.getString(Constanst.CITY_NATION_NAME), "", ""
-                , "", "", "", "", "1",null,"0",String.valueOf(PreferenceUtil.getInt(UID)))
-                .subscribe(ticketInfoEntity -> {
-                    cancelProgressDialog();
-                    mList = ticketInfoEntity.getList();
+//    private void gettingForeignTravel() {
+//        showProgressDialog();
+//        ApiModule.getInstance().getTicketInfo("1", PreferenceUtil.getString(Constanst.CITY_NATION_NAME), "", ""
+//                , "", "", "", "", "1",null,"0",String.valueOf(PreferenceUtil.getInt(UID)))
+//                .subscribe(ticketInfoEntity -> {
+//                    cancelProgressDialog();
+//                    mList = ticketInfoEntity.getList();
+//
+//                    KyLog.object(ticketInfoEntity);
+//                    setData(ticketInfoEntity);
+//                    setTextView(ticketInfoEntity.getList(), position, mRecyclerView);
+//                    setOnBinner(ticketInfoEntity.getList());
+//
+//
+//                }, throwable -> {
+//                    KyLog.d(throwable.toString());
+//                    cancelProgressDialog();
+//                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                });
+//    }
 
-                    KyLog.object(ticketInfoEntity);
-                    setData(ticketInfoEntity);
-                    setTextView(ticketInfoEntity.getList(), position, mRecyclerView);
-                    setOnBinner(ticketInfoEntity.getList());
+    private void setData(TicketInfoEntity.ListBean entity) {
+        if (entity != null) {
+            mTextViewTravelTitle.setText(entity.getTicket_name());
+            mTextViewOriginalPrice.setText(String.valueOf("成人：" + entity.getOriginal_price())  + "元");
+            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");
+            mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturn_price_child()) + "元");
+            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+            mTextViewGeneralize.setText(entity.getGeneralize());
+            mTextViewUsername.setText(entity.getUsername());
+            mTextViewCompanyName.setText(entity.getCompanyName());
+            mTextViewOriginalPriceChild.setText(String.valueOf( "成人：" + entity.getOriginal_price_child()) + "元");
+            mTextViewOriginalPriceEvening.setText(String.valueOf("夜场：" + entity.getOriginal_price_evening()) + "元");
+            mTextViewOriginalPriceEvening.setText(String.valueOf("返佣：" + entity.getReturn_price_evening()) + "元");
 
-
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void setData(TicketInfoEntity entity) {
-        if (entity.getList() != null && entity.getList().size() > 0) {
-            mTextViewTravelTitle.setText(entity.getList().get(position).getTicket_name());
-            mTextViewOriginalPrice.setText(String.valueOf(entity.getList().get(position).getOriginal_price()));
-            mTextViewReturnPrice.setText(String.valueOf(entity.getList().get(position).getReturn_price()));
-            mTextViewReturnPriceChild.setText(String.valueOf(entity.getList().get(position).getReturn_price_child()));
-            mTextViewViewCount.setText(String.valueOf(entity.getList().get(position).getView_count()));
-            mTextViewIssueCount.setText(String.valueOf(entity.getList().get(position).getIssue_count()));
-            mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
-            mTextViewUsername.setText(entity.getList().get(position).getUsername());
-            mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
-            mTextViewOriginalPriceChild.setText(String.valueOf(entity.getList().get(position).getOriginal_price_child()));
-            mTextViewOriginalPriceEvening.setText(String.valueOf(entity.getList().get(position).getOriginal_price_evening()));
-
-            mTextViewTicketAddr.setText(entity.getList().get(position).getTicket_addr());
-            mTextViewOpenTime.setText(entity.getList().get(position).getOpen_time());
+            mTextViewTicketAddr.setText(entity.getTicket_addr());
+            mTextViewOpenTime.setText(entity.getOpen_time());
 
         }
     }
@@ -247,10 +264,10 @@ public class TicketingDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(List<TicketInfoEntity.ListBean> list) {
+    private void setOnBinner(TicketInfoEntity.ListBean entity) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(list.get(0).getPhoto_url())) {
-            String[] str = list.get(0).getPhoto_url().split(",");
+        if (!TextUtils.isEmpty(entity.getPhoto_url())) {
+            String[] str = entity.getPhoto_url().split(",");
             for (String strs : str) {
                 imageList.add(strs);
             }
@@ -284,19 +301,22 @@ public class TicketingDetailsActivity extends BaseActivity {
         }
     }
 
-    private void setTextView(List<TicketInfoEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(TicketInfoEntity.ListBean entity, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++) {
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(entity.getTagName())) {
+            String[] strings = entity.getTagName().split(",");
+            KyLog.d(entity.getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
+
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 3);
+            GridLayoutManager manager = new GridLayoutManager(this, 5);
             mAdapterTableName = new TableNameAdapter(list1, this);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
 
 
@@ -312,10 +332,11 @@ public class TicketingDetailsActivity extends BaseActivity {
                 intent.putExtra("TARGET_ID", targetId);
                 startActivity(intent);
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(TicketingDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
-                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                Toast.makeText(TicketingDetailsActivity.this, "用户Id == " + userId + " \n" + "imlogin fail" + errMsg
+                        + " \n" + "imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
                 KyLog.e("imlogin fail", errMsg);
             }
         });

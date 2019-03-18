@@ -1,8 +1,11 @@
 package com.huxin.communication.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class ForeignTravelEntity {
+public class ForeignTravelEntity implements Parcelable {
 
     /**
      * curPage : 1
@@ -38,7 +41,9 @@ public class ForeignTravelEntity {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Parcelable {
+
+
         /**
          * companyName :
          * curPage :
@@ -149,8 +154,25 @@ public class ForeignTravelEntity {
         private String userCity;
         private String username;
         private int view_count;
-        private List<?> files;
+        private List<String> files;
+        private String qrCode_url;
+        private String isCollect;
 
+        public String getQrCode_url() {
+            return qrCode_url;
+        }
+
+        public void setQrCode_url(String qrCode_url) {
+            this.qrCode_url = qrCode_url;
+        }
+
+        public String getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(String isCollect) {
+            this.isCollect = isCollect;
+        }
         public String getCompanyName() {
             return companyName;
         }
@@ -575,12 +597,180 @@ public class ForeignTravelEntity {
             this.view_count = view_count;
         }
 
-        public List<?> getFiles() {
+        public List<String> getFiles() {
             return files;
         }
 
-        public void setFiles(List<?> files) {
+        public void setFiles(List<String> files) {
             this.files = files;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.companyName);
+            dest.writeString(this.curPage);
+            dest.writeString(this.depart_name);
+            dest.writeString(this.depart_pro_name);
+            dest.writeInt(this.final_price);
+            dest.writeInt(this.final_price_child);
+            dest.writeString(this.generalize);
+            dest.writeString(this.goals_city);
+            dest.writeString(this.goals_name);
+            dest.writeString(this.goals_nat_name);
+            dest.writeString(this.headUrl);
+            dest.writeInt(this.id);
+            dest.writeInt(this.issue_count);
+            dest.writeString(this.issue_time);
+            dest.writeString(this.keyWord);
+            dest.writeInt(this.line_or_throw);
+            dest.writeInt(this.max_days);
+            dest.writeInt(this.max_price);
+            dest.writeString(this.minPri_maxPri);
+            dest.writeInt(this.min_days);
+            dest.writeInt(this.min_price);
+            dest.writeInt(this.number_days);
+            dest.writeString(this.photo_url);
+            dest.writeInt(this.pickup_price);
+            dest.writeInt(this.return_price);
+            dest.writeInt(this.return_price_child);
+            dest.writeInt(this.sort_type);
+            dest.writeString(this.spot_name);
+            dest.writeInt(this.stick);
+            dest.writeInt(this.stick_better);
+            dest.writeInt(this.stick_hot);
+            dest.writeInt(this.stick_low);
+            dest.writeString(this.stick_name);
+            dest.writeInt(this.stick_new);
+            dest.writeInt(this.stick_rate);
+            dest.writeInt(this.stick_return);
+            dest.writeInt(this.stick_throw);
+            dest.writeInt(this.stick_zeroC);
+            dest.writeString(this.t_activity_id);
+            dest.writeString(this.t_address_id);
+            dest.writeString(this.t_consume_id);
+            dest.writeString(this.t_other_id);
+            dest.writeString(this.t_overseas_id);
+            dest.writeString(this.t_stay_id);
+            dest.writeString(this.t_traffic_id);
+            dest.writeString(this.tagName);
+            dest.writeInt(this.total_price);
+            dest.writeInt(this.total_price_child);
+            dest.writeString(this.travel_title);
+            dest.writeInt(this.uid);
+            dest.writeString(this.userCity);
+            dest.writeString(this.username);
+            dest.writeInt(this.view_count);
+            dest.writeStringList(this.files);
+        }
+
+        public ListBean() {
+        }
+
+        protected ListBean(Parcel in) {
+            this.companyName = in.readString();
+            this.curPage = in.readString();
+            this.depart_name = in.readString();
+            this.depart_pro_name = in.readString();
+            this.final_price = in.readInt();
+            this.final_price_child = in.readInt();
+            this.generalize = in.readString();
+            this.goals_city = in.readString();
+            this.goals_name = in.readString();
+            this.goals_nat_name = in.readString();
+            this.headUrl = in.readString();
+            this.id = in.readInt();
+            this.issue_count = in.readInt();
+            this.issue_time = in.readString();
+            this.keyWord = in.readString();
+            this.line_or_throw = in.readInt();
+            this.max_days = in.readInt();
+            this.max_price = in.readInt();
+            this.minPri_maxPri = in.readString();
+            this.min_days = in.readInt();
+            this.min_price = in.readInt();
+            this.number_days = in.readInt();
+            this.photo_url = in.readString();
+            this.pickup_price = in.readInt();
+            this.return_price = in.readInt();
+            this.return_price_child = in.readInt();
+            this.sort_type = in.readInt();
+            this.spot_name = in.readString();
+            this.stick = in.readInt();
+            this.stick_better = in.readInt();
+            this.stick_hot = in.readInt();
+            this.stick_low = in.readInt();
+            this.stick_name = in.readString();
+            this.stick_new = in.readInt();
+            this.stick_rate = in.readInt();
+            this.stick_return = in.readInt();
+            this.stick_throw = in.readInt();
+            this.stick_zeroC = in.readInt();
+            this.t_activity_id = in.readString();
+            this.t_address_id = in.readString();
+            this.t_consume_id = in.readString();
+            this.t_other_id = in.readString();
+            this.t_overseas_id = in.readString();
+            this.t_stay_id = in.readString();
+            this.t_traffic_id = in.readString();
+            this.tagName = in.readString();
+            this.total_price = in.readInt();
+            this.total_price_child = in.readInt();
+            this.travel_title = in.readString();
+            this.uid = in.readInt();
+            this.userCity = in.readString();
+            this.username = in.readString();
+            this.view_count = in.readInt();
+            this.files = in.createStringArrayList();
+        }
+
+        public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+            @Override
+            public ListBean createFromParcel(Parcel source) {
+                return new ListBean(source);
+            }
+
+            @Override
+            public ListBean[] newArray(int size) {
+                return new ListBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.curPage);
+        dest.writeInt(this.pageSize);
+        dest.writeTypedList(this.list);
+    }
+
+    public ForeignTravelEntity() {
+    }
+
+    protected ForeignTravelEntity(Parcel in) {
+        this.curPage = in.readString();
+        this.pageSize = in.readInt();
+        this.list = in.createTypedArrayList(ListBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<ForeignTravelEntity> CREATOR = new Parcelable.Creator<ForeignTravelEntity>() {
+        @Override
+        public ForeignTravelEntity createFromParcel(Parcel source) {
+            return new ForeignTravelEntity(source);
+        }
+
+        @Override
+        public ForeignTravelEntity[] newArray(int size) {
+            return new ForeignTravelEntity[size];
+        }
+    };
 }

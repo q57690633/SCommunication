@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,7 +29,9 @@ import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.custom.ReleaseDialog;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.entity.TravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
@@ -138,7 +143,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     private String minPrice;
     private String maxPrice;
 
-    private String productType;
+    private int productType;
 
     private String zhushu;
     private String didian;
@@ -158,6 +163,17 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     private String peer;
     private String type;
     private TextView mTextViewZhuanFa;
+
+
+    private RelativeLayout mRelativeLayoutDay;
+    private EditText mEditTextminDay;
+    private EditText mEditTextMaxDay;
+    private TextView mTextViewDayType;
+    private ReleaseDialog mReleaseDialog;
+    private String day;
+    private List<MyPopVlaues> Koulist;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,8 +255,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewPrice12 = (TextView) findViewById(R.id.price12);
 
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZuiXin = (TextView) findViewById(R.id.zuixin);
         mTextViewChongDiDaoGao = (TextView) findViewById(R.id.congdidaogao);
@@ -255,6 +271,11 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
         mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+        mRelativeLayoutDay = findViewById(R.id.rl_travel_hot_type);
+        mEditTextMaxDay = findViewById(R.id.ed_day_max);
+        mEditTextminDay = findViewById(R.id.ed_day_min);
+        mTextViewDayType = findViewById(R.id.travel_hot_type);
 
 
 
@@ -307,10 +328,45 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
-        gettingAroundTravel("", "", "", ""
+        gettingAroundTravel("", "", productType, ""
                 , "", "", "", "", "",
-                "", "", "",
+                "", String.valueOf(numberDays), "",
                 "1", "", "", "", String.valueOf(2), "");
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
 
@@ -325,22 +381,22 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
         KyLog.d(ChufaCityCode);
         if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), "", ""
+            gettingAroundTravel(ChufaCityCode, MuDi.substring(1, MuDi.length() - 1), productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
         } else if (!TextUtils.isEmpty(ChufaCityCode)) {
-            gettingAroundTravel(ChufaCityCode, "", "", ""
+            gettingAroundTravel(ChufaCityCode, "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
         } else  if (!TextUtils.isEmpty(MuDi)) {
-            gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), "", ""
+            gettingAroundTravel("", MuDi.substring(1, MuDi.length() - 1), productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
         } else {
-            gettingAroundTravel("", "", "", ""
+            gettingAroundTravel("", "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", "", String.valueOf(2), "");
@@ -427,6 +483,16 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 break;
 
             case R.id.more_Determine:
+
+                String minDay = mEditTextminDay.getText().toString().trim();
+                String maxDay = mEditTextMaxDay.getText().toString().trim();
+                if (TextUtils.isEmpty(minDay)){
+                    minDay = "";
+                }
+
+                if (TextUtils.isEmpty(maxDay)){
+                    maxDay = "";
+                }
                 updata();
                 setTabData();
                 KyLog.d(zhushu);
@@ -437,25 +503,28 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 KyLog.d(xiaofei);
 
 
-                gettingAroundTravel("", "", "", qita
+                gettingAroundTravel("", "", productType, qita
                         , huodong, zhushu, didian, jiaotong, xiaofei,
                         "", "", "",
                         "1", "", "", "", String.valueOf(2), "");
                 break;
             case R.id.price_Determine:
                 updata();
+                KyLog.d(maxPrice);
+                KyLog.d(minPrice);
+
                 if (Integer.parseInt(minPrice) < 500) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             0 + "," + maxPrice, "", "",
                             "1", "", "", "", String.valueOf(2), "");
                 } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             minPrice + "," + maxPrice, "", "",
                             "1", "", "", "", String.valueOf(2), "");
                 } else if (Integer.parseInt(minPrice) > 7000) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             7000 + "," + 1000000, "", "",
                             "1", "", "", "", String.valueOf(2), "");
@@ -465,7 +534,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 updata();
                 gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
-                        "", "", "",
+                        "", String.valueOf(numberDays), "",
                         "1", "", "", "", String.valueOf(2), "");
                 break;
 
@@ -485,18 +554,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
 
             case R.id.price1:
-                mTextViewPrice1.setBackgroundResource(R.color.blue);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.white));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -514,18 +583,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "500";
                 break;
             case R.id.price2:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.blue);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.white));
@@ -543,18 +612,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "1000";
                 break;
             case R.id.price3:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.blue);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -572,18 +641,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "1500";
                 break;
             case R.id.price4:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.blue);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -601,18 +670,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "2000";
                 break;
             case R.id.price5:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.blue);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -629,19 +698,24 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "2000";
                 maxPrice = "2500";
+
+                KyLog.d(minPrice);
+                KyLog.d(maxPrice);
+                break;
+
             case R.id.price6:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.blue);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -657,20 +731,23 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice12.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "2500";
                 maxPrice = "3000";
+                KyLog.d(minPrice);
+                KyLog.d(maxPrice);
+
                 break;
             case R.id.price7:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.blue);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -688,18 +765,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "4000";
                 break;
             case R.id.price8:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.blue);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -717,18 +794,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "5000";
                 break;
             case R.id.price9:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.blue);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -746,18 +823,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "6000";
                 break;
             case R.id.price10:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.blue);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -775,18 +852,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "7000";
                 break;
             case R.id.price11:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.blue);
-                mTextViewPrice12.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                mTextViewPrice12.setBackgroundResource(R.drawable.biaoqian_radius);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPrice2.setTextColor(getResources().getColor(R.color.register_font));
@@ -804,17 +881,17 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 maxPrice = "8000";
                 break;
             case R.id.price12:
-                mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice3.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice4.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice5.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice6.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice7.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice8.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice9.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice10.setBackgroundResource(R.color.login_forget_password_code_fort);
-                mTextViewPrice11.setBackgroundResource(R.color.login_forget_password_code_fort);
+                mTextViewPrice1.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice2.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice3.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice4.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice5.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice6.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice7.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice8.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice9.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice10.setBackgroundResource(R.drawable.biaoqian_radius);
+                mTextViewPrice11.setBackgroundResource(R.drawable.biaoqian_radius);
                 mTextViewPrice12.setBackgroundResource(R.color.blue);
 
                 mTextViewPrice1.setTextColor(getResources().getColor(R.color.register_font));
@@ -843,7 +920,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
 
-                productType = "3";
+                productType = 3;
                 break;
             case R.id.congdidaogao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -854,7 +931,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "1";
+                productType = 1;
                 break;
             case R.id.congdidaogao_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -865,7 +942,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "5";
+                productType = 5;
                 break;
             case R.id.zuiwan:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -876,7 +953,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "4";
+                productType = 4;
                 break;
             case R.id.day_congshaodaoduo:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -887,7 +964,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "7";
+                productType = 7;
                 break;
             case R.id.conggaodaodi:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -898,7 +975,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "2";
+                productType = 2;
                 break;
             case R.id.conggaodaodi_fanxian:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -909,7 +986,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.register_font));
-                productType = "6";
+                productType = 6;
                 break;
             case R.id.day_congduodaoshao:
                 mTextViewZuiXin.setTextColor(getResources().getColor(R.color.register_font));
@@ -920,7 +997,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewChongGaoDaoDi.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongGaoDaoDiFanXian.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewChongDuoDaoShaoDay.setTextColor(getResources().getColor(R.color.blue));
-                productType = "8";
+                productType = 8;
                 break;
 
 
@@ -934,7 +1011,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 numberDays = 1;
 
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "1", "",
                         "1", "", "", "", String.valueOf(2), "");
@@ -947,7 +1024,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.register_font));
                 numberDays = 2;
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "2", "",
                         "1", "", "", "", String.valueOf(2), "");
@@ -961,7 +1038,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSanSiRiYou.setTextColor(getResources().getColor(R.color.white));
                 numberDays = 3;
 
-                gettingAroundTravel("", "", "", ""
+                gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
                         "", "3", "",
                         "1", "", "", "", String.valueOf(2), "");
@@ -994,6 +1071,22 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 }else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
+                break;
+
+            case R.id.rl_travel_hot_type:
+                mReleaseDialog = new ReleaseDialog(this, setDayType());
+                mReleaseDialog.setCancelable(true);
+
+                mReleaseDialog.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mTextViewDayType.setText(setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1));
+                        day = setDayType().get(position).getName().substring(0, setDayType().get(position).getName().length() - 1);
+                        KyLog.d(day);
+                        mReleaseDialog.cancel();
+                    }
+                });
+                mReleaseDialog.show();
                 break;
         }
 
@@ -1045,7 +1138,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void gettingAroundTravel(String depart_code, String goalsId,
-                                     String sort_type, String tOtherId,
+                                     int sort_type, String tOtherId,
                                      String tActivityId, String tStayId,
                                      String tAddressId, String tTrafficId,
                                      String tConsumeId, String minPri_maxPri,
@@ -1209,6 +1302,16 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         Kouweilist.add("自由行");
         Kouweilist.add("半自助");
         return Kouweilist;
+    }
+
+    private List<MyPopVlaues> setDayType() {
+        Koulist = new ArrayList<MyPopVlaues>();
+        Koulist.add(new MyPopVlaues("1天"));
+        Koulist.add(new MyPopVlaues("2天"));
+        Koulist.add(new MyPopVlaues("3天"));
+        Koulist.add(new MyPopVlaues("4天"));
+
+        return Koulist;
     }
 
 
@@ -1434,7 +1537,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             case EditorInfo.IME_ACTION_GO:
                 String search = mEditTextSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(search)) {
-                    gettingAroundTravel("", "", "", ""
+                    gettingAroundTravel("", "", productType, ""
                             , "", "", "", "", "",
                             "", String.valueOf(numberDays), search,
                             "1", "", "", null, String.valueOf(1), "");

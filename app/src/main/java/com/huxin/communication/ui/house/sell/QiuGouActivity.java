@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -373,8 +375,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
         mTextViewdanjiaGD = (TextView) findViewById(R.id.danjia_conggaodaodi);
         mTextViewmianjiBD = (TextView) findViewById(R.id.mianji_congdadaoxiao);
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZhuanFa = findViewById(R.id.delete_collect);
 
@@ -460,6 +462,41 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 "", "", "", "0", 0, PreferenceUtil.getString(Constanst.CITY_NAME),
                 PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
 
+        mEditTextMax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMax.getText().toString().trim();
+
+            }
+        });
+
+        mEditTextMin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                maxPrice = mEditTextMin.getText().toString().trim();
+
+            }
+        });
     }
 
     @Override
@@ -908,6 +945,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                 mTextViewPrice9.setTextColor(getResources().getColor(R.color.register_font));
                 minPrice = "120";
                 maxPrice = "130";
+                break;
+
             case R.id.price6:
                 mTextViewPrice1.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);

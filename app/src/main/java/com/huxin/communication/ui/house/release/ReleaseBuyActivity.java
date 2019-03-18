@@ -468,9 +468,17 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
         map.put("maxPrice",maxPrice);
         map.put("minAcreage",minAcreage);
         map.put("maxAcreage",maxAcreage);
-        map.put("houseType",HouseType);
-        map.put("floorAge",FloorAge);
-        map.put("permit",Permit);
+        if (!TextUtils.isEmpty(HouseType)) {
+            map.put("houseType",HouseType);
+
+        }
+        if (!TextUtils.isEmpty(FloorAge)) {
+            map.put("floorAge",FloorAge);
+        }
+        if (!TextUtils.isEmpty(Permit)) {
+            map.put("permit",Permit);
+        }
+
         map.put("remark",remark);
         map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
         map.put("stick",String.valueOf(stick));

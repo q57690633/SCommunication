@@ -7,10 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginBottom="15dp"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -41,8 +38,6 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:lines="1"
-
-                android:text="总高11层"
                 android:textColor="@color/register_font"
                 android:textSize="12sp" />
 
@@ -53,10 +48,9 @@
 
                 <TextView
                     android:id="@+id/chufadi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:text="现价9800元/㎡"
                     android:textColor="@color/register_font"
                     android:textSize="12sp"
                     android:lines="1"
@@ -64,10 +58,9 @@
 
                 <TextView
                     android:id="@+id/mudidi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:text="现价9800元/㎡"
                     android:textColor="@color/register_font"
                     android:textSize="12sp"
                     android:lines="1"
@@ -78,7 +71,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:text="现价9800元/㎡"
                     android:lines="1"
                     android:ellipsize="end"
                     android:textColor="@color/register_font"
@@ -93,19 +85,21 @@
 
                 <TextView
                     android:id="@+id/totalPrice"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:text="现价9800元/㎡"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/returnPrice"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="11dp"
-                    android:text="现价9800元/㎡"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/register_font"
                     android:textSize="12sp" />
 

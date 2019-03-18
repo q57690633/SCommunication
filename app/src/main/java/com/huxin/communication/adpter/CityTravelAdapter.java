@@ -26,6 +26,7 @@ import static com.huxin.communication.controls.Constanst.PROVINCE_CODE;
 import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_CODE;
 import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_TRAVEL_NAME;
 import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVEL_NAME;
+import static com.huxin.communication.controls.Constanst.TICKET_CITY_NAME;
 
 public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.BodyViewHoder> {
     private Activity mActivity;
@@ -77,8 +78,14 @@ public class CityTravelAdapter extends RecyclerView.Adapter<CityTravelAdapter.Bo
                     PreferenceUtil.putString(PROVINCE_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
                     PreferenceUtil.putString(PROVINCE_MUDI_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
 
-                    Intent intent = new Intent(mActivity, ShuaiShuanInlandSpotActivity.class);
-                    mActivity.startActivity(intent);
+//                    Intent intent = new Intent(mActivity, ShuaiShuanInlandSpotActivity.class);
+//                    mActivity.startActivity(intent);
+                }else {
+                    if (mList.get(Hoder.getAdapterPosition()).getCity_name().contains("市")) {
+                        PreferenceUtil.putString(TICKET_CITY_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name());
+                    } else {
+                        PreferenceUtil.putString(TICKET_CITY_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name() + "市");
+                    }
                 }
                 mActivity.finish();
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SCommunication</string>
+    <string name="app_name">百行同业</string>
 
     <string name="main_tab_home">首页</string>
     <string name="main_tab_Assortment">通讯录</string>
@@ -131,5 +131,6 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="title_activity_data_base_details">DataBaseDetailsActivity</string>
     <string name="title_activity_data_base_qiu_gou_details">DataBaseQiuGouDetailsActivity</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 
 </resources>

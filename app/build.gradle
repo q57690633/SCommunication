@@ -74,6 +74,7 @@ dependencies {
 //    api 'com.tencent.imsdk:tuikit:0.0.1.213'
     compile 'com.android.support:multidex:1.0.3'
     implementation project(':tuikit')
+    compile project(':pickdatetime')
 
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 

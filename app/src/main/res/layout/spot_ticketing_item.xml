@@ -13,7 +13,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="14dp"
         android:layout_marginRight="12dp"
-        android:background="@color/login_forget_password_code_fort"
+        android:background="@drawable/biaoqian_radius"
         android:hint="景点名"
         android:padding="9dp"
         android:textColorHint="@color/red_setting" />
@@ -33,17 +33,60 @@
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <EditText
-            android:id="@+id/ticket_addr"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/rl_travel_ticket_province"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:background="@drawable/biaoqian_radius"
+            android:gravity="center"
+            android:layout_marginTop="14dp">
+
+            <TextView
+                android:id="@+id/travel_ticket_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="选择省"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_travel_ticket_city"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/biaoqian_radius"
+            android:gravity="center"
             android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:hint="地址"
-            android:padding="9dp"
-            android:textColorHint="@color/login_walling_fort" />
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:id="@+id/travel_ticket_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="选择市"
+                android:textColor="@color/login_walling_fort"
+                android:textSize="14dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="13dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_triangle" />
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -63,11 +106,11 @@
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="最早时间"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -85,11 +128,11 @@
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <EditText
+        <TextView
             android:id="@+id/end_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="最晚时间"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -129,7 +172,7 @@
             android:id="@+id/final_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -151,7 +194,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -190,7 +233,7 @@
             android:id="@+id/final_price_child"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -212,7 +255,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -251,7 +294,7 @@
             android:id="@+id/final_price_evening"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -273,7 +316,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -313,7 +356,7 @@
             android:id="@+id/final_price_parent_child"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -335,7 +378,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -375,7 +418,7 @@
             android:id="@+id/final_price_family"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -397,7 +440,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -437,7 +480,7 @@
             android:id="@+id/final_price_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -459,7 +502,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -499,7 +542,7 @@
             android:id="@+id/final_boat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
             android:paddingRight="8dp"
@@ -521,7 +564,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -560,7 +603,7 @@
             android:id="@+id/final_car"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -582,7 +625,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
@@ -743,16 +786,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal"
+                />
 
-            <ImageView
-                android:id="@+id/stick_new_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -775,16 +811,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal"
+                />
 
-            <ImageView
-                android:id="@+id/stick_low_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -807,16 +836,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal"
+                />
 
-            <ImageView
-                android:id="@+id/stick_better_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -840,16 +862,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal"
+                />
 
-            <ImageView
-                android:id="@+id/stick_throw_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -881,16 +896,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
 
-            <ImageView
-                android:id="@+id/stick_rate_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -914,16 +921,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
 
-            <ImageView
-                android:id="@+id/stick_return_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -947,16 +946,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
 
-            <ImageView
-                android:id="@+id/stick_hot_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="wrap_content"

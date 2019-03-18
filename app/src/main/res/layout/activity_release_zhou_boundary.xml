@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -411,7 +411,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/address_recycler"/>
+            android:id="@+id/address_recycler"
+            android:nestedScrollingEnabled="false" />
 
 
         <TextView
@@ -427,7 +428,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/traffic_recycler"/>
+            android:id="@+id/traffic_recycler"
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -441,7 +443,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cons_recycler"/>
+            android:id="@+id/cons_recycler"
+            android:nestedScrollingEnabled="false" />
 
 
         <TextView
@@ -456,7 +459,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/activity_recycler"/>
+            android:id="@+id/activity_recycler"
+            android:nestedScrollingEnabled="false" />
 
 
         <TextView
@@ -472,7 +476,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/stay_recycler"/>
+            android:id="@+id/stay_recycler"
+            android:nestedScrollingEnabled="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -487,7 +492,8 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/other_recycler"/>
+            android:id="@+id/other_recycler"
+            android:nestedScrollingEnabled="false" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -588,7 +594,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
                 <ImageView
                     android:id="@+id/stick_new_click"
@@ -604,7 +610,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sign_shangxin" />
+                    android:background="@drawable/sign_shangxin" />
 
             </RelativeLayout>
 
@@ -620,16 +626,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_low_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -652,16 +650,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_better_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -685,16 +675,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_throw_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -726,16 +708,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_rate_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -759,16 +733,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_return_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -792,16 +758,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
-                <ImageView
-                    android:id="@+id/stick_hot_click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_selected"
-                    android:visibility="gone"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -825,7 +783,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:background="@drawable/icon_circle_normal" />
 
                 <ImageView
                     android:id="@+id/stick_zeroC_click"
@@ -899,4 +857,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

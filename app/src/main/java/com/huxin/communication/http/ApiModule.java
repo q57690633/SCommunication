@@ -706,7 +706,7 @@ public class ApiModule {
      * @return
      */
     public Observable<AroundTravelEntity> gettingAroundTravel(String depart_code, String goalsId,
-                                                              String sort_type, String tOtherId,
+                                                              int sort_type, String tOtherId,
                                                               String tActivityId, String tStayId,
                                                               String tAddressId, String tTrafficId,
                                                               String tConsumeId, String minPri_maxPri,

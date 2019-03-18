@@ -18,6 +18,7 @@ import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
@@ -56,7 +57,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
     private List<ForeignTravelEntity.ListBean> mList;
 
-
+    private ForeignTravelEntity.ListBean listBean;
 
     /**
      * 滚动焦点图片
@@ -74,7 +75,6 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
     private int big_index = 0;// 大焦点图自动切换初始位置
 
-    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +105,12 @@ public class JinWaiDetailsActivity extends BaseActivity {
         mTextViewIssueCount = (TextView) findViewById(R.id.issue_count);
         mTextViewGeneralize = (TextView) findViewById(R.id.generalize);
         mTextViewUsername = (TextView) findViewById(R.id.username);
-        mTextViewCompanyName = (TextView) findViewById(R.id.company_name);
+        mTextViewCompanyName = (TextView) findViewById(R.id.companyName);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
 
-        position = getIntent().getIntExtra("position", 0);
+        listBean = getIntent().getParcelableExtra("list");
 
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,52 +125,61 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 }
             }
         });
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-            gettingForeignTravel();
+            setData(listBean);
+            setOnBinner(listBean);
+            setTextView(listBean,mRecyclerView);
     }
 
-    private void gettingForeignTravel() {
-        showProgressDialog();
-        ApiModule.getInstance().gettingForeignTravel("", "", "", ""
-                , "", "", "", "", "",
-                "", "", "", "", "", "","","1",null,"",
-                "0",String.valueOf(PreferenceUtil.getInt(UID)))
-                .subscribe(foreignTravelEntity -> {
-                    mList = foreignTravelEntity.getList();
+//    private void gettingForeignTravel() {
+//        showProgressDialog();
+//        ApiModule.getInstance().gettingForeignTravel("", "", "", ""
+//                , "", "", "", "", "",
+//                "", "", "", "", "", "","","1",null,"",
+//                "0",String.valueOf(PreferenceUtil.getInt(UID)))
+//                .subscribe(foreignTravelEntity -> {
+//                    mList = foreignTravelEntity.getList();
+//
+//                    cancelProgressDialog();
+//                    KyLog.object(foreignTravelEntity);
+//                    setData(foreignTravelEntity);
+//                    setOnBinner(foreignTravelEntity.getList());
+//                    setTextView(foreignTravelEntity.getList(),position,mRecyclerView);
+//
+//
+//                }, throwable -> {
+//                    KyLog.d(throwable.toString());
+//                    cancelProgressDialog();
+//                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                });
+//    }
 
-                    cancelProgressDialog();
-                    KyLog.object(foreignTravelEntity);
-                    setData(foreignTravelEntity);
-                    setOnBinner(foreignTravelEntity.getList());
-                    setTextView(foreignTravelEntity.getList(),position,mRecyclerView);
-
-
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-    private void setData(ForeignTravelEntity entity) {
-        if (entity.getList() != null && entity.getList().size() > 0) {
-            mTextViewTravelTitle.setText(entity.getList().get(position).getTravel_title());
-            mTextViewDepartName.setText(entity.getList().get(position).getDepart_name());
-            mTextViewGoalsCity.setText(entity.getList().get(position).getGoals_city());
-            mTextViewNumberDays.setText(String.valueOf(entity.getList().get(position).getNumber_days()));
-            mTextViewTotalPrice.setText(String.valueOf(entity.getList().get(position).getTotal_price()));
-            mTextViewReturnPrice.setText(String.valueOf(entity.getList().get(position).getReturn_price()));
-            mTextViewTotalPriceChild.setText(String.valueOf(entity.getList().get(position).getTotal_price_child()));
-            mTextViewReturnPriceChild.setText(String.valueOf(entity.getList().get(position).getReturn_price_child()));
-            mTextViewSpotName.setText(entity.getList().get(position).getSpot_name());
-            mTextViewViewCount.setText(String.valueOf(entity.getList().get(position).getView_count()));
-            mTextViewIssueCount.setText(String.valueOf(entity.getList().get(position).getIssue_count()));
-            mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
-            mTextViewUsername.setText(entity.getList().get(position).getUsername());
-            mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
+    private void setData(ForeignTravelEntity.ListBean entity) {
+        if (entity != null) {
+            mTextViewTravelTitle.setText(entity.getTravel_title());
+            mTextViewDepartName.setText(entity.getDepart_name());
+            mTextViewGoalsCity.setText(entity.getGoals_city());
+            mTextViewNumberDays.setText(String.valueOf(entity.getNumber_days()) + "天");
+            mTextViewTotalPrice.setText(String.valueOf( "成人：" + entity.getTotal_price()) + "元");
+            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");
+            mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotal_price_child()) + "元");
+            mTextViewReturnPriceChild.setText(String.valueOf( "返佣：" + entity.getReturn_price_child()) + "元" );
+            mTextViewSpotName.setText(entity.getSpot_name());
+            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+            mTextViewGeneralize.setText(entity.getGeneralize());
+            mTextViewUsername.setText(entity.getUsername());
+            mTextViewCompanyName.setText(entity.getCompanyName());
         }
     }
 
@@ -248,10 +257,10 @@ public class JinWaiDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(List<ForeignTravelEntity.ListBean> list) {
+    private void setOnBinner(ForeignTravelEntity.ListBean entity) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(list.get(position).getPhoto_url())) {
-            String[] str = list.get(position).getPhoto_url().split(",");
+        if (!TextUtils.isEmpty(entity.getPhoto_url())) {
+            String[] str = entity.getPhoto_url().split(",");
             for (String strs : str) {
                 imageList.add(strs);
             }
@@ -285,20 +294,23 @@ public class JinWaiDetailsActivity extends BaseActivity {
         }
     }
 
-    private void setTextView(List<ForeignTravelEntity.ListBean> list, int position, RecyclerView linearLayout) {
+    private void setTextView(ForeignTravelEntity.ListBean entity, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        String[] strings = list.get(position).getTagName().split(",");
-        KyLog.d(list.get(position).getTagName());
-        for (int i = 0; i < strings.length; i++){
-            list1.add(strings[i]);
+        if (!TextUtils.isEmpty(entity.getTagName())) {
+            String[] strings = entity.getTagName().split(",");
+            KyLog.d(entity.getTagName());
+            for (int i = 0; i < strings.length; i++) {
+                list1.add(strings[i]);
+            }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 3);
+            GridLayoutManager manager = new GridLayoutManager(this, 5);
             mAdapterTableName = new TableNameAdapter(list1, this);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
-            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
+//            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
+
 
 
     }

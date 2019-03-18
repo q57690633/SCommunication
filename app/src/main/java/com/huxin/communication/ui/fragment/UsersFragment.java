@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseFragment;
@@ -26,6 +27,8 @@ import com.huxin.communication.ui.travel.CollectTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMManager;
 
 import java.io.File;
 
@@ -208,4 +211,6 @@ public class UsersFragment extends BaseFragment implements View.OnClickListener 
         }
 
     }
+
+
 }

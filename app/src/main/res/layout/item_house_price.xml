@@ -198,7 +198,7 @@
 
 
         <EditText
-            android:id="@+id/ed_price_min"
+            android:id="@+id/ed_min"
             android:layout_width="85dp"
             android:layout_height="30dp"
             android:background="@color/login_forget_password_code_fort"
@@ -222,7 +222,7 @@
             android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/ed_price_max"
+            android:id="@+id/ed_max"
             android:layout_width="85dp"
             android:layout_height="30dp"
             android:background="@color/login_forget_password_code_fort"

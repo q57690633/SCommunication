@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="10dp"
-            android:background="@color/login_forget_password_code_fort"
+            android:background="@drawable/biaoqian_radius"
             android:gravity="center">
 
             <TextView
@@ -78,33 +78,18 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/rl_travel_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:gravity="center">
 
-            <TextView
-                android:id="@+id/travel_more_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="选择天数"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="13dp"
-                android:layout_toRightOf="@id/travel_more_tv"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_triangle" />
-        </RelativeLayout>
+        <EditText
+            android:id="@+id/ed_day_min"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:gravity="center"
+            android:background="@drawable/biaoqian_radius"
+            android:scaleType="centerCrop"
+            android:hint="最短天数"
+            android:textColor="@color/register_font" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,33 +108,17 @@
             android:textColor="@color/register_font"
             android:textSize="16sp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_travel_mores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:gravity="center">
-
-            <TextView
-                android:id="@+id/travel_mores"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="选择天数"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="13dp"
-                android:layout_toRightOf="@id/travel_mores"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_triangle" />
-        </RelativeLayout>
+        <EditText
+            android:id="@+id/ed_day_max"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:gravity="center"
+            android:background="@drawable/biaoqian_radius"
+            android:scaleType="centerCrop"
+            android:hint="最长天数"
+            android:textColor="@color/register_font" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -165,8 +134,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="11dp"
         android:background="@color/login_line" />
 
     <RelativeLayout
@@ -186,18 +155,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="13dp"
             android:layout_marginTop="17dp"
+            android:layout_marginRight="13dp"
             android:text="标签可多选"
             android:textColor="@color/register_font"
             android:textSize="14dp" />
     </RelativeLayout>
 
-   <android.support.v7.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/didian"
-       android:layout_margin="10dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/didian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -209,11 +178,10 @@
         android:textSize="16dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/jiaotong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/jiaotong"
-        android:layout_margin="10dp"/>
-
+        android:layout_margin="10dp" />
 
 
     <TextView
@@ -226,11 +194,10 @@
         android:textSize="16dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/xiaofei_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/xiaofei_recycler"/>
-
+        android:layout_margin="10dp" />
 
 
     <TextView
@@ -243,12 +210,10 @@
         android:textSize="16dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/huodong_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/huodong_recycler"/>
-
-
+        android:layout_margin="10dp" />
 
 
     <TextView
@@ -261,10 +226,10 @@
         android:textSize="16dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/zhushu_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/zhushu_recycler"/>
+        android:layout_margin="10dp" />
 
 
     <TextView
@@ -277,16 +242,16 @@
         android:textSize="16dp" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/QiTa_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/QiTa_recycler"/>
+        android:layout_margin="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="26dp">
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="20dp">
 
 
         <TextView
@@ -294,8 +259,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="13dp"
-            android:layout_marginRight="13dp"
             android:layout_marginTop="18dp"
+            android:layout_marginRight="13dp"
             android:background="@color/login_line" />
 
         <LinearLayout
@@ -312,8 +277,8 @@
                 android:layout_weight="1"
                 android:background="@color/login_forget_password_code_fort"
                 android:gravity="center"
-                android:paddingBottom="15dp"
                 android:paddingTop="14dp"
+                android:paddingBottom="15dp"
                 android:text="不限条件"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
@@ -327,8 +292,8 @@
                 android:layout_weight="1"
                 android:background="@color/blue"
                 android:gravity="center"
-                android:paddingBottom="15dp"
                 android:paddingTop="14dp"
+                android:paddingBottom="15dp"
                 android:text="确定"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
