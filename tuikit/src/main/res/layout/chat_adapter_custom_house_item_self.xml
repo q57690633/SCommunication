@@ -34,7 +34,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="天阔三期A区"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/white"
                     android:textSize="40px" />
 
                 <TextView
@@ -46,7 +46,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="3室1厅"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/white"
                     android:textSize="40px" />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:layout_toRightOf="@id/houseType_sell"
                     android:lines="1"
                     android:text="129㎡"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/white"
                     android:textSize="40px" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="80dp"
                     android:text="23500元/㎡"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/white"
                     android:textSize="40px" />
 
                 <TextView
@@ -120,7 +120,7 @@
                     android:layout_marginRight="98dp"
                     android:layout_toRightOf="@id/unitPrice_sell"
                     android:text="东南"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/white"
                     android:textSize="40px" />
 
                 <ImageView

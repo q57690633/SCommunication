@@ -127,6 +127,8 @@
     <string name="view_original_image">查看原图</string>
 
     <!-- 我们自己需要 -->
+    <string name="custom_house_m2">㎡</string>
+    <string name="custom_unitPrice_sell_m2">/㎡</string>
     <string name="custom_travel_adult">成人：</string>
     <string name="custom_travel_child">儿童：</string>
     <string name="custom_travel_return">返</string>

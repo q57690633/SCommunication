@@ -78,7 +78,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        from = getIntent().getStringExtra("from");
+        if(!"".equalsIgnoreCase(getIntent().getStringExtra("from")) && null != getIntent().getStringExtra("from")) {
+            from = getIntent().getStringExtra("from");
+        }
         data = getIntent().getStringExtra("data");
     }
 

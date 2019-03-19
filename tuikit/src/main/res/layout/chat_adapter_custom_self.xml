@@ -87,19 +87,19 @@
 
                     <include android:id="@+id/house_id"
                         android:visibility="visible"
-                        layout="@layout/chat_adapter_custom_house_item"></include>
+                        layout="@layout/chat_adapter_custom_house_item_self"></include>
 
                     <include android:id="@+id/travel_id"
                         android:visibility="gone"
-                        layout="@layout/chat_adapter_custom_travel_item"></include>
+                        layout="@layout/chat_adapter_custom_travel_item_self"></include>
 
                     <include android:id="@+id/ticketing_id"
                         android:visibility="gone"
-                        layout="@layout/chat_adapter_custom_ticketing_item"></include>
+                        layout="@layout/chat_adapter_custom_ticketing_item_self"></include>
 
                     <include android:id="@+id/business_card_id"
                         android:visibility="gone"
-                        layout="@layout/chat_adapter_custom_business_card_item"></include>
+                        layout="@layout/chat_adapter_custom_business_card_item_self"></include>
 
 <!--
                     <LinearLayout

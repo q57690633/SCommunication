@@ -349,7 +349,10 @@ public class ChatAdapter extends IChatAdapter {
                         unitPrice = jsonData.getString("unitPrice");
                         String villageName = jsonData.getString("villageName");
                         String houseType = jsonData.getString("houseType");
-                        String acreage = jsonData.getString("acreage");
+                        String acreage = "";
+                        if(jsonData.has("acreage")) {
+                            acreage = jsonData.getString("acreage");
+                        }
                         int stick = jsonData.getInt("stick");
                         String orientation = jsonData.getString("orientation");
                         String tabId = jsonData.getString("tabId");
@@ -357,9 +360,9 @@ public class ChatAdapter extends IChatAdapter {
                         ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
                         customHolder.villageName.setText(villageName);
                         customHolder.houseType.setText(houseType);
-                        customHolder.acreage.setText(acreage);
+                        customHolder.acreage.setText(acreage + mContext.getResources().getString(R.string.custom_house_m2));
                         customHolder.totalPrice.setText(totalPrice);
-                        customHolder.unitPrice.setText(unitPrice);
+                        customHolder.unitPrice.setText(unitPrice + mContext.getResources().getString(R.string.custom_unitPrice_sell_m2));
                         customHolder.orientation.setText(orientation);
                         customHolder.stick.setVisibility(View.GONE);
                         customHolder.productType.setBackgroundResource(R.drawable.sign_chhshou);
