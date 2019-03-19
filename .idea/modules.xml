@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/SCommunication.iml" filepath="$PROJECT_DIR$/SCommunication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/pickdatetime/pickdatetime.iml" filepath="$PROJECT_DIR$/pickdatetime/pickdatetime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pickdatetime/pickdatetime.iml" filepath="$PROJECT_DIR$/pickdatetime/pickdatetime.iml" />
       <module fileurl="file://$PROJECT_DIR$/tuikit/tuikit.iml" filepath="$PROJECT_DIR$/tuikit/tuikit.iml" />
     </modules>
   </component>

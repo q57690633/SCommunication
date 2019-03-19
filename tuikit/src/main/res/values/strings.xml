@@ -130,5 +130,11 @@
     <string name="custom_travel_adult">成人：</string>
     <string name="custom_travel_child">儿童：</string>
     <string name="custom_travel_return">返</string>
+    <string name="group_info_add_friend">邀请同行入群</string>
+    <string name="group_info_check_more">查看更多本地同行</string>
+    <string name="group_info_set_top">置顶聊天</string>
+    <string name="group_info_msg_no_alert">消息免打扰</string>
+    <string name="group_info_clear_record">清空聊天记录</string>
+    <string name="group_info_quit_btn">删除并退出</string>
 
 </resources>

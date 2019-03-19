@@ -36,4 +36,6 @@ public class UIKitConstants {
     public static final String ITENT_DATA = "intent_data";
     public static final String GROUP_ID = "group_id";
     public static final String CAMERA_TYPE = "camera_type";
+
+    public static final String BASE_URL = "http://39.105.203.33/jlkf/mutual-trust/";
 }
