@@ -913,7 +913,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                         JSONArray array = new JSONArray();
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("type", 2);
-                        jsonObject.put("travelType", 2);
+                        jsonObject.put("travelType", 3);
                         JSONObject data = new JSONObject(response).getJSONObject("data");
                         jsonObject.put("data", data);
                         array.put(jsonObject);

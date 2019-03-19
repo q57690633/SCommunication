@@ -1448,8 +1448,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
             return;
         }
-
-        //获取单聊会话
+        String data = getData(adapter.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        /*//获取单聊会话
         if (type.equalsIgnoreCase("C2C")) {
             conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
         } else {
@@ -1483,7 +1484,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 finish();
 
             }
-        });
+        });*/
 
     }
 

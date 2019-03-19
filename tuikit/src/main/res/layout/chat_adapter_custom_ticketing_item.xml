@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
             android:src="@drawable/sign_hot_piaowu"
+            android:visibility="gone"
             android:layout_alignParentRight="true"/>
 
 
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
                 android:text="第九街VR体验馆"
-                android:textColor="@color/register_font"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -88,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="成人："
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
 
@@ -98,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:text="80元"
-                    android:textColor="@color/register_font"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -110,7 +111,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="1.4米以下儿童及70岁以上老人免票"
-                android:textColor="@color/register_font"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
 

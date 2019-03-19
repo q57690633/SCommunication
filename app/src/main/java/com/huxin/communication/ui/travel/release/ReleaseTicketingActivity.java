@@ -802,7 +802,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                         JSONArray array = new JSONArray();
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("type", 2);
-                        jsonObject.put("travelType", 2);
+                        jsonObject.put("travelType", 4);
                         JSONObject data = new JSONObject(response).getJSONObject("data");
                         jsonObject.put("data", data);
                         array.put(jsonObject);

@@ -525,9 +525,75 @@ public class ChatAdapter extends IChatAdapter {
                     }
                     if(3 == travelType) {
                         //境外游
+                        JSONObject object = new JSONObject(str).getJSONObject("data");
+                        JSONArray list = object.getJSONArray("list");
+                        for(int i = 0; i < list.length(); i++) {
+                            JSONObject dataObj = list.getJSONObject(i);
+                            String userName = dataObj.getString("username");
+                            String departName = dataObj.getString("depart_name");
+                            String goalsCity = dataObj.getString("goals_name");
+                            String totalPrice = dataObj.getString("total_price");
+                            String returnPrice = dataObj.getString("return_price");
+                            String totalPriceChild = dataObj.getString("total_price_child");
+                            String returnPriceChild = dataObj.getString("return_price_child");
+                            String spotName = dataObj.getString("spot_name");
+                            String tagName = dataObj.getString("tagName");
+                            String numberDays = dataObj.getString("number_days");
+                            ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                            customHolder.houseLayout.setVisibility(View.GONE);
+                            customHolder.travelLayout.setVisibility(View.VISIBLE);
+                            customHolder.ticketingLayout.setVisibility(View.GONE);
+                            customHolder.businessCardLayout.setVisibility(View.GONE);
+                            customHolder.travelUserName.setText(userName);
+                            customHolder.travelDepartName.setText(departName);
+                            customHolder.travelGoalsCity.setText(goalsCity);
+                            customHolder.travelNumberDays.setText(numberDays);
+                            totalPrice = mContext.getResources().getString(R.string.custom_travel_adult) + totalPrice;
+                            returnPrice = mContext.getResources().getString(R.string.custom_travel_return) + returnPrice;
+                            totalPriceChild = mContext.getResources().getString(R.string.custom_travel_child) + totalPriceChild;
+                            returnPriceChild = mContext.getResources().getString(R.string.custom_travel_return) + returnPriceChild;
+                            customHolder.travelTotalPrice.setText(totalPrice);
+                            customHolder.travelReturnPrice.setText(returnPrice);
+                            customHolder.travelTotalPriceChild.setText(totalPriceChild);
+                            customHolder.travelReturnPriceChild.setText(returnPriceChild);
+                            customHolder.travelSpotName.setText(spotName);
+                            ImageLoader.getInstance().displayImage(dataObj.getString("headUrl"), customHolder.travelHeadUrl);
+                            String[] tab = tagName.split(",");
+                            ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                            customHolder.travelTabRv.setLayoutManager(gridLayoutManager);
+                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.travelTabRv.setAdapter(adapter);
+                        }
                     }
                     if(4 == travelType) {
                         //票务
+                        JSONObject object = new JSONObject(str).getJSONObject("data");
+                        JSONArray list = object.getJSONArray("list");
+                        for(int i = 0; i < list.length(); i++) {
+                            JSONObject dataObj = list.getJSONObject(i);
+                            String ticketName = dataObj.getString("ticket_name");
+                            String ticketAddr = dataObj.getString("ticket_addr");
+                            String ticketAdultPrice = dataObj.getString("original_price");
+                            String tabName = dataObj.getString("tagName");
+                            String[] tab = tabName.split(",");
+                            ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
+                            customHolder.houseLayout.setVisibility(View.GONE);
+                            customHolder.travelLayout.setVisibility(View.GONE);
+                            customHolder.ticketingLayout.setVisibility(View.VISIBLE);
+                            customHolder.businessCardLayout.setVisibility(View.GONE);
+                            customHolder.ticketName.setText(ticketName);
+                            customHolder.ticketAddr.setText(ticketAddr);
+                            customHolder.ticketAdultPrice.setText(ticketAdultPrice);
+                            ImageLoader.getInstance().displayImage(dataObj.getString("photo_url"), customHolder.ticketImageAddr);
+                            ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(tab);
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+                            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                            customHolder.ticketTabRv.setLayoutManager(gridLayoutManager);
+                            customHolder.ticketTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.ticketTabRv.setAdapter(adapter);
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1092,6 +1158,12 @@ public class ChatAdapter extends IChatAdapter {
         private TextView travelSpotName;
         private RecyclerView travelTabRv;
         private ImageView travelHeadUrl;
+        //票务
+        private TextView ticketName;
+        private TextView ticketAddr;
+        private TextView ticketAdultPrice;
+        private RecyclerView ticketTabRv;
+        private ImageView ticketImageAddr;
 
         public ChatCustomHolder(View itemView) {
             super(itemView);
@@ -1127,6 +1199,13 @@ public class ChatAdapter extends IChatAdapter {
                 travelSpotName = travelLayout.findViewById(R.id.spotName);
                 travelTabRv = travelLayout.findViewById(R.id.recycler_travel);
                 travelHeadUrl = travelLayout.findViewById(R.id.headUrl);
+            }
+            if(ticketingLayout != null) {
+                ticketName = ticketingLayout.findViewById(R.id.ticket_name);
+                ticketAddr = ticketingLayout.findViewById(R.id.ticket_addr);
+                ticketAdultPrice = ticketingLayout.findViewById(R.id.original_price);
+                ticketTabRv = ticketingLayout.findViewById(R.id.recycler_ticket);
+                ticketImageAddr = ticketingLayout.findViewById(R.id.image_ticket_addr);
             }
         }
     }
