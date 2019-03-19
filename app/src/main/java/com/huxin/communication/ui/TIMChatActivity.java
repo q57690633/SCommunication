@@ -18,10 +18,10 @@ public class TIMChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timchat);
         Bundle bundle = getIntent().getExtras();
         String type = getIntent().getStringExtra("TARGET_TYPE");
-        if("c2c".equalsIgnoreCase(type)) {
-            mCurrentFragment = new PersonalChatFragment();
-        }else {
+        if("group".equalsIgnoreCase(type)) {
             mCurrentFragment = new GroupChatFragment();
+        }else {
+            mCurrentFragment = new PersonalChatFragment();
         }
 
         if (mCurrentFragment != null) {
