@@ -292,7 +292,9 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 }
                 if(dataJson.getInt("type") == 2) {
                     JSONArray arr = dataJson.getJSONArray("arrData");
-                    msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(arr.toString().getBytes(), "sell message"));
+                    for(int i = 0; i < arr.length(); i++) {
+                        msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(arr.getJSONObject(i).toString().getBytes(), "Travel message"));
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

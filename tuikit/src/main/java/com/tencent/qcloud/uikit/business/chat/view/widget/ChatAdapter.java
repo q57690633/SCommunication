@@ -478,11 +478,12 @@ public class ChatAdapter extends IChatAdapter {
                     byte[] data = customElem.getData();
                     String str = new String(data);
                     Log.i(TAG, "MSG_TYPE_TRAVEL_CUSTOM str = " + str);
-                    JSONArray arrData = new JSONArray(str);
-                    for(int i = 0; i < arrData.length(); i++) {
-                        JSONObject object = arrData.getJSONObject(i).getJSONObject("data");
+                    int travelType = new JSONObject(str).getInt("travelType");
+                    if(1 == travelType || 2 == travelType) {
+                        //国内游和周边游
+                        JSONObject object = new JSONObject(str).getJSONObject("data");
                         JSONArray list = object.getJSONArray("list");
-                        for(int j = 0; j < list.length(); j++) {
+                        for(int i = 0; i < list.length(); i++) {
                             JSONObject dataObj = list.getJSONObject(i);
                             String userName = dataObj.getString("username");
                             String departName = dataObj.getString("depart_name");
@@ -493,6 +494,7 @@ public class ChatAdapter extends IChatAdapter {
                             String returnPriceChild = dataObj.getString("finalPriceChild");
                             String spotName = dataObj.getString("spotName");
                             String tagName = dataObj.getString("tagName");
+                            String numberDays = dataObj.getString("numberDays");
                             ChatCustomHolder customHolder = (ChatCustomHolder) chatHolder;
                             customHolder.houseLayout.setVisibility(View.GONE);
                             customHolder.travelLayout.setVisibility(View.VISIBLE);
@@ -501,6 +503,7 @@ public class ChatAdapter extends IChatAdapter {
                             customHolder.travelUserName.setText(userName);
                             customHolder.travelDepartName.setText(departName);
                             customHolder.travelGoalsCity.setText(goalsCity);
+                            customHolder.travelNumberDays.setText(numberDays);
                             totalPrice = mContext.getResources().getString(R.string.custom_travel_adult) + totalPrice;
                             returnPrice = mContext.getResources().getString(R.string.custom_travel_return) + returnPrice;
                             totalPriceChild = mContext.getResources().getString(R.string.custom_travel_child) + totalPriceChild;
@@ -519,6 +522,12 @@ public class ChatAdapter extends IChatAdapter {
                             customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
                             customHolder.travelTabRv.setAdapter(adapter);
                         }
+                    }
+                    if(3 == travelType) {
+                        //境外游
+                    }
+                    if(4 == travelType) {
+                        //票务
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
