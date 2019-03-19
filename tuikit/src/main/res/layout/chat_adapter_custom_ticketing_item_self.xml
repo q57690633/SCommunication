@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_divider"
     android:orientation="horizontal"
     android:id="@+id/ticketing_line">
 
@@ -64,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="地址："
-                    android:textColor="@color/login_walling_fort"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
 
@@ -74,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:text="保定东街与防洪堤交叉口东南50米"
-                    android:textColor="@color/login_walling_fort"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
             </LinearLayout>

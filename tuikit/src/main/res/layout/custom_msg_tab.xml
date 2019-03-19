@@ -3,12 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@drawable/custom_msg_tab_corner">
 
     <TextView
         android:id="@+id/tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginEnd="3dp"
         android:textColor="@color/register_font"/>
 
 </LinearLayout>

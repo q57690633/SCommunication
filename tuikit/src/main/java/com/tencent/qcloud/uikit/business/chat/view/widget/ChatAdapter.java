@@ -371,7 +371,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(12, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }else if(jsonObject.getInt("houseType") == 2){
                         //出租
@@ -396,7 +396,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(12, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }else if(jsonObject.getInt("houseType") == 3){
                         //求购
@@ -421,7 +421,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(12, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }else if(jsonObject.getInt("houseType") == 4){
                         //求租
@@ -446,7 +446,7 @@ public class ChatAdapter extends IChatAdapter {
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 1);
                         gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                         customHolder.tabName_line.setLayoutManager(gridLayoutManager);
-                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(10, 0));
+                        customHolder.tabName_line.addItemDecoration(new GridSpacingItemDecoration(12, 0));
                         customHolder.tabName_line.setAdapter(adapter);
                     }
                 } catch (JSONException e) {
@@ -522,7 +522,7 @@ public class ChatAdapter extends IChatAdapter {
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
                             gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                             customHolder.travelTabRv.setLayoutManager(gridLayoutManager);
-                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(12, 5));
                             customHolder.travelTabRv.setAdapter(adapter);
                         }
                     }
@@ -566,7 +566,7 @@ public class ChatAdapter extends IChatAdapter {
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
                             gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                             customHolder.travelTabRv.setLayoutManager(gridLayoutManager);
-                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.travelTabRv.addItemDecoration(new GridSpacingItemDecoration(12, 5));
                             customHolder.travelTabRv.setAdapter(adapter);
                         }
                     }
@@ -594,7 +594,7 @@ public class ChatAdapter extends IChatAdapter {
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
                             gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
                             customHolder.ticketTabRv.setLayoutManager(gridLayoutManager);
-                            customHolder.ticketTabRv.addItemDecoration(new GridSpacingItemDecoration(10, 5));
+                            customHolder.ticketTabRv.addItemDecoration(new GridSpacingItemDecoration(12, 5));
                             customHolder.ticketTabRv.setAdapter(adapter);
                         }
                     }
