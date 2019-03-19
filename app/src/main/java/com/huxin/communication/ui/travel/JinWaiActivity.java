@@ -32,6 +32,7 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ForeignNationActivity;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -41,6 +42,9 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1257,51 +1261,53 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void zhuanfa(JinWaiDuoXuanAdapter adapter) {
-        type = getIntent().getStringExtra("type");
-        peer = getIntent().getStringExtra("peer");
-
-        if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
-            return;
-        }
-        //获取单聊会话
-        if (type.equalsIgnoreCase("C2C")) {
-            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
-        }else {
-            conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
-        }
-        TIMMessage msg = new TIMMessage();
-
-        TIMCustomElem elem = new TIMCustomElem();
-        elem.setData(getData(adapter.getSelectedItem(), 3).getBytes());      //自定义 byte[]
-        elem.setDesc("sell message"); //自定义描述信息
-
-        //将 elem 添加到消息
-        if (msg.addElement(elem) != 0) {
-            Log.d("failed", "addElement failed");
-            return;
-        }
-        //发送消息
-        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
-            @Override
-            public void onError(int code, String desc) {//发送消息失败
-                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-                //错误码 code 含义请参见错误码表
-                Log.d("failed", "send message failed. code: " + code + " errmsg: " + desc);
-            }
-
-            @Override
-            public void onSuccess(TIMMessage msg) {//发送消息成功
-                Log.e("failed", "SendMsg ok");
-                Toast.makeText(JinWaiActivity.this, "success", Toast.LENGTH_SHORT).show();
-                KyLog.d(msg.toString());
-                finish();
-
-            }
-        });
-
+        String data = getData(adapter.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(JinWaiActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
     public static String getData(ArrayList<ForeignTravelEntity.ListBean> Salelist, int TravelType) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("depart_name", SaleEntity.getDepart_name());
+                    dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
+                    dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+                    dataObj.put("numberDays", String.valueOf(SaleEntity.getNumber_days()));
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("finalPrice", String.valueOf(SaleEntity.getReturn_price()));
+                    dataObj.put("finalPriceChild", SaleEntity.getReturn_price_child());
+                    dataObj.put("totalPrice", String.valueOf(SaleEntity.getTotal_price()));
+                    dataObj.put("totalPriceChild", SaleEntity.getTotal_price_child());
+                    dataObj.put("spotName", String.valueOf(SaleEntity.getSpot_name()));
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("username", SaleEntity.getUsername());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 3);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+/*
         List<TravelEntity> list = new ArrayList<>();
         List<TravelEntity.ListBean> listBeans = new ArrayList<>();
         TravelEntity entityTravel = new TravelEntity();
@@ -1331,7 +1337,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             list.add(entityTravel);
         }
         KyLog.object(list);
-        return ListToString(list);
+        return ListToString(list);*/
     }
 
     /**

@@ -27,6 +27,7 @@ import com.huxin.communication.adpter.TicketingAdapter;
 import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.TabTicketNameEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
@@ -35,6 +36,7 @@ import com.huxin.communication.entity.TravelEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -44,6 +46,9 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1121,50 +1126,46 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void zhuanfa(TicketingDuoXuanAdapter adapter) {
-        type = getIntent().getStringExtra("type");
-        peer = getIntent().getStringExtra("peer");
-
-        if (TextUtils.isEmpty(type) && TextUtils.isEmpty(peer)) {
-            return;
-        }
-        //获取单聊会话
-        if (type.equalsIgnoreCase("C2C")) {
-            conversation = TIMManager.getInstance().getConversation(TIMConversationType.C2C, peer);
-        } else {
-            conversation = TIMManager.getInstance().getConversation(TIMConversationType.Group, peer);
-        }
-        TIMMessage msg = new TIMMessage();
-
-        TIMCustomElem elem = new TIMCustomElem();
-        elem.setData(getData(adapter.getSelectedItem(), 4).getBytes());      //自定义 byte[]
-        elem.setDesc("sell message"); //自定义描述信息
-
-        //将 elem 添加到消息
-        if (msg.addElement(elem) != 0) {
-            Log.d("failed", "addElement failed");
-            return;
-        }
-        //发送消息
-        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
-            @Override
-            public void onError(int code, String desc) {//发送消息失败
-                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-                //错误码 code 含义请参见错误码表
-                Log.d("failed", "send message failed. code: " + code + " errmsg: " + desc);
-            }
-
-            @Override
-            public void onSuccess(TIMMessage msg) {//发送消息成功
-                Log.e("failed", "SendMsg ok");
-                Toast.makeText(TicketingActivity.this, "success", Toast.LENGTH_SHORT).show();
-                KyLog.d(msg.toString());
-                finish();
-            }
-        });
-
+        String data = getData(adapter.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(TicketingActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
     public static String getData(ArrayList<TicketInfoEntity.ListBean> Salelist, int TravelType) {
+
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (TicketInfoEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("ticket_name", SaleEntity.getTicket_name());
+                    dataObj.put("ticket_addr", SaleEntity.getTicket_addr());
+                    dataObj.put("original_price", SaleEntity.getOriginal_price());
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 4);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+        /*
         List<TravelEntity> list = new ArrayList<>();
         List<TravelEntity.ListBean> listBeans = new ArrayList<>();
         TravelEntity entityTravel = new TravelEntity();
@@ -1189,7 +1190,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             list.add(entityTravel);
         }
         KyLog.object(list);
-        return ListToString(list);
+        return ListToString(list);*/
     }
 
     /**

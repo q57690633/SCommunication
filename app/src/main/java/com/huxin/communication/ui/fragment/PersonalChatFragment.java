@@ -200,19 +200,29 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         }
         try {
             JSONObject dataJson = new JSONObject(data);
-            for(int i = 0; i < dataJson.getJSONArray("data").length(); i++) {
-                JSONObject jsonObj = new JSONObject();
-                jsonObj.put("type", Integer.parseInt(dataJson.getString("type")));
-                jsonObj.put("houseType", Integer.parseInt(dataJson.getString("houseType")));
-                JSONArray arr = new JSONArray();
-                jsonObj.put("data", arr.put(dataJson.getJSONArray("data").get(i)));
-                if("1".equalsIgnoreCase(dataJson.getString("type"))) {
+            if("1".equalsIgnoreCase(dataJson.getString("type"))) {
+                for(int i = 0; i < dataJson.getJSONArray("data").length(); i++) {
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("type", Integer.parseInt(dataJson.getString("type")));
+                    jsonObj.put("houseType", Integer.parseInt(dataJson.getString("houseType")));
+                    JSONArray arr = new JSONArray();
+                    jsonObj.put("data", arr.put(dataJson.getJSONArray("data").get(i)));
                     msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
                 }
-                if("2".equalsIgnoreCase(dataJson.getString("type"))) {
+            }
+            if("2".equalsIgnoreCase(dataJson.getString("type"))) {
+                for(int i = 0; i < dataJson.getJSONObject("data").getJSONArray("list").length(); i++) {
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("type", dataJson.getInt("type"));
+                    jsonObj.put("travelType", dataJson.getInt("travelType"));
+                    JSONObject data = new JSONObject();
+                    JSONArray arr = new JSONArray();
+                    data.put("list", arr.put(dataJson.getJSONObject("data").getJSONArray("list").get(i)));
+                    jsonObj.put("data", data);
                     msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
                 }
             }
+
         }catch (Exception e) {
             e.printStackTrace();
         }
