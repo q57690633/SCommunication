@@ -71,7 +71,11 @@ public class RecylerViewDomesticAdpter extends RecyclerView.Adapter<RecylerViewD
             public void onClick(View view) {
                 String userId = PreferenceUtil.getInt("uid") + "";
                 String userSig = PreferenceUtil.getString("usersig");
-                onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
+                if (!userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))) {
+                    onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
+                }else {
+                    Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return hoder;

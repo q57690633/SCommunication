@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -75,6 +77,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
         holder.tvPhone.setText(mList.get(position).getPhone());
         ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.image);
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
+
+
     }
 
     @Override
@@ -89,6 +93,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
         private TextView tvTitle;
         private ImageView image;
         private TextView tvPhone;
+        private RelativeLayout mRelativeLayout;
 
 
         public BodyViewHoder(View itemView) {
@@ -97,6 +102,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
             tvPhone = (TextView) itemView.findViewById(R.id.tel);
             mLinearLayout = (LinearLayout) itemView.findViewById(R.id.rl_stick);
             image = itemView.findViewById(R.id.image);
+            mRelativeLayout = itemView.findViewById(R.id.tel_ll);
+
 
 
         }

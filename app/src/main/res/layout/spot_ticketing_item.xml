@@ -760,6 +760,7 @@
             android:textSize="14dp" />
 
         <TextView
+            android:id="@+id/top_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -776,6 +777,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -785,21 +787,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
                 android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal"
-                />
+                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_new"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_shangxin" />
+                android:background="@drawable/shangxin" />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
@@ -810,21 +814,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal"
-                />
+                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_low"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_tejia" />
+                android:src="@drawable/tejia" />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
@@ -835,22 +842,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal"
-                />
+                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_better"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_jingpin" />
+                android:src="@drawable/jingpin" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
@@ -862,16 +872,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal"
-                />
+                android:layout_alignParentRight="true"
+
+                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_throw"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_shuaiwei" />
+                android:src="@drawable/shuaiwei" />
 
         </RelativeLayout>
 
@@ -886,6 +898,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -896,15 +909,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+
                 android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_rate"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_xingjiabi"
+                android:src="@drawable/xingjiabi"
                 />
 
         </RelativeLayout>
@@ -921,20 +937,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+
                 android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_return"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_gaofanyong"
+                android:src="@drawable/gaofanyong"
                 />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
@@ -945,21 +965,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
                 android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
+                android:id="@+id/rl_stick_hot"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_hot" />
+                android:src="@drawable/hot" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
@@ -969,25 +993,20 @@
                 android:id="@+id/stick_zeroC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
-                android:id="@+id/stick_zeroC_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone"/>
+                android:id="@+id/rl_stick_zeroC"
 
-            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_ziwei" />
+                android:src="@drawable/zifei" />
 
         </RelativeLayout>
     </LinearLayout>

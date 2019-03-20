@@ -1782,6 +1782,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     public static String getData(ArrayList<RentalScreeningEntity.ListBean> Salelist, int houseType) {
+<<<<<<< Updated upstream
         String str = "";
         try {
             JSONObject jsonObject1 = new JSONObject();
@@ -1807,6 +1808,27 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
                 jsonObject1.put("type", "2");
                 jsonObject1.put("houseType", String.valueOf(houseType));
                 jsonObject1.put("data", jsonArray);
+=======
+        List<HouseEntity> list = new ArrayList<>();
+        List<HouseEntity.ListBean> listBeans = new ArrayList<>();
+        HouseEntity entityHouse = new HouseEntity();
+
+        if (Salelist != null && Salelist.size() > 0) {
+            for (RentalScreeningEntity.ListBean SaleEntity : Salelist) {
+                HouseEntity.ListBean entity = new HouseEntity.ListBean();
+                entity.setHouseType(SaleEntity.getHouseType());
+                entity.setExclusive(SaleEntity.getExclusive());
+                entity.setId(SaleEntity.getId());
+                entity.setKeying(SaleEntity.getKeying());
+                entity.setOrientation(SaleEntity.getOrientation());
+                entity.setStick(SaleEntity.getStick());
+                entity.setTabName(SaleEntity.getTabName());
+//                entity.setTotalPrice();
+                entity.setTitle(SaleEntity.getTitle());
+                entity.setUnitPrice(SaleEntity.getPrice());
+                entity.setVillageName(SaleEntity.getVillageName());
+                listBeans.add(entity);
+>>>>>>> Stashed changes
             }
             str = jsonObject1.toString();
             KyLog.i("getData str = " + str);

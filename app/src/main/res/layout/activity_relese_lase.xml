@@ -613,6 +613,7 @@
                     android:background="@drawable/icon_circle_normal" />
 
                 <TextView
+                    android:id="@+id/chongzhi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"

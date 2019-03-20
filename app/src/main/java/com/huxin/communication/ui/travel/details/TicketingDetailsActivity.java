@@ -1,9 +1,14 @@
 package com.huxin.communication.ui.travel.details;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -122,12 +127,17 @@ public class TicketingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //String userSig = PreferenceUtil.getString("usersig");
-                if (mList != null && mList.size() > 0) {
+                if (listBean != null) {
                     //KyLog.i("uid = " + mList.get(0).getUid());
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    onRecvUserSig(userId, userSig, String.valueOf(mList.get(0).getUid()));
+                    if (!userId.equals(String.valueOf(listBean.getUid()))){
+                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                    }else {
+                        Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });
@@ -136,6 +146,23 @@ public class TicketingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = listBean.getUserPhone();
+                if (!TextUtils.isEmpty(phone)) {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    if (ActivityCompat.checkSelfPermission(TicketingDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions((Activity) TicketingDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                        return;
+                    }
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(TicketingDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -173,16 +200,19 @@ public class TicketingDetailsActivity extends BaseActivity {
         if (entity != null) {
             mTextViewTravelTitle.setText(entity.getTicket_name());
             mTextViewOriginalPrice.setText(String.valueOf("成人：" + entity.getOriginal_price())  + "元");
-            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");
-            mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturn_price_child()) + "元");
+            mTextViewReturnPrice.setText(String.valueOf("结算价：" + entity.getFinal_price()) + "元");
+            mTextViewReturnPriceChild.setText(String.valueOf("结算价：" + entity.getFinal_price_child()) + "元");
             mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
             mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
-            mTextViewGeneralize.setText(entity.getGeneralize());
+            if (!TextUtils.isEmpty(entity.getGeneralize())) {
+                mTextViewGeneralize.setText(entity.getGeneralize());
+            }
             mTextViewUsername.setText(entity.getUsername());
             mTextViewCompanyName.setText(entity.getCompanyName());
             mTextViewOriginalPriceChild.setText(String.valueOf( "成人：" + entity.getOriginal_price_child()) + "元");
             mTextViewOriginalPriceEvening.setText(String.valueOf("夜场：" + entity.getOriginal_price_evening()) + "元");
-            mTextViewOriginalPriceEvening.setText(String.valueOf("返佣：" + entity.getReturn_price_evening()) + "元");
+            mTextViewOriginalPriceEvening.setText(String.valueOf("结算价：" + entity.getFinal_price_evening()) + "元");
+
 
             mTextViewTicketAddr.setText(entity.getTicket_addr());
             mTextViewOpenTime.setText(entity.getOpen_time());

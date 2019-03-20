@@ -83,6 +83,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
+
+
     }
 
     @Override
@@ -127,10 +129,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         PreferenceUtil.putString("usersig", loginEntity.getUsersig());
                         PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
                         PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
+                        PreferenceUtil.putString(Constanst.CORP,loginEntity.getCOrP());
                         PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getArea());
                         if (!TextUtils.isEmpty(loginEntity.getProvince())) {
                             PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
                         }
+                        PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
 
                         PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
                         PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());

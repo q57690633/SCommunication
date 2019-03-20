@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SplittableRandom;
 
 public class DataBaseActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
 
@@ -218,6 +219,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     private int newOrOld = 1;
 
+    private int dateNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,6 +238,12 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
     protected void initViews() {
         setToolbarCenterMode("", MODE_BACK);
         uid = getIntent().getIntExtra("uid", 0);
+        dateNumber = getIntent().getIntExtra("dateNumber", 0);
+
+        KyLog.d(dateNumber + "");
+        KyLog.d(uid + "");
+
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyler_sell);
         mRecyclerViewDuoXuan = (RecyclerView) findViewById(R.id.recyler_sell_duoxuan);
@@ -428,10 +437,19 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         if (uid == 0) {
             uid = PreferenceUtil.getInt(UID);
         }
-        getPersonProduct("", "",
-                "", "", "", "", "", String.valueOf(newOrOld),
-                "", "", "", "", "", "", "", String.valueOf(productType),
-                "1");
+
+        if (dateNumber == 0) {
+            getPersonProduct("", "",
+                    "", "", "", "", "", String.valueOf(newOrOld),
+                    "", "", "", "", "", "", "", String.valueOf(productType),
+                    "1",null);
+        }else {
+            getPersonProduct("", "",
+                    "", "", "", "", "", String.valueOf(newOrOld),
+                    "", "", "   ", "", "", "", "", String.valueOf(productType),
+                    "1",String.valueOf(dateNumber));
+        }
+
 
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
@@ -479,8 +497,12 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
         }
         String areaOne = PreferenceUtil.getString(Constanst.SCREEN_AREAONE_NAME);
         String areaTwo = PreferenceUtil.getString(Constanst.SCREEN_TWOAONE_NAME);
-        String selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
-                substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+        String selectName = null;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME))) {
+            selectName = PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).
+                    substring(1, PreferenceUtil.getString(Constanst.SELECT_PLOT_NAME).length() - 1);
+        }
+
         if (!TextUtils.isEmpty(areaOne) && !TextUtils.isEmpty(areaTwo) && !TextUtils.isEmpty(selectName)) {
             villageName = PreferenceUtil.getString(Constanst.CITY_NAME) + "," + areaOne + ","
                     + areaTwo + "," + selectName;
@@ -495,10 +517,18 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                     + "-1" + "," + "-1";
         }
         KyLog.d(villageName);
-        getPersonProduct(villageName, "",
-                "", "", "", "", "", String.valueOf(newOrOld),
-                "", "", "", "", "", "", "", String.valueOf(productType),
-                "1");
+
+        if (dateNumber == 0) {
+            getPersonProduct(villageName, "",
+                    "", "", "", "", "", String.valueOf(newOrOld),
+                    "", "", "", "", "", "", "", String.valueOf(productType),
+                    "1",null);
+        }else {
+            getPersonProduct(villageName, "",
+                    "", "", "", "", "", String.valueOf(newOrOld),
+                    "", "", "", "", "", "", "", String.valueOf(productType),
+                    "1",String.valueOf(dateNumber));
+        }
     }
 
     @Override
@@ -627,17 +657,37 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 }
                 KyLog.d(stringBuffer.toString());
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
-                        "", stringBuffer.toString(), "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", String.valueOf(productType),
-                        "1");
+
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", stringBuffer.toString(), "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",null);
+                }else {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", stringBuffer.toString(), "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.measure_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", minAcreage,
-                        maxAcreage, "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", String.valueOf(productType),
-                        "1");
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", minAcreage,
+                            maxAcreage, "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",null);
+                }else {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", minAcreage,
+                            maxAcreage, "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",String.valueOf(dateNumber));
+                }
+
                 break;
             case R.id.more_Determine:
                 KyLog.d(PreferenceUtil.getString(Constanst.YONG_TU));
@@ -649,25 +699,54 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 KyLog.d(yongtu);
                 KyLog.d(jiajujiadian);
 
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
-                        "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
-                        chaoxiang, jiajujiadian, zhaungxiu, fangben, yongtu, "", louling, String.valueOf(productType),
-                        "1");
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
+                            chaoxiang, jiajujiadian, zhaungxiu, fangben, yongtu, "", louling, String.valueOf(productType),
+                            "1",null);
+                }else {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
+                            chaoxiang, jiajujiadian, zhaungxiu, fangben, yongtu, "", louling, String.valueOf(productType),
+                            "1",String.valueOf(dateNumber));
+                }
+
                 break;
 
             case R.id.sort_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
-                        "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", String.valueOf(productType),
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",null);
+
+                }else {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",String.valueOf(dateNumber));
+
+                }
                 break;
             case R.id.price_Determine:
                 updata();
-                getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
-                        "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", String.valueOf(productType),
-                        "1");
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "",
+                            "", "", minPrice, maxPrice, "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",null);
+                }else {
+                    getPersonProduct(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", minAcreage,
+                            maxAcreage, "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", String.valueOf(productType),
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.shunxu:
                 mTextViewshunxu.setTextColor(getResources().getColor(R.color.blue));
@@ -1035,36 +1114,71 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
             case R.id.canel_chaoxiang:
                 updata();
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.canel_fangxing:
                 updata();
 
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.canel_mianji:
                 updata();
 
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.canel_paixu:
                 updata();
 
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.canel_price:
                 updata();
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.tv1:
                 mTextView1.setBackgroundResource(R.color.blue);
@@ -1386,9 +1500,17 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 2;
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.qiugou:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1400,9 +1522,16 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 3;
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "3",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "3",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "3",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
             case R.id.qiuzhu:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1414,9 +1543,19 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = 4;
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
+
+
                 break;
             case R.id.sell:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1428,9 +1567,16 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
                 mTextViewSell.setBackgroundResource(R.drawable.biaoqian_radius_top_blue);
                 mTextViewSell.setTextColor(getResources().getColor(R.color.white));
                 newOrOld = 1;
-                getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
-                        "", "", "", "", "", "", "", "1",
-                        "1");
+
+                if (dateNumber == 0) {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",null);
+                }else {
+                    getPersonProduct("", "", "", "", "", "", "", String.valueOf(newOrOld),
+                            "", "", "", "", "", "", "", "1",
+                            "1",String.valueOf(dateNumber));
+                }
                 break;
 
         }
@@ -1581,6 +1727,8 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
 
@@ -1613,12 +1761,12 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
 
     private void getPersonProduct(String villageName, String minAcreage, String maxAcreage, String houseType, String minPrice,
                                   String maxPrice, String element, String newOrOld, String orientation, String houseHoldAppliances, String fitment,
-                                  String permit, String purpose, String ownership, String floorAge, String productType, String curPage) {
+                                  String permit, String purpose, String ownership, String floorAge, String productType, String curPage,String dateNumber) {
 //        pid = getIntent().getStringExtra("pid");
         showProgressDialog();
         ApiModule.getInstance().getPersonProduct(villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
-                permit, purpose, ownership, floorAge, productType, curPage, uid)
+                permit, purpose, ownership, floorAge, productType, curPage, uid,dateNumber)
                 .subscribe(personProductEntity -> {
                     KyLog.object(personProductEntity + "");
                     if (personProductEntity != null) {
@@ -1644,11 +1792,11 @@ public class DataBaseActivity extends BaseActivity implements View.OnClickListen
      * @param collectType
      */
     private void selectDataBaseFrame(String productType, String newOrOld,
-                             String condition, String stick,
-                             String collectType, String uid) {
+                                     String condition, String stick,
+                                     String collectType, String uid) {
 
         showProgressDialog();
-        ApiModule.getInstance().selectDataBaseFrame(productType, newOrOld, condition, stick, collectType, uid,"1")
+        ApiModule.getInstance().selectDataBaseFrame(productType, newOrOld, condition, stick, collectType, uid, "1")
                 .subscribe(saleOfScreeningEntities -> {
                     if (saleOfScreeningEntities != null) {
                         KyLog.object(saleOfScreeningEntities + "");

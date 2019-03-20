@@ -335,7 +335,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         setEnabled(true);
         gettingAroundTravel("", "", productType, ""
                 , "", "", "", "", "",
-                "", String.valueOf(numberDays), "",
+                "", "", "",
                 "1", "", "", "", String.valueOf(2), "");
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1054,7 +1054,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
                 gettingAroundTravel("", "", productType, ""
                         , "", "", "", "", "",
-                        "", "3", "",
+                        "", "-1", "",
                         "1", "", "", "", String.valueOf(2), "");
                 break;
             case R.id.toolbar_right:

@@ -122,7 +122,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
         holder.mTextViewDepartName.setText(list.get(position).getDepart_name());
         holder.mTextViewUsername.setText(list.get(position).getUsername());
         holder.mTextViewUserCity.setText(list.get(position).getUserCity());
-        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
+//        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
         holder.mTextViewNumberDays.setText("行程天数：" + list.get(position).getNumber_days() + "天");
         holder.mTextViewTotalPrice.setText("成人：" + list.get(position).getTotal_price() + "元");
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");

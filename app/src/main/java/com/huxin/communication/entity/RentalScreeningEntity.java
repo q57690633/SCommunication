@@ -7,8 +7,8 @@ public class RentalScreeningEntity {
 
     /**
      * curPage : 1
-     * pageSize : 2
-     * list : [{"acreage":80,"areaId":102,"areaOne":"","city":"","curPage":"","element":0,"exclusive":0,"findNumber":0,"fitment":"","floorAge":"","floorNumber":0,"floorSize":"","houseHoldAppliances":"","houseNumber":"","houseType":"一居","id":2,"keying":0,"loans":0,"maxAcreage":80,"maxPrice":0,"minAcreage":75,"minPrice":47,"newOrOld":0,"orientation":"","ownership":"","permit":"","productType":0,"publicTime":{"date":10,"day":1,"hours":11,"minutes":5,"month":11,"nanos":0,"seconds":54,"time":1544411154000,"timezoneOffset":-480,"year":118},"purpose":"","simpleNumber":1,"stick":1,"tabClassify":"","tabId":"1,2","tabName":"学区房,近地铁","title":"","totalFloorNumber":0,"totalPrice":50,"uid":1,"unitPrice":0,"villageName":"紫绶园"}]
+     * pageSize : 1
+     * list : [{"acreage":1000,"areaId":102,"areaOne":"","city":"","collectState":0,"curPage":"","dateNumber":0,"element":0,"exclusive":2,"files":[],"findNumber":8,"fitment":"未交房","fitmentList":[],"floorAge":"","floorAgeList":[],"floorNumber":6,"floorSize":"","houseHoldAppliances":"","houseList":[],"houseNumber":"","houseType":"三室","houseTypeList":[],"id":63,"keying":2,"loans":0,"maxAcreage":1000,"maxPrice":1000,"minAcreage":995,"minPrice":900,"newOrOld":2,"orientation":"","orientationList":[],"ownership":"","paymentType":"","pdu":"","photoUrl":"http://39.105.203.33/upload/1552372377142/1552372377142_714.jpg","price":1000,"productType":2,"publicNumber":1,"publicTime":{"date":12,"day":2,"hours":14,"minutes":32,"month":2,"nanos":0,"seconds":57,"time":1552372377000,"timezoneOffset":-480,"year":119},"purpose":"","purposeList":[],"saleAndStick":0,"secondId":209,"showTime":0,"simpleNumber":0,"stick":2,"stickTime":1552372377187,"tabClassify":"","tabId":"","tabName":"","title":"","totalFloorNumber":6,"uid":105,"userModel":{"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","phoneState":0,"positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""},"villageName":"会馆路小区"}]
      */
 
     private String curPage;
@@ -41,53 +41,71 @@ public class RentalScreeningEntity {
 
     public static class ListBean {
         /**
-         * acreage : 80
+         * acreage : 1000.0
          * areaId : 102
          * areaOne :
          * city :
+         * collectState : 0
          * curPage :
+         * dateNumber : 0
          * element : 0
-         * exclusive : 0
-         * findNumber : 0
-         * fitment :
+         * exclusive : 2
+         * files : []
+         * findNumber : 8
+         * fitment : 未交房
+         * fitmentList : []
          * floorAge :
-         * floorNumber : 0
+         * floorAgeList : []
+         * floorNumber : 6
          * floorSize :
          * houseHoldAppliances :
+         * houseList : []
          * houseNumber :
-         * houseType : 一居
-         * id : 2
-         * keying : 0
+         * houseType : 三室
+         * houseTypeList : []
+         * id : 63
+         * keying : 2
          * loans : 0
-         * maxAcreage : 80
-         * maxPrice : 0
-         * minAcreage : 75
-         * minPrice : 47
-         * newOrOld : 0
+         * maxAcreage : 1000.0
+         * maxPrice : 1000.0
+         * minAcreage : 995.0
+         * minPrice : 900.0
+         * newOrOld : 2
          * orientation :
+         * orientationList : []
          * ownership :
-         * permit :
-         * productType : 0
-         * publicTime : {"date":10,"day":1,"hours":11,"minutes":5,"month":11,"nanos":0,"seconds":54,"time":1544411154000,"timezoneOffset":-480,"year":118}
+         * paymentType :
+         * pdu :
+         * photoUrl : http://39.105.203.33/upload/1552372377142/1552372377142_714.jpg
+         * price : 1000.0
+         * productType : 2
+         * publicNumber : 1
+         * publicTime : {"date":12,"day":2,"hours":14,"minutes":32,"month":2,"nanos":0,"seconds":57,"time":1552372377000,"timezoneOffset":-480,"year":119}
          * purpose :
-         * simpleNumber : 1
-         * stick : 1
+         * purposeList : []
+         * saleAndStick : 0
+         * secondId : 209
+         * showTime : 0
+         * simpleNumber : 0
+         * stick : 2
+         * stickTime : 1552372377187
          * tabClassify :
-         * tabId : 1,2
-         * tabName : 学区房,近地铁
+         * tabId :
+         * tabName :
          * title :
-         * totalFloorNumber : 0
-         * totalPrice : 50
-         * uid : 1
-         * unitPrice : 0
-         * villageName : 紫绶园
+         * totalFloorNumber : 6
+         * uid : 105
+         * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","phoneState":0,"positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""}
+         * villageName : 会馆路小区
          */
 
-        private int acreage;
+        private double acreage;
         private int areaId;
         private String areaOne;
         private String city;
+        private int collectState;
         private String curPage;
+        private int dateNumber;
         private int element;
         private int exclusive;
         private int findNumber;
@@ -101,34 +119,48 @@ public class RentalScreeningEntity {
         private int id;
         private int keying;
         private int loans;
-        private int maxAcreage;
-        private int maxPrice;
-        private int minAcreage;
-        private int minPrice;
+        private double maxAcreage;
+        private double maxPrice;
+        private double minAcreage;
+        private double minPrice;
         private int newOrOld;
         private String orientation;
         private String ownership;
-        private String permit;
+        private String paymentType;
+        private String pdu;
+        private String photoUrl;
+        private double price;
         private int productType;
+        private int publicNumber;
         private PublicTimeBean publicTime;
         private String purpose;
+        private int saleAndStick;
+        private int secondId;
+        private int showTime;
         private int simpleNumber;
         private int stick;
+        private long stickTime;
         private String tabClassify;
         private String tabId;
         private String tabName;
         private String title;
         private int totalFloorNumber;
-        private int totalPrice;
         private int uid;
-        private int unitPrice;
+        private UserModelBean userModel;
         private String villageName;
+        private List<?> files;
+        private List<?> fitmentList;
+        private List<?> floorAgeList;
+        private List<?> houseList;
+        private List<?> houseTypeList;
+        private List<?> orientationList;
+        private List<?> purposeList;
 
-        public int getAcreage() {
+        public double getAcreage() {
             return acreage;
         }
 
-        public void setAcreage(int acreage) {
+        public void setAcreage(double acreage) {
             this.acreage = acreage;
         }
 
@@ -156,12 +188,28 @@ public class RentalScreeningEntity {
             this.city = city;
         }
 
+        public int getCollectState() {
+            return collectState;
+        }
+
+        public void setCollectState(int collectState) {
+            this.collectState = collectState;
+        }
+
         public String getCurPage() {
             return curPage;
         }
 
         public void setCurPage(String curPage) {
             this.curPage = curPage;
+        }
+
+        public int getDateNumber() {
+            return dateNumber;
+        }
+
+        public void setDateNumber(int dateNumber) {
+            this.dateNumber = dateNumber;
         }
 
         public int getElement() {
@@ -268,35 +316,35 @@ public class RentalScreeningEntity {
             this.loans = loans;
         }
 
-        public int getMaxAcreage() {
+        public double getMaxAcreage() {
             return maxAcreage;
         }
 
-        public void setMaxAcreage(int maxAcreage) {
+        public void setMaxAcreage(double maxAcreage) {
             this.maxAcreage = maxAcreage;
         }
 
-        public int getMaxPrice() {
+        public double getMaxPrice() {
             return maxPrice;
         }
 
-        public void setMaxPrice(int maxPrice) {
+        public void setMaxPrice(double maxPrice) {
             this.maxPrice = maxPrice;
         }
 
-        public int getMinAcreage() {
+        public double getMinAcreage() {
             return minAcreage;
         }
 
-        public void setMinAcreage(int minAcreage) {
+        public void setMinAcreage(double minAcreage) {
             this.minAcreage = minAcreage;
         }
 
-        public int getMinPrice() {
+        public double getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(int minPrice) {
+        public void setMinPrice(double minPrice) {
             this.minPrice = minPrice;
         }
 
@@ -324,12 +372,36 @@ public class RentalScreeningEntity {
             this.ownership = ownership;
         }
 
-        public String getPermit() {
-            return permit;
+        public String getPaymentType() {
+            return paymentType;
         }
 
-        public void setPermit(String permit) {
-            this.permit = permit;
+        public void setPaymentType(String paymentType) {
+            this.paymentType = paymentType;
+        }
+
+        public String getPdu() {
+            return pdu;
+        }
+
+        public void setPdu(String pdu) {
+            this.pdu = pdu;
+        }
+
+        public String getPhotoUrl() {
+            return photoUrl;
+        }
+
+        public void setPhotoUrl(String photoUrl) {
+            this.photoUrl = photoUrl;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
         }
 
         public int getProductType() {
@@ -338,6 +410,14 @@ public class RentalScreeningEntity {
 
         public void setProductType(int productType) {
             this.productType = productType;
+        }
+
+        public int getPublicNumber() {
+            return publicNumber;
+        }
+
+        public void setPublicNumber(int publicNumber) {
+            this.publicNumber = publicNumber;
         }
 
         public PublicTimeBean getPublicTime() {
@@ -356,6 +436,30 @@ public class RentalScreeningEntity {
             this.purpose = purpose;
         }
 
+        public int getSaleAndStick() {
+            return saleAndStick;
+        }
+
+        public void setSaleAndStick(int saleAndStick) {
+            this.saleAndStick = saleAndStick;
+        }
+
+        public int getSecondId() {
+            return secondId;
+        }
+
+        public void setSecondId(int secondId) {
+            this.secondId = secondId;
+        }
+
+        public int getShowTime() {
+            return showTime;
+        }
+
+        public void setShowTime(int showTime) {
+            this.showTime = showTime;
+        }
+
         public int getSimpleNumber() {
             return simpleNumber;
         }
@@ -370,6 +474,14 @@ public class RentalScreeningEntity {
 
         public void setStick(int stick) {
             this.stick = stick;
+        }
+
+        public long getStickTime() {
+            return stickTime;
+        }
+
+        public void setStickTime(long stickTime) {
+            this.stickTime = stickTime;
         }
 
         public String getTabClassify() {
@@ -412,14 +524,6 @@ public class RentalScreeningEntity {
             this.totalFloorNumber = totalFloorNumber;
         }
 
-        public int getTotalPrice() {
-            return totalPrice;
-        }
-
-        public void setTotalPrice(int totalPrice) {
-            this.totalPrice = totalPrice;
-        }
-
         public int getUid() {
             return uid;
         }
@@ -428,12 +532,12 @@ public class RentalScreeningEntity {
             this.uid = uid;
         }
 
-        public int getUnitPrice() {
-            return unitPrice;
+        public UserModelBean getUserModel() {
+            return userModel;
         }
 
-        public void setUnitPrice(int unitPrice) {
-            this.unitPrice = unitPrice;
+        public void setUserModel(UserModelBean userModel) {
+            this.userModel = userModel;
         }
 
         public String getVillageName() {
@@ -444,18 +548,74 @@ public class RentalScreeningEntity {
             this.villageName = villageName;
         }
 
+        public List<?> getFiles() {
+            return files;
+        }
+
+        public void setFiles(List<?> files) {
+            this.files = files;
+        }
+
+        public List<?> getFitmentList() {
+            return fitmentList;
+        }
+
+        public void setFitmentList(List<?> fitmentList) {
+            this.fitmentList = fitmentList;
+        }
+
+        public List<?> getFloorAgeList() {
+            return floorAgeList;
+        }
+
+        public void setFloorAgeList(List<?> floorAgeList) {
+            this.floorAgeList = floorAgeList;
+        }
+
+        public List<?> getHouseList() {
+            return houseList;
+        }
+
+        public void setHouseList(List<?> houseList) {
+            this.houseList = houseList;
+        }
+
+        public List<?> getHouseTypeList() {
+            return houseTypeList;
+        }
+
+        public void setHouseTypeList(List<?> houseTypeList) {
+            this.houseTypeList = houseTypeList;
+        }
+
+        public List<?> getOrientationList() {
+            return orientationList;
+        }
+
+        public void setOrientationList(List<?> orientationList) {
+            this.orientationList = orientationList;
+        }
+
+        public List<?> getPurposeList() {
+            return purposeList;
+        }
+
+        public void setPurposeList(List<?> purposeList) {
+            this.purposeList = purposeList;
+        }
+
         public static class PublicTimeBean {
             /**
-             * date : 10
-             * day : 1
-             * hours : 11
-             * minutes : 5
-             * month : 11
+             * date : 12
+             * day : 2
+             * hours : 14
+             * minutes : 32
+             * month : 2
              * nanos : 0
-             * seconds : 54
-             * time : 1544411154000
+             * seconds : 57
+             * time : 1552372377000
              * timezoneOffset : -480
-             * year : 118
+             * year : 119
              */
 
             private int date;
@@ -547,6 +707,292 @@ public class RentalScreeningEntity {
 
             public void setYear(int year) {
                 this.year = year;
+            }
+        }
+
+        public static class UserModelBean {
+            /**
+             * advice :
+             * area :
+             * authCode : 0
+             * cOrP :
+             * city :
+             * companyName :
+             * county :
+             * headUrl :
+             * identifier :
+             * industryType :
+             * invitationCode :
+             * licenseCode :
+             * matchingMonth : 0
+             * password :
+             * phone :
+             * phoneState : 0
+             * positions :
+             * province :
+             * registerType : 0
+             * secondAuthCode : 0
+             * secondPhone :
+             * stickNumber : 0
+             * storeName :
+             * time : 0
+             * token :
+             * uid : 0
+             * username :
+             * usersig :
+             */
+
+            private String advice;
+            private String area;
+            private int authCode;
+            private String cOrP;
+            private String city;
+            private String companyName;
+            private String county;
+            private String headUrl;
+            private String identifier;
+            private String industryType;
+            private String invitationCode;
+            private String licenseCode;
+            private int matchingMonth;
+            private String password;
+            private String phone;
+            private int phoneState;
+            private String positions;
+            private String province;
+            private int registerType;
+            private int secondAuthCode;
+            private String secondPhone;
+            private int stickNumber;
+            private String storeName;
+            private int time;
+            private String token;
+            private int uid;
+            private String username;
+            private String usersig;
+
+            public String getAdvice() {
+                return advice;
+            }
+
+            public void setAdvice(String advice) {
+                this.advice = advice;
+            }
+
+            public String getArea() {
+                return area;
+            }
+
+            public void setArea(String area) {
+                this.area = area;
+            }
+
+            public int getAuthCode() {
+                return authCode;
+            }
+
+            public void setAuthCode(int authCode) {
+                this.authCode = authCode;
+            }
+
+            public String getCOrP() {
+                return cOrP;
+            }
+
+            public void setCOrP(String cOrP) {
+                this.cOrP = cOrP;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getCompanyName() {
+                return companyName;
+            }
+
+            public void setCompanyName(String companyName) {
+                this.companyName = companyName;
+            }
+
+            public String getCounty() {
+                return county;
+            }
+
+            public void setCounty(String county) {
+                this.county = county;
+            }
+
+            public String getHeadUrl() {
+                return headUrl;
+            }
+
+            public void setHeadUrl(String headUrl) {
+                this.headUrl = headUrl;
+            }
+
+            public String getIdentifier() {
+                return identifier;
+            }
+
+            public void setIdentifier(String identifier) {
+                this.identifier = identifier;
+            }
+
+            public String getIndustryType() {
+                return industryType;
+            }
+
+            public void setIndustryType(String industryType) {
+                this.industryType = industryType;
+            }
+
+            public String getInvitationCode() {
+                return invitationCode;
+            }
+
+            public void setInvitationCode(String invitationCode) {
+                this.invitationCode = invitationCode;
+            }
+
+            public String getLicenseCode() {
+                return licenseCode;
+            }
+
+            public void setLicenseCode(String licenseCode) {
+                this.licenseCode = licenseCode;
+            }
+
+            public int getMatchingMonth() {
+                return matchingMonth;
+            }
+
+            public void setMatchingMonth(int matchingMonth) {
+                this.matchingMonth = matchingMonth;
+            }
+
+            public String getPassword() {
+                return password;
+            }
+
+            public void setPassword(String password) {
+                this.password = password;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public int getPhoneState() {
+                return phoneState;
+            }
+
+            public void setPhoneState(int phoneState) {
+                this.phoneState = phoneState;
+            }
+
+            public String getPositions() {
+                return positions;
+            }
+
+            public void setPositions(String positions) {
+                this.positions = positions;
+            }
+
+            public String getProvince() {
+                return province;
+            }
+
+            public void setProvince(String province) {
+                this.province = province;
+            }
+
+            public int getRegisterType() {
+                return registerType;
+            }
+
+            public void setRegisterType(int registerType) {
+                this.registerType = registerType;
+            }
+
+            public int getSecondAuthCode() {
+                return secondAuthCode;
+            }
+
+            public void setSecondAuthCode(int secondAuthCode) {
+                this.secondAuthCode = secondAuthCode;
+            }
+
+            public String getSecondPhone() {
+                return secondPhone;
+            }
+
+            public void setSecondPhone(String secondPhone) {
+                this.secondPhone = secondPhone;
+            }
+
+            public int getStickNumber() {
+                return stickNumber;
+            }
+
+            public void setStickNumber(int stickNumber) {
+                this.stickNumber = stickNumber;
+            }
+
+            public String getStoreName() {
+                return storeName;
+            }
+
+            public void setStoreName(String storeName) {
+                this.storeName = storeName;
+            }
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
+
+            public String getToken() {
+                return token;
+            }
+
+            public void setToken(String token) {
+                this.token = token;
+            }
+
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public String getUsername() {
+                return username;
+            }
+
+            public void setUsername(String username) {
+                this.username = username;
+            }
+
+            public String getUsersig() {
+                return usersig;
+            }
+
+            public void setUsersig(String usersig) {
+                this.usersig = usersig;
             }
         }
     }

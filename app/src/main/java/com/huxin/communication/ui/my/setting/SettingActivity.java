@@ -12,6 +12,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.ui.LoginActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMManager;
 
@@ -69,19 +70,21 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void loginout(){
+        showProgressDialog();
         //登出
         TIMManager.getInstance().logout(new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-
+            cancelProgressDialog();
                 //错误码 code 和错误描述 desc，可用于定位请求失败原因
                 //错误码 code 列表请参见错误码表
-//                Log.d(tag, "logout failed. code: " + code + " errmsg: " + desc);
+                KyLog.d( "logout failed. code: " + code + " errmsg: " + desc);
             }
 
             @Override
             public void onSuccess() {
                 //登出成功
+                cancelProgressDialog();
                 Intent intentExit = new Intent(SettingActivity.this, LoginActivity.class);
                 startActivity(intentExit);
                 finish();

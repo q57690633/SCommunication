@@ -170,6 +170,15 @@ public class Constanst {
 
     public static final String TICKET_OVERSEAS_NAME = "ticket_overseas_name";
 
+    public static final String TOP_NAME = "top_name";
+
+    public static final String CORP = "corp";
+
+    public static final String TOP_ZHIDING = "top";
+
+
+
+
 
 
 

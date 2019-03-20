@@ -62,10 +62,10 @@ public class TravelEntity {
         private String userCity;
         private String goals_city;
         private int numberDays;
-        private int totalPrice;
-        private int returnPrice;
-        private int totalPriceChild;
-        private int returnPriceChild;
+        private double totalPrice;
+        private double returnPrice;
+        private double totalPriceChild;
+        private double returnPriceChild;
         private String spotName;
         private String photo_url;
         private String headUrl;
@@ -111,35 +111,35 @@ public class TravelEntity {
             this.numberDays = numberDays;
         }
 
-        public int getTotalPrice() {
+        public double getTotalPrice() {
             return totalPrice;
         }
 
-        public void setTotalPrice(int totalPrice) {
+        public void setTotalPrice(double totalPrice) {
             this.totalPrice = totalPrice;
         }
 
-        public int getReturnPrice() {
+        public double getReturnPrice() {
             return returnPrice;
         }
 
-        public void setReturnPrice(int returnPrice) {
+        public void setReturnPrice(double returnPrice) {
             this.returnPrice = returnPrice;
         }
 
-        public int getTotalPriceChild() {
+        public double getTotalPriceChild() {
             return totalPriceChild;
         }
 
-        public void setTotalPriceChild(int totalPriceChild) {
+        public void setTotalPriceChild(double totalPriceChild) {
             this.totalPriceChild = totalPriceChild;
         }
 
-        public int getReturnPriceChild() {
+        public double getReturnPriceChild() {
             return returnPriceChild;
         }
 
-        public void setReturnPriceChild(int returnPriceChild) {
+        public void setReturnPriceChild(double returnPriceChild) {
             this.returnPriceChild = returnPriceChild;
         }
 

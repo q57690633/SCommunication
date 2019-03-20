@@ -53,7 +53,7 @@ import java.util.Map;
 
 import okhttp3.Call;
 
-public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickListener,ImagePickerAdapter.OnRecyclerViewItemClickListener{
+public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
 
     private RelativeLayout mRelativeLayoutOccupationType;
     private RelativeLayout mRelativeLayoutMudiType;
@@ -146,15 +146,24 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
     private HttpUtil httpUtil;
 
-    private String Traffic ;
-    private String Address ;
-    private String Consume ;
+    private String Traffic;
+    private String Address;
+    private String Consume;
     private String Activity;
-    private String Stay ;
-    private String Other ;
+    private String Stay;
+    private String Other;
 
     private String type = null;
+    private TextView mTextViewTopMessage;
 
+    private ImageView mRelativeLayoutStickZeroC;
+    private ImageView mRelativeLayoutStickReturn;
+    private ImageView mRelativeLayoutStickHot;
+    private ImageView mRelativeLayoutStickThrow;
+    private ImageView mRelativeLayoutStickBetter;
+    private ImageView mRelativeLayoutStickLow;
+    private ImageView mRelativeLayoutStickNew;
+    private ImageView mRelativeLayoutStickRate;
 
 
     @Override
@@ -240,6 +249,16 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
         mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
 
+        mTextViewTopMessage = findViewById(R.id.top_message);
+
+        mRelativeLayoutStickNew = findViewById(R.id.rl_stick_new);
+        mRelativeLayoutStickBetter = findViewById(R.id.rl_stick_better);
+        mRelativeLayoutStickLow = findViewById(R.id.rl_stick_low);
+        mRelativeLayoutStickRate = findViewById(R.id.rl_stick_rate);
+        mRelativeLayoutStickReturn = findViewById(R.id.rl_stick_return);
+        mRelativeLayoutStickHot = findViewById(R.id.rl_stick_hot);
+        mRelativeLayoutStickThrow = findViewById(R.id.rl_stick_throw);
+        mRelativeLayoutStickZeroC = findViewById(R.id.rl_stick_zeroC);
 
         mImageViewShuaiWei.setOnClickListener(this);
         mImageViewShuaiWeiClick.setOnClickListener(this);
@@ -267,12 +286,22 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         mRelativeLayoutHotType.setOnClickListener(this);
         mRelativeLayoutDayType.setOnClickListener(this);
         mRelativeLayoutRelease1Type.setOnClickListener(this);
+
+        mRelativeLayoutStickZeroC.setOnClickListener(this);
+        mRelativeLayoutStickBetter.setOnClickListener(this);
+        mRelativeLayoutStickLow.setOnClickListener(this);
+        mRelativeLayoutStickReturn.setOnClickListener(this);
+        mRelativeLayoutStickRate.setOnClickListener(this);
+        mRelativeLayoutStickHot.setOnClickListener(this);
+        mRelativeLayoutStickThrow.setOnClickListener(this);
+        mRelativeLayoutStickNew.setOnClickListener(this);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
-
+        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,1);
+        getUseInfo();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
         adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
@@ -281,6 +310,11 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
         mRecyclerViewAddPicture.setAdapter(adapter);
+
+        mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+
+        SetEnabled();
+
     }
 
     @Override
@@ -306,7 +340,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 mImageViewShuaiWei.setVisibility(View.VISIBLE);
                 caixian = 1;
                 break;
-            case R.id.stick_better:
+            case R.id.rl_stick_better:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -325,7 +359,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 returns = 0;
                 zeroC = 0;
                 break;
-            case R.id.stick_hot:
+            case R.id.rl_stick_hot:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
@@ -345,7 +379,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 break;
 
 
-            case R.id.stick_new:
+            case R.id.rl_stick_new:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -364,7 +398,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 0;
                 break;
 
-            case R.id.stick_low:
+            case R.id.rl_stick_low:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -383,7 +417,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 0;
                 break;
 
-            case R.id.stick_throw:
+            case R.id.rl_stick_throw:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -402,7 +436,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 0;
                 break;
 
-            case R.id.stick_rate:
+            case R.id.rl_stick_rate:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -421,7 +455,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 0;
                 break;
 
-            case R.id.stick_return:
+            case R.id.rl_stick_return:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -440,7 +474,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 0;
                 break;
 
-            case R.id.stick_zeroC:
+            case R.id.rl_stick_zeroC:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -557,9 +591,9 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         } else {
             pickupPrices = 0;
         }
-        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0){
+        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
             stick = 2;
-        }else {
+        } else {
             stick = 1;
         }
         showProgressDialog();
@@ -575,9 +609,9 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
         ApiModule.getInstance().issueAroundRoute(PreferenceUtil.getString(Constanst.CITY_CODE), PreferenceUtil.getString(Constanst.PROVINCE_CODE), PreferenceUtil.getString(Constanst.SPOT_ID), PreferenceUtil.getString(Constanst.SPOT_NAME), day, TotalPrice, FinalPrice, ReturnPrice, String.valueOf(pickupPrices), TotalPriceChild, finalPriceChild, ReturnPriceChild,
                 null, null, null, null, null, null,
-                TravelTitle, Generalize, String.valueOf(stick),String.valueOf(caixian), null, String.valueOf(news),
+                TravelTitle, Generalize, String.valueOf(stick), String.valueOf(caixian), null, String.valueOf(news),
                 String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME),"2",String.valueOf(PreferenceUtil.getInt(UID)))
+                String.valueOf(zeroC), PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME), PreferenceUtil.getString(Constanst.CITY_MUDI_CODE), PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME), "2", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(response -> {
 
                     cancelProgressDialog();
@@ -675,8 +709,10 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
+
     /**
      * 打开相机
+     *
      * @param view
      * @param position
      */
@@ -693,7 +729,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                         //打开选择,本次允许选择的数量
                         ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                         Intent intent = new Intent(ReleaseGuoNeiActivity.this, ImageGridActivity.class);
-                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
                         startActivityForResult(intent, REQUEST_CODE_SELECT);
                         break;
                     case 1:
@@ -711,6 +747,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
     /**
      * 获取返回的图片信息
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -718,12 +755,12 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode  + "");
+        KyLog.d(requestCode + "");
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
                 }
@@ -732,7 +769,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             //预览图片返回
             if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.clear();
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
@@ -744,9 +781,10 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
     /**
      * 上传图片
+     *
      * @param pathList
      */
-    private void uploadImage(ArrayList<ImageItem > pathList) {
+    private void uploadImage(ArrayList<ImageItem> pathList) {
 
         String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
         String Generalize = mEditTextGeneralize.getText().toString().trim();
@@ -768,7 +806,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             } else {
                 pickupPrices = 0;
             }
-        }else {
+        } else {
             Toast.makeText(this, "请选择有无接送费", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -801,7 +839,6 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
 
         Map<String, String> map = new HashMap<>();
@@ -862,7 +899,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         map.put("travel_kind", "2");
         map.put("token", PreferenceUtil.getString(TOKEN));
 
-        String url="http://39.105.203.33/jlkf/mutual-trust/travel/issueAroundRoute";
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueAroundRoute";
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
@@ -896,7 +933,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                         array.put(jsonObject);
 
                         res.put("type", 2);
-                        res.put("arrData" , array);
+                        res.put("arrData", array);
                         String result = res.toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("msg", result);
@@ -918,5 +955,68 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             dialog.show();
         }
         return dialog;
+    }
+
+    private void getUseInfo() {
+        ApiModule.getInstance().getUserInfo(String.valueOf(PreferenceUtil.getInt(UID)))
+                .subscribe(loginEntity -> {
+                    PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
+
+                }, throwable -> {
+//                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    KyLog.d(throwable.getMessage());
+                });
+    }
+
+    private void SetEnabled(){
+        if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) <= 0) {
+            mRelativeLayoutStickBetter.setEnabled(false);
+            mRelativeLayoutStickBetter.setFocusable(false);
+
+            mRelativeLayoutStickHot.setEnabled(false);
+            mRelativeLayoutStickHot.setFocusable(false);
+
+            mRelativeLayoutStickLow.setEnabled(false);
+            mRelativeLayoutStickLow.setFocusable(false);
+
+            mRelativeLayoutStickNew.setEnabled(false);
+            mRelativeLayoutStickNew.setFocusable(false);
+
+            mRelativeLayoutStickRate.setEnabled(false);
+            mRelativeLayoutStickRate.setFocusable(false);
+
+            mRelativeLayoutStickReturn.setEnabled(false);
+            mRelativeLayoutStickReturn.setFocusable(false);
+
+            mRelativeLayoutStickThrow.setEnabled(false);
+            mRelativeLayoutStickThrow.setFocusable(false);
+
+            mRelativeLayoutStickZeroC.setEnabled(false);
+            mRelativeLayoutStickZeroC.setFocusable(false);
+        }else {
+            mRelativeLayoutStickBetter.setEnabled(true);
+            mRelativeLayoutStickBetter.setFocusable(true);
+
+            mRelativeLayoutStickHot.setEnabled(true);
+            mRelativeLayoutStickHot.setFocusable(true);
+
+            mRelativeLayoutStickLow.setEnabled(true);
+            mRelativeLayoutStickLow.setFocusable(true);
+
+            mRelativeLayoutStickNew.setEnabled(true);
+            mRelativeLayoutStickNew.setFocusable(true);
+
+            mRelativeLayoutStickRate.setEnabled(true);
+            mRelativeLayoutStickRate.setFocusable(true);
+
+            mRelativeLayoutStickReturn.setEnabled(true);
+            mRelativeLayoutStickReturn.setFocusable(true);
+
+            mRelativeLayoutStickThrow.setEnabled(true);
+            mRelativeLayoutStickThrow.setFocusable(true);
+
+            mRelativeLayoutStickZeroC.setEnabled(true);
+            mRelativeLayoutStickZeroC.setFocusable(true);
+        }
     }
 }

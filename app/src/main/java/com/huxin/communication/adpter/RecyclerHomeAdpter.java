@@ -12,12 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alipay.sdk.sys.a;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.ui.TIMChatActivity;
-import com.huxin.communication.utils.PreferenceUtil;
-import com.huxin.communication.utils.PrettyDateFormat;
+import com.huxin.communication.utils.DateUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -68,7 +66,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
-        holder.time.setText(PrettyDateFormat.formatDate(list.get(position).getTimeStamp()));
+        holder.time.setText(DateUtil.timeslashData(String.valueOf(list.get(position).getTimeStamp())));
         holder.num.setText(String.valueOf(list.get(position).getNum()));
         holder.msg.setText(String.valueOf(list.get(position).getMsg()));
         if (!TextUtils.isEmpty(list.get(position).getHead_url())){

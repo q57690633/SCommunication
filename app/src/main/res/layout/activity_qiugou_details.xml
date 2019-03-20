@@ -269,19 +269,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
-                    android:text="胡八一"
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/campany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
                     android:layout_marginTop="4dp"
-                    android:text="创居不动产"
                     android:textColor="#333333"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -72,6 +72,8 @@ public class GounpAdapter extends RecyclerView.Adapter<GounpAdapter.BodyViewHode
         holder.mTextViewName.setText(mList.get(position).getFlockName());
         ImageLoader.getInstance().displayImage(mList.get(position).getUrl(),holder.image);
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
+
+
     }
 
     @Override

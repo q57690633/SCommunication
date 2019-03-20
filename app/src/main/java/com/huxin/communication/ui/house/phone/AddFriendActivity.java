@@ -3,9 +3,7 @@ package com.huxin.communication.ui.house.phone;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -15,9 +13,8 @@ import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
-import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.http.ApiModule;
-import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.ui.InvitationActivity;
 import com.sky.kylog.KyLog;
 
 public class AddFriendActivity extends BaseActivity implements EditText.OnEditorActionListener {

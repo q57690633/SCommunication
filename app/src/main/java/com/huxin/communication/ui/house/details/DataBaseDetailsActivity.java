@@ -105,10 +105,10 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
     private ReleaseDialog mReleaseDialog;
 
     private int NeworOld = 2;
-    private int loans = 1;
-    private int keying = 1;
+    private int loans = 0;
+    private int keying = 0;
     private int exclusive = 2;
-    private int stick = 1;
+    private int stick = 0;
 
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
@@ -221,6 +221,7 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
     @Override
     protected void loadData(Bundle savedInstanceState) {
         setTabData();
+        setData();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
         adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
@@ -259,6 +260,58 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
         });
 
 
+    }
+
+
+    private void setData() {
+        if (listBean != null) {
+            mEditTextAcreage.setText(String.valueOf(listBean.getAcreage()));
+            mEditTextFloorNumber.setText(String.valueOf(listBean.getFloorNumber()));
+            mEditTexTotalFloorNumber.setText(String.valueOf(listBean.getTotalFloorNumber()));
+            if (!TextUtils.isEmpty(listBean.getTitle())) {
+                mEditTextTitle.setText(listBean.getTitle());
+            }
+            mEditTextTotalPrice.setText(String.valueOf(listBean.getTotalPrice()));
+            if (!TextUtils.isEmpty(listBean.getVillageName())) {
+                mEditTextVillageName.setText(listBean.getVillageName());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getFitment())) {
+                mTextViewFitment.setText(listBean.getFitment());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getOrientation())) {
+                mTextViewOrientation.setText(listBean.getOrientation());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getPurpose())) {
+                mTextViewPurpose.setText(listBean.getPurpose());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getHouseHoldAppliances())) {
+                mTextViewHouseHoldAppliances.setText(listBean.getHouseHoldAppliances());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getPermit())) {
+                mTextViewPermit.setText(listBean.getPermit());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getHouseType())) {
+                mEditTextHouseType.setText(listBean.getHouseType());
+            }
+            if (listBean.getKeying() == 1) {
+                mEditTextKeyingClick.setBackgroundResource(R.drawable.icon_circle_selected);
+            } else {
+                mEditTextKeyingClick.setBackgroundResource(R.drawable.icon_circle_normal);
+            }
+
+            if (listBean.getStick() == 1) {
+                mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
+            } else {
+                mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
+            }
+
+        }
     }
 
     @Override
@@ -771,10 +824,10 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
                 super.onResponse(response, id);
                 KyLog.d("image ==" + response);
                 //返回图片的地址
-                if ("".equalsIgnoreCase(type)) {
-                    Intent intent = new Intent(DataBaseDetailsActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
+//                if ("".equalsIgnoreCase(type)) {
+                Intent intent = new Intent(DataBaseDetailsActivity.this, MainActivity.class);
+                startActivity(intent);
+//                } else {
 //                    try {
 //                        JSONObject jsonObject = new JSONObject(response);
 //                        jsonObject.put("type", 1);
@@ -788,7 +841,7 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
 //                    } catch (JSONException e) {
 //                        e.printStackTrace();
 //                    }
-                }
+//                }
             }
         });
     }

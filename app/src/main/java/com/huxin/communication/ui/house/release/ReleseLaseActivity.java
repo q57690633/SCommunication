@@ -52,7 +52,7 @@ import retrofit2.http.Field;
 /**
  * 发布出租
  */
-public class ReleseLaseActivity extends BaseActivity implements View.OnClickListener ,ImagePickerAdapter.OnRecyclerViewItemClickListener{
+public class ReleseLaseActivity extends BaseActivity implements View.OnClickListener, ImagePickerAdapter.OnRecyclerViewItemClickListener {
     private EditText mEditTextVillageName;
     private EditText mEditTextAcreage;
     private TextView mEditTextHouseType;
@@ -98,10 +98,10 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private ReleaseDialog mReleaseDialog;
 
     private int NeworOld = 2;
-    private int loans = 1;
-    private int keying = 1;
+    private int loans = 0;
+    private int keying = 0;
     private int exclusive = 2;
-    private int stick = 1;
+    private int stick = 2;
 
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
@@ -125,6 +125,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     private ImageView mImageViewStick;
 
     private String type = null;
+    private int stickNember;
+    private TextView mTextViewChongZhi;
 
 
     @Override
@@ -227,13 +229,11 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String villageName = mEditTextVillageName.getText().toString().trim();
-                Toast.makeText(ReleseLaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(villageName)) {
                     mLinearLayoutVillageName.setVisibility(View.GONE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
 
                 } else {
-                    Toast.makeText(ReleseLaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
                     mLinearLayoutVillageName.setVisibility(View.VISIBLE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
                     selectByLike(villageName);
@@ -494,11 +494,15 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.stick_ed_release:
-                if (isclickedStick){
+                if (stickNember <= 0) {
+                    Toast.makeText(this, "请充值置顶条数", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (isclickedStick) {
                     mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
                     isclickedStick = false;
                     stick = 1;
-                }else {
+                } else {
                     mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
                     isclickedStick = true;
                     stick = 2;
@@ -589,11 +593,11 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         String pdu = mEditTextPdu.getText().toString().trim();
         String floorSize = mEditTextFloorSize.getText().toString().trim();
 
-        String tableId ;
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))){
+        String tableId;
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TAB_NMAE))) {
             tableId = PreferenceUtil.getString(Constanst.TAB_NMAE);
 
-        }else {
+        } else {
             tableId = "";
 
         }
@@ -601,21 +605,21 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         KyLog.d(loans + "");
         KyLog.d(keying + "");
 
-        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
+        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
 
         showProgressDialog();
-        ApiModule.getInstance().addRentProduct(VillageName,Acreage,houseType,totalPrice,
-                floorNumber,totalFloorNumber,fitment,String.valueOf(keying),permit,title,String.valueOf(stick),
-                tableId,String.valueOf(exclusive),purpose,houseHoldAppliances,orientation,houseNumber,floorSize,pdu)
+        ApiModule.getInstance().addRentProduct(VillageName, Acreage, houseType, totalPrice,
+                floorNumber, totalFloorNumber, fitment, String.valueOf(keying), permit, title, String.valueOf(stick),
+                tableId, String.valueOf(exclusive), purpose, houseHoldAppliances, orientation, houseNumber, floorSize, pdu)
                 .subscribe(response -> {
 
                     cancelProgressDialog();
 //                    KyLog.d(response.getResultMsg());
 //                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this,MainActivity.class);
+                    Intent intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
 
                 }, throwable -> {
@@ -629,13 +633,15 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
         ApiModule.getInstance().selectTab("2")
                 .subscribe(selectTabEntity -> {
                     cancelProgressDialog();
-                    if (selectTabEntity != null && selectTabEntity.getTag().size() > 0) {
+                    if (selectTabEntity.getTag() != null && selectTabEntity.getTag().size() > 0) {
                         GridLayoutManager manager = new GridLayoutManager(ReleseLaseActivity.this, 4);
                         mTabAdapter = new ReleaseTabAdapter(selectTabEntity.getTag(), this);
                         mRecyclerView.setAdapter(mTabAdapter);
                         mRecyclerView.setLayoutManager(manager);
                         mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
                     }
+                    stickNember = selectTabEntity.getStickNumber();
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -646,6 +652,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 打开相机
+     *
      * @param view
      * @param position
      */
@@ -662,7 +669,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                         //打开选择,本次允许选择的数量
                         ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
                         Intent intent = new Intent(ReleseLaseActivity.this, ImageGridActivity.class);
-                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS,true); // 是否是直接打开相机
+                        intent.putExtra(ImageGridActivity.EXTRAS_TAKE_PICKERS, true); // 是否是直接打开相机
                         startActivityForResult(intent, REQUEST_CODE_SELECT);
                         break;
                     case 1:
@@ -680,6 +687,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 获取返回的图片信息
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -687,12 +695,12 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        KyLog.d(requestCode  + "");
+        KyLog.d(requestCode + "");
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             //添加图片返回
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
                 }
@@ -701,7 +709,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             //预览图片返回
             if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
-                if (images != null){
+                if (images != null) {
                     selImageList.clear();
                     selImageList.addAll(images);
                     adapter.setImages(selImageList);
@@ -713,6 +721,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 上传图片
+     *
      * @param pathList
      */
     private void uploadImage(ArrayList<ImageItem> pathList) {
@@ -757,14 +766,18 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (loans == 0 && keying == 0){
+            Toast.makeText(this, "请选择钥匙和贷款", Toast.LENGTH_SHORT).show();
+            return;
+        }
         showProgressDialog();
 
-        Map<String,String> map = new HashMap<>();
-        map.put("villageName",VillageName);
-        map.put("acreage",Acreage);
-        map.put("totalPrice",totalPrice);
-        map.put("floorNumber",floorNumber);
-        map.put("totalFloorNumber",totalFloorNumber);
+        Map<String, String> map = new HashMap<>();
+        map.put("villageName", VillageName);
+        map.put("acreage", Acreage);
+        map.put("totalPrice", totalPrice);
+        map.put("floorNumber", floorNumber);
+        map.put("totalFloorNumber", totalFloorNumber);
 
 
         if (!TextUtils.isEmpty(houseHoldAppliances)) {
@@ -788,26 +801,26 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             map.put("houseType", houseType);
         }
 
-        map.put("keying",String.valueOf(keying));
-        map.put("title",title);
-        map.put("uid",String.valueOf(PreferenceUtil.getInt(UID)));
-        map.put("stick",String.valueOf(stick));
-        map.put("pdu",pdu);
-        map.put("tabId",tableId);
-        map.put("exclusive",String.valueOf(exclusive));
-        map.put("floorSize",floorSize);
-        map.put("houseNumber",houseNumber);
-        map.put("token",PreferenceUtil.getString(TOKEN));
+        map.put("keying", String.valueOf(keying));
+        map.put("title", title);
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick", String.valueOf(stick));
+        map.put("pdu", pdu);
+        map.put("tabId", tableId);
+        map.put("exclusive", String.valueOf(exclusive));
+        map.put("floorSize", floorSize);
+        map.put("houseNumber", houseNumber);
+        map.put("token", PreferenceUtil.getString(TOKEN));
 
         KyLog.d("uploadImage");
-        String url="http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
+        String url = "http://39.105.203.33/jlkf/mutual-trust/public/addRentProduct";
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
-                KyLog.d(e + " cuowu == " +  "call == " + call  );
+                KyLog.d(e + " cuowu == " + "call == " + call);
                 Toast.makeText(ReleseLaseActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
 
                 cancelProgressDialog();
@@ -820,10 +833,10 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                 KyLog.d(response);
                 cancelProgressDialog();
                 Toast.makeText(ReleseLaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                if(TextUtils.isEmpty(type)) {
+                if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleseLaseActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     try {
                         JSONObject res = new JSONObject(response);
                         JSONObject data = res.getJSONObject("data");
@@ -882,10 +895,8 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
     private void selectByLike(String villageName) {
         KyLog.d(villageName);
-        showProgressDialog();
         ApiModule.getInstance().selectByLike(villageName)
                 .subscribe(selectByLikeEntities -> {
-                    cancelProgressDialog();
                     if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
                         LinearLayoutManager manager = new LinearLayoutManager(ReleseLaseActivity.this);
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
@@ -895,7 +906,6 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {
-                                Toast.makeText(ReleseLaseActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                                 mEditTextVillageName.setText(selectByLikeEntities.get(pos).getVillageName());
                                 mLinearLayoutVillageName.setVisibility(View.GONE);
                                 mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
@@ -905,7 +915,6 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

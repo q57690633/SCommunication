@@ -11,12 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.ui.travel.WebViewActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+import com.tencent.qcloud.uikit.TUIKit;
+import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +52,33 @@ public class CaiXianAdapter extends RecyclerView.Adapter<CaiXianAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
+                intent.putExtra("list", list.get(hoder.getAdapterPosition()));
                 mContext.startActivity(intent);
             }
         });
+
+        hoder.mTextViewKanxingcheng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, WebViewActivity.class);
+                intent.putExtra("url", list.get(hoder.getAdapterPosition()).getQrCode_url());
+                mContext.startActivity(intent);
+            }
+        });
+        hoder.mTextViewSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String userId = PreferenceUtil.getInt("uid") + "";
+                String userSig = PreferenceUtil.getString("usersig");
+                if (userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))){
+                    onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
+                }else {
+                    Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
         return hoder;
     }
 
@@ -140,5 +170,23 @@ public class CaiXianAdapter extends RecyclerView.Adapter<CaiXianAdapter.MyViewHo
         }
 
 
+    }
+
+    private void onRecvUserSig(String userId, String userSig, String targetId) {
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                KyLog.i("imlogin onSuccess", data);
+                Intent intent = new Intent(mContext, TIMChatActivity.class);
+                intent.putExtra("TARGET_ID", targetId);
+                mContext.startActivity(intent);
+            }
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                Toast.makeText(mContext, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
+                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                KyLog.e("imlogin fail", errMsg);
+            }
+        });
     }
 }

@@ -23,8 +23,6 @@ import com.huxin.communication.GetMsgManager;
 import com.huxin.communication.HomeViewPagerTravelAdapter;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.HeadHouseAdapter;
-import com.huxin.communication.adpter.HeadTravelAdapter;
-import com.huxin.communication.adpter.HeadTravelJinWaiAdapter;
 import com.huxin.communication.adpter.HeadTravelTicketAdapter;
 import com.huxin.communication.adpter.HomeTravelAdapter;
 import com.huxin.communication.adpter.HomeViewPagerAdapter;
@@ -41,14 +39,9 @@ import com.huxin.communication.entity.ProvinceEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
-import com.huxin.communication.ui.KeFuActivity;
-import com.huxin.communication.ui.LoginActivity;
-import com.huxin.communication.ui.RegisterInformationActivity;
-import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.house.match.MatchActivity;
-import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
 import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
@@ -65,8 +58,6 @@ import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.SQLiteUtil;
 import com.huxin.communication.view.AutoScrollLayoutManager;
-import com.huxin.communication.view.SpaceItemDecoration;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -77,7 +68,6 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.imsdk.conversation.Conversation;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
@@ -86,6 +76,12 @@ import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +99,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private String mParam2;
     private RecyclerView mRecyclerView;
     private RecyclerHomeAdpter mAdpter;
+    private Disposable mDisposable;
+
     private HeadHouseAdapter mHeadLineAdapter;
     private HomeTravelAdapter mHeadTravelAdapter;
     private HeadTravelTicketAdapter mTravelTicketAdapter;
@@ -209,8 +207,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
+        autoLoop();//轮询
 
-//        getTIMmsg();
     }
 
     @Override
@@ -258,6 +256,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             public void onSuccess(Object data) {
                 getConversationList();
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
                 KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
@@ -436,7 +435,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private void initDataTravel() {
 //        showProgressDialog();
-        ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME),String.valueOf(PreferenceUtil.getInt("uid")))
+        ApiModule.getInstance().getTravelHome(PreferenceUtil.getString(Constanst.CITY_NAME), String.valueOf(PreferenceUtil.getInt("uid")))
                 .subscribe(homeTravelEntity -> {
 //                    cancelProgressDialog();
                     if (homeTravelEntity != null) {
@@ -459,18 +458,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             }
                         }
 
-                            if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
-                                for (HomeTravelEntity.ForeignHeadBean foreignHeadBean : homeTravelEntity.getForeignHead()) {
-                                    HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
-                                    headTravelEntivty.setTravel_title(foreignHeadBean.getTravel_title());
-                                    headTravelEntivty.setDepart_name(foreignHeadBean.getDepart_name());
-                                    headTravelEntivty.setGoals_city(foreignHeadBean.getGoals_city());
-                                    headTravelEntivty.setTotal_price(foreignHeadBean.getTotal_price());
-                                    headTravelEntivty.setNumber_days(foreignHeadBean.getNumber_days());
-                                    headTravelEntivty.setHeadUrl(foreignHeadBean.getHeadUrl());
-                                    headTravelEntivty.setProductType(2);
-                                    list.add(headTravelEntivty);
-                                }
+                        if (homeTravelEntity.getForeignHead() != null && homeTravelEntity.getForeignHead().size() > 0) {
+                            for (HomeTravelEntity.ForeignHeadBean foreignHeadBean : homeTravelEntity.getForeignHead()) {
+                                HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
+                                headTravelEntivty.setTravel_title(foreignHeadBean.getTravel_title());
+                                headTravelEntivty.setDepart_name(foreignHeadBean.getDepart_name());
+                                headTravelEntivty.setGoals_city(foreignHeadBean.getGoals_city());
+                                headTravelEntivty.setTotal_price(foreignHeadBean.getTotal_price());
+                                headTravelEntivty.setNumber_days(foreignHeadBean.getNumber_days());
+                                headTravelEntivty.setHeadUrl(foreignHeadBean.getHeadUrl());
+                                headTravelEntivty.setProductType(2);
+                                list.add(headTravelEntivty);
+                            }
                         }
 
 
@@ -571,9 +570,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         SQLiteUtil util = new SQLiteUtil(getContext());
         Cursor cursor = util.query(TABLE_NAME, null);
         List<GetMessageEntity> dbList = new ArrayList<>();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             GetMessageEntity entity = new GetMessageEntity();
-            String uid , message, time, head_url, type, unread_num, isread;
+            String uid, message, time, head_url, type, unread_num, isread;
             uid = cursor.getString(cursor.getColumnIndex(UID));
             message = cursor.getString(cursor.getColumnIndex(MESSAGE));
             time = cursor.getString(cursor.getColumnIndex(TIME));
@@ -609,7 +608,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             TIMMessage message = list.get(i);
             //if (i == 0) {
             TIMElem elem = message.getElement(0);
-            if(null == elem) {
+            if (null == elem) {
                 return true;
             }
             if (elem.getType() != null) {
@@ -619,19 +618,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }
             }
             //}
-            if(elem.getType() == TIMElemType.Image) {
+            if (elem.getType() == TIMElemType.Image) {
                 text = getResources().getString(R.string.msg_image);
             }
-            if(elem.getType() == TIMElemType.Sound) {
+            if (elem.getType() == TIMElemType.Sound) {
                 text = getResources().getString(R.string.msg_audio);
             }
-            if(elem.getType() == TIMElemType.Video) {
+            if (elem.getType() == TIMElemType.Video) {
                 text = getResources().getString(R.string.msg_video);
             }
-            if(elem.getType() == TIMElemType.Custom) {
+            if (elem.getType() == TIMElemType.Custom) {
                 text = getResources().getString(R.string.msg_custom);
             }
-            if(elem.getType() == TIMElemType.Face) {
+            if (elem.getType() == TIMElemType.Face) {
                 text = getResources().getString(R.string.msg_face);
             }
             String sender = message.getSender();
@@ -667,7 +666,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             values.put("num", count);
             values.put("isread", isRead + "");
             SQLiteUtil util = new SQLiteUtil(getContext());
-            util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[] {sender});
+            util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
 
         }
 
@@ -725,6 +724,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 mViewPager.setCurrentItem(((Short.MAX_VALUE / 2) / imageList.size()) * imageList.size(), false);
                 setCurPage(0 % imageList.size(), imageList.size());
             }
+//            sendScrollMessage(3000);
 
             mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -888,26 +888,26 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         if (msgs.size() > 0) {
                             message = msgs.get(0);
                             TIMElem elem = message.getElement(0);
-                            if(elem == null) {
+                            if (elem == null) {
                                 return;
                             }
                             if (elem.getType() == TIMElemType.Text) {
                                 TIMTextElem e = (TIMTextElem) elem;
                                 text = e.getText();
                             }
-                            if(elem.getType() == TIMElemType.Image) {
+                            if (elem.getType() == TIMElemType.Image) {
                                 text = getResources().getString(R.string.msg_image);
                             }
-                            if(elem.getType() == TIMElemType.Sound) {
+                            if (elem.getType() == TIMElemType.Sound) {
                                 text = getResources().getString(R.string.msg_audio);
                             }
-                            if(elem.getType() == TIMElemType.Video) {
+                            if (elem.getType() == TIMElemType.Video) {
                                 text = getResources().getString(R.string.msg_video);
                             }
-                            if(elem.getType() == TIMElemType.Custom) {
+                            if (elem.getType() == TIMElemType.Custom) {
                                 text = getResources().getString(R.string.msg_custom);
                             }
-                            if(elem.getType() == TIMElemType.Face) {
+                            if (elem.getType() == TIMElemType.Face) {
                                 text = getResources().getString(R.string.msg_face);
                             }
                             String sender = message.getSender();
@@ -941,15 +941,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             SQLiteUtil util = new SQLiteUtil(getContext());
                             boolean isUpdate = false;
                             Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
-                            while(cursor.moveToNext()) {
+                            while (cursor.moveToNext()) {
                                 String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
-                                if(sender.equalsIgnoreCase(uid)) {
+                                if (sender.equalsIgnoreCase(uid)) {
                                     isUpdate = true;
                                 }
                             }
-                            if(isUpdate) {
-                                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[] {sender});
-                            }else {
+                            if (isUpdate) {
+                                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+                            } else {
                                 util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
                             }
                         }
@@ -959,10 +959,69 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 });
     }
 
-    private boolean isCity(){
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))){
+    private boolean isCity() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
             return true;
         }
-       return false;
+        return false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLoop();
+    }
+
+    /**
+     * 停止轮询
+     */
+    private void stopLoop() {
+        cancel();
+    }
+
+    /**
+     * RxJava轮询器
+     */
+    private void autoLoop() {
+        Observable.interval(5000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+
+                    public void onSubscribe(Disposable d) {
+                        mDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Long aLong) {
+                        if (mViewPagerAdapter != null) {
+                            int currentIndex = mViewPager.getCurrentItem();
+                            if (++currentIndex == mViewPagerAdapter.getCount()) {
+                                mViewPager.setCurrentItem(0);
+                            } else {
+                                mViewPager.setCurrentItem(currentIndex, true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        cancel();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        cancel();
+                    }
+                });
+
+    }
+
+    /**
+     * 取消订阅
+     */
+    public void cancel() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 }

@@ -112,7 +112,16 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 //    private ImageView mImageViewStickHotClick;
 
     private ImageView mImageViewStickZeroC;
-//    private ImageView mImageViewStickZeroClick;
+
+    private ImageView mRelativeLayoutStickZeroC;
+    private ImageView mRelativeLayoutStickReturn;
+    private ImageView mRelativeLayoutStickHot;
+    private ImageView mRelativeLayoutStickThrow;
+    private ImageView mRelativeLayoutStickBetter;
+    private ImageView mRelativeLayoutStickLow;
+    private ImageView mRelativeLayoutStickNew;
+    private ImageView mRelativeLayoutStickRate;
+
 
     private TextView mTextViewConfirm;
     private int news = 0;
@@ -150,11 +159,13 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     private String Traffic;
     private String Address;
     private String Consume;
-    private String Activity ;
-    private String Stay ;
+    private String Activity;
+    private String Stay;
     private String Other;
 
     private String type = null;
+
+    private TextView mTextViewTopMessage;
 
 
     @Override
@@ -239,6 +250,22 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
         mTextViewConfirm = (TextView) findViewById(R.id.confirm);
 
+        mTextViewTopMessage = findViewById(R.id.top_message);
+
+        mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
+
+
+        mRelativeLayoutStickNew = findViewById(R.id.rl_stick_new);
+        mRelativeLayoutStickBetter = findViewById(R.id.rl_stick_better);
+        mRelativeLayoutStickLow = findViewById(R.id.rl_stick_low);
+        mRelativeLayoutStickRate = findViewById(R.id.rl_stick_rate);
+        mRelativeLayoutStickReturn = findViewById(R.id.rl_stick_return);
+        mRelativeLayoutStickHot = findViewById(R.id.rl_stick_hot);
+        mRelativeLayoutStickThrow = findViewById(R.id.rl_stick_throw);
+        mRelativeLayoutStickZeroC = findViewById(R.id.rl_stick_zeroC);
+
+
+
         mImageViewShuaiWei.setOnClickListener(this);
         mImageViewShuaiWeiClick.setOnClickListener(this);
         mImageViewCaiXian.setOnClickListener(this);
@@ -265,12 +292,33 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         mRelativeLayoutHotType.setOnClickListener(this);
         mRelativeLayoutDayType.setOnClickListener(this);
         mRelativeLayoutRelease1Type.setOnClickListener(this);
+
+        mRelativeLayoutStickZeroC.setOnClickListener(this);
+        mRelativeLayoutStickBetter.setOnClickListener(this);
+        mRelativeLayoutStickLow.setOnClickListener(this);
+        mRelativeLayoutStickReturn.setOnClickListener(this);
+        mRelativeLayoutStickRate.setOnClickListener(this);
+        mRelativeLayoutStickHot.setOnClickListener(this);
+        mRelativeLayoutStickThrow.setOnClickListener(this);
+        mRelativeLayoutStickNew.setOnClickListener(this);
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,1);
         selectTravelTab();
         deteledData();
+        getUseInfo();
+        httpUtil = new HttpUtil();
+        selImageList = new ArrayList<>();
+        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter.setOnItemClickListener(this);
+        mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerViewAddPicture.setHasFixedSize(true);
+        mRecyclerViewAddPicture.setAdapter(adapter);
+
+        mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+        SetEnabled();
     }
 
     @Override
@@ -296,7 +344,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 mImageViewShuaiWei.setVisibility(View.VISIBLE);
                 caixian = 1;
                 break;
-            case R.id.stick_better:
+            case R.id.rl_stick_better:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -315,7 +363,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 returns = 0;
                 zeroC = 0;
                 break;
-            case R.id.stick_hot:
+            case R.id.rl_stick_hot:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
@@ -335,7 +383,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 break;
 
 
-            case R.id.stick_new:
+            case R.id.rl_stick_new:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -354,7 +402,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 0;
                 break;
 
-            case R.id.stick_low:
+            case R.id.rl_stick_low:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -373,7 +421,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 0;
                 break;
 
-            case R.id.stick_throw:
+            case R.id.rl_stick_throw:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -392,7 +440,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 0;
                 break;
 
-            case R.id.stick_rate:
+            case R.id.rl_stick_rate:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -411,7 +459,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 0;
                 break;
 
-            case R.id.stick_return:
+            case R.id.rl_stick_return:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -430,7 +478,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 0;
                 break;
 
-            case R.id.stick_zeroC:
+            case R.id.rl_stick_zeroC:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -792,7 +840,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             } else {
                 pickupPrices = 0;
             }
-        }else {
+        } else {
             Toast.makeText(this, "请选择有无接送费", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -801,7 +849,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         } else {
             stick = 1;
         }
-        showProgressDialog();
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
         KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
 
@@ -826,6 +873,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             return;
         }
 
+        showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
         map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_CODE));
@@ -919,7 +967,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                         array.put(jsonObject);
 
                         res.put("type", 2);
-                        res.put("arrData" , array);
+                        res.put("arrData", array);
                         String result = res.toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("msg", result);
@@ -941,5 +989,70 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             dialog.show();
         }
         return dialog;
+    }
+
+    private void getUseInfo() {
+        ApiModule.getInstance().getUserInfo(String.valueOf(PreferenceUtil.getInt(UID)))
+                .subscribe(loginEntity -> {
+                    PreferenceUtil.putInt(Constanst.TOP_ZHIDING, loginEntity.getStickNumber());
+
+                }, throwable -> {
+//                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    KyLog.d(throwable.getMessage());
+                    PreferenceUtil.putInt(Constanst.TOP_ZHIDING,0);
+
+                });
+    }
+
+    private void SetEnabled() {
+        if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) <= 0) {
+            mRelativeLayoutStickBetter.setEnabled(false);
+            mRelativeLayoutStickBetter.setFocusable(false);
+
+            mRelativeLayoutStickHot.setEnabled(false);
+            mRelativeLayoutStickHot.setFocusable(false);
+
+            mRelativeLayoutStickLow.setEnabled(false);
+            mRelativeLayoutStickLow.setFocusable(false);
+
+            mRelativeLayoutStickNew.setEnabled(false);
+            mRelativeLayoutStickNew.setFocusable(false);
+
+            mRelativeLayoutStickRate.setEnabled(false);
+            mRelativeLayoutStickRate.setFocusable(false);
+
+            mRelativeLayoutStickReturn.setEnabled(false);
+            mRelativeLayoutStickReturn.setFocusable(false);
+
+            mRelativeLayoutStickThrow.setEnabled(false);
+            mRelativeLayoutStickThrow.setFocusable(false);
+
+            mRelativeLayoutStickZeroC.setEnabled(false);
+            mRelativeLayoutStickZeroC.setFocusable(false);
+        }else {
+            mRelativeLayoutStickBetter.setEnabled(true);
+            mRelativeLayoutStickBetter.setFocusable(true);
+
+            mRelativeLayoutStickHot.setEnabled(true);
+            mRelativeLayoutStickHot.setFocusable(true);
+
+            mRelativeLayoutStickLow.setEnabled(true);
+            mRelativeLayoutStickLow.setFocusable(true);
+
+            mRelativeLayoutStickNew.setEnabled(true);
+            mRelativeLayoutStickNew.setFocusable(true);
+
+            mRelativeLayoutStickRate.setEnabled(true);
+            mRelativeLayoutStickRate.setFocusable(true);
+
+            mRelativeLayoutStickReturn.setEnabled(true);
+            mRelativeLayoutStickReturn.setFocusable(true);
+
+            mRelativeLayoutStickThrow.setEnabled(true);
+            mRelativeLayoutStickThrow.setFocusable(true);
+
+            mRelativeLayoutStickZeroC.setEnabled(true);
+            mRelativeLayoutStickZeroC.setFocusable(true);
+        }
     }
 }

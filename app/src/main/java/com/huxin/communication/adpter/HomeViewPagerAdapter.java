@@ -1,14 +1,18 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.huxin.communication.entity.HomeEntity;
+import com.huxin.communication.ui.cammer.ImagePickerAdapter;
+import com.huxin.communication.ui.house.details.ImageActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -71,6 +75,14 @@ public class HomeViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView mImageView = mImageViews.get(position % mImageViews.size());
         container.addView(mImageView);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,ImageActivity.class);
+                intent.putExtra("url",mlist.get(position % mImageViews.size()).getUrl());
+                mContext.startActivity(intent);
+            }
+        });
         return mImageView;
     }
 

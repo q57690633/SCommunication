@@ -58,6 +58,9 @@ public class SellAdpter extends RecyclerView.Adapter<SellAdpter.MyViewHoder> {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(mContext, SimilarDetailsActivity.class);
+                intent1.putExtra("productType", list.get(hoder.getAdapterPosition()).getProductType());
+                intent1.putExtra("pid", list.get(hoder.getAdapterPosition()).getId());
+
                 mContext.startActivity(intent1);
             }
         });

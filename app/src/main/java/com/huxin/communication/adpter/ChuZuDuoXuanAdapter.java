@@ -129,8 +129,8 @@ public class ChuZuDuoXuanAdapter extends RecyclerView.Adapter<ChuZuDuoXuanAdapte
 
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+//        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).get()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getPrice()) + "元/月");
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
 

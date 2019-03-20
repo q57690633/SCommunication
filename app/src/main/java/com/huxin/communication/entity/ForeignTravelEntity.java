@@ -45,35 +45,38 @@ public class ForeignTravelEntity implements Parcelable {
 
 
         /**
-         * companyName :
+         * companyName : 北京极联互动科技有限公司
          * curPage :
-         * depart_name : 北京市
-         * depart_pro_name : 北京
+         * depart_name : 100000
+         * depart_pro_name : 河北省
          * files : []
-         * final_price : 4800
-         * final_price_child : 0
+         * final_price : 121.0
+         * final_price_child : 0.0
          * generalize :
-         * goals_city :
-         * goals_name : 伦敦
-         * goals_nat_name : 英国
-         * headUrl :
-         * id : 1
-         * issue_count : 2
-         * issue_time : 2019-01-17 13:17:28
+         * goals_name : 蒙特利尔
+         * goals_nat_name : 加拿大
+         * headUrl : http://39.105.203.33/upload/1552671345862/1552671345862_72.png
+         * id : 30
+         * ifSevenInfo : 0
+         * isCollect : 0
+         * issue_count : 1
+         * issue_time : 2019-03-19 03:35:55
          * keyWord :
-         * line_or_throw : 1
-         * max_days : 30
-         * max_price : 10000
+         * line_or_throw : 0
+         * max_days : 0
+         * max_price : 0.0
          * minPri_maxPri :
          * min_days : 0
-         * min_price : 1000
-         * number_days : 20
+         * min_price : 0.0
+         * number_days : 3
          * photo_url :
-         * pickup_price : 0
-         * return_price : 200
-         * return_price_child : 0
+         * pickup_price : 1
+         * qrCode_url :
+         * return_price : 2.0
+         * return_price_child : 0.0
+         * sevenDays_ago :
          * sort_type : 0
-         * spot_name : 巴黎圣母院
+         * spot_name : 圣母大教堂
          * stick : 1
          * stick_better : 0
          * stick_hot : 0
@@ -83,50 +86,56 @@ public class ForeignTravelEntity implements Parcelable {
          * stick_rate : 0
          * stick_return : 0
          * stick_throw : 0
+         * stick_time : 1552937754668
          * stick_zeroC : 0
-         * t_activity_id : 萨达啥
-         * t_address_id : 女神,哈哈
-         * t_consume_id : 萨达
-         * t_other_id : 大达到
-         * t_overseas_id : 黑寡妇
-         * t_stay_id : 大大神
-         * t_traffic_id : 大sad
-         * tagName : 女神,哈哈,萨达啥,萨达,黑寡妇,大大神,大达到
-         * total_price : 5000
-         * total_price_child : 0
-         * travel_title : 粉底霜房间看电视
-         * uid : 1
-         * userCity : 长春市
-         * username : zail
-         * view_count : 1
+         * t_activity_id :
+         * t_address_id :
+         * t_consume_id :
+         * t_other_id :
+         * t_overseas_id :
+         * t_stay_id :
+         * t_traffic_id :
+         * tagName :
+         * total_price : 123.0
+         * total_price_child : 0.0
+         * travel_title :
+         * uid : 70
+         * userCity : 保定市
+         * userPhone : 19937057195
+         * user_idForCol : 70
+         * username : 同业用户
+         * view_count : 0
          */
 
         private String companyName;
         private String curPage;
         private String depart_name;
         private String depart_pro_name;
-        private int final_price;
-        private int final_price_child;
+        private double final_price;
+        private double final_price_child;
         private String generalize;
-        private String goals_city;
         private String goals_name;
         private String goals_nat_name;
         private String headUrl;
         private int id;
+        private int ifSevenInfo;
+        private int isCollect;
         private int issue_count;
         private String issue_time;
         private String keyWord;
         private int line_or_throw;
         private int max_days;
-        private int max_price;
+        private double max_price;
         private String minPri_maxPri;
         private int min_days;
-        private int min_price;
+        private double min_price;
         private int number_days;
         private String photo_url;
         private int pickup_price;
-        private int return_price;
-        private int return_price_child;
+        private String qrCode_url;
+        private double return_price;
+        private double return_price_child;
+        private String sevenDays_ago;
         private int sort_type;
         private String spot_name;
         private int stick;
@@ -138,6 +147,7 @@ public class ForeignTravelEntity implements Parcelable {
         private int stick_rate;
         private int stick_return;
         private int stick_throw;
+        private long stick_time;
         private int stick_zeroC;
         private String t_activity_id;
         private String t_address_id;
@@ -147,32 +157,17 @@ public class ForeignTravelEntity implements Parcelable {
         private String t_stay_id;
         private String t_traffic_id;
         private String tagName;
-        private int total_price;
-        private int total_price_child;
+        private double total_price;
+        private double total_price_child;
         private String travel_title;
         private int uid;
         private String userCity;
+        private String userPhone;
+        private int user_idForCol;
         private String username;
         private int view_count;
         private List<String> files;
-        private String qrCode_url;
-        private String isCollect;
 
-        public String getQrCode_url() {
-            return qrCode_url;
-        }
-
-        public void setQrCode_url(String qrCode_url) {
-            this.qrCode_url = qrCode_url;
-        }
-
-        public String getIsCollect() {
-            return isCollect;
-        }
-
-        public void setIsCollect(String isCollect) {
-            this.isCollect = isCollect;
-        }
         public String getCompanyName() {
             return companyName;
         }
@@ -205,19 +200,19 @@ public class ForeignTravelEntity implements Parcelable {
             this.depart_pro_name = depart_pro_name;
         }
 
-        public int getFinal_price() {
+        public double getFinal_price() {
             return final_price;
         }
 
-        public void setFinal_price(int final_price) {
+        public void setFinal_price(double final_price) {
             this.final_price = final_price;
         }
 
-        public int getFinal_price_child() {
+        public double getFinal_price_child() {
             return final_price_child;
         }
 
-        public void setFinal_price_child(int final_price_child) {
+        public void setFinal_price_child(double final_price_child) {
             this.final_price_child = final_price_child;
         }
 
@@ -227,14 +222,6 @@ public class ForeignTravelEntity implements Parcelable {
 
         public void setGeneralize(String generalize) {
             this.generalize = generalize;
-        }
-
-        public String getGoals_city() {
-            return goals_city;
-        }
-
-        public void setGoals_city(String goals_city) {
-            this.goals_city = goals_city;
         }
 
         public String getGoals_name() {
@@ -267,6 +254,22 @@ public class ForeignTravelEntity implements Parcelable {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getIfSevenInfo() {
+            return ifSevenInfo;
+        }
+
+        public void setIfSevenInfo(int ifSevenInfo) {
+            this.ifSevenInfo = ifSevenInfo;
+        }
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
         }
 
         public int getIssue_count() {
@@ -309,11 +312,11 @@ public class ForeignTravelEntity implements Parcelable {
             this.max_days = max_days;
         }
 
-        public int getMax_price() {
+        public double getMax_price() {
             return max_price;
         }
 
-        public void setMax_price(int max_price) {
+        public void setMax_price(double max_price) {
             this.max_price = max_price;
         }
 
@@ -333,11 +336,11 @@ public class ForeignTravelEntity implements Parcelable {
             this.min_days = min_days;
         }
 
-        public int getMin_price() {
+        public double getMin_price() {
             return min_price;
         }
 
-        public void setMin_price(int min_price) {
+        public void setMin_price(double min_price) {
             this.min_price = min_price;
         }
 
@@ -365,20 +368,36 @@ public class ForeignTravelEntity implements Parcelable {
             this.pickup_price = pickup_price;
         }
 
-        public int getReturn_price() {
+        public String getQrCode_url() {
+            return qrCode_url;
+        }
+
+        public void setQrCode_url(String qrCode_url) {
+            this.qrCode_url = qrCode_url;
+        }
+
+        public double getReturn_price() {
             return return_price;
         }
 
-        public void setReturn_price(int return_price) {
+        public void setReturn_price(double return_price) {
             this.return_price = return_price;
         }
 
-        public int getReturn_price_child() {
+        public double getReturn_price_child() {
             return return_price_child;
         }
 
-        public void setReturn_price_child(int return_price_child) {
+        public void setReturn_price_child(double return_price_child) {
             this.return_price_child = return_price_child;
+        }
+
+        public String getSevenDays_ago() {
+            return sevenDays_ago;
+        }
+
+        public void setSevenDays_ago(String sevenDays_ago) {
+            this.sevenDays_ago = sevenDays_ago;
         }
 
         public int getSort_type() {
@@ -469,6 +488,14 @@ public class ForeignTravelEntity implements Parcelable {
             this.stick_throw = stick_throw;
         }
 
+        public long getStick_time() {
+            return stick_time;
+        }
+
+        public void setStick_time(long stick_time) {
+            this.stick_time = stick_time;
+        }
+
         public int getStick_zeroC() {
             return stick_zeroC;
         }
@@ -541,19 +568,19 @@ public class ForeignTravelEntity implements Parcelable {
             this.tagName = tagName;
         }
 
-        public int getTotal_price() {
+        public double getTotal_price() {
             return total_price;
         }
 
-        public void setTotal_price(int total_price) {
+        public void setTotal_price(double total_price) {
             this.total_price = total_price;
         }
 
-        public int getTotal_price_child() {
+        public double getTotal_price_child() {
             return total_price_child;
         }
 
-        public void setTotal_price_child(int total_price_child) {
+        public void setTotal_price_child(double total_price_child) {
             this.total_price_child = total_price_child;
         }
 
@@ -579,6 +606,22 @@ public class ForeignTravelEntity implements Parcelable {
 
         public void setUserCity(String userCity) {
             this.userCity = userCity;
+        }
+
+        public String getUserPhone() {
+            return userPhone;
+        }
+
+        public void setUserPhone(String userPhone) {
+            this.userPhone = userPhone;
+        }
+
+        public int getUser_idForCol() {
+            return user_idForCol;
+        }
+
+        public void setUser_idForCol(int user_idForCol) {
+            this.user_idForCol = user_idForCol;
         }
 
         public String getUsername() {
@@ -616,28 +659,31 @@ public class ForeignTravelEntity implements Parcelable {
             dest.writeString(this.curPage);
             dest.writeString(this.depart_name);
             dest.writeString(this.depart_pro_name);
-            dest.writeInt(this.final_price);
-            dest.writeInt(this.final_price_child);
+            dest.writeDouble(this.final_price);
+            dest.writeDouble(this.final_price_child);
             dest.writeString(this.generalize);
-            dest.writeString(this.goals_city);
             dest.writeString(this.goals_name);
             dest.writeString(this.goals_nat_name);
             dest.writeString(this.headUrl);
             dest.writeInt(this.id);
+            dest.writeInt(this.ifSevenInfo);
+            dest.writeInt(this.isCollect);
             dest.writeInt(this.issue_count);
             dest.writeString(this.issue_time);
             dest.writeString(this.keyWord);
             dest.writeInt(this.line_or_throw);
             dest.writeInt(this.max_days);
-            dest.writeInt(this.max_price);
+            dest.writeDouble(this.max_price);
             dest.writeString(this.minPri_maxPri);
             dest.writeInt(this.min_days);
-            dest.writeInt(this.min_price);
+            dest.writeDouble(this.min_price);
             dest.writeInt(this.number_days);
             dest.writeString(this.photo_url);
             dest.writeInt(this.pickup_price);
-            dest.writeInt(this.return_price);
-            dest.writeInt(this.return_price_child);
+            dest.writeString(this.qrCode_url);
+            dest.writeDouble(this.return_price);
+            dest.writeDouble(this.return_price_child);
+            dest.writeString(this.sevenDays_ago);
             dest.writeInt(this.sort_type);
             dest.writeString(this.spot_name);
             dest.writeInt(this.stick);
@@ -649,6 +695,7 @@ public class ForeignTravelEntity implements Parcelable {
             dest.writeInt(this.stick_rate);
             dest.writeInt(this.stick_return);
             dest.writeInt(this.stick_throw);
+            dest.writeLong(this.stick_time);
             dest.writeInt(this.stick_zeroC);
             dest.writeString(this.t_activity_id);
             dest.writeString(this.t_address_id);
@@ -658,11 +705,13 @@ public class ForeignTravelEntity implements Parcelable {
             dest.writeString(this.t_stay_id);
             dest.writeString(this.t_traffic_id);
             dest.writeString(this.tagName);
-            dest.writeInt(this.total_price);
-            dest.writeInt(this.total_price_child);
+            dest.writeDouble(this.total_price);
+            dest.writeDouble(this.total_price_child);
             dest.writeString(this.travel_title);
             dest.writeInt(this.uid);
             dest.writeString(this.userCity);
+            dest.writeString(this.userPhone);
+            dest.writeInt(this.user_idForCol);
             dest.writeString(this.username);
             dest.writeInt(this.view_count);
             dest.writeStringList(this.files);
@@ -676,28 +725,31 @@ public class ForeignTravelEntity implements Parcelable {
             this.curPage = in.readString();
             this.depart_name = in.readString();
             this.depart_pro_name = in.readString();
-            this.final_price = in.readInt();
-            this.final_price_child = in.readInt();
+            this.final_price = in.readDouble();
+            this.final_price_child = in.readDouble();
             this.generalize = in.readString();
-            this.goals_city = in.readString();
             this.goals_name = in.readString();
             this.goals_nat_name = in.readString();
             this.headUrl = in.readString();
             this.id = in.readInt();
+            this.ifSevenInfo = in.readInt();
+            this.isCollect = in.readInt();
             this.issue_count = in.readInt();
             this.issue_time = in.readString();
             this.keyWord = in.readString();
             this.line_or_throw = in.readInt();
             this.max_days = in.readInt();
-            this.max_price = in.readInt();
+            this.max_price = in.readDouble();
             this.minPri_maxPri = in.readString();
             this.min_days = in.readInt();
-            this.min_price = in.readInt();
+            this.min_price = in.readDouble();
             this.number_days = in.readInt();
             this.photo_url = in.readString();
             this.pickup_price = in.readInt();
-            this.return_price = in.readInt();
-            this.return_price_child = in.readInt();
+            this.qrCode_url = in.readString();
+            this.return_price = in.readDouble();
+            this.return_price_child = in.readDouble();
+            this.sevenDays_ago = in.readString();
             this.sort_type = in.readInt();
             this.spot_name = in.readString();
             this.stick = in.readInt();
@@ -709,6 +761,7 @@ public class ForeignTravelEntity implements Parcelable {
             this.stick_rate = in.readInt();
             this.stick_return = in.readInt();
             this.stick_throw = in.readInt();
+            this.stick_time = in.readLong();
             this.stick_zeroC = in.readInt();
             this.t_activity_id = in.readString();
             this.t_address_id = in.readString();
@@ -718,17 +771,19 @@ public class ForeignTravelEntity implements Parcelable {
             this.t_stay_id = in.readString();
             this.t_traffic_id = in.readString();
             this.tagName = in.readString();
-            this.total_price = in.readInt();
-            this.total_price_child = in.readInt();
+            this.total_price = in.readDouble();
+            this.total_price_child = in.readDouble();
             this.travel_title = in.readString();
             this.uid = in.readInt();
             this.userCity = in.readString();
+            this.userPhone = in.readString();
+            this.user_idForCol = in.readInt();
             this.username = in.readString();
             this.view_count = in.readInt();
             this.files = in.createStringArrayList();
         }
 
-        public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
             @Override
             public ListBean createFromParcel(Parcel source) {
                 return new ListBean(source);

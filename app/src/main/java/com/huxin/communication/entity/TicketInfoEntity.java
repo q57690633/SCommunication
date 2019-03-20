@@ -45,42 +45,39 @@ public class TicketInfoEntity implements Parcelable {
 
 
         /**
-         * companyName :
+         * companyName : 北京极联互动科技有限公司
          * curPage :
          * files : []
-         * final_boat : 30
-         * final_car : 20
-         * final_price : 9
-         * final_price_child : 10
-         * final_price_evening : 30.2
-         * final_price_family : 21
-         * final_price_parent_child : 20
-         * goals_city :
-         * headUrl : /upload/1547465839612/1547465839612_12.jpg
-         * id : 1
-         * issue_count : 3
-         * issue_time : 2019-01-17 13:52:06
+         * final_boat : 0.0
+         * final_car : 0.0
+         * final_price : 100.0
+         * final_price_child : 0.0
+         * final_price_evening : 0.0
+         * final_price_family : 0.0
+         * final_price_parent_child : 0.0
+         * final_price_total : 0.0
+         * headUrl : http://39.105.203.33/upload/1552671345862/1552671345862_72.png
+         * id : 55
+         * ifSevenInfo : 0
+         * isCollect : 0
+         * issue_count : 1
+         * issue_time : 2019-03-19 03:42:43
          * keyWord :
          * line_or_throw : 0
-         * max_price : 0
+         * max_price : 0.0
          * minPri_maxPri :
-         * min_price : 0
-         * open_time : 9:00-18:00
-         * original_boat : 25
-         * original_car : 22
-         * original_price : 10
-         * original_price_child : 15
-         * original_price_evening : 20.2
-         * original_price_family : 40.5
-         * original_price_parent_child : 25.2
+         * min_price : 0.0
+         * open_time : 03:42~10:42
+         * original_boat : 0.0
+         * original_car : 0.0
+         * original_price : 200.0
+         * original_price_child : 0.0
+         * original_price_evening : 0.0
+         * original_price_family : 0.0
+         * original_price_parent_child : 0.0
+         * original_price_total : 0.0
          * photo_url :
-         * return_boat : 2
-         * return_car : 2
-         * return_price : 1
-         * return_price_child : 1
-         * return_price_evening : 2
-         * return_price_family : 20
-         * return_price_parent_child : 22
+         * sevenDays_ago :
          * sort_type : 0
          * stick : 1
          * stick_better : 0
@@ -91,57 +88,58 @@ public class TicketInfoEntity implements Parcelable {
          * stick_rate : 0
          * stick_return : 0
          * stick_throw : 0
+         * stick_time : 1552938163064
          * stick_zeroC : 0
-         * tagName : 欢乐谷,海洋世界,滑雪
-         * ticket_activity_id : 滑雪
-         * ticket_addr : 坡子街1号
-         * ticket_city_name : 长沙市
-         * ticket_name : 博物馆
-         * ticket_other_id :
-         * ticket_pro_name : 湖南省
-         * ticket_theme_id : 欢乐谷,海洋世界
+         * tagName : 美食,购物,大巴游
+         * ticket_activity_id : 美食,购物
+         * ticket_addr : 北京北京市
+         * ticket_city_name : 北京市
+         * ticket_name : 故宫
+         * ticket_other_id : 大巴游
+         * ticket_pro_code : 110000
+         * ticket_pro_name : 北京
+         * ticket_theme_id :
          * ticket_type : 1
-         * uid : 13
-         * userCity : 石家庄
-         * username : fds
+         * uid : 70
+         * userCity : 保定市
+         * userPhone : 19937057195
+         * user_idForCol : 70
+         * username : 同业用户
          * view_count : 0
          */
 
         private String companyName;
         private String curPage;
-        private int final_boat;
-        private int final_car;
-        private int final_price;
-        private int final_price_child;
+        private double final_boat;
+        private double final_car;
+        private double final_price;
+        private double final_price_child;
         private double final_price_evening;
-        private int final_price_family;
-        private int final_price_parent_child;
-        private String goals_city;
+        private double final_price_family;
+        private double final_price_parent_child;
+        private double final_price_total;
         private String headUrl;
         private int id;
+        private int ifSevenInfo;
+        private int isCollect;
         private int issue_count;
         private String issue_time;
         private String keyWord;
         private int line_or_throw;
-        private int max_price;
+        private double max_price;
         private String minPri_maxPri;
-        private int min_price;
+        private double min_price;
         private String open_time;
-        private int original_boat;
-        private int original_car;
-        private int original_price;
-        private int original_price_child;
+        private double original_boat;
+        private double original_car;
+        private double original_price;
+        private double original_price_child;
         private double original_price_evening;
         private double original_price_family;
         private double original_price_parent_child;
+        private double original_price_total;
         private String photo_url;
-        private int return_boat;
-        private int return_car;
-        private int return_price;
-        private int return_price_child;
-        private int return_price_evening;
-        private int return_price_family;
-        private int return_price_parent_child;
+        private String sevenDays_ago;
         private int sort_type;
         private int stick;
         private int stick_better;
@@ -152,6 +150,7 @@ public class TicketInfoEntity implements Parcelable {
         private int stick_rate;
         private int stick_return;
         private int stick_throw;
+        private long stick_time;
         private int stick_zeroC;
         private String tagName;
         private String ticket_activity_id;
@@ -159,24 +158,18 @@ public class TicketInfoEntity implements Parcelable {
         private String ticket_city_name;
         private String ticket_name;
         private String ticket_other_id;
+        private String ticket_pro_code;
         private String ticket_pro_name;
         private String ticket_theme_id;
         private int ticket_type;
         private int uid;
         private String userCity;
+        private String userPhone;
+        private int user_idForCol;
         private String username;
         private int view_count;
         private List<String> files;
         private String generalize;
-        private String isCollect;
-
-        public String getIsCollect() {
-            return isCollect;
-        }
-
-        public void setIsCollect(String isCollect) {
-            this.isCollect = isCollect;
-        }
 
         public String getGeneralize() {
             return generalize;
@@ -202,35 +195,35 @@ public class TicketInfoEntity implements Parcelable {
             this.curPage = curPage;
         }
 
-        public int getFinal_boat() {
+        public double getFinal_boat() {
             return final_boat;
         }
 
-        public void setFinal_boat(int final_boat) {
+        public void setFinal_boat(double final_boat) {
             this.final_boat = final_boat;
         }
 
-        public int getFinal_car() {
+        public double getFinal_car() {
             return final_car;
         }
 
-        public void setFinal_car(int final_car) {
+        public void setFinal_car(double final_car) {
             this.final_car = final_car;
         }
 
-        public int getFinal_price() {
+        public double getFinal_price() {
             return final_price;
         }
 
-        public void setFinal_price(int final_price) {
+        public void setFinal_price(double final_price) {
             this.final_price = final_price;
         }
 
-        public int getFinal_price_child() {
+        public double getFinal_price_child() {
             return final_price_child;
         }
 
-        public void setFinal_price_child(int final_price_child) {
+        public void setFinal_price_child(double final_price_child) {
             this.final_price_child = final_price_child;
         }
 
@@ -242,28 +235,28 @@ public class TicketInfoEntity implements Parcelable {
             this.final_price_evening = final_price_evening;
         }
 
-        public int getFinal_price_family() {
+        public double getFinal_price_family() {
             return final_price_family;
         }
 
-        public void setFinal_price_family(int final_price_family) {
+        public void setFinal_price_family(double final_price_family) {
             this.final_price_family = final_price_family;
         }
 
-        public int getFinal_price_parent_child() {
+        public double getFinal_price_parent_child() {
             return final_price_parent_child;
         }
 
-        public void setFinal_price_parent_child(int final_price_parent_child) {
+        public void setFinal_price_parent_child(double final_price_parent_child) {
             this.final_price_parent_child = final_price_parent_child;
         }
 
-        public String getGoals_city() {
-            return goals_city;
+        public double getFinal_price_total() {
+            return final_price_total;
         }
 
-        public void setGoals_city(String goals_city) {
-            this.goals_city = goals_city;
+        public void setFinal_price_total(double final_price_total) {
+            this.final_price_total = final_price_total;
         }
 
         public String getHeadUrl() {
@@ -280,6 +273,22 @@ public class TicketInfoEntity implements Parcelable {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getIfSevenInfo() {
+            return ifSevenInfo;
+        }
+
+        public void setIfSevenInfo(int ifSevenInfo) {
+            this.ifSevenInfo = ifSevenInfo;
+        }
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
         }
 
         public int getIssue_count() {
@@ -314,11 +323,11 @@ public class TicketInfoEntity implements Parcelable {
             this.line_or_throw = line_or_throw;
         }
 
-        public int getMax_price() {
+        public double getMax_price() {
             return max_price;
         }
 
-        public void setMax_price(int max_price) {
+        public void setMax_price(double max_price) {
             this.max_price = max_price;
         }
 
@@ -330,11 +339,11 @@ public class TicketInfoEntity implements Parcelable {
             this.minPri_maxPri = minPri_maxPri;
         }
 
-        public int getMin_price() {
+        public double getMin_price() {
             return min_price;
         }
 
-        public void setMin_price(int min_price) {
+        public void setMin_price(double min_price) {
             this.min_price = min_price;
         }
 
@@ -346,35 +355,35 @@ public class TicketInfoEntity implements Parcelable {
             this.open_time = open_time;
         }
 
-        public int getOriginal_boat() {
+        public double getOriginal_boat() {
             return original_boat;
         }
 
-        public void setOriginal_boat(int original_boat) {
+        public void setOriginal_boat(double original_boat) {
             this.original_boat = original_boat;
         }
 
-        public int getOriginal_car() {
+        public double getOriginal_car() {
             return original_car;
         }
 
-        public void setOriginal_car(int original_car) {
+        public void setOriginal_car(double original_car) {
             this.original_car = original_car;
         }
 
-        public int getOriginal_price() {
+        public double getOriginal_price() {
             return original_price;
         }
 
-        public void setOriginal_price(int original_price) {
+        public void setOriginal_price(double original_price) {
             this.original_price = original_price;
         }
 
-        public int getOriginal_price_child() {
+        public double getOriginal_price_child() {
             return original_price_child;
         }
 
-        public void setOriginal_price_child(int original_price_child) {
+        public void setOriginal_price_child(double original_price_child) {
             this.original_price_child = original_price_child;
         }
 
@@ -402,6 +411,14 @@ public class TicketInfoEntity implements Parcelable {
             this.original_price_parent_child = original_price_parent_child;
         }
 
+        public double getOriginal_price_total() {
+            return original_price_total;
+        }
+
+        public void setOriginal_price_total(double original_price_total) {
+            this.original_price_total = original_price_total;
+        }
+
         public String getPhoto_url() {
             return photo_url;
         }
@@ -410,60 +427,12 @@ public class TicketInfoEntity implements Parcelable {
             this.photo_url = photo_url;
         }
 
-        public int getReturn_boat() {
-            return return_boat;
+        public String getSevenDays_ago() {
+            return sevenDays_ago;
         }
 
-        public void setReturn_boat(int return_boat) {
-            this.return_boat = return_boat;
-        }
-
-        public int getReturn_car() {
-            return return_car;
-        }
-
-        public void setReturn_car(int return_car) {
-            this.return_car = return_car;
-        }
-
-        public int getReturn_price() {
-            return return_price;
-        }
-
-        public void setReturn_price(int return_price) {
-            this.return_price = return_price;
-        }
-
-        public int getReturn_price_child() {
-            return return_price_child;
-        }
-
-        public void setReturn_price_child(int return_price_child) {
-            this.return_price_child = return_price_child;
-        }
-
-        public int getReturn_price_evening() {
-            return return_price_evening;
-        }
-
-        public void setReturn_price_evening(int return_price_evening) {
-            this.return_price_evening = return_price_evening;
-        }
-
-        public int getReturn_price_family() {
-            return return_price_family;
-        }
-
-        public void setReturn_price_family(int return_price_family) {
-            this.return_price_family = return_price_family;
-        }
-
-        public int getReturn_price_parent_child() {
-            return return_price_parent_child;
-        }
-
-        public void setReturn_price_parent_child(int return_price_parent_child) {
-            this.return_price_parent_child = return_price_parent_child;
+        public void setSevenDays_ago(String sevenDays_ago) {
+            this.sevenDays_ago = sevenDays_ago;
         }
 
         public int getSort_type() {
@@ -546,6 +515,14 @@ public class TicketInfoEntity implements Parcelable {
             this.stick_throw = stick_throw;
         }
 
+        public long getStick_time() {
+            return stick_time;
+        }
+
+        public void setStick_time(long stick_time) {
+            this.stick_time = stick_time;
+        }
+
         public int getStick_zeroC() {
             return stick_zeroC;
         }
@@ -602,6 +579,14 @@ public class TicketInfoEntity implements Parcelable {
             this.ticket_other_id = ticket_other_id;
         }
 
+        public String getTicket_pro_code() {
+            return ticket_pro_code;
+        }
+
+        public void setTicket_pro_code(String ticket_pro_code) {
+            this.ticket_pro_code = ticket_pro_code;
+        }
+
         public String getTicket_pro_name() {
             return ticket_pro_name;
         }
@@ -642,6 +627,22 @@ public class TicketInfoEntity implements Parcelable {
             this.userCity = userCity;
         }
 
+        public String getUserPhone() {
+            return userPhone;
+        }
+
+        public void setUserPhone(String userPhone) {
+            this.userPhone = userPhone;
+        }
+
+        public int getUser_idForCol() {
+            return user_idForCol;
+        }
+
+        public void setUser_idForCol(int user_idForCol) {
+            this.user_idForCol = user_idForCol;
+        }
+
         public String getUsername() {
             return username;
         }
@@ -675,39 +676,36 @@ public class TicketInfoEntity implements Parcelable {
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.companyName);
             dest.writeString(this.curPage);
-            dest.writeInt(this.final_boat);
-            dest.writeInt(this.final_car);
-            dest.writeInt(this.final_price);
-            dest.writeInt(this.final_price_child);
+            dest.writeDouble(this.final_boat);
+            dest.writeDouble(this.final_car);
+            dest.writeDouble(this.final_price);
+            dest.writeDouble(this.final_price_child);
             dest.writeDouble(this.final_price_evening);
-            dest.writeInt(this.final_price_family);
-            dest.writeInt(this.final_price_parent_child);
-            dest.writeString(this.goals_city);
+            dest.writeDouble(this.final_price_family);
+            dest.writeDouble(this.final_price_parent_child);
+            dest.writeDouble(this.final_price_total);
             dest.writeString(this.headUrl);
             dest.writeInt(this.id);
+            dest.writeInt(this.ifSevenInfo);
+            dest.writeInt(this.isCollect);
             dest.writeInt(this.issue_count);
             dest.writeString(this.issue_time);
             dest.writeString(this.keyWord);
             dest.writeInt(this.line_or_throw);
-            dest.writeInt(this.max_price);
+            dest.writeDouble(this.max_price);
             dest.writeString(this.minPri_maxPri);
-            dest.writeInt(this.min_price);
+            dest.writeDouble(this.min_price);
             dest.writeString(this.open_time);
-            dest.writeInt(this.original_boat);
-            dest.writeInt(this.original_car);
-            dest.writeInt(this.original_price);
-            dest.writeInt(this.original_price_child);
+            dest.writeDouble(this.original_boat);
+            dest.writeDouble(this.original_car);
+            dest.writeDouble(this.original_price);
+            dest.writeDouble(this.original_price_child);
             dest.writeDouble(this.original_price_evening);
             dest.writeDouble(this.original_price_family);
             dest.writeDouble(this.original_price_parent_child);
+            dest.writeDouble(this.original_price_total);
             dest.writeString(this.photo_url);
-            dest.writeInt(this.return_boat);
-            dest.writeInt(this.return_car);
-            dest.writeInt(this.return_price);
-            dest.writeInt(this.return_price_child);
-            dest.writeInt(this.return_price_evening);
-            dest.writeInt(this.return_price_family);
-            dest.writeInt(this.return_price_parent_child);
+            dest.writeString(this.sevenDays_ago);
             dest.writeInt(this.sort_type);
             dest.writeInt(this.stick);
             dest.writeInt(this.stick_better);
@@ -718,6 +716,7 @@ public class TicketInfoEntity implements Parcelable {
             dest.writeInt(this.stick_rate);
             dest.writeInt(this.stick_return);
             dest.writeInt(this.stick_throw);
+            dest.writeLong(this.stick_time);
             dest.writeInt(this.stick_zeroC);
             dest.writeString(this.tagName);
             dest.writeString(this.ticket_activity_id);
@@ -725,15 +724,17 @@ public class TicketInfoEntity implements Parcelable {
             dest.writeString(this.ticket_city_name);
             dest.writeString(this.ticket_name);
             dest.writeString(this.ticket_other_id);
+            dest.writeString(this.ticket_pro_code);
             dest.writeString(this.ticket_pro_name);
             dest.writeString(this.ticket_theme_id);
             dest.writeInt(this.ticket_type);
             dest.writeInt(this.uid);
             dest.writeString(this.userCity);
+            dest.writeString(this.userPhone);
+            dest.writeInt(this.user_idForCol);
             dest.writeString(this.username);
             dest.writeInt(this.view_count);
             dest.writeStringList(this.files);
-            dest.writeString(this.generalize);
         }
 
         public ListBean() {
@@ -742,39 +743,36 @@ public class TicketInfoEntity implements Parcelable {
         protected ListBean(Parcel in) {
             this.companyName = in.readString();
             this.curPage = in.readString();
-            this.final_boat = in.readInt();
-            this.final_car = in.readInt();
-            this.final_price = in.readInt();
-            this.final_price_child = in.readInt();
+            this.final_boat = in.readDouble();
+            this.final_car = in.readDouble();
+            this.final_price = in.readDouble();
+            this.final_price_child = in.readDouble();
             this.final_price_evening = in.readDouble();
-            this.final_price_family = in.readInt();
-            this.final_price_parent_child = in.readInt();
-            this.goals_city = in.readString();
+            this.final_price_family = in.readDouble();
+            this.final_price_parent_child = in.readDouble();
+            this.final_price_total = in.readDouble();
             this.headUrl = in.readString();
             this.id = in.readInt();
+            this.ifSevenInfo = in.readInt();
+            this.isCollect = in.readInt();
             this.issue_count = in.readInt();
             this.issue_time = in.readString();
             this.keyWord = in.readString();
             this.line_or_throw = in.readInt();
-            this.max_price = in.readInt();
+            this.max_price = in.readDouble();
             this.minPri_maxPri = in.readString();
-            this.min_price = in.readInt();
+            this.min_price = in.readDouble();
             this.open_time = in.readString();
-            this.original_boat = in.readInt();
-            this.original_car = in.readInt();
-            this.original_price = in.readInt();
-            this.original_price_child = in.readInt();
+            this.original_boat = in.readDouble();
+            this.original_car = in.readDouble();
+            this.original_price = in.readDouble();
+            this.original_price_child = in.readDouble();
             this.original_price_evening = in.readDouble();
             this.original_price_family = in.readDouble();
             this.original_price_parent_child = in.readDouble();
+            this.original_price_total = in.readDouble();
             this.photo_url = in.readString();
-            this.return_boat = in.readInt();
-            this.return_car = in.readInt();
-            this.return_price = in.readInt();
-            this.return_price_child = in.readInt();
-            this.return_price_evening = in.readInt();
-            this.return_price_family = in.readInt();
-            this.return_price_parent_child = in.readInt();
+            this.sevenDays_ago = in.readString();
             this.sort_type = in.readInt();
             this.stick = in.readInt();
             this.stick_better = in.readInt();
@@ -785,6 +783,7 @@ public class TicketInfoEntity implements Parcelable {
             this.stick_rate = in.readInt();
             this.stick_return = in.readInt();
             this.stick_throw = in.readInt();
+            this.stick_time = in.readLong();
             this.stick_zeroC = in.readInt();
             this.tagName = in.readString();
             this.ticket_activity_id = in.readString();
@@ -792,18 +791,20 @@ public class TicketInfoEntity implements Parcelable {
             this.ticket_city_name = in.readString();
             this.ticket_name = in.readString();
             this.ticket_other_id = in.readString();
+            this.ticket_pro_code = in.readString();
             this.ticket_pro_name = in.readString();
             this.ticket_theme_id = in.readString();
             this.ticket_type = in.readInt();
             this.uid = in.readInt();
             this.userCity = in.readString();
+            this.userPhone = in.readString();
+            this.user_idForCol = in.readInt();
             this.username = in.readString();
             this.view_count = in.readInt();
             this.files = in.createStringArrayList();
-            this.generalize = in.readString();
         }
 
-        public static final Parcelable.Creator<ListBean> CREATOR = new Parcelable.Creator<ListBean>() {
+        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
             @Override
             public ListBean createFromParcel(Parcel source) {
                 return new ListBean(source);

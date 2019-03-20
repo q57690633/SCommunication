@@ -150,8 +150,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/beiyong_line"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/line_one"
         android:layout_marginTop="12dp"
         android:background="@color/white"
@@ -183,7 +184,8 @@
                 android:textColor="@color/register_font"
                 android:textSize="16dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"/>
+                android:layout_marginRight="25dp"
+                android:text="请设置备用手机号"/>
 
             <ImageView
                 android:layout_width="10dp"
@@ -297,6 +299,43 @@
             android:layout_marginRight="12dp"
             android:background="@color/login_line" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/beiyong_line"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/show_phone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="17dp"
+            android:hint="对外显示手机号码"
+            android:textColorHint="@color/register_font" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/login_line"
+            android:layout_below="@id/show_phone_tv"
+            android:layout_marginTop="17dp"/>
+
+        <ImageView
+            android:id="@+id/phone_alert_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="11dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/switch_close" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

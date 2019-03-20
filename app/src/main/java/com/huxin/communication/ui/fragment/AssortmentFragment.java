@@ -117,9 +117,11 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         mImageView.setOnClickListener(this);
     }
 
+
+
     @Override
     protected void loadData() {
-        initData();
+//        initData();
         //mAdapter = new FamousAdapter(getContext(), setData());
 //        mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,6 +144,14 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
             }
         });
 
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -165,7 +175,6 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
 
             }
         });
-
     }
 
     @Override

@@ -57,8 +57,8 @@ public class ChuZuAdapter extends RecyclerView.Adapter<ChuZuAdapter.MyViewHoder>
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
         holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "万");
+        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMaxPrice()) + "元/㎡");
         holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
         holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
 

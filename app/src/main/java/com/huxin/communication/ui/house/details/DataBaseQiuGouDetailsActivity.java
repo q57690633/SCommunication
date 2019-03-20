@@ -183,7 +183,7 @@ public class DataBaseQiuGouDetailsActivity extends BaseActivity implements View.
     @Override
     protected void loadData(Bundle savedInstanceState) {
         httpUtil = new HttpUtil();
-
+        setData();
         setTabData();
 
         mEditTextvillageNam.addTextChangedListener(new TextWatcher() {
@@ -213,6 +213,41 @@ public class DataBaseQiuGouDetailsActivity extends BaseActivity implements View.
 
             }
         });
+    }
+
+    private void setData() {
+        if (listBean != null) {
+            mEditTextmaxAcreage.setText(String.valueOf(listBean.getMaxAcreage()));
+            mEditTextmaxPrice.setText(String.valueOf(listBean.getMaxPrice()));
+            mEditTextminAcreage.setText(String.valueOf(listBean.getMinAcreage()));
+            mEditTextminPrice.setText(String.valueOf(listBean.getMinPrice()));
+
+            if (!TextUtils.isEmpty(listBean.getRemark())) {
+                mEditTextremark.setText(listBean.getRemark());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getVillageName())) {
+                mEditTextvillageNam.setText(listBean.getVillageName());
+            }
+            if (!TextUtils.isEmpty(listBean.getFloorAge())) {
+                mTextViewFloorAge.setText(listBean.getFloorAge());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getPermit())) {
+                mTextViewPermit.setText(listBean.getPermit());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getHouseType())) {
+                mTextViewHouseType.setText(listBean.getHouseType());
+            }
+
+            if (listBean.getStick() == 1) {
+                mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
+            } else {
+                mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
+            }
+
+        }
     }
 
     @Override

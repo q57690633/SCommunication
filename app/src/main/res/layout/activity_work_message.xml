@@ -58,7 +58,7 @@
             android:textColorHint="@color/register_font"
             android:textSize="16dp" />
 
-        <TextView
+        <EditText
             android:id="@+id/city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:paddingLeft="31dp"
             android:paddingRight="31dp"
             android:paddingTop="5dp"
-            android:text="请输入地区"
+            android:hint="请输入地区"
             android:textColor="@color/login_walling_fort" />
 
     </RelativeLayout>

@@ -135,7 +135,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="19dp"
                     android:layout_marginRight="155dp"
-                    android:text="23500元/㎡"
                     android:textColor="@color/sell_font"
                     android:textSize="16dp" />
 

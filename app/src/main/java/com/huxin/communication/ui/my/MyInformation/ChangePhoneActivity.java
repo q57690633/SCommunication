@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,10 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
     private TimeCount mTimeCount;
     private TimeSecondCount mTimeSecondCount;
 
+    private ImageView mTextViewShowPhone;
+
+    private boolean isShowClicked = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +66,14 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
 
         mTextViewPhone = findViewById(R.id.phone);
         mTextViewSecondPhone = findViewById(R.id.second_phone);
+        mTextViewShowPhone = findViewById(R.id.phone_alert_iv);
 
 
         mTextViewGetSecondPhoneCode.setOnClickListener(this);
         mTextViewGetPhoneCode.setOnClickListener(this);
         mTextViewWanCheng.setOnClickListener(this);
         mTextViewBianJi.setOnClickListener(this);
+        mTextViewShowPhone.setOnClickListener(this);
 
     }
 
@@ -77,15 +84,23 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
             mTextViewWanCheng.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))){
-              mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))) {
+            mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
         }
 
-         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SECOND_PHONE))){
-               mTextViewSecondPhone.setText(PreferenceUtil.getString(Constanst.SECOND_PHONE));
-         }
-        
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SECOND_PHONE))) {
+            mTextViewSecondPhone.setText(PreferenceUtil.getString(Constanst.SECOND_PHONE));
+        }
 
+
+
+        if (PreferenceUtil.getInt("isShow") == 1){
+            isShowClicked = false;
+            mTextViewShowPhone.setBackgroundResource(R.drawable.switch_open);
+        }else {
+            isShowClicked = true;
+            mTextViewShowPhone.setBackgroundResource(R.drawable.switch_close);
+        }
     }
 
     @Override
@@ -99,6 +114,20 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
+            case R.id.phone_alert_iv:
+                if (isShowClicked) {
+                    isShowClicked = false;
+                    mTextViewShowPhone.setBackgroundResource(R.drawable.switch_open);
+                    isShowPhone("1");
+                } else {
+                    isShowClicked = true;
+                    isShowPhone("0");
+                    mTextViewShowPhone.setBackgroundResource(R.drawable.switch_close);
+
+                }
+
+                break;
+
             case R.id.toolbar_bianji:
                 if (isClicked) {
                     mTextViewWanCheng.setVisibility(View.VISIBLE);
@@ -109,9 +138,9 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
                     String secondPhone = mEditTextSecondPhone.getText().toString().trim();
                     String secondPhoneCode = mEditTextSecondPhoneCode.getText().toString().trim();
 
-                    if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(phoneCode)){
-                        updateUserPhone(phone,phoneCode,secondPhone,secondPhoneCode);
-                    }else {
+                    if (!TextUtils.isEmpty(phone) && !TextUtils.isEmpty(phoneCode)) {
+                        updateUserPhone(phone, phoneCode, secondPhone, secondPhoneCode);
+                    } else {
                         Toast.makeText(this, "请填写需要修改的密码", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -159,13 +188,13 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
             showProgressDialog();
             ApiModule.getInstance().updateUserPhone(phone, authCode, secondPhone, secondAuthCode)
                     .subscribe(updateUserPhoneEntity -> {
-                cancelProgressDialog();
+                        cancelProgressDialog();
                         Toast.makeText(this, "更新成功", Toast.LENGTH_SHORT).show();
 
-            }, throwable -> {
-                KyLog.d(throwable.toString());
-                cancelProgressDialog();
-            });
+                    }, throwable -> {
+                        KyLog.d(throwable.toString());
+                        cancelProgressDialog();
+                    });
         } else {
             Toast.makeText(this, "请先输入电话号码", Toast.LENGTH_SHORT).show();
         }
@@ -208,6 +237,19 @@ public class ChangePhoneActivity extends BaseActivity implements View.OnClickLis
             mTextViewGetSecondPhoneCode.setText("重新发送");
             mTextViewGetSecondPhoneCode.setClickable(true);
         }
+    }
+
+
+    private void isShowPhone(String isShow) {
+        ApiModule.getInstance().notShowPhone(String.valueOf(PreferenceUtil.getInt(UID)), isShow)
+                .subscribe(responseInt -> {
+                KyLog.d(responseInt.getData() + "");
+
+                PreferenceUtil.putInt("isShow",responseInt.getData());
+                }, throwable -> {
+                    KyLog.d(throwable.getMessage());
+                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

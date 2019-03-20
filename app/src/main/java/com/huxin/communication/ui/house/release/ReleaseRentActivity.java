@@ -188,13 +188,11 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String villageName = mEditTextvillageNam.getText().toString().trim();
-                Toast.makeText(ReleaseRentActivity.this, villageName, Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(villageName)) {
                     mLinearLayoutVillageName.setVisibility(View.GONE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
 
                 } else {
-                    Toast.makeText(ReleaseRentActivity.this, villageName, Toast.LENGTH_SHORT).show();
                     mLinearLayoutVillageName.setVisibility(View.VISIBLE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
                     selectByLike(villageName);
@@ -406,10 +404,8 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
     private void selectByLike(String villageName) {
         KyLog.d(villageName);
-        showProgressDialog();
         ApiModule.getInstance().selectByLike(villageName)
                 .subscribe(selectByLikeEntities -> {
-                    cancelProgressDialog();
                     if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
                         LinearLayoutManager manager = new LinearLayoutManager(ReleaseRentActivity.this);
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
@@ -419,7 +415,6 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {
-                                Toast.makeText(ReleaseRentActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                                 mEditTextvillageNam.setText(selectByLikeEntities.get(pos).getVillageName());
                                 mLinearLayoutVillageName.setVisibility(View.GONE);
                                 mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
@@ -429,7 +424,6 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

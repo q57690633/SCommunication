@@ -192,13 +192,11 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String villageName = mEditTextvillageNam.getText().toString().trim();
-                Toast.makeText(ReleaseBuyActivity.this, villageName, Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(villageName)) {
                     mLinearLayoutVillageName.setVisibility(View.GONE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
 
                 } else {
-                    Toast.makeText(ReleaseBuyActivity.this, villageName, Toast.LENGTH_SHORT).show();
                     mLinearLayoutVillageName.setVisibility(View.VISIBLE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
                     selectByLike(villageName);
@@ -397,7 +395,6 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
                         mTabAdapter = new ReleaseTabAdapter(selectTabEntity.getTag(), this);
                         mRecyclerView.setAdapter(mTabAdapter);
                         mRecyclerView.setLayoutManager(manager);
-                        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
                     }
 
                 }, throwable -> {
@@ -409,20 +406,16 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
 
     private void selectByLike(String villageName) {
         KyLog.d(villageName);
-        showProgressDialog();
         ApiModule.getInstance().selectByLike(villageName)
                 .subscribe(selectByLikeEntities -> {
-                    cancelProgressDialog();
                     if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
                             LinearLayoutManager manager = new LinearLayoutManager(ReleaseBuyActivity.this);
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
                         mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
                         mRecyclerViewSearch.setLayoutManager(manager);
-                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {
-                                Toast.makeText(ReleaseBuyActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                                 mEditTextvillageNam.setText(selectByLikeEntities.get(pos).getVillageName());
                                 mLinearLayoutVillageName.setVisibility(View.GONE);
                                 mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
@@ -432,7 +425,6 @@ public class ReleaseBuyActivity extends BaseActivity implements View.OnClickList
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

@@ -73,12 +73,34 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
-        holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
-        holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
-        holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
+
+        if (list.get(holder.getAdapterPosition()).getProductType() == 1) {
+            holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
+            holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
+            holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
+            holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+            holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
+            holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
+            holder.mTextViewTotalPrice.setVisibility(View.VISIBLE);
+            holder.mTextViewAcreage.setVisibility(View.VISIBLE);
+
+        }else if ( list.get(holder.getAdapterPosition()).getProductType() == 2){
+            holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
+            holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
+//            holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
+            holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getPrice()) + "元/㎡");
+            holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
+            holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
+            holder.mTextViewTotalPrice.setVisibility(View.GONE);
+        }else if (list.get(holder.getAdapterPosition()).getProductType() == 3 ||
+                list.get(holder.getAdapterPosition()).getProductType() == 4){
+            holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
+            holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
+            holder.mTextViewTotalPrice.setVisibility(View.GONE);
+            holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "~" + String.valueOf(list.get(position).getMaxPrice()) +"元");
+            holder.mTextViewAcreage.setVisibility(View.GONE);
+            holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getMinAcreage()) + "~" + String.valueOf(list.get(position).getMaxAcreage()) + "㎡");
+        }
 
         if (list.get(position).getKeying() == 1) {
             holder.mImageViewKeying.setVisibility(View.VISIBLE);

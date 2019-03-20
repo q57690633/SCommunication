@@ -39,6 +39,8 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private String phone;
     private String starFriend;
     private String imageUrl;
+    private String star;
+
     private int uid;
 
     private boolean isMessageAlert = true;
@@ -119,6 +121,43 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
+        KyLog.d(PreferenceUtil.getInt(Constanst.ISMESSAGEALERT_TYPE) + "== star");
+        KyLog.d(PreferenceUtil.getInt(Constanst.TOP_NAME) + " == star");
+        star = getIntent().getStringExtra("starFriend");
+
+        KyLog.d(star + "== star");
+
+
+
+        if (PreferenceUtil.getInt(Constanst.ISMESSAGEALERT_TYPE) == 1){
+            mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
+            isMessageAlert = true;
+        }else {
+            mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
+            isMessageAlert = false;
+        }
+
+        if (PreferenceUtil.getInt(Constanst.TOP_NAME) == 1){
+            mSetTopIv.setBackgroundResource(R.drawable.switch_open);
+            isMessageAlert = true;
+        }else {
+            mSetTopIv.setBackgroundResource(R.drawable.switch_close);
+            isMessageAlert = false;
+        }
+
+        if (TextUtils.isEmpty(star)){
+            isStarFriend = true;
+            mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
+            mRelativeLayoutStarFriend.setVisibility(View.GONE);
+
+        }else {
+            isStarFriend = false;
+            mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
+            mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
+
+
+        }
+
     }
 
     @Override
@@ -132,10 +171,14 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                 if (PreferenceUtil.getInt("type") == 1) {
                     Intent intent = new Intent(this, DataBaseActivity.class);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("dateNumber", 1);
+
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(this, DataBaseTravelActivity.class);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("dateNumber", 1);
+
                     startActivity(intent);
                 }
                 break;
@@ -174,33 +217,35 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                     isMessageAlert = false;
                     PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,1);//1.代表静音
                     PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
-                    mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                    mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,2);//2.代表解除静音
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,0);//2.代表解除静音
                     PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
                     isMessageAlert = true;
-                    mMessageAlertIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                    mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
                 }
                 break;
             case R.id.set_top_iv:
                 if (isSetTop) {
                     isSetTop = false;
-                    mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                    PreferenceUtil.putInt(Constanst.TOP_NAME,1);
+                    mSetTopIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
+                    PreferenceUtil.putInt(Constanst.TOP_NAME,0);
                     isSetTop = true;
-                    mSetTopIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                    mSetTopIv.setBackgroundResource(R.drawable.switch_close);
                 }
                 break;
             case R.id.star_friend_iv:
                 if (isStarFriend) {
                     isStarFriend = false;
                     addStarFriend(String.valueOf(uid),"1");
-                    mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_open));
+                    mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
                     mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
                 } else {
                     isStarFriend = true;
                     addStarFriend(String.valueOf(uid),"0");
-                    mStarFriendIv.setImageDrawable(getResources().getDrawable(R.drawable.switch_close));
+                    mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
                     mRelativeLayoutStarFriend.setVisibility(View.GONE);
                 }
                 break;

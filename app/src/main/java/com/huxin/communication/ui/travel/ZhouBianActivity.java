@@ -175,6 +175,8 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     private String day;
 
+    private TextView  mTextViewBuXian;
+
 
     private boolean isClickQuYu = false;
 

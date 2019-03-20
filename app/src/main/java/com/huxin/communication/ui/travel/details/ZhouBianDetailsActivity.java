@@ -1,9 +1,14 @@
 package com.huxin.communication.ui.travel.details;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -106,6 +111,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
         listBean = getIntent().getParcelableExtra("list");
+        KyLog.object(listBean);
 
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +122,15 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                    KyLog.d(userId);
+                    KyLog.d(listBean.getId() + "");
+
+
+                    if (!userId.equals(String.valueOf(listBean.getUid()))){
+                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                    }else {
+                        Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -125,6 +139,23 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = listBean.getUserPhone();
+                if (!TextUtils.isEmpty(phone)) {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    if (ActivityCompat.checkSelfPermission(ZhouBianDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions((Activity) ZhouBianDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                        return;
+                    }
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(ZhouBianDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

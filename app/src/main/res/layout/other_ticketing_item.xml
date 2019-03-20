@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <EditText
@@ -401,95 +403,118 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
         android:layout_marginTop="17dp"
+        android:layout_marginRight="12dp"
         android:orientation="horizontal">
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_new"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_shangxin" />
+                android:background="@drawable/shangxin" />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_low"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_tejia" />
+                android:src="@drawable/tejia" />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_better"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_better"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_jingpin" />
+                android:src="@drawable/jingpin" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_throw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:layout_alignParentRight="true"
+
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_throw"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_shuaiwei" />
+                android:src="@drawable/shuaiwei" />
 
         </RelativeLayout>
 
@@ -499,28 +524,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
         android:layout_marginTop="17dp"
+        android:layout_marginRight="12dp"
         android:orientation="horizontal">
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:layout_alignParentRight="true"
+
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_rate"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_xingjiabi" />
+                android:src="@drawable/xingjiabi"
+                />
 
         </RelativeLayout>
 
@@ -531,63 +563,81 @@
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:layout_alignParentRight="true"
+
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_return"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_gaofanyong" />
+                android:src="@drawable/gaofanyong"
+                />
 
         </RelativeLayout>
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_hot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_alignParentRight="true"
+
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_hot"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_hot" />
+                android:src="@drawable/hot" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
             <ImageView
+                android:id="@+id/stick_zeroC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+
                 android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:background="@drawable/icon_circle_normal" />
+
 
             <ImageView
+                android:id="@+id/rl_stick_zeroC"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/sign_ziwei" />
+                android:src="@drawable/zifei" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -615,13 +665,18 @@
             android:textSize="14dp" />
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="134dp"
-        android:layout_height="180dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:src="@color/blue" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:divider="@null"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:scrollbarStyle="outsideOverlay"
+        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+        app:spanCount="4"
+        tools:listitem="@layout/list_item_image" />
 
     <TextView
         android:id="@+id/confirm"

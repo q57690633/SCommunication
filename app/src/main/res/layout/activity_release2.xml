@@ -568,6 +568,7 @@
                 android:textSize="14dp" />
 
             <TextView
+                android:id="@+id/top_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -584,6 +585,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -597,17 +599,19 @@
                     android:background="@drawable/icon_circle_normal" />
 
 
-
                 <ImageView
+                    android:id="@+id/rl_stick_new"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sign_shangxin" />
+                    android:background="@drawable/sign_shangxin" />
 
             </RelativeLayout>
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
@@ -622,8 +626,9 @@
                     android:background="@drawable/icon_circle_normal" />
 
 
-
                 <ImageView
+                    android:id="@+id/rl_stick_low"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -633,6 +638,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
@@ -647,8 +653,9 @@
                     android:background="@drawable/icon_circle_normal" />
 
 
-
                 <ImageView
+                    android:id="@+id/rl_stick_better"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -659,6 +666,7 @@
 
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
@@ -673,8 +681,9 @@
                     android:background="@drawable/icon_circle_normal" />
 
 
-
                 <ImageView
+                    android:id="@+id/rl_stick_throw"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -694,6 +703,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -707,8 +717,9 @@
                     android:background="@drawable/icon_circle_normal" />
 
 
-
                 <ImageView
+                    android:id="@+id/rl_stick_rate"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -734,6 +745,8 @@
 
 
                 <ImageView
+                    android:id="@+id/rl_stick_return"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -744,6 +757,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
@@ -755,11 +769,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal"/>
-
+                    android:background="@drawable/icon_circle_normal" />
 
 
                 <ImageView
+                    android:id="@+id/rl_stick_hot"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -770,6 +785,7 @@
 
 
             <RelativeLayout
+
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="17dp"
@@ -785,6 +801,8 @@
 
 
                 <ImageView
+                    android:id="@+id/rl_stick_zeroC"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"

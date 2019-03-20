@@ -64,28 +64,28 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             setTextView(list, position, holder.mRecyclerView);
         }
         if (list.get(position).getStick_hot() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.hot);
         }
         if (list.get(position).getStick_low() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_tejia);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.tejia);
         }
         if (list.get(position).getStick_new() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shangxin);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.shangxin);
         }
         if (list.get(position).getStick_return() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_gaofanyong);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.gaofanyong);
         }
         if (list.get(position).getStick_zeroC() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_ziwei);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.zifei);
         }
         if (list.get(position).getStick_better() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_jingpin);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.jingpin);
         }
         if (list.get(position).getStick_rate() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_xingjiabi);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.xingjiabi);
         }
         if (list.get(position).getStick_throw() == 1){
-            holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shuaiwei);
+            holder.mImageViewStickName.setBackgroundResource(R.drawable.shuaiwei);
         }
 
     }

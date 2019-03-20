@@ -41,7 +41,8 @@ public class QiuGouDetailsActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private QIuZuDetailsAdapter mAdapter;
     private InformationDetailEntity entity;
-
+    private TextView mTextViewCampany;
+    private TextView mTextViewUserName;
 
 
     @Override
@@ -60,6 +61,10 @@ public class QiuGouDetailsActivity extends BaseActivity {
         mTextViewPublicNumber = (TextView) findViewById(R.id.publicNumber_details_qiuzu);
         mTextViewfindNumber = (TextView) findViewById(R.id.findNumber_details_qiuzu);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_qiuzu_details);
+
+        mTextViewUserName = (TextView) findViewById(R.id.username);
+        mTextViewCampany = (TextView) findViewById(R.id.campany);
+
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,10 +112,12 @@ public class QiuGouDetailsActivity extends BaseActivity {
     }
 
     private void setData(InformationDetailEntity entity) {
-        GridLayoutManager manager = new GridLayoutManager(QiuGouDetailsActivity.this, 5);
-        mAdapter = new QIuZuDetailsAdapter(getTableNameList(entity), this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(manager);
+        if (getTableNameList(entity).size() > 0) {
+            GridLayoutManager manager = new GridLayoutManager(QiuGouDetailsActivity.this, 5);
+            mAdapter = new QIuZuDetailsAdapter(getTableNameList(entity), this);
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setLayoutManager(manager);
+        }
 //        mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
 
 
@@ -122,6 +129,9 @@ public class QiuGouDetailsActivity extends BaseActivity {
         mTextViewAcreage.setText(String.valueOf(entity.getMinAcreage() + " ~ " + entity.getMaxAcreage()) + "㎡");
         mTextViewPublicNumber.setText(DateUtil.timeslashData(String.valueOf(entity.getShowTime())));
         mTextViewfindNumber.setText(String.valueOf(entity.getFindNumber())+ "次");
+
+        mTextViewCampany.setText(entity.getUserModel().getCompanyName());
+        mTextViewUserName.setText(entity.getUserModel().getUsername());
 
     }
 

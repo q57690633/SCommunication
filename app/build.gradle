@@ -23,6 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        //if 2g or 4g
+        javaMaxHeapSize "4g"
+    }
     lintOptions {
         abortOnError false
         disable 'InconsistentArrays', 'DefaultLocale', 'OldTargetApi', 'GradleOverrides', 'MissingTranslation', 'UnusedResources', 'GoogleAppIndexingWarning'
@@ -63,6 +68,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'org.greenrobot:eventbus:3.1.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
 
 
     api 'com.tencent.imsdk:imsdk:4.0.0.1'

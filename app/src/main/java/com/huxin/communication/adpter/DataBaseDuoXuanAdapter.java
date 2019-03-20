@@ -128,12 +128,23 @@ public class DataBaseDuoXuanAdapter extends RecyclerView.Adapter<DataBaseDuoXuan
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
 
-        holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
-        holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
-        holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
-        holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
-        holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
-        holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
+        if (list.get(holder.getAdapterPosition()).getProductType() == 1 ||
+                list.get(holder.getAdapterPosition()).getProductType() == 2) {
+            holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
+            holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
+            holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).getTotalPrice()) + "万");
+            holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getUnitPrice()) + "元/㎡");
+            holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
+            holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getOrientation()));
+        }else if (list.get(holder.getAdapterPosition()).getProductType() == 3 ||
+                list.get(holder.getAdapterPosition()).getProductType() == 4){
+            holder.mTextViewvillageName.setText(String.valueOf(list.get(position).getVillageName()));
+            holder.mTextViewhouseType.setText(String.valueOf(list.get(position).getHouseType()));
+//            holder.mTextViewTotalPrice.setText(String.valueOf(list.get(position).g()) + "~");
+            holder.mTextViewUnitPrice.setText(String.valueOf(list.get(position).getMinPrice()) + "元~" + String.valueOf(list.get(position).getMaxPrice()));
+//            holder.mTextViewAcreage.setText(String.valueOf(list.get(position).getAcreage()) + "㎡");
+            holder.mTextViewOrientation.setText(String.valueOf(list.get(position).getMinAcreage()) + "元~" + String.valueOf(list.get(position).getMaxAcreage()));
+        }
 
         if (isItemChecked(position)) {
             holder.mImageViewClicked.setVisibility(View.VISIBLE);

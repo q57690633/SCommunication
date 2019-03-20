@@ -4,31 +4,34 @@ public class LoginEntity {
 
 
     /**
-     * uid : 30
-     * username : fds
-     * password : 123456789
-     * phone : 15978966026
-     * authCode : 591766
-     * registerType : 1
+     * uid : 182
+     * username :
+     * password : 123456
+     * phone : 19922286211
+     * authCode : 677133
+     * registerType : 2
      * secondPhone :
-     * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjE1OTc4OTY2MDI2IiwidGltZSI6MTU0OTcyMTU4OTA5MiwiZXhwIjoxNTQ5ODA3OTg5LCJpYXQiOjE1NDk3MjE1ODl9.rWLJuPoooyTOGOie-3yCCRD2KfYgrTNHT-TDK1WLplg
-     * time : 1549721589092
+     * phoneState : 1
+     * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6IjE5OTIyMjg2MjExIiwidGltZSI6MTU1Mjk5MTI2MzE2OSwiZXhwIjoxNTUzMDc3NjYzLCJpYXQiOjE1NTI5OTEyNjN9.4YV_gNARBWWFEbPcOzsx9FGEmVhDFM37f7fU1nUj_7w
+     * time : 1552991263169
      * province : 河北省
-     * city : 石家庄市
-     * county :
-     * area : 鹿泉区
-     * companyName :
-     * licenseCode :
-     * positions : 程序员
-     * industryType : 兼职经纪人
-     * invitationCode : 00000291
+     * city : 保定市
+     * county : 安新县
+     * area : 安新县
+     * companyName : 熊大旅游公司
+     * licenseCode : 91110108MA002UE41K
+     * positions :
+     * industryType : 独立经纪人
+     * invitationCode : 00018296
      * storeName :
-     * cOrP : 2
+     * advice :
+     * cOrP : 1
      * secondAuthCode :
-     * stickNumber :
+     * headUrl :
+     * stickNumber : -3
      * matchingMonth :
-     * usersig : eJxlj11vgjAYhe-5FU1vWWZbqLLdoWJ0aDL2kU1vCLO1FCxgrQhZ9t-nmMlI9t4*T84576cFAIAvy*fbZLstT4WJTVtxCO4BRPDmD1aVZHFiYkezf5A3ldQ8TnaG6w5iSilBqO9Ixgsjd-JqLLP0IuCecGR53LX8JrgXOhwhNOwrUnRwFawni2i6adWTf3gYMOSH69oWr3YTts7jfK9OkRI0sMeSrvL2I3LEIvXDBJlAjTIx0UlBUtN4UdbgzWAa7tvZ*G5Wv9O5653zt-LQqzRS8etLroddj*D*oJrroyyLTiAIU0wc9HPQ*rK*ATr4XQg_
-     * identifier : Ljh2001
+     * usersig : eJxFkN1Og0AQRt*FW43OLuXPOyTU1m1N1KaV3my2MMBqoNtli1Tju4uUxss5J19mvvm2VovXG6GUzLgw3NaZdWeBdT1g7JTUyEVuUPeYOI5DAS62Rd3Ifd0LCsQh1Ab4lzLD2shcnoM*HXEji35exkk0f46m9wX1PdYWL1V45c0wgTha0wcRLz6LcNoQpZHtvrZL8xbOy-Dpcf2*Ypu0Tpg54Olwq*O8BH8XuFtddR6blf5RdZtq0paXZdkHH5r9nTABIK4H4I7SyArPnWgQEOraIxdpuj-WhpuTwuEVP79Nk1aX
+     * identifier : 182
      */
 
     private int uid;
@@ -38,6 +41,7 @@ public class LoginEntity {
     private int authCode;
     private int registerType;
     private String secondPhone;
+    private int phoneState;
     private String token;
     private long time;
     private String province;
@@ -54,7 +58,7 @@ public class LoginEntity {
     private String cOrP;
     private String secondAuthCode;
     private String headUrl;
-    private String stickNumber;
+    private int stickNumber;
     private String matchingMonth;
     private String usersig;
     private String identifier;
@@ -113,6 +117,14 @@ public class LoginEntity {
 
     public void setSecondPhone(String secondPhone) {
         this.secondPhone = secondPhone;
+    }
+
+    public int getPhoneState() {
+        return phoneState;
+    }
+
+    public void setPhoneState(int phoneState) {
+        this.phoneState = phoneState;
     }
 
     public String getToken() {
@@ -243,11 +255,11 @@ public class LoginEntity {
         this.headUrl = headUrl;
     }
 
-    public String getStickNumber() {
+    public int getStickNumber() {
         return stickNumber;
     }
 
-    public void setStickNumber(String stickNumber) {
+    public void setStickNumber(int stickNumber) {
         this.stickNumber = stickNumber;
     }
 

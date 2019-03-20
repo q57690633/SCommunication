@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.huxin.communication.ui.house.phone.InvitationActivity">
+    tools:context="com.huxin.communication.ui.house.phone.InvitationsActivity">
 
     <include layout="@layout/widget_toobar"/>
 

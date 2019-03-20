@@ -59,6 +59,9 @@ public class SellDetailsActivity extends BaseActivity {
     private TextView mTextViewTotalFloorNumber;
     private TextView mTextViewPublicTime;
     private TextView mTextViewMoreSimilar;
+    private TextView mTextViewCampany;
+    private TextView mTextViewUserName;
+
     /**
      * 滚动焦点图片
      **/
@@ -101,6 +104,10 @@ public class SellDetailsActivity extends BaseActivity {
         mTextViewTotalFloorNumber = (TextView) findViewById(R.id.totalFloorNumber_detail_sell);
         mTextViewPublicTime = (TextView) findViewById(R.id.publicTime_detail_sell);
         mTextViewMoreSimilar = (TextView) findViewById(R.id.more_similar);
+
+        mTextViewUserName = (TextView) findViewById(R.id.username);
+        mTextViewCampany = (TextView) findViewById(R.id.campany);
+
 
         dot = (LinearLayout) findViewById(R.id.main_activity_focus_dot);
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
@@ -194,6 +201,9 @@ public class SellDetailsActivity extends BaseActivity {
         mTextViewUnitPrice.setText(String.valueOf(list.get(0).getUnitPrice()) + "㎡");
         mTextViewfindNumber.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
         mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
+        mTextViewCampany.setText(list.get(0).getUserModel().getCompanyName());
+        mTextViewUserName.setText(list.get(0).getUserModel().getUsername());
+
         mTextViewPublicTime.setText(DateUtil.timeslashData(String.valueOf(list.get(0).getShowTime())));
         if (list.size() >= 2) {
             mTextViewMoreSimilar.setText("更多相似房源(" + (list.size() - 1) + ")");

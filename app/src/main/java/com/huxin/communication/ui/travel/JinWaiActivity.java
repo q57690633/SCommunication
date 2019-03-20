@@ -1282,7 +1282,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
                     JSONObject dataObj = new JSONObject();
                     dataObj.put("depart_name", SaleEntity.getDepart_name());
-                    dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
+                    dataObj.put("goals_city", "");
                     dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
                     dataObj.put("numberDays", String.valueOf(SaleEntity.getNumber_days()));
                     dataObj.put("photo_url", SaleEntity.getPhoto_url());
@@ -1316,7 +1316,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
                 TravelEntity.ListBean entity = new TravelEntity.ListBean();
                 entity.setDepart_name(SaleEntity.getDepart_name());
-                entity.setGoals_city(SaleEntity.getGoals_city());
+                entity.setGoals_city("");
                 entity.setHeadUrl(SaleEntity.getHeadUrl());
                 entity.setNumberDays(SaleEntity.getNumber_days());
                 entity.setPhoto_url(SaleEntity.getPhoto_url());

@@ -105,10 +105,10 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
     private ReleaseDialog mReleaseDialog;
 
     private int NeworOld = 2;
-    private int loans = 1;
-    private int keying = 1;
+    private int loans = 0;
+    private int keying = 0;
     private int exclusive = 2;
-    private int stick = 1;
+    private int stick = 2;
 
     public static final int IMAGE_ITEM_ADD = -1;
     public static final int REQUEST_CODE_SELECT = 100;
@@ -236,13 +236,11 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String villageName = mEditTextVillageName.getText().toString().trim();
-                Toast.makeText(ReleaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(villageName)) {
                     mLinearLayoutVillageName.setVisibility(View.GONE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
 
                 } else {
-                    Toast.makeText(ReleaseActivity.this, villageName, Toast.LENGTH_SHORT).show();
                     mLinearLayoutVillageName.setVisibility(View.VISIBLE);
                     mLinearLayoutVillageNameSearch.setVisibility(View.GONE);
                     selectByLike(villageName);
@@ -713,13 +711,18 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
         KyLog.d(purpose + "");
         KyLog.d(houseType + "");
 //        KyLog.d(tableId.substring(1, tableId.length() - 1) + "");
-        showProgressDialog();
+
         if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)) {
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (loans == 0 && keying == 0){
+            Toast.makeText(this, "请选择钥匙和贷款", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        showProgressDialog();
         Map<String, String> map = new HashMap<>();
         map.put("villageName", VillageName);
         map.put("acreage", Acreage);
@@ -821,10 +824,9 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
      */
     private void selectByLike(String villageName) {
         KyLog.d(villageName);
-        showProgressDialog();
         ApiModule.getInstance().selectByLike(villageName)
                 .subscribe(selectByLikeEntities -> {
-                    cancelProgressDialog();
+                    KyLog.d(selectByLikeEntities.size() + "");
                     if (selectByLikeEntities != null && selectByLikeEntities.size() > 0) {
                         LinearLayoutManager manager = new LinearLayoutManager(ReleaseActivity.this);
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
@@ -834,17 +836,19 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {
-                                Toast.makeText(ReleaseActivity.this, selectByLikeEntities.get(pos).getVillageName(), Toast.LENGTH_SHORT).show();
                                 mEditTextVillageName.setText(selectByLikeEntities.get(pos).getVillageName());
                                 mLinearLayoutVillageName.setVisibility(View.GONE);
                                 mLinearLayoutVillageNameSearch.setVisibility(View.VISIBLE);
                             }
                         });
+                        mRecyclerViewSearch.setVisibility(View.VISIBLE);
+
+                    }else {
+                        mRecyclerViewSearch.setVisibility(View.GONE);
                     }
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

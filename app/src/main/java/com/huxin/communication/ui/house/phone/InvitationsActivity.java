@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
 
-public class InvitationActivity extends BaseActivity {
+public class InvitationsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

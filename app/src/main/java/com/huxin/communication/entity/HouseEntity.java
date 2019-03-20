@@ -56,7 +56,7 @@ public class HouseEntity {
         private String villageName;
         private String houseType;
         private int totalPrice;
-        private int unitPrice;
+        private double unitPrice;
         private String Orientation;
         private int keying;
         private int stick;
@@ -104,11 +104,11 @@ public class HouseEntity {
             this.totalPrice = totalPrice;
         }
 
-        public int getUnitPrice() {
+        public double getUnitPrice() {
             return unitPrice;
         }
 
-        public void setUnitPrice(int unitPrice) {
+        public void setUnitPrice(double unitPrice) {
             this.unitPrice = unitPrice;
         }
 

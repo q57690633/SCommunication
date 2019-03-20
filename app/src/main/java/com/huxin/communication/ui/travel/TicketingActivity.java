@@ -1173,11 +1173,11 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         if (Salelist != null && Salelist.size() > 0) {
             for (TicketInfoEntity.ListBean SaleEntity : Salelist) {
                 TravelEntity.ListBean entity = new TravelEntity.ListBean();
-                entity.setGoals_city(SaleEntity.getGoals_city());
+                entity.setGoals_city("");
                 entity.setHeadUrl(SaleEntity.getHeadUrl());
                 entity.setPhoto_url(SaleEntity.getPhoto_url());
-                entity.setReturnPrice(SaleEntity.getReturn_price());
-                entity.setReturnPriceChild(SaleEntity.getReturn_price_child());
+                entity.setReturnPrice(SaleEntity.getFinal_price());
+                entity.setReturnPriceChild(SaleEntity.getFinal_price_child());
                 entity.setTagName(SaleEntity.getTagName());
                 entity.setUserCity(SaleEntity.getUserCity());
                 entity.setUsername(SaleEntity.getUsername());

@@ -45,6 +45,7 @@ import com.huxin.communication.entity.SelectFrameEntity;
 import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
+import com.huxin.communication.entity.SimilerEntity;
 import com.huxin.communication.entity.TabTicketNameEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
@@ -364,10 +365,10 @@ public class ApiModule {
                                                             String houseHoldAppliances, String fitment,
                                                             String permit, String purpose,
                                                             String ownership, String floorAge,
-                                                            String productType, String curPage, int uid) {
+                                                            String productType, String curPage, int uid,String dateNumber) {
         return ApiFactory.getFactory().BaiHangTongYeService().getPersonProduct(String.valueOf(uid), villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
-                permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage)
+                permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage,dateNumber)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1424,6 +1425,56 @@ public class ApiModule {
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+
+    /**
+     * 获取用户信息接口
+     *
+     * @return
+     */
+    public Observable<LoginEntity> getUserInfo(String uid) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getUserInfo(PreferenceUtil.getString(TOKEN), uid)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 不显示电话号码
+     *
+     * @return
+     */
+    public Observable<ResponseInt> notShowPhone(String uid,String phoneState) {
+        return ApiFactory.getFactory().BaiHangTongYeService().notShowPhone(PreferenceUtil.getString(TOKEN), uid,phoneState)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 不显示电话号码
+     *
+     * @return
+     */
+    public Observable<SimilerEntity> getMoreSimple(String curPage, String productType, String id) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getMoreSimple(PreferenceUtil.getString(TOKEN), curPage,productType,id)
+                .subscribeOn(Schedulers.io())
+                .map(new HttpResultFunc<>())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 不显示电话号码
+     *
+     * @return
+     */
+    public Observable<Response> pictureDetail() {
+        return ApiFactory.getFactory().BaiHangTongYeService().pictureDetail(PreferenceUtil.getString(TOKEN),String.valueOf(PreferenceUtil.getInt(UID)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     /**
      * Map转换类 (将Response类转换为需要的实体类)
      *

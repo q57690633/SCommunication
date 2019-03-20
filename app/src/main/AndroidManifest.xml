@@ -28,7 +28,7 @@
         android:allowBackup="true"
         android:icon="@drawable/logo1"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo1"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialDesign">
 
@@ -41,15 +41,15 @@
         <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
         <!-- android:resource="@xml/files_paths" /> -->
         <!-- </provider> -->
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="com.huxin.communication.fileProvider"-->
-            <!--android:grantUriPermissions="true"-->
-            <!--android:exported="false">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/provider_paths" />-->
-        <!--</provider>-->
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="com.huxin.communication.fileProvider" -->
+        <!-- android:grantUriPermissions="true" -->
+        <!-- android:exported="false"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+        <!-- android:resource="@xml/provider_paths" /> -->
+        <!-- </provider> -->
 
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.LoginActivity" />
@@ -80,7 +80,7 @@
         <activity android:name=".ui.house.phone.AddFriendActivity" />
         <activity android:name=".ui.house.phone.DetailedInformationActivity" />
         <activity android:name=".ui.house.phone.FriendDetailedActivity" />
-        <activity android:name=".ui.house.phone.InvitationActivity" />
+        <activity android:name=".ui.house.phone.InvitationsActivity" />
         <activity android:name=".ui.house.match.MatchActivity" />
         <activity android:name=".ui.my.collect.CollectionActivity" />
         <activity android:name=".ui.house.sell.RentActivity" />
@@ -147,10 +147,10 @@
             android:theme="@style/Theme.MaterialDesign">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                    <category android:name="android.intent.category.LAUNCHER" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".StartActivity"
             android:theme="@style/Theme.MaterialDesign" />
@@ -162,8 +162,11 @@
             android:theme="@style/Theme.MaterialDesign" />
         <activity
             android:name=".ui.travel.WebViewActivity"
-            android:theme="@style/Theme.MaterialDesign"/>
-
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.house.details.ImageActivity"
+            android:label="@string/title_activity_image"
+            android:theme="@style/Theme.MaterialDesign"></activity>
     </application>
 
 </manifest>

@@ -252,8 +252,8 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mTextViewPrice12 = (TextView) findViewById(R.id.price12);
 
 
-        mEditTextMax = (EditText) findViewById(R.id.ed_maxMeasure);
-        mEditTextMin = (EditText) findViewById(R.id.ed_minMeasure);
+        mEditTextMax = (EditText) findViewById(R.id.ed_max);
+        mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
         mTextViewZuiXin = (TextView) findViewById(R.id.zuixin);
         mTextViewChongDiDaoGao = (TextView) findViewById(R.id.congdidaogao);

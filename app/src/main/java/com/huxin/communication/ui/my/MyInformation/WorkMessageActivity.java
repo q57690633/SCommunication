@@ -31,7 +31,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     private boolean isClicked = true;
 
     private EditText mEditTextUserName;
-    private TextView mEditTextArea;
+    private EditText mEditTextArea;
     private EditText mEditTextstoreName;
     private EditText mEditTextcompanyName;
     private TextView mEditTextcompanyCode;
@@ -77,8 +77,6 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
         mTextViewPositions = findViewById(R.id.positions);
         mTextViewIndustryType = findViewById(R.id.industryType);
 
-        mLinearLayoutPositions.setOnClickListener(this);
-        mLinearLayoutIndustryType.setOnClickListener(this);
         mTextViewBianJi.setOnClickListener(this);
         mTextViewWanCheng.setOnClickListener(this);
 
@@ -86,9 +84,24 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        PreferenceUtil.putString(Constanst.CORP,"1");
         mTextViewBianJi.setVisibility(View.VISIBLE);
         mTextViewWanCheng.setVisibility(View.GONE);
+        mEditTextcompanyName.setClickable(false);
+        mEditTextcompanyName.setEnabled(false);
+
         setData();
+        if (PreferenceUtil.getString(Constanst.CORP).equals("1")) {
+            mLinearLayoutPositions.setOnClickListener(this);
+            mEditTextstoreName.setClickable(true);
+            mEditTextstoreName.setEnabled(true);
+
+        } else {
+            mLinearLayoutIndustryType.setOnClickListener(this);
+            mEditTextstoreName.setClickable(false);
+            mEditTextstoreName.setEnabled(false);
+
+        }
     }
 
     @Override
@@ -134,7 +147,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.toolbar_quxiao:
                 String userName = mEditTextUserName.getText().toString().trim();
-                String area = PreferenceUtil.getString(Constanst.CITY_NAME);
+                String area = mEditTextArea.getText().toString().trim();
                 String storeName = mEditTextstoreName.getText().toString().trim();
                 String companyName = mEditTextcompanyName.getText().toString().trim();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(area)) {
@@ -196,25 +209,25 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
         return Kouweilist;
     }
 
-    private void setData(){
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.USER_NAME))){
+    private void setData() {
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.USER_NAME))) {
             mEditTextUserName.setText(PreferenceUtil.getString(Constanst.USER_NAME));
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY_CODE))){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY_CODE))) {
             mEditTextcompanyCode.setText(PreferenceUtil.getString(Constanst.COMPANY_CODE));
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY))){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY))) {
             mEditTextcompanyName.setText(PreferenceUtil.getString(Constanst.COMPANY));
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.POSITION))){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.POSITION))) {
             mTextViewPositions.setText(PreferenceUtil.getString(Constanst.POSITION));
             positions = PreferenceUtil.getString(Constanst.POSITION);
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.INDUSTRYTYPE))){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.INDUSTRYTYPE))) {
             mTextViewIndustryType.setText(PreferenceUtil.getString(Constanst.INDUSTRYTYPE));
             industryType = PreferenceUtil.getString(Constanst.INDUSTRYTYPE);
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))){
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
             mEditTextArea.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
         }
     }

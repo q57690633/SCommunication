@@ -1,9 +1,14 @@
 package com.huxin.communication.ui.travel.details;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -121,7 +126,11 @@ public class JinWaiDetailsActivity extends BaseActivity {
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    onRecvUserSig(userId, userSig, String.valueOf(mList.get(0).getUid()));
+                    if (!userId.equals(String.valueOf(listBean.getUid()))){
+                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                    }else {
+                        Toast.makeText(JinWaiDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -130,6 +139,23 @@ public class JinWaiDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = listBean.getUserPhone();
+                if (!TextUtils.isEmpty(phone)) {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    if (ActivityCompat.checkSelfPermission(JinWaiDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions((Activity) JinWaiDetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                        return;
+                    }
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(JinWaiDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -168,7 +194,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
         if (entity != null) {
             mTextViewTravelTitle.setText(entity.getTravel_title());
             mTextViewDepartName.setText(entity.getDepart_name());
-            mTextViewGoalsCity.setText(entity.getGoals_city());
+            mTextViewGoalsCity.setText(entity.getGoals_name());
             mTextViewNumberDays.setText(String.valueOf(entity.getNumber_days()) + "天");
             mTextViewTotalPrice.setText(String.valueOf( "成人：" + entity.getTotal_price()) + "元");
             mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");

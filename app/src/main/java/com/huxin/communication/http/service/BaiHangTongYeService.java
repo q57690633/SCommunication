@@ -40,6 +40,7 @@ import com.huxin.communication.entity.SelectByLikeEntity;
 import com.huxin.communication.entity.SelectMessageEntity;
 import com.huxin.communication.entity.SelectPlotEntity;
 import com.huxin.communication.entity.SelectTabEntity;
+import com.huxin.communication.entity.SimilerEntity;
 import com.huxin.communication.entity.TabTicketNameEntity;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
@@ -50,6 +51,7 @@ import com.huxin.communication.entity.UpdateUserInformationEntity;
 import com.huxin.communication.entity.UpdateUserPhoneEntity;
 import com.huxin.communication.entity.WantedScreeningEntity;
 import com.huxin.communication.http.Response;
+import com.huxin.communication.http.ResponseInt;
 import com.huxin.communication.http.ResponseUntil;
 
 import java.util.List;
@@ -167,12 +169,12 @@ public interface BaiHangTongYeService {
                                                                 @Field("city") String city, @Field("areaOne") String areaOne,
                                                                 @Field("curPage") String curPage, @Field("houseHoldAppliances") String houseHoldAppliances);
 
-    /**
-     * 查看相似房源
-     */
-    @FormUrlEncoded
-    @POST("houseProduct/getMoreSimple")
-    Observable<Response<List<MoreSimpleEntity>>> getMoreSimple(@Field("id") String id, @Field("productType") String productType);
+//    /**
+//     * 查看相似房源
+//     */
+//    @FormUrlEncoded
+//    @POST("houseProduct/getMoreSimple")
+//    Observable<Response<List<MoreSimpleEntity>>> getMoreSimple(@Field("id") String id, @Field("productType") String productType);
 
     /**
      * 出租筛选
@@ -283,7 +285,8 @@ public interface BaiHangTongYeService {
                                                                @Field("houseHoldAppliances") String houseHoldAppliances, @Field("fitment") String fitment,
                                                                @Field("permit") String permit, @Field("purpose") String purpose,
                                                                @Field("ownership") String ownership, @Field("floorAge") String floorAge,
-                                                               @Field("productType") String productType, @Field("token") String token, @Field("curPage") String curPage);
+                                                               @Field("productType") String productType, @Field("token") String token,
+                                                               @Field("curPage") String curPage, @Field("dateNumber") String dateNumber);
 
 
     /**
@@ -1094,5 +1097,36 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("public/selectMessage")
     Observable<Response<SelectMessageEntity>> selectMessage(@Field("token") String token, @Field("uid") String uid);
+
+
+    /**
+     * 获取用户信息
+     */
+    @FormUrlEncoded
+    @POST("user/getUserInfo")
+    Observable<Response<LoginEntity>> getUserInfo(@Field("token") String token, @Field("uid") String uid);
+
+
+    /**
+     * 不显示电话号码
+     */
+    @FormUrlEncoded
+    @POST("user/notShowPhone")
+    Observable<ResponseInt> notShowPhone(@Field("token") String token, @Field("uid") String uid, @Field("phoneState") String phoneState);
+
+    /**
+     * 获取相似信息
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/getMoreSimple")
+    Observable<Response<SimilerEntity>> getMoreSimple(@Field("token") String token, @Field("curPage") String curPage, @Field("productType") String productType, @Field("id") String id);
+
+
+    /**
+     * 轮播图详情页
+     */
+    @FormUrlEncoded
+    @POST("houseProduct/pictureDetail")
+    Observable<Response> pictureDetail(@Field("token") String token, @Field("uid") String uid);
 
 }

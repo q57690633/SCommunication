@@ -11,8 +11,8 @@ public class PersonProductEntity implements Parcelable {
 
     /**
      * curPage : 1
-     * pageSize : 15
-     * list :
+     * pageSize : 1
+     * list : [{"acreage":23,"areaId":102,"areaOne":"","city":"","collectState":0,"curPage":"","dateNumber":0,"element":0,"exclusive":2,"files":[],"findNumber":0,"fitment":"未交房","fitmentList":[],"floorAge":"","floorAgeList":[],"floorNumber":12,"floorSize":"","houseHoldAppliances":"无家具无家电","houseList":[],"houseNumber":"","houseType":"四室","houseTypeList":[],"id":68,"keying":1,"loans":0,"maxAcreage":0,"maxPrice":0,"minAcreage":0,"minPrice":0,"newOrOld":0,"orientation":"","orientationList":[],"ownership":"","paymentType":"","pdu":"","photoUrl":"","price":0,"productType":2,"publicNumber":1,"publicTime":{"date":20,"day":3,"hours":18,"minutes":44,"month":2,"nanos":0,"seconds":11,"time":1553078651000,"timezoneOffset":-480,"year":119},"purpose":"","purposeList":[],"saleAndStick":0,"secondId":208,"showTime":0,"simpleNumber":0,"stick":1,"stickTime":1553078651295,"tabClassify":"","tabId":"","tabName":"","title":"","totalFloorNumber":12,"uid":181,"userModel":{"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","phoneState":0,"positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""},"villageName":"如花小区"}]
      */
 
     private String curPage;
@@ -45,9 +45,10 @@ public class PersonProductEntity implements Parcelable {
 
     public static class ListBean implements Parcelable {
 
+
         /**
-         * acreage : 120
-         * areaId : 248
+         * acreage : 23.0
+         * areaId : 102
          * areaOne :
          * city :
          * collectState : 0
@@ -56,60 +57,56 @@ public class PersonProductEntity implements Parcelable {
          * element : 0
          * exclusive : 2
          * files : []
-         * findNumber : 2
-         * fitment :
+         * findNumber : 0
+         * fitment : 未交房
          * fitmentList : []
          * floorAge :
          * floorAgeList : []
-         * floorNumber : 0
+         * floorNumber : 12
          * floorSize :
-         * houseHoldAppliances :
+         * houseHoldAppliances : 无家具无家电
          * houseList : []
          * houseNumber :
-         * houseType : 一室
+         * houseType : 四室
          * houseTypeList : []
-         * id : 253
-         * keying : 2
-         * loans : 2
-         * maxAcreage : 0
-         * maxPrice : 0
-         * minAcreage : 0
-         * minPrice : 0
-         * newOrOld : 2
+         * id : 68
+         * keying : 1
+         * loans : 0
+         * maxAcreage : 0.0
+         * maxPrice : 0.0
+         * minAcreage : 0.0
+         * minPrice : 0.0
+         * newOrOld : 0
          * orientation :
          * orientationList : []
          * ownership :
          * paymentType :
          * pdu :
-         * permit :
-         * permitList : []
-         * photoUrl : http://39.105.203.33/upload/1552454247369/1552454247369_276.jpg
-         * productType : 1
+         * photoUrl :
+         * price : 0.0
+         * productType : 2
          * publicNumber : 1
-         * publicTime : {"date":13,"day":3,"hours":13,"minutes":17,"month":2,"nanos":0,"seconds":27,"time":1552454247000,"timezoneOffset":-480,"year":119}
+         * publicTime : {"date":20,"day":3,"hours":18,"minutes":44,"month":2,"nanos":0,"seconds":11,"time":1553078651000,"timezoneOffset":-480,"year":119}
          * purpose :
          * purposeList : []
-         * remark :
          * saleAndStick : 0
-         * secondId : 636
+         * secondId : 208
          * showTime : 0
          * simpleNumber : 0
          * stick : 1
-         * stickTime : 1552454247412
+         * stickTime : 1553078651295
          * tabClassify :
          * tabId :
          * tabName :
          * title :
-         * totalFloorNumber : 0
-         * totalPrice : 111
-         * uid : 156
-         * unitPrice : 9250
-         * unlimitedEstate : 0
+         * totalFloorNumber : 12
+         * uid : 181
          * userModel : {"advice":"","area":"","authCode":0,"cOrP":"","city":"","companyName":"","county":"","headUrl":"","identifier":"","industryType":"","invitationCode":"","licenseCode":"","matchingMonth":0,"password":"","phone":"","phoneState":0,"positions":"","province":"","registerType":0,"secondAuthCode":0,"secondPhone":"","stickNumber":0,"storeName":"","time":0,"token":"","uid":0,"username":"","usersig":""}
-         * villageName : 馨和小区
+         * villageName : 如花小区
          */
-
-        private int acreage;
+        private String totalPrice;
+        private String unitPrice;
+        private double acreage;
         private int areaId;
         private String areaOne;
         private String city;
@@ -129,22 +126,21 @@ public class PersonProductEntity implements Parcelable {
         private int id;
         private int keying;
         private int loans;
-        private int maxAcreage;
-        private int maxPrice;
-        private int minAcreage;
-        private int minPrice;
+        private double maxAcreage;
+        private double maxPrice;
+        private double minAcreage;
+        private double minPrice;
         private int newOrOld;
         private String orientation;
         private String ownership;
         private String paymentType;
         private String pdu;
-        private String permit;
         private String photoUrl;
+        private double price;
         private int productType;
         private int publicNumber;
         private PublicTimeBean publicTime;
         private String purpose;
-        private String remark;
         private int saleAndStick;
         private int secondId;
         private int showTime;
@@ -156,10 +152,7 @@ public class PersonProductEntity implements Parcelable {
         private String tabName;
         private String title;
         private int totalFloorNumber;
-        private int totalPrice;
         private int uid;
-        private int unitPrice;
-        private int unlimitedEstate;
         private UserModelBean userModel;
         private String villageName;
         private List<String> files;
@@ -168,14 +161,47 @@ public class PersonProductEntity implements Parcelable {
         private List<String> houseList;
         private List<String> houseTypeList;
         private List<String> orientationList;
-        private List<String> permitList;
         private List<String> purposeList;
+        private String remark;
+        private String permit;
 
-        public int getAcreage() {
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
+        public String getPermit() {
+            return permit;
+        }
+
+        public void setPermit(String permit) {
+            this.permit = permit;
+        }
+
+        public String getTotalPrice() {
+            return totalPrice;
+        }
+
+        public void setTotalPrice(String totalPrice) {
+            this.totalPrice = totalPrice;
+        }
+
+        public String getUnitPrice() {
+            return unitPrice;
+        }
+
+        public void setUnitPrice(String unitPrice) {
+            this.unitPrice = unitPrice;
+        }
+
+        public double getAcreage() {
             return acreage;
         }
 
-        public void setAcreage(int acreage) {
+        public void setAcreage(double acreage) {
             this.acreage = acreage;
         }
 
@@ -331,35 +357,35 @@ public class PersonProductEntity implements Parcelable {
             this.loans = loans;
         }
 
-        public int getMaxAcreage() {
+        public double getMaxAcreage() {
             return maxAcreage;
         }
 
-        public void setMaxAcreage(int maxAcreage) {
+        public void setMaxAcreage(double maxAcreage) {
             this.maxAcreage = maxAcreage;
         }
 
-        public int getMaxPrice() {
+        public double getMaxPrice() {
             return maxPrice;
         }
 
-        public void setMaxPrice(int maxPrice) {
+        public void setMaxPrice(double maxPrice) {
             this.maxPrice = maxPrice;
         }
 
-        public int getMinAcreage() {
+        public double getMinAcreage() {
             return minAcreage;
         }
 
-        public void setMinAcreage(int minAcreage) {
+        public void setMinAcreage(double minAcreage) {
             this.minAcreage = minAcreage;
         }
 
-        public int getMinPrice() {
+        public double getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(int minPrice) {
+        public void setMinPrice(double minPrice) {
             this.minPrice = minPrice;
         }
 
@@ -403,20 +429,20 @@ public class PersonProductEntity implements Parcelable {
             this.pdu = pdu;
         }
 
-        public String getPermit() {
-            return permit;
-        }
-
-        public void setPermit(String permit) {
-            this.permit = permit;
-        }
-
         public String getPhotoUrl() {
             return photoUrl;
         }
 
         public void setPhotoUrl(String photoUrl) {
             this.photoUrl = photoUrl;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
         }
 
         public int getProductType() {
@@ -449,14 +475,6 @@ public class PersonProductEntity implements Parcelable {
 
         public void setPurpose(String purpose) {
             this.purpose = purpose;
-        }
-
-        public String getRemark() {
-            return remark;
-        }
-
-        public void setRemark(String remark) {
-            this.remark = remark;
         }
 
         public int getSaleAndStick() {
@@ -547,36 +565,12 @@ public class PersonProductEntity implements Parcelable {
             this.totalFloorNumber = totalFloorNumber;
         }
 
-        public int getTotalPrice() {
-            return totalPrice;
-        }
-
-        public void setTotalPrice(int totalPrice) {
-            this.totalPrice = totalPrice;
-        }
-
         public int getUid() {
             return uid;
         }
 
         public void setUid(int uid) {
             this.uid = uid;
-        }
-
-        public int getUnitPrice() {
-            return unitPrice;
-        }
-
-        public void setUnitPrice(int unitPrice) {
-            this.unitPrice = unitPrice;
-        }
-
-        public int getUnlimitedEstate() {
-            return unlimitedEstate;
-        }
-
-        public void setUnlimitedEstate(int unlimitedEstate) {
-            this.unlimitedEstate = unlimitedEstate;
         }
 
         public UserModelBean getUserModel() {
@@ -603,7 +597,7 @@ public class PersonProductEntity implements Parcelable {
             this.files = files;
         }
 
-        public List<?> getFitmentList() {
+        public List<String> getFitmentList() {
             return fitmentList;
         }
 
@@ -619,7 +613,7 @@ public class PersonProductEntity implements Parcelable {
             this.floorAgeList = floorAgeList;
         }
 
-        public List<String> getHouseList() {
+        public List<?> getHouseList() {
             return houseList;
         }
 
@@ -643,14 +637,6 @@ public class PersonProductEntity implements Parcelable {
             this.orientationList = orientationList;
         }
 
-        public List<String> getPermitList() {
-            return permitList;
-        }
-
-        public void setPermitList(List<String> permitList) {
-            this.permitList = permitList;
-        }
-
         public List<String> getPurposeList() {
             return purposeList;
         }
@@ -661,15 +647,16 @@ public class PersonProductEntity implements Parcelable {
 
         public static class PublicTimeBean implements Parcelable {
 
+
             /**
-             * date : 13
+             * date : 20
              * day : 3
-             * hours : 13
-             * minutes : 17
+             * hours : 18
+             * minutes : 44
              * month : 2
              * nanos : 0
-             * seconds : 27
-             * time : 1552454247000
+             * seconds : 11
+             * time : 1553078651000
              * timezoneOffset : -480
              * year : 119
              */
@@ -1190,7 +1177,9 @@ public class PersonProductEntity implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.acreage);
+            dest.writeString(this.totalPrice);
+            dest.writeString(this.unitPrice);
+            dest.writeDouble(this.acreage);
             dest.writeInt(this.areaId);
             dest.writeString(this.areaOne);
             dest.writeString(this.city);
@@ -1210,22 +1199,21 @@ public class PersonProductEntity implements Parcelable {
             dest.writeInt(this.id);
             dest.writeInt(this.keying);
             dest.writeInt(this.loans);
-            dest.writeInt(this.maxAcreage);
-            dest.writeInt(this.maxPrice);
-            dest.writeInt(this.minAcreage);
-            dest.writeInt(this.minPrice);
+            dest.writeDouble(this.maxAcreage);
+            dest.writeDouble(this.maxPrice);
+            dest.writeDouble(this.minAcreage);
+            dest.writeDouble(this.minPrice);
             dest.writeInt(this.newOrOld);
             dest.writeString(this.orientation);
             dest.writeString(this.ownership);
             dest.writeString(this.paymentType);
             dest.writeString(this.pdu);
-            dest.writeString(this.permit);
             dest.writeString(this.photoUrl);
+            dest.writeDouble(this.price);
             dest.writeInt(this.productType);
             dest.writeInt(this.publicNumber);
             dest.writeParcelable(this.publicTime, flags);
             dest.writeString(this.purpose);
-            dest.writeString(this.remark);
             dest.writeInt(this.saleAndStick);
             dest.writeInt(this.secondId);
             dest.writeInt(this.showTime);
@@ -1237,10 +1225,7 @@ public class PersonProductEntity implements Parcelable {
             dest.writeString(this.tabName);
             dest.writeString(this.title);
             dest.writeInt(this.totalFloorNumber);
-            dest.writeInt(this.totalPrice);
             dest.writeInt(this.uid);
-            dest.writeInt(this.unitPrice);
-            dest.writeInt(this.unlimitedEstate);
             dest.writeParcelable(this.userModel, flags);
             dest.writeString(this.villageName);
             dest.writeStringList(this.files);
@@ -1249,15 +1234,18 @@ public class PersonProductEntity implements Parcelable {
             dest.writeStringList(this.houseList);
             dest.writeStringList(this.houseTypeList);
             dest.writeStringList(this.orientationList);
-            dest.writeStringList(this.permitList);
             dest.writeStringList(this.purposeList);
+            dest.writeString(this.remark);
+            dest.writeString(this.permit);
         }
 
         public ListBean() {
         }
 
         protected ListBean(Parcel in) {
-            this.acreage = in.readInt();
+            this.totalPrice = in.readString();
+            this.unitPrice = in.readString();
+            this.acreage = in.readDouble();
             this.areaId = in.readInt();
             this.areaOne = in.readString();
             this.city = in.readString();
@@ -1277,22 +1265,21 @@ public class PersonProductEntity implements Parcelable {
             this.id = in.readInt();
             this.keying = in.readInt();
             this.loans = in.readInt();
-            this.maxAcreage = in.readInt();
-            this.maxPrice = in.readInt();
-            this.minAcreage = in.readInt();
-            this.minPrice = in.readInt();
+            this.maxAcreage = in.readDouble();
+            this.maxPrice = in.readDouble();
+            this.minAcreage = in.readDouble();
+            this.minPrice = in.readDouble();
             this.newOrOld = in.readInt();
             this.orientation = in.readString();
             this.ownership = in.readString();
             this.paymentType = in.readString();
             this.pdu = in.readString();
-            this.permit = in.readString();
             this.photoUrl = in.readString();
+            this.price = in.readDouble();
             this.productType = in.readInt();
             this.publicNumber = in.readInt();
             this.publicTime = in.readParcelable(PublicTimeBean.class.getClassLoader());
             this.purpose = in.readString();
-            this.remark = in.readString();
             this.saleAndStick = in.readInt();
             this.secondId = in.readInt();
             this.showTime = in.readInt();
@@ -1304,10 +1291,7 @@ public class PersonProductEntity implements Parcelable {
             this.tabName = in.readString();
             this.title = in.readString();
             this.totalFloorNumber = in.readInt();
-            this.totalPrice = in.readInt();
             this.uid = in.readInt();
-            this.unitPrice = in.readInt();
-            this.unlimitedEstate = in.readInt();
             this.userModel = in.readParcelable(UserModelBean.class.getClassLoader());
             this.villageName = in.readString();
             this.files = in.createStringArrayList();
@@ -1316,8 +1300,9 @@ public class PersonProductEntity implements Parcelable {
             this.houseList = in.createStringArrayList();
             this.houseTypeList = in.createStringArrayList();
             this.orientationList = in.createStringArrayList();
-            this.permitList = in.createStringArrayList();
             this.purposeList = in.createStringArrayList();
+            this.remark = in.readString();
+            this.permit = in.readString();
         }
 
         public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
@@ -1342,7 +1327,7 @@ public class PersonProductEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.curPage);
         dest.writeInt(this.pageSize);
-        dest.writeTypedList(this.list);
+        dest.writeList(this.list);
     }
 
     public PersonProductEntity() {
@@ -1351,7 +1336,8 @@ public class PersonProductEntity implements Parcelable {
     protected PersonProductEntity(Parcel in) {
         this.curPage = in.readString();
         this.pageSize = in.readInt();
-        this.list = in.createTypedArrayList(ListBean.CREATOR);
+        this.list = new ArrayList<ListBean>();
+        in.readList(this.list, ListBean.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<PersonProductEntity> CREATOR = new Parcelable.Creator<PersonProductEntity>() {
