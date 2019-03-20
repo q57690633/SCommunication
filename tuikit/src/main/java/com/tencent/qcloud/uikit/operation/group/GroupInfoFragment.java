@@ -213,8 +213,8 @@ public class GroupInfoFragment extends BaseFragment {
                             JSONObject result = new JSONObject(responseBody.string());
                             if(0 == result.getInt("resultCode")) {
                                 Toast.makeText(getActivity(), result.getString("resultMsg"), Toast.LENGTH_SHORT).show();
+                                initGroupMember(groupId);
                             }
-                            initGroupMember(groupId);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
