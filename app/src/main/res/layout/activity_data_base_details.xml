@@ -264,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_circle_normal" />
+                        android:background="@drawable/icon_circle_normal" />
 
                     <ImageView
                         android:id="@+id/loans_tv_release_click"
@@ -289,7 +289,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_circle_normal" />
+                        android:background="@drawable/icon_circle_normal" />
 
                     <ImageView
                         android:id="@+id/keying_tv_release_click"

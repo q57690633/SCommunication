@@ -300,15 +300,23 @@ public class DataBaseDetailsActivity extends BaseActivity implements View.OnClic
                 mEditTextHouseType.setText(listBean.getHouseType());
             }
             if (listBean.getKeying() == 1) {
-                mEditTextKeyingClick.setBackgroundResource(R.drawable.icon_circle_selected);
+                mEditTextKeying.setBackgroundResource(R.drawable.icon_circle_selected);
             } else {
-                mEditTextKeyingClick.setBackgroundResource(R.drawable.icon_circle_normal);
+                mEditTextKeying.setBackgroundResource(R.drawable.icon_circle_normal);
             }
 
             if (listBean.getStick() == 1) {
                 mImageViewStick.setBackgroundResource(R.drawable.icon_circle_selected);
             } else {
                 mImageViewStick.setBackgroundResource(R.drawable.icon_circle_normal);
+            }
+            KyLog.d(listBean.getLoans() + "");
+            KyLog.d(listBean.getKeying() + "");
+
+            if (listBean.getLoans() == 1) {
+                mEditTextLoans.setBackgroundResource(R.drawable.icon_circle_selected);
+            } else {
+                mEditTextLoans.setBackgroundResource(R.drawable.icon_circle_normal);
             }
 
         }
