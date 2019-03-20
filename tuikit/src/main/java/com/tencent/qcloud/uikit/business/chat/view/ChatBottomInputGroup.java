@@ -1,11 +1,14 @@
 package com.tencent.qcloud.uikit.business.chat.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -153,7 +156,7 @@ public class ChatBottomInputGroup extends LinearLayout implements View.OnClickLi
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
+                verifyAudioPermissions(activity);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     audioCancel = true;
                     startRecordY = motionEvent.getY();
@@ -602,5 +605,16 @@ public class ChatBottomInputGroup extends LinearLayout implements View.OnClickLi
 
         void cancelRecording();
     }
-
+    public static void verifyAudioPermissions(Activity activity) {
+        int GET_RECODE_AUDIO = 1;
+        String[] PERMISSION_AUDIO = {
+                Manifest.permission.RECORD_AUDIO
+        };
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
+                    GET_RECODE_AUDIO);
+        }
+    }
 }
