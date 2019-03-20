@@ -93,7 +93,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
         private TextView tvTitle;
         private ImageView image;
         private TextView tvPhone;
-        private RelativeLayout mRelativeLayout;
+        private LinearLayout mRelativeLayout;
 
 
         public BodyViewHoder(View itemView) {

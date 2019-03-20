@@ -189,7 +189,7 @@ public class GroupInfoFragment extends BaseFragment {
         mQuitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                quitGroup(groupId);
             }
         });
     }
@@ -213,6 +213,7 @@ public class GroupInfoFragment extends BaseFragment {
                             JSONObject result = new JSONObject(responseBody.string());
                             if(0 == result.getInt("resultCode")) {
                                 Toast.makeText(getActivity(), result.getString("resultMsg"), Toast.LENGTH_SHORT).show();
+                                initGroupMember(groupId);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -225,13 +226,14 @@ public class GroupInfoFragment extends BaseFragment {
         TIMCallBack cb = new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-                //错误码 code 含义请参见错误码表
+                Log.i(TAG, "quitGroup error code = " + code);
+                Log.i(TAG, "quitGroup error desc = " + desc);
             }
 
             @Override
             public void onSuccess() {
-                Log.e(TAG, "quit group succ");
+                Toast.makeText(getActivity(), getContext().getResources().getString(R.string.exit_group), Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
