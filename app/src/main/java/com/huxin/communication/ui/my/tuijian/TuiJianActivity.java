@@ -1,5 +1,6 @@
 package com.huxin.communication.ui.my.tuijian;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -125,17 +126,27 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_phone_person:
-                Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
-                Bundle bundle = new Bundle();
-                if("tuijian".equalsIgnoreCase(from)) {
-                    data = resultJson.toString();
+                if("invite_group".equalsIgnoreCase(from)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("TARGET_ID", targetId + "");
+                    bundle.putString("data", resultJson.toString());
+                    Intent intent = getIntent();
+                    intent.putExtras(bundle);
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }else {
+                    Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
+                    Bundle bundle = new Bundle();
+                    if("tuijian".equalsIgnoreCase(from)) {
+                        data = resultJson.toString();
+                    }
+                    bundle.putString("data", data);
+                    bundle.putString("from", from);
+                    bundle.putString("TARGET_TYPE", "C2C");
+                    bundle.putString("TARGET_ID", targetId + "");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
-                bundle.putString("data", data);
-                bundle.putString("from", from);
-                bundle.putString("TARGET_TYPE", "C2C");
-                bundle.putString("TARGET_ID", targetId + "");
-                intent.putExtras(bundle);
-                startActivity(intent);
                 break;
             case R.id.back:
                 finish();

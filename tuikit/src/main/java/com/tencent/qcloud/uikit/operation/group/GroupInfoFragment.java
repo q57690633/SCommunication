@@ -1,5 +1,7 @@
 package com.tencent.qcloud.uikit.operation.group;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,21 +18,15 @@ import android.widget.Toast;
 
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMGroupManager;
-import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMGroupMemberResult;
 import com.tencent.qcloud.uikit.PreferenceUtil;
 import com.tencent.qcloud.uikit.R;
-import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.adapter.GroupInfoMemberAdapter;
-import com.tencent.qcloud.uikit.business.chat.group.model.GroupChatManager;
-import com.tencent.qcloud.uikit.business.chat.group.view.GroupInfoPanel;
-import com.tencent.qcloud.uikit.business.chat.group.view.widget.GroupMemberControler;
 import com.tencent.qcloud.uikit.business.chat.view.itemdecoration.GridSpacingItemDecoration;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
-import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 import com.tencent.qcloud.uikit.http.NetWorkService;
 
 import org.json.JSONArray;
@@ -44,17 +40,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import rx.Observer;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -71,6 +62,7 @@ public class GroupInfoFragment extends BaseFragment {
     private String groupId;
     private RecyclerView mMemberRv;
     private ImageView mAddMemberIv;
+    private ImageView mDeleteMemberIv;
     private LinearLayout mSetTopSwitchLl;
     private LinearLayout mMsgNoAlertLl;
     private LinearLayout mClearRecordLl;
@@ -83,12 +75,14 @@ public class GroupInfoFragment extends BaseFragment {
         groupId = getArguments().getString(UIKitConstants.GROUP_ID);
         initView();
         initData(groupId);
+        initOnClickListener();
         return mBaseView;
     }
 
     private void initView() {
         mMemberRv = mBaseView.findViewById(R.id.group_member_rv);
         mAddMemberIv = mBaseView.findViewById(R.id.icon_add_iv);
+        mDeleteMemberIv = mBaseView.findViewById(R.id.icon_delete_iv);
         mSetTopSwitchLl = mBaseView.findViewById(R.id.set_top_ll);
         mMsgNoAlertLl = mBaseView.findViewById(R.id.msg_no_alert_ll);
         mClearRecordLl = mBaseView.findViewById(R.id.clear_record_ll);
@@ -101,9 +95,9 @@ public class GroupInfoFragment extends BaseFragment {
 
     private void initGroupMember(String groupId) {
         String token = PreferenceUtil.getString(getActivity().getBaseContext(), "token");
-        NetWorkService initGroupMember = createRetrofit().create(NetWorkService.class);
         Log.i(TAG, "token = " + token);
         Log.i(TAG, "groupId = " + groupId);
+        NetWorkService initGroupMember = createRetrofit().create(NetWorkService.class);
         Observable<ResponseBody> answers = initGroupMember.toChatPage(token, groupId);
         answers.map(new Func1<ResponseBody, JSONArray>() {
             @Override
@@ -111,7 +105,6 @@ public class GroupInfoFragment extends BaseFragment {
                 JSONArray result = new JSONArray();
                 try {
                     String str = responseBody.string();
-                    //Log.i(TAG, "initGroupMember map str = " + str);
                     JSONObject response = new JSONObject(str);
                     String data = response.getJSONObject("data").toString();
                     Map res = new HashMap();
@@ -158,34 +151,74 @@ public class GroupInfoFragment extends BaseFragment {
         });
     }
 
-    private void inviteGroupMember(String groupId) {
-        //创建待加入群组的用户列表
-        ArrayList list = new ArrayList();
-        String user = "";
-        //添加用户
-        user = "sample_user_1";
-        list.add(user);
-        user = "sample_user_2";
-        list.add(user);
-        user = "sample_user_3";
-        list.add(user);
-        //回调
-        TIMValueCallBack<List<TIMGroupMemberResult>> cb = new TIMValueCallBack<List<TIMGroupMemberResult>>() {
+    private void initOnClickListener() {
+        mAddMemberIv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(int code, String desc) {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("com.huxin.communication.tuijian");
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.putExtra("from", "invite_group");
+                startActivityForResult(intent, 20);
+            }
+        });
+        mDeleteMemberIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
-
+        });
+        mSetTopSwitchLl.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(List<TIMGroupMemberResult> results) { //群组成员操作结果
-                for(TIMGroupMemberResult r : results) {
-                    Log.d(TAG, "result: " + r.getResult()  //操作结果:  0:添加失败；1：添加成功；2：原本是群成员
-                            + " user: " + r.getUser());    //用户帐号
-                }
+            public void onClick(View v) {
+
             }
-        };
-        //将 list 中的用户加入群组
-        TIMGroupManagerExt.getInstance().inviteGroupMember(groupId, list, cb);
+        });
+        mMsgNoAlertLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mClearRecordLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mQuitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void inviteGroupMember(ArrayList<String> list) {
+        String token = PreferenceUtil.getString(getActivity().getBaseContext(), "token");
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i) + ",");
+        }
+        String uid = sb.substring(0, sb.toString().length() - 1);
+        Log.i(TAG, "uid = " + uid);
+        NetWorkService initGroupMember = createRetrofit().create(NetWorkService.class);
+        Observable<ResponseBody> answers = initGroupMember.addFlockMember(token, groupId, "");
+        answers.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ResponseBody>() {
+                    @Override
+                    public void call(ResponseBody responseBody) {
+                        try {
+                            JSONObject result = new JSONObject(responseBody.string());
+                            if(0 == result.getInt("resultCode")) {
+                                Toast.makeText(getActivity(), result.getString("resultMsg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void quitGroup(String groupId) {
@@ -232,8 +265,12 @@ public class GroupInfoFragment extends BaseFragment {
 
             for(int j = 0; j < jsonArray.length(); j++) {
                 JSONObject headUrlJSONObj = new JSONObject();
-                String headUrl = jsonArray.getJSONObject(j).getString("headUrl");
-                headUrlJSONObj.put("headUrl", headUrl);
+                if(jsonArray.getJSONObject(j).has("headUrl")) {
+                    String headUrl = jsonArray.getJSONObject(j).getString("headUrl");
+                    headUrlJSONObj.put("headUrl", headUrl);
+                }else {
+                    headUrlJSONObj.put("headUrl", "");
+                }
                 headUrlJSONArr.put(headUrlJSONObj);
             }
             company.put("companyName", mapKey.get(i));
@@ -245,4 +282,25 @@ public class GroupInfoFragment extends BaseFragment {
         return result;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(resultCode == Activity.RESULT_OK && requestCode == 20) {
+            String data = intent.getStringExtra("data");
+            ArrayList<String> list = new ArrayList<>();
+            try {
+                if(null == data) {
+                    return;
+                }
+                JSONObject dataJson = new JSONObject(data);
+                for(int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
+                    String id = dataJson.getJSONArray("info").getJSONObject(i).getInt("id") + "";
+                    list.add(id);
+                }
+                inviteGroupMember(list);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -107,7 +107,12 @@
         <activity android:name=".ui.my.collect.DataBaseTravelActivity" />
         <activity android:name=".ui.my.history.HistroyActivity" />
         <activity android:name=".ui.KeFuActivity" />
-        <activity android:name=".ui.my.tuijian.TuiJianActivity" />
+        <activity android:name=".ui.my.tuijian.TuiJianActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.tuijian" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.ProvincesActivity" />
         <activity android:name=".ui.CityActivity" />

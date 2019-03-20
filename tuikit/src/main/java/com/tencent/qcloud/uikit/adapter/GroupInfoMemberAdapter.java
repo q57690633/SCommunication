@@ -32,7 +32,11 @@ public class GroupInfoMemberAdapter extends RecyclerView.Adapter<GroupInfoMember
 
     @Override
     public void onBindViewHolder(HeadImageViewHoder holder, int position) {
-        ImageLoader.getInstance().displayImage(list.get(position), holder.headImageView);
+        if("".equalsIgnoreCase(list.get(position))) {
+            holder.headImageView.setImageDrawable(mContext.getDrawable(R.drawable.default_head));
+        }else {
+            ImageLoader.getInstance().displayImage(list.get(position), holder.headImageView);
+        }
     }
 
     @Override
