@@ -214,6 +214,7 @@ public class GroupInfoFragment extends BaseFragment {
                             if(0 == result.getInt("resultCode")) {
                                 Toast.makeText(getActivity(), result.getString("resultMsg"), Toast.LENGTH_SHORT).show();
                             }
+                            initGroupMember(groupId);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
