@@ -233,6 +233,7 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getActivity(), getContext().getResources().getString(R.string.exit_group), Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
