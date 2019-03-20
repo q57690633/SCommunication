@@ -146,27 +146,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
                         PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
 
-
-                        TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
-                            @Override
-                            public void onError(int i, String s) {
-                                Toast.makeText(LoginActivity.this, i + "== error == " + s, Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            @Override
-                            public void onSuccess() {
-                                Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intentLogin);
-                                runOnUiThread(new Runnable() {
+                        new Thread(new Runnable() {
+                            
+                            public void run() {
+                                TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                                     @Override
-                                    public void run() {
-                                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                    public void onError(int i, String s) {
+                                        Toast.makeText(LoginActivity.this, "error code = " + i + " error msg = " + s, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+                                        Intent intentLogin = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intentLogin);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+//
                                     }
                                 });
-//
                             }
-                        });
+                        }).start();
 
                         cancelProgressDialog();
                     }, throwable -> {

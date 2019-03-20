@@ -271,10 +271,10 @@ public class GroupInfoFragment extends BaseFragment {
                 }else {
                     headUrlJSONObj.put("headUrl", "");
                 }
-                String username = jsonArray.getJSONObject(j).getString("username");
-                String companyName = jsonArray.getJSONObject(j).getString("companyName");
-                String positions = jsonArray.getJSONObject(j).getString("positions");
-                String industryType = jsonArray.getJSONObject(j).getString("industryType");
+//                String username = jsonArray.getJSONObject(j).getString("username");
+//                String companyName = jsonArray.getJSONObject(j).getString("companyName");
+//                String positions = jsonArray.getJSONObject(j).getString("positions");
+//                String industryType = jsonArray.getJSONObject(j).getString("industryType");
                 headUrlJSONArr.put(headUrlJSONObj);
             }
             company.put("companyName", mapKey.get(i));

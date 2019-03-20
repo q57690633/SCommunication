@@ -1812,8 +1812,8 @@ public class QiuGouActivity extends BaseActivity implements View.OnClickListener
                     jsonObject.put("tabId", "");
                     jsonArray.put(jsonObject);
                 }
-                jsonObject1.put("type", "3");
-                jsonObject1.put("houseType", String.valueOf(houseType));
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", "3");
                 jsonObject1.put("data", jsonArray);
             }
             str = jsonObject1.toString();
