@@ -56,6 +56,7 @@ dependencies {
     // ~80KB
     //    implementation(name: 'imsdk_4.0.0.1', ext: 'aar')
     api 'com.tencent.imsdk:imsdk:4.0.0.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'io.reactivex:rxjava:1.3.0'
     compile 'io.reactivex:rxandroid:1.1.0'
@@ -64,4 +65,3 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 }
-
