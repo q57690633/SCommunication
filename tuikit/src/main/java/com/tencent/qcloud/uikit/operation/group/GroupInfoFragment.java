@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,12 +20,16 @@ import android.widget.Toast;
 
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMGroupManager;
+import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMGroupMemberResult;
 import com.tencent.qcloud.uikit.PreferenceUtil;
 import com.tencent.qcloud.uikit.R;
+import com.tencent.qcloud.uikit.adapter.GroupDeleteMemberAdapter;
 import com.tencent.qcloud.uikit.adapter.GroupInfoMemberAdapter;
+import com.tencent.qcloud.uikit.business.chat.group.view.GroupDeleteMemberActivity;
 import com.tencent.qcloud.uikit.business.chat.view.itemdecoration.GridSpacingItemDecoration;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
@@ -63,10 +69,12 @@ public class GroupInfoFragment extends BaseFragment {
     private RecyclerView mMemberRv;
     private ImageView mAddMemberIv;
     private ImageView mDeleteMemberIv;
-    private LinearLayout mSetTopSwitchLl;
-    private LinearLayout mMsgNoAlertLl;
+    private CheckBox mSetTopCheckBox;
+    private CheckBox mMsgNoAlertCheckBox;
     private LinearLayout mClearRecordLl;
     private Button mQuitBtn;
+
+    private JSONArray groupMemberJSONArr = new JSONArray();
 
     @Nullable
     @Override
@@ -83,8 +91,8 @@ public class GroupInfoFragment extends BaseFragment {
         mMemberRv = mBaseView.findViewById(R.id.group_member_rv);
         mAddMemberIv = mBaseView.findViewById(R.id.icon_add_iv);
         mDeleteMemberIv = mBaseView.findViewById(R.id.icon_delete_iv);
-        mSetTopSwitchLl = mBaseView.findViewById(R.id.set_top_ll);
-        mMsgNoAlertLl = mBaseView.findViewById(R.id.msg_no_alert_ll);
+        mSetTopCheckBox = mBaseView.findViewById(R.id.set_top_checkbox);
+        mMsgNoAlertCheckBox = mBaseView.findViewById(R.id.msg_no_alert_checkbox);
         mClearRecordLl = mBaseView.findViewById(R.id.clear_record_ll);
         mQuitBtn = mBaseView.findViewById(R.id.quit_btn);
     }
@@ -129,6 +137,7 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void call(JSONArray jsonArray) {
                 Log.i(TAG, "jsonArray = " + jsonArray.toString());
+                groupMemberJSONArr = jsonArray;
                 ArrayList<String> list = new ArrayList<>();
                 try {
                     for(int i = 0; i < jsonArray.length(); i++) {
@@ -142,10 +151,10 @@ public class GroupInfoFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-                gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+                gridLayoutManager.setOrientation(GridLayout.VERTICAL);
                 mMemberRv.setLayoutManager(gridLayoutManager);
-                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(25, 0));
+                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(20, 20));
                 mMemberRv.setAdapter(new GroupInfoMemberAdapter(getActivity(), list));
             }
         });
@@ -165,18 +174,18 @@ public class GroupInfoFragment extends BaseFragment {
         mDeleteMemberIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                delMember();
+            }
+        });
+        mSetTopCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
             }
         });
-        mSetTopSwitchLl.setOnClickListener(new View.OnClickListener() {
+        mMsgNoAlertCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-
-            }
-        });
-        mMsgNoAlertLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
             }
         });
@@ -192,6 +201,13 @@ public class GroupInfoFragment extends BaseFragment {
                 quitGroup(groupId);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume method run");
+        initGroupMember(groupId);
     }
 
     private void inviteGroupMember(ArrayList<String> list) {
@@ -273,10 +289,42 @@ public class GroupInfoFragment extends BaseFragment {
                 }else {
                     headUrlJSONObj.put("headUrl", "");
                 }
-//                String username = jsonArray.getJSONObject(j).getString("username");
-//                String companyName = jsonArray.getJSONObject(j).getString("companyName");
-//                String positions = jsonArray.getJSONObject(j).getString("positions");
-//                String industryType = jsonArray.getJSONObject(j).getString("industryType");
+
+                if(jsonArray.getJSONObject(j).has("username")) {
+                    String username = jsonArray.getJSONObject(j).getString("username");
+                    headUrlJSONObj.put("username", username);
+                }else {
+                    headUrlJSONObj.put("username", "");
+                }
+
+                if(jsonArray.getJSONObject(j).has("positions")) {
+                    String positions = jsonArray.getJSONObject(j).getString("positions");
+                    headUrlJSONObj.put("positions", positions);
+                }else {
+                    headUrlJSONObj.put("positions", "");
+                }
+
+                if(jsonArray.getJSONObject(j).has("companyName")) {
+                    String companyName = jsonArray.getJSONObject(j).getString("companyName");
+                    headUrlJSONObj.put("companyName", companyName);
+                }else {
+                    headUrlJSONObj.put("companyName", "");
+                }
+
+                if(jsonArray.getJSONObject(j).has("industryType")) {
+                    String industryType = jsonArray.getJSONObject(j).getString("industryType");
+                    headUrlJSONObj.put("industryType", industryType);
+                }else {
+                    headUrlJSONObj.put("industryType", "");
+                }
+
+                if(jsonArray.getJSONObject(j).has("uid")) {
+                    int uid = jsonArray.getJSONObject(j).getInt("uid");
+                    headUrlJSONObj.put("uid", uid);
+                }else {
+                    headUrlJSONObj.put("uid", -100);
+                }
+
                 headUrlJSONArr.put(headUrlJSONObj);
             }
             company.put("companyName", mapKey.get(i));
@@ -286,6 +334,57 @@ public class GroupInfoFragment extends BaseFragment {
 
         }
         return result;
+    }
+
+    private void getGroupMembers() {
+        TIMValueCallBack<List<TIMGroupMemberInfo>> cb = new TIMValueCallBack<List<TIMGroupMemberInfo>> () {
+            @Override
+            public void onError(int code, String desc) {
+                Log.i(TAG, "getGroupMembers error code = " + code + " desc = " + desc);
+            }
+
+            @Override
+            public void onSuccess(List<TIMGroupMemberInfo> infoList) {//参数返回群组成员信息
+
+                for(TIMGroupMemberInfo info : infoList) {
+                    Log.i(TAG, "info = " + info.toString());
+                }
+            }
+        };
+
+        TIMGroupManagerExt.getInstance().getGroupMembers(groupId, cb);
+    }
+
+    private void delMember() {
+        int uid = PreferenceUtil.getInt(getContext(), "uid");
+        TIMValueCallBack<List<TIMGroupDetailInfo>> cb = new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+            @Override
+            public void onError(int code, String desc) {
+                Log.i(TAG, "getGroupInfo error code = " + code + " desc = " + desc);
+            }
+
+            @Override
+            public void onSuccess(List<TIMGroupDetailInfo> infoList) { //参数中返回群组信息列表
+                for(TIMGroupDetailInfo info : infoList) {
+                    if(uid == Integer.parseInt(info.getGroupOwner())) {
+                        Intent intent = new Intent(getActivity(), GroupDeleteMemberActivity.class);
+                        intent.putExtra("data", groupMemberJSONArr.toString());
+                        intent.putExtra("groupId", groupId);
+                        getActivity().startActivity(intent);
+                    }else {
+                        Toast.makeText(getContext(), getContext().getResources().getString(R.string.group_info_not_owner), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        };
+        getGroupInfo(cb);
+    }
+
+    private void getGroupInfo(TIMValueCallBack<List<TIMGroupDetailInfo>> cb) {
+        ArrayList<String> groupList = new ArrayList<String>();
+        groupList.add(groupId);
+        TIMGroupManagerExt.getInstance().getGroupDetailInfo(groupList, cb);
     }
 
     @Override

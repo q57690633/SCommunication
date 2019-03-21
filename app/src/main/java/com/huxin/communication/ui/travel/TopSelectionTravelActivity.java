@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.CityTravelsAdapter;
 import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.JingWaiAdapter;
+import com.huxin.communication.adpter.ProvincesTravelsAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.TicketingAdapter;
 import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
@@ -59,7 +61,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     private LinearLayout mLinearLayoutSorts;
     private LinearLayout mLinearLayoutPrices;
-    private LinearLayout mLinearLayoutMores;
+    private RelativeLayout mLinearLayoutMores;
 
     private RelativeLayout mRelativeLayoutSearch;
 
@@ -170,6 +172,17 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     private int travelType = 1;
 
+    private RelativeLayout mLinearLayoutMudi;
+    private RecyclerView mRecyclerViewAreaOne;
+    private RecyclerView mRecyclerViewAreaTwo;
+    private TextView mTextViewChufa;
+    private TextView mTextViewMuDi;
+
+    private TextView mTextViewChuFaDetermine;
+    private TextView mTextViewChuFaBuXian;
+    private TextView mTextViewCity;
+    private TextView mTextViewMoren;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -193,7 +206,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mLinearLayoutPrice = (LinearLayout) findViewById(R.id.price);
         mLinearLayoutSort = (LinearLayout) findViewById(R.id.sort);
 
-        mLinearLayoutMores = (LinearLayout) findViewById(R.id.travel_more);
+        mLinearLayoutMores = (RelativeLayout) findViewById(R.id.travel_more);
         mLinearLayoutPrices = (LinearLayout) findViewById(R.id.travel_price);
         mLinearLayoutSorts = (LinearLayout) findViewById(R.id.travel_sort);
 
@@ -264,6 +277,22 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mTextViewChongGaoDaoDiFanXian = (TextView) findViewById(R.id.conggaodaodi_fanxian);
         mTextViewChongDuoDaoShaoDay = (TextView) findViewById(R.id.day_congduodaoshao);
 
+        mLinearLayoutMudi = findViewById(R.id.travel_mudi);
+        mRecyclerViewAreaOne = findViewById(R.id.recyclerView_provinces);
+        mRecyclerViewAreaTwo = findViewById(R.id.recycler_city);
+        mTextViewChufa = findViewById(R.id.tv_chufa);
+        mTextViewMuDi = findViewById(R.id.tv_fangxin);
+
+        mTextViewChuFaDetermine = findViewById(R.id.chufa_Determine);
+        mTextViewChuFaBuXian = findViewById(R.id.chufa_buxian);
+        mTextViewCity = findViewById(R.id.tv_city);
+        mTextViewMoren = findViewById(R.id.moren);
+
+        mTextViewChuFaDetermine.setOnClickListener(this);
+        mTextViewChuFaBuXian.setOnClickListener(this);
+
+
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -310,7 +339,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     protected void loadData(Bundle savedInstanceState) {
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
-            gettingAroundTravel("",  "", productType, ""
+            gettingAroundTravel("",  "", "",productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", String.valueOf(travelType), "");
@@ -363,73 +392,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isClickQuYu) {
-            return;
-        }
-        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
-        KyLog.d(ChufaCityCode+ "travel");
-        KyLog.d(MuDi+ "travel");
-
-        if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode,  MuDi, productType, qita
-                        , huodong, zhushu, didian, jiaotong, xiaofei,
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType), "");
-            } else if (travelType == 3) {
-                gettingForeignTravel(ChufaCityCode, "", "", MuDi, "", huodong, zhushu, qita ,
-                        didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
-                        "1", "");
-            } else {
-                getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "", String.valueOf(productType), "", "1");
-            }
-
-        } else if (!TextUtils.isEmpty(ChufaCityCode)) {
-            if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(ChufaCityCode,  "", productType, qita
-                        , huodong, zhushu, didian, jiaotong, xiaofei,
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType), "");
-            } else if (travelType == 3) {
-                gettingForeignTravel(ChufaCityCode, "", "", "", "", huodong, zhushu, qita ,
-                        didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
-                        "1", "");
-            } else {
-                getTicketInfo("1", ChufaCityCode, "", "",
-                        "", "",String.valueOf( productType), "", "1");
-            }
-
-        } else if (!TextUtils.isEmpty(MuDi)) {
-            if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("",  MuDi, productType, ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType), "");
-            } else if (travelType == 3) {
-                gettingForeignTravel("", "", "", MuDi, "", "", "", "" ,
-                        "", "", "", xiaofei, String.valueOf(productType), "", "", "",
-                        "1", "");
-            } else {
-                getTicketInfo("1", "", "", "",
-                        "", "", String.valueOf(productType), "", "1");
-            }
-        } else {
-            if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel("",  "", productType, ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", String.valueOf(travelType), "");
-            } else if (travelType == 3) {
-                gettingForeignTravel("", "", "", "", "", "", "", "" ,
-                        "", "", "", "", "", "", "", "",
-                        "1", "");
-            } else {
-                getTicketInfo("1", "", "", "",
-                        "", "", String.valueOf(productType), "", "1");
-            }
-        }
 
     }
 
@@ -512,24 +474,65 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.chufadi_line:
-                Intent intent = new Intent(this, ProvincesTravelActivity.class);
-                intent.putExtra("type", 1);
-                startActivity(intent);
+                getProvinces(1);
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
+                    mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
+                }
+                mLinearLayoutSorts.setVisibility(View.GONE);
+                mLinearLayoutPrices.setVisibility(View.GONE);
+                mLinearLayoutMores.setVisibility(View.GONE);
+                mLinearLayoutMudi.setVisibility(View.VISIBLE);
+                mTextViewMoren.setVisibility(View.VISIBLE);
+                mTextViewCity.setVisibility(View.VISIBLE);
+                mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+
+
+                mRelativeLayoutRL.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle_pre);
+
+
                 isClickQuYu = true;
-                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
-                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))) {
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME, Constanst.SP_NAME);
                 }
                 break;
 
 
             case R.id.mudidi_line:
-                Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
-                intentMudDi.putExtra("type", 3);
-                startActivity(intentMudDi);
+                getProvinces(3);
+                mLinearLayoutSorts.setVisibility(View.GONE);
+                mLinearLayoutPrices.setVisibility(View.GONE);
+                mLinearLayoutMores.setVisibility(View.GONE);
+                mLinearLayoutMudi.setVisibility(View.VISIBLE);
+                mTextViewMoren.setVisibility(View.GONE);
+                mTextViewCity.setVisibility(View.GONE);
+                mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.blue));
+
+
+                mRelativeLayoutRL.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
                 isClickQuYu = true;
-                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
-                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))) {
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE, Constanst.SP_NAME);
                 }
+
 
                 break;
             case R.id.more_Determine:
@@ -543,7 +546,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 KyLog.d(xiaofei);
 
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel("", "", productType, qita
+                    gettingAroundTravel("", "", "",productType, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
                             "", "", "",
                             "1", "", "", String.valueOf(travelType), "");
@@ -562,20 +565,20 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 if (travelType == 1 || travelType == 2) {
                     //国内和周边
                     if (Integer.parseInt(minPrice) < 500) {
-                        gettingAroundTravel("", "", productType, ""
+                        gettingAroundTravel("", "", "",productType, ""
                                 , "", "", "", "", "",
                                 0 + "," + maxPrice, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        gettingAroundTravel("", "", productType, ""
+                        gettingAroundTravel("", "","", productType, ""
                                 , "", "", "", "", "",
                                 minPrice + "," + maxPrice, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        gettingAroundTravel("", "", productType, ""
+                        gettingAroundTravel("", "", "",productType, ""
                                 , "", "", "", "", "",
-                                7000 + "," + 1000000, "", "",
+                                minPrice + "," + 1000000, "", "",
                                 "1", "", "", String.valueOf(travelType), "");
                     }
                 } else if (travelType == 3) {
@@ -613,7 +616,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             case R.id.sort_Determine:
                 updata();
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel("", "", productType, ""
+                    gettingAroundTravel("", "", "",productType, ""
                             , "", "", "", "", "",
                             "", "", "",
                             "1", "", "", String.valueOf(travelType), "");
@@ -626,6 +629,58 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                             "", "", String.valueOf(productType), "", "1");
                 }
 
+                break;
+
+            case R.id.chufa_Determine:
+
+                String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
+                String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+                String MuDiProvince = PreferenceUtil.getString(Constanst.MUDI_PROVINCE_NAME);
+                KyLog.d(ChufaCityCode + "travel");
+                KyLog.d(MuDi + "travel");
+                updata();
+                if (!TextUtils.isEmpty(ChufaCityCode)) {
+
+                    if (travelType == 1 || travelType == 2) {
+                        gettingAroundTravel(ChufaCityCode, "", "", productType, ""
+                                , "", "", "", "", "",
+                                "", "", "",
+                                "1", "", "",  String.valueOf(travelType), "");
+                    } else if (travelType == 3) {
+                        gettingForeignTravel(ChufaCityCode, "", "", "", "", huodong, zhushu, qita ,
+                                didian, jiaotong, "", xiaofei, String.valueOf(productType), "", "", "",
+                                "1", "");
+                    } else {
+                        getTicketInfo("1", ChufaCityCode, "", "",
+                                "", "", String.valueOf(productType), "", "1");
+                    }
+
+
+                } else if (!TextUtils.isEmpty(MuDi) && !TextUtils.isEmpty(MuDiProvince)) {
+                    if (travelType == 1 || travelType == 2) {
+                        gettingAroundTravel("", MuDi, MuDiProvince, productType, ""
+                                , "", "", "", "", "",
+                                "","", "",
+                                "1", "", "", String.valueOf(travelType), "");
+                    } else if (travelType == 3) {
+                        gettingForeignTravel("", "", "", MuDi.substring(1, MuDi.length() - 1), "", "", "", "" ,
+                                "", "", "", xiaofei, String.valueOf(productType), "", "", "",
+                                "1", "");
+                    } else {
+                        getTicketInfo("1", "", "", "",
+                                "", "", String.valueOf(productType), "", "1");
+                    }
+
+
+                }
+                break;
+
+            case R.id.chufa_buxian:
+                updata();
+                gettingAroundTravel("", "", "", productType, ""
+                        , "", "", "", "", "",
+                        "", "", "",
+                        "1", "", "", String.valueOf(1), "");
                 break;
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.color.blue);
@@ -1075,7 +1130,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", productType, ""
+                gettingAroundTravel("", "", "",productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(1), "");
@@ -1090,7 +1145,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel("", "", productType, ""
+                gettingAroundTravel("", "","" ,productType, ""
                         , "", "", "", "", "",
                         "", "", "",
                         "1", "", "", String.valueOf(2), "");
@@ -1150,9 +1205,19 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mLinearLayoutSorts.setVisibility(View.GONE);
         mLinearLayoutPrices.setVisibility(View.GONE);
         mLinearLayoutMores.setVisibility(View.GONE);
+        mLinearLayoutMores.setVisibility(View.GONE);
+        mLinearLayoutMudi.setVisibility(View.GONE);
         mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+        mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
     }
 
     private void setDuoXuanData(AroundTravelEntity entity) {
@@ -1170,7 +1235,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         if (entity.getList() != null && entity.getList().size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
 
-            mAdpter = new ZhouBianAdapter(entity.getList(), this);
+            mAdpter = new ZhouBianAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1194,7 +1259,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         if (entity.getList() != null && entity.getList().size() > 0) {
 
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this);
+            mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1216,7 +1281,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mTicketAdapter = new TicketingAdapter(entity.getList(), this);
+            mTicketAdapter = new TicketingAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1230,7 +1295,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     /**
      * 国内和周边
      */
-    private void gettingAroundTravel(String depart_code, String goalsId,
+    private void gettingAroundTravel(String depart_code,  String goals_city, String goals_pro,
                                      int sort_type, String tOtherId,
                                      String tActivityId, String tStayId,
                                      String tAddressId, String tTrafficId,
@@ -1239,7 +1304,7 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                                      String curPage, String minDay, String maxDay,
                                      String travel_kind, String lineOrThrows) {
         showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel(depart_code, goalsId,
+        ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)),
                 travel_kind, lineOrThrows,"0",String.valueOf(PreferenceUtil.getInt(UID)))
@@ -1597,6 +1662,52 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mRecyclerViewDuoXuan.setFocusable(isFocusable);
 
 
+    }
+
+    public void getProvinces(int type) {
+        showProgressDialog();
+        ApiModule.getInstance().getProvinces().subscribe(provinceEntities -> {
+            cancelProgressDialog();
+            if (provinceEntities != null && provinceEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                ProvincesTravelsAdapter mAdapter = new ProvincesTravelsAdapter(provinceEntities, this, type);
+                mRecyclerViewAreaOne.setAdapter(mAdapter);
+                mRecyclerViewAreaOne.setLayoutManager(manager);
+                mAdapter.setOnItemClickListener(new ProvincesTravelsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        PreferenceUtil.putString(Constanst.MUDI_PROVINCE_NAME, provinceEntities.get(position).getProvince_name());
+                        getInlandCity(provinceEntities.get(position).getProvince_code(), type);
+                        mRecyclerViewAreaTwo.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                mRecyclerViewAreaTwo.setVisibility(View.GONE);
+            }
+        }, throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    public void getInlandCity(String provinceCode, int type) {
+        showProgressDialog();
+        ApiModule.getInstance().getInlandCity(provinceCode).subscribe(inlandCityEntities -> {
+            cancelProgressDialog();
+            if (inlandCityEntities != null && inlandCityEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                CityTravelsAdapter mAdapter = new CityTravelsAdapter(inlandCityEntities, this, type);
+                mRecyclerViewAreaTwo.setAdapter(mAdapter);
+                mRecyclerViewAreaTwo.setLayoutManager(manager);
+                mAdapter.NotifyChanged();
+
+            }
+        }, throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 
 }

@@ -138,5 +138,8 @@
     <string name="group_info_msg_no_alert">消息免打扰</string>
     <string name="group_info_clear_record">清空聊天记录</string>
     <string name="group_info_quit_btn">删除并退出</string>
+    <string name="group_info_not_owner">您不是群主，暂时无法删除群成员</string>
+    <string name="delete">删除</string>
+    <string name="group_delete_member">删除群成员</string>
 
 </resources>

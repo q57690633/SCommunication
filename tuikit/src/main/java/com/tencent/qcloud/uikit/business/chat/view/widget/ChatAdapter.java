@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMCustomElem;
@@ -466,10 +467,18 @@ public class ChatAdapter extends IChatAdapter {
                     customHolder.travelLayout.setVisibility(View.GONE);
                     customHolder.ticketingLayout.setVisibility(View.GONE);
                     customHolder.businessCardLayout.setVisibility(View.VISIBLE);
-                    JSONObject dataObj = jsonObject.getJSONArray("info").getJSONObject(0);
-                    ImageLoader.getInstance().displayImage(dataObj.getString("imageUrl"), customHolder.businessCardHeadUrl);
-                    customHolder.businessCardName.setText(dataObj.getString("name"));
-                    customHolder.businessCardPhone.setText(dataObj.getString("phone"));
+                    JSONObject dataObj = new JSONObject();
+                    if(jsonObject.has("info")) {
+                        dataObj = jsonObject.getJSONArray("info").getJSONObject(0);
+                        Glide.with(mContext).load(dataObj.getString("imageUrl")).placeholder(R.drawable.default_head).into(customHolder.businessCardHeadUrl);
+                        customHolder.businessCardName.setText(dataObj.getString("name"));
+                        customHolder.businessCardPhone.setText(dataObj.getString("phone"));
+                    }else if(jsonObject.has("data")) {
+                        dataObj = jsonObject.getJSONObject("data");
+                        Glide.with(mContext).load(dataObj.getString("headUrl")).placeholder(R.drawable.default_head).into(customHolder.businessCardHeadUrl);
+                        customHolder.businessCardName.setText(dataObj.getString("username"));
+                        customHolder.businessCardPhone.setText(dataObj.getString("phone"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

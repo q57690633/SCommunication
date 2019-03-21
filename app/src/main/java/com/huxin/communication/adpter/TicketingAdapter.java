@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.huxin.communication.R;
 import com.huxin.communication.entity.TicketInfoEntity;
+import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
+import com.huxin.communication.ui.travel.release.ReleaseTicketingActivity;
+import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
@@ -32,10 +35,13 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
     private Context mContext;
     private LayoutInflater mInflater;
     private TicketTableNameAdapter mAdapterTableName;
+    private int type;
 
-    public TicketingAdapter(List<TicketInfoEntity.ListBean> list, Context mContext) {
+    public TicketingAdapter(List<TicketInfoEntity.ListBean> list, Context mContext,int type) {
         this.list = list;
         this.mContext = mContext;
+        this.type = type;
+
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -46,9 +52,16 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, TicketingDetailsActivity.class);
-                intent.putExtra("list", list.get(hoder.getAdapterPosition()));
-                mContext.startActivity(intent);
+                if (type == 1) {
+                    Intent intent = new Intent(mContext, TicketingDetailsActivity.class);
+                    intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    mContext.startActivity(intent);
+                } else if (type == 2) {
+                    Intent intents = new Intent(mContext, ReleaseTicketingActivity.class);
+                    intents.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    intents.putExtra("id", list.get(hoder.getAdapterPosition()).getId());
+                    mContext.startActivity(intents);
+                }
             }
         });
         return hoder;

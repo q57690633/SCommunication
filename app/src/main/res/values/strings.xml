@@ -133,5 +133,9 @@
     <string name="title_activity_data_base_qiu_gou_details">DataBaseQiuGouDetailsActivity</string>
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_data_base_travel_detiails">DataBaseTravelDetiailsActivity</string>
+    <string name="title_activity_data_base_travel_ticket_detital">
+        DataBaseTravelTicketDetitalActivity
+    </string>
 
 </resources>

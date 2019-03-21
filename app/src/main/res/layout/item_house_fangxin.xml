@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="13dp"
                 android:text="一室"
-                android:textColor="@color/blue"
+                android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
             <ImageView
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="13dp"
                 android:text="两室"
-                android:textColor="@color/blue"
+                android:textColor="@color/register_font"
                 android:textSize="16sp" />
 
             <ImageView

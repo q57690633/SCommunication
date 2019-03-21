@@ -24,6 +24,7 @@ import com.huxin.communication.adpter.TableTravelTrafficAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
+import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.http.ApiModule;
@@ -165,7 +166,8 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     private ImageView mRelativeLayoutStickNew;
     private ImageView mRelativeLayoutStickRate;
 
-
+    private int id = 0;
+    private AroundTravelEntity.ListBean listBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -178,7 +180,8 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_release2);
 
         type = getIntent().getStringExtra("type");
-
+        id = getIntent().getIntExtra("id",0);
+        listBean = getIntent().getParcelableExtra("list");
     }
 
     @Override
@@ -314,8 +317,220 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
 
         SetEnabled();
-
+        if (id != 0) {
+            setData();
+        }
     }
+
+    private void setData() {
+        mTextViewMudiType = (TextView) findViewById(R.id.travel_mudi_type);
+        mTextViewHotType = (TextView) findViewById(R.id.travel_hot_type);
+        mTextViewDayType = (TextView) findViewById(R.id.travel_day_type);
+        mTextViewRelease1Type = (TextView) findViewById(R.id.release1_type);
+        mTextViewOccupationType = (TextView) findViewById(R.id.travel_Occupation_type);
+        if (listBean != null) {
+            mTextViewTotalPrice.setText(String.valueOf(listBean.getTotalPrice()));
+            mTextViewFinalPrice.setText(String.valueOf(listBean.getFinalPrice()));
+            mTextViewReturnPrice.setText(String.valueOf(listBean.getReturnPrice()));
+            mTextViewTotalPriceChild.setText(String.valueOf(listBean.getTotalPriceChild()));
+            mTextViewFinalPriceChild.setText(String.valueOf(listBean.getFinalPriceChild()));
+            mTextViewReturnPriceChild.setText(String.valueOf(listBean.getReturnPriceChild()));
+            mTextViewDayType.setText(String.valueOf(listBean.getNumberDays()));
+            if (!TextUtils.isEmpty(listBean.getTravelTitle())) {
+                mEditTextTravelTitle.setText(String.valueOf(listBean.getTravelTitle()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getGeneralize())) {
+                mEditTextGeneralize.setText(String.valueOf(listBean.getGeneralize()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getGoals_city())) {
+                mTextViewMudiType.setText(listBean.getGoals_city());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getDepart_name())) {
+                mTextViewOccupationType.setText(listBean.getDepart_name());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getSpotName())) {
+                mTextViewHotType.setText(listBean.getSpotName());
+            }
+
+            if (listBean.getLineOrThrow() == 0) {
+                mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_normal);
+                caixian = 1;
+            }else {
+                mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
+                caixian = 2;
+            }
+
+            if (listBean.getStick_better() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
+                better = 1;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_hot() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_low() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+            if (listBean.getStick_new() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_rate() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_throw() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_return() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 1;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_zeroC() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 1;
+            }
+
+            if (listBean.getPickupPrice() == 0){
+                mTextViewRelease1Type.setText("有周边接送费");
+                pickupPrice = "有周边接送费";
+            }else {
+                mTextViewRelease1Type.setText("无接送费");
+                pickupPrice = "无接送费";
+
+            }
+        }
+    }
+
+
 
     @Override
     protected void onResume() {
@@ -493,8 +708,11 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 1;
                 break;
             case R.id.confirm:
-//                issueAroundRoute();
-                uploadImage(selImageList);
+             if (id == 0){
+                    uploadImage(selImageList);
+                }else {
+                    uploadDataImage(selImageList,id);
+                }
                 break;
             case R.id.rl_travel_Occupation_type:
                 Intent intentOccupation = new Intent(this, ProvincesTravelActivity.class);
@@ -947,6 +1165,206 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 }
             }
         });
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param pathList
+     */
+    private void uploadDataImage(ArrayList<ImageItem> pathList,int id) {
+
+        String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
+        String Generalize = mEditTextGeneralize.getText().toString().trim();
+        String TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+        String FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+        String ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+        String TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+        String finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+        String ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+        Traffic = PreferenceUtil.getString(Constanst.TAB_NMAE_TRAFFIC);
+        Address = PreferenceUtil.getString(Constanst.TAB_NMAE_ADDRESS);
+        Consume = PreferenceUtil.getString(Constanst.TAB_NMAE_CONS);
+        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+        Stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
+        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+        if (!TextUtils.isEmpty(pickupPrice)) {
+            if (pickupPrice.equals("有周边接送费")) {
+                pickupPrices = 1;
+            } else {
+                pickupPrices = 0;
+            }
+        } else {
+            Toast.makeText(this, "请选择有无接送费", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
+            stick = 2;
+        } else {
+            stick = 1;
+        }
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+
+            Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
+            Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        KyLog.d(low + "");
+        KyLog.d(rate + "");
+        KyLog.d(returns + "");
+        KyLog.d(shuaiwei + "");
+        KyLog.d(hot + "");
+        KyLog.d(news + "");
+
+        showProgressDialog();
+
+        Map<String, String> map = new HashMap<>();
+        if (TextUtils.isEmpty(listBean.getDepart_code())){
+            map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
+        }else {
+            map.put("depart_code", listBean.getDepart_code());
+        }
+        if (TextUtils.isEmpty(listBean.getDepart_pro_code())){
+            map.put("depart_pro_code", PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+        }else {
+            map.put("depart_pro_code", listBean.getDepart_pro_code());
+        }
+
+        if (TextUtils.isEmpty(listBean.getGoalsId())){
+            map.put("goalsId", PreferenceUtil.getString(Constanst.SPOT_ID));
+
+        }else {
+            map.put("goalsId", listBean.getGoalsId());
+        }
+
+        if (TextUtils.isEmpty(listBean.getSpotName())){
+            map.put("spotName", PreferenceUtil.getString(Constanst.SPOT_NAME));
+        }else {
+            map.put("spotName", listBean.getSpotName());
+        }
+
+        map.put("numberDays", day);
+        map.put("totalPrice", TotalPrice);
+        map.put("finalPrice", FinalPrice);
+        map.put("returnPrice", ReturnPrice);
+        map.put("pickupPrice", String.valueOf(pickupPrices));
+
+        map.put("totalPriceChild", TotalPriceChild);
+        map.put("finalPriceChild", finalPriceChild);
+        map.put("returnPriceChild", ReturnPriceChild);
+        if (!TextUtils.isEmpty(Address)) {
+            map.put("tAddressId", Address);
+        }
+        if (!TextUtils.isEmpty(Traffic)) {
+
+            map.put("tTrafficId", Traffic);
+        }
+        if (!TextUtils.isEmpty(Consume)) {
+
+            map.put("tConsumeId", Consume);
+        }
+        if (!TextUtils.isEmpty(Activity)) {
+
+            map.put("tActivityId", Activity);
+        }
+        if (!TextUtils.isEmpty(Stay)) {
+
+            map.put("tStayId", Stay);
+        }
+        if (!TextUtils.isEmpty(Other)) {
+
+            map.put("tOtherId", Other);
+        }
+        map.put("travelTitle", TravelTitle);
+        map.put("generalize", Generalize);
+        map.put("stick", String.valueOf(stick));
+
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("lineOrThrow", String.valueOf(caixian));
+        map.put("stick_new", String.valueOf(news));
+        map.put("stick_low", String.valueOf(low));
+        map.put("stick_better", String.valueOf(better));
+        map.put("stick_throw", String.valueOf(shuaiwei));
+        map.put("stick_rate", String.valueOf(rate));
+        map.put("stick_return", String.valueOf(returns));
+        map.put("stick_hot", String.valueOf(hot));
+        map.put("stick_zeroC", String.valueOf(zeroC));
+
+        if (TextUtils.isEmpty(listBean.getGoals_city())){
+            map.put("goals_city", PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+
+        }else {
+            map.put("goals_city", listBean.getGoals_city());
+        }
+
+        if (TextUtils.isEmpty(listBean.getGoals_pro())){
+            map.put("goals_pro", PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+
+        }else {
+            map.put("goals_pro", listBean.getGoals_pro());
+        }
+
+        if (TextUtils.isEmpty(listBean.getGoals_city_code())){
+            map.put("goals_city_code", PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+
+        }else {
+            map.put("goals_city_code", listBean.getGoals_city_code());
+        }
+
+        if (TextUtils.isEmpty(listBean.getDepart_name())){
+            map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+        }else {
+            map.put("depart_name", listBean.getDepart_name());
+        }
+        map.put("id", String.valueOf(id));
+        map.put("token", PreferenceUtil.getString(TOKEN));
+//        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+
+
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/updatePersonageTravel";
+        KyLog.object(map);
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d("release === " + e);
+                Toast.makeText(ReleaseGuoNeiActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+                cancelProgressDialog();
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                //返回图片的地址
+                cancelProgressDialog();
+                KyLog.d("release == " + response);
+                Toast.makeText(ReleaseGuoNeiActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ReleaseGuoNeiActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {

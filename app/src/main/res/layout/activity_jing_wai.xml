@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -72,6 +72,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_chufa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="出发地"
@@ -195,21 +196,24 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_domestic"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:overScrollMode="never"
                 android:paddingLeft="11dp"
                 android:paddingRight="12dp"
                 android:scrollbars="none"
+                android:layout_marginBottom="10dp"
+
                 android:nestedScrollingEnabled="false"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_domestic_duoxuan"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:overScrollMode="never"
                 android:paddingLeft="11dp"
+                android:layout_marginBottom="70dp"
                 android:paddingRight="12dp"
                 android:scrollbars="none"
                 android:visibility="gone"
@@ -223,7 +227,8 @@
                 android:layout_marginTop="20dp"
                 android:text="没有更多数据了"
                 android:textColor="@color/sell_font"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
         </LinearLayout>
 
 
@@ -249,44 +254,47 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/btn_duoxuan"
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_duoxuan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="9dp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/collect_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="9dp"
-            android:visibility="gone">
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_blue"
+            android:paddingLeft="30dp"
+            android:paddingTop="9dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="9dp"
+            android:text="收藏"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/collect_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/btn_blue"
-                android:paddingLeft="30dp"
-                android:paddingTop="9dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="9dp"
-                android:text="收藏"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/delete_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/collect_btn"
+            android:background="@drawable/btn_green"
+            android:paddingLeft="30dp"
+            android:paddingTop="9dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="9dp"
+            android:text="转发"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/delete_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@id/collect_btn"
-                android:background="@drawable/btn_green"
-                android:paddingLeft="30dp"
-                android:paddingTop="9dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="9dp"
-                android:text="转发"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

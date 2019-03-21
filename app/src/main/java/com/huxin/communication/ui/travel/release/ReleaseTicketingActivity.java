@@ -696,7 +696,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
      *
      * @param pathList
      */
-    private void uploadImage(ArrayList<ImageItem> pathList) {
+    private void uploadDataImage(ArrayList<ImageItem> pathList) {
 
         String TicketName = mEditTextTicketName.getText().toString().trim();
         String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
@@ -861,6 +861,156 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             }
         });
     }
+
+    /**
+     * 上传图片
+     *
+     * @param pathList
+     */
+    private void uploadImage(ArrayList<ImageItem> pathList) {
+
+        String TicketName = mEditTextTicketName.getText().toString().trim();
+        String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
+        String FinalCar = mEditTextFinalCar.getText().toString().trim();
+        String finalprice = mEditTextfinalprice.getText().toString().trim();
+        String FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
+        String FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
+        String FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
+        String FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
+        String FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
+        String OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
+        String OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
+        String OriginalCar = mEditTextOriginalCar.getText().toString().trim();
+        String originalprice = mEditTextoriginalprice.getText().toString().trim();
+        String OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
+        String OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
+        String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
+        String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
+        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
+
+        if (TextUtils.isEmpty(TicketAddr) && TextUtils.isEmpty(TicketName)) {
+            Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
+            Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+
+        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
+            stick = 2;
+        } else {
+            stick = 1;
+        }
+        showProgressDialog();
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+
+        Map<String, String> map = new HashMap<>();
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))) {
+            map.put("ticket_pro_name", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+        }
+
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+            map.put("ticket_city_name", PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+        }
+        map.put("ticket_name", TicketName);
+        if (!TextUtils.isEmpty(TicketAddr)) {
+            map.put("ticket_addr", TicketAddr);
+        }
+        map.put("ticket_type", "1");
+        map.put("open_time", startTime + "~" + endTime);
+        map.put("original_price", originalprice);
+        map.put("final_price", finalprice);
+
+        map.put("original_price_child", OiginalPriceChild);
+        map.put("final_price_child", FinalPriceChild);
+        map.put("original_price_evening", OriginalPriceEvening);
+
+        map.put("final_price_evening", FinalPriceEvening);
+        map.put("original_price_parent_child", OriginalPriceParentChild);
+        map.put("final_price_parent_child", FinalPriceParentChild);
+        map.put("original_price_family", OriginalPriceFamily);
+
+
+        map.put("final_price_family", FinalPriceFamily);
+        map.put("original_boat", OriginalBoat);
+        map.put("final_boat", FinalBoat);
+        map.put("original_car", OriginalCar);
+
+        map.put("final_car", FinalCar);
+        map.put("ticket_theme_id", "");
+        if (!TextUtils.isEmpty(Activity)) {
+            map.put("ticket_activity_id", Activity);
+        }
+        if (!TextUtils.isEmpty(Other)) {
+            map.put("ticket_other_id", Other);
+        }
+
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("stick", String.valueOf(stick));
+        if (caixian != 0) {
+            map.put("line_or_throw", String.valueOf(caixian));
+        }
+        map.put("stick_new", String.valueOf(news));
+        map.put("stick_low", String.valueOf(low));
+        map.put("stick_better", String.valueOf(better));
+        map.put("stick_throw", String.valueOf(shuaiwei));
+        map.put("stick_rate", String.valueOf(rate));
+        map.put("stick_return", String.valueOf(returns));
+        map.put("stick_hot", String.valueOf(hot));
+        map.put("stick_zeroC", String.valueOf(zeroC));
+        map.put("token", PreferenceUtil.getString(TOKEN));
+
+        map.put("generalize", "");
+        map.put("original_price_total", OriginalPriceTotal);
+        map.put("final_price_total", FinalPriceTotal);
+        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
+            map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
+        }
+        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+
+        KyLog.object(map);
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
+
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                cancelProgressDialog();
+                super.onError(call, e, id);
+                KyLog.d(e + "");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                cancelProgressDialog();
+                super.onResponse(response, id);
+                KyLog.d(response);
+                //返回图片的地址
+                getUseInfo();
+                    Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+        });
+    }
+
+
+
+
+
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
         SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);

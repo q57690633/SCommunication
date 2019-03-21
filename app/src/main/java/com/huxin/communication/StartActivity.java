@@ -180,7 +180,7 @@ public class StartActivity extends BaseActivity {
                 public void onClick(View view) {
                     KyLog.d(position + "");
                     if (position == 2){
-                        Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                        Intent intent = new Intent(StartActivity.this,LoginActivity.class);
                         startActivity(intent);
                     }
                 }

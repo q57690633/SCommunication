@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.qcloud.uikit.R;
 
@@ -35,7 +37,13 @@ public class GroupInfoMemberAdapter extends RecyclerView.Adapter<GroupInfoMember
         if("".equalsIgnoreCase(list.get(position))) {
             holder.headImageView.setImageDrawable(mContext.getDrawable(R.drawable.default_head));
         }else {
-            ImageLoader.getInstance().displayImage(list.get(position), holder.headImageView);
+            Glide.with(mContext)
+                    .load(list.get(position))
+                    .placeholder(R.drawable.default_head)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .override(135, 135)
+                    .fitCenter()
+                    .into(holder.headImageView);
         }
     }
 

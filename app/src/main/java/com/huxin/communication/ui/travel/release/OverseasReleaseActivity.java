@@ -876,7 +876,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
-        map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_CODE));
+        map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_NAME));
         map.put("depart_pro_name", PreferenceUtil.getString(Constanst.PROVINCE_NAME));
         map.put("goals_nat_name", PreferenceUtil.getString(Constanst.NATION_NAME));
         map.put("goals_name", PreferenceUtil.getString(Constanst.CITY_NATION_NAME));

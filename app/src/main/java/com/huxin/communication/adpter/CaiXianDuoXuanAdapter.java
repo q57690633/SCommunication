@@ -183,7 +183,7 @@ public class CaiXianDuoXuanAdapter extends RecyclerView.Adapter<CaiXianDuoXuanAd
 
         public MyViewHoder(View itemView) {
             super(itemView);
-            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.zou_bian_line);
+            mLinearLayout = (LinearLayout) itemView.findViewById(R.id.jin_wai_line);
             mImageViewPhoto = (ImageView) itemView.findViewById(R.id.image_photo_url);
             mImageViewStickName = (ImageView) itemView.findViewById(R.id.stick_name);
             mImageViewHeadUrl = (ImageView) itemView.findViewById(R.id.headUrl);

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login_forget_password_code_fort"
-   >
+    android:background="@color/login_forget_password_code_fort">
 
 
     <LinearLayout
@@ -18,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingBottom="9dp"
-            android:paddingTop="14dp">
+            android:paddingTop="14dp"
+            android:paddingBottom="9dp">
 
             <TextView
                 android:id="@+id/quanbu"
@@ -60,8 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <LinearLayout
                 android:id="@+id/quyu"
@@ -227,35 +226,37 @@
                 android:id="@+id/recyler_sell"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:paddingLeft="11dp"
+                android:layout_marginBottom="10dp"
                 android:paddingRight="12dp"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="false"/>
+                android:scrollbars="none" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_sell_duoxuan"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:paddingLeft="11dp"
                 android:paddingRight="12dp"
+                android:layout_marginBottom="70dp"
                 android:scrollbars="none"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="没有更多数据了"
                 android:textColor="@color/sell_font"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="gone"/>
         </LinearLayout>
-
 
 
         <include
@@ -292,44 +293,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
-        <RelativeLayout
-            android:id="@+id/btn_duoxuan"
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_duoxuan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="9dp"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/collect_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:layout_marginBottom="20dp"
-            android:visibility="gone">
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_blue"
+            android:paddingLeft="30dp"
+            android:paddingTop="9dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="9dp"
+            android:text="收藏"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/collect_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:background="@drawable/btn_blue"
-                android:paddingLeft="30dp"
-                android:paddingTop="9dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="9dp"
-                android:text="收藏"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/delete_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/collect_btn"
+            android:background="@drawable/btn_green"
+            android:paddingLeft="30dp"
+            android:paddingTop="9dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="9dp"
+            android:text="转发"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/delete_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@id/collect_btn"
-                android:background="@drawable/btn_green"
-                android:paddingLeft="30dp"
-                android:paddingTop="9dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="9dp"
-                android:text="转发"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+</RelativeLayout>

@@ -60,7 +60,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     private LinearLayout mLinearLayoutSorts;
     private LinearLayout mLinearLayoutPrices;
-    private LinearLayout mLinearLayoutMores;
+    private RelativeLayout mLinearLayoutMores;
 
     private RelativeLayout mRelativeLayoutSearch;
     private RelativeLayout mRelativeLayoutDuoxuanBtn;
@@ -178,7 +178,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mLinearLayoutPrice = (LinearLayout) findViewById(R.id.price);
         mLinearLayoutSort = (LinearLayout) findViewById(R.id.sort);
 
-        mLinearLayoutMores = (LinearLayout) findViewById(R.id.travel_more);
+        mLinearLayoutMores = (RelativeLayout) findViewById(R.id.travel_more);
         mLinearLayoutPrices = (LinearLayout) findViewById(R.id.travel_price);
         mLinearLayoutSorts = (LinearLayout) findViewById(R.id.travel_sort);
 
@@ -957,7 +957,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             mRecyclerView.setVisibility(View.VISIBLE);
 
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdpter = new JingWaiAdapter(entity.getList(), this);
+            mAdpter = new JingWaiAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
