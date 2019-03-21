@@ -158,7 +158,6 @@
         android:layout_width="280dp"
         android:layout_height="40dp"
         android:layout_marginTop="33dp"
-        android:layout_marginStart="10dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/group_info_quit_btn"
         android:textColor="@color/white"
