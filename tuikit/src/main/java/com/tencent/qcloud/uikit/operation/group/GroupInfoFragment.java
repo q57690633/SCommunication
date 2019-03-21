@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,8 +69,8 @@ public class GroupInfoFragment extends BaseFragment {
     private RecyclerView mMemberRv;
     private ImageView mAddMemberIv;
     private ImageView mDeleteMemberIv;
-    private LinearLayout mSetTopSwitchLl;
-    private LinearLayout mMsgNoAlertLl;
+    private CheckBox mSetTopCheckBox;
+    private CheckBox mMsgNoAlertCheckBox;
     private LinearLayout mClearRecordLl;
     private Button mQuitBtn;
 
@@ -89,8 +91,8 @@ public class GroupInfoFragment extends BaseFragment {
         mMemberRv = mBaseView.findViewById(R.id.group_member_rv);
         mAddMemberIv = mBaseView.findViewById(R.id.icon_add_iv);
         mDeleteMemberIv = mBaseView.findViewById(R.id.icon_delete_iv);
-        mSetTopSwitchLl = mBaseView.findViewById(R.id.set_top_ll);
-        mMsgNoAlertLl = mBaseView.findViewById(R.id.msg_no_alert_ll);
+        mSetTopCheckBox = mBaseView.findViewById(R.id.set_top_checkbox);
+        mMsgNoAlertCheckBox = mBaseView.findViewById(R.id.msg_no_alert_checkbox);
         mClearRecordLl = mBaseView.findViewById(R.id.clear_record_ll);
         mQuitBtn = mBaseView.findViewById(R.id.quit_btn);
     }
@@ -149,10 +151,10 @@ public class GroupInfoFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 1);
-                gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+                gridLayoutManager.setOrientation(GridLayout.VERTICAL);
                 mMemberRv.setLayoutManager(gridLayoutManager);
-                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(25, 0));
+                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(20, 20));
                 mMemberRv.setAdapter(new GroupInfoMemberAdapter(getActivity(), list));
             }
         });
@@ -175,15 +177,15 @@ public class GroupInfoFragment extends BaseFragment {
                 delMember();
             }
         });
-        mSetTopSwitchLl.setOnClickListener(new View.OnClickListener() {
+        mSetTopCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
             }
         });
-        mMsgNoAlertLl.setOnClickListener(new View.OnClickListener() {
+        mMsgNoAlertCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
             }
         });
