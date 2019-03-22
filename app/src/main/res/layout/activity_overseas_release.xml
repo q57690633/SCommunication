@@ -1,893 +1,899 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
+    <include layout="@layout/widget_toobar" />
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <include layout="@layout/widget_toobar" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp">
+            android:orientation="vertical">
+
 
             <RelativeLayout
-                android:id="@+id/rl_travel_Occupation_type"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/login_forget_password_code_fort"
-                android:gravity="center">
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp">
 
-                <TextView
-                    android:id="@+id/travel_Occupation_type"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/rl_travel_Occupation_type"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="出发地"
-                    android:textColor="@color/red_setting"
-                    android:textSize="14dp" />
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/travel_Occupation_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="出发地"
+                        android:textColor="@color/red_setting"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle3" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_travel_mudi_type"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="13dp"
                     android:layout_alignParentRight="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_triangle3" />
+                    android:layout_marginRight="30dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/travel_mudi_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="目的地"
+                        android:textColor="@color/red_setting"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle3" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rl_travel_mudi_type"
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:gravity="center">
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp">
+
+                <RelativeLayout
+                    android:id="@+id/rl_travel_hot_type"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/travel_hot_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="热门景点"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_travel_day_type"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/travel_day_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="行程天数"
+                        android:textColor="@color/red_setting"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="13dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle3" />
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/travel_mudi_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="目的地"
-                    android:textColor="@color/red_setting"
-                    android:textSize="14dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="13dp"
                     android:layout_alignParentRight="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_triangle3" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:text="天"
+                    android:textColor="@color/register_font"
+                    android:textSize="12dp" />
             </RelativeLayout>
 
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp">
-
-            <RelativeLayout
-                android:id="@+id/rl_travel_hot_type"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:background="@color/login_forget_password_code_fort"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/travel_hot_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="热门景点"
-                    android:textColor="@color/login_walling_fort"
-                    android:textSize="14dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="13dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_triangle" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_travel_day_type"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/travel_day_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="行程天数"
-                    android:textColor="@color/red_setting"
-                    android:textSize="14dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="13dp"
-                    android:layout_alignParentRight="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_triangle3" />
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="2dp"
-                android:text="天"
-                android:textColor="@color/register_font"
-                android:textSize="12dp" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="成人："
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-
-            <EditText
-                android:id="@+id/totalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="直客价"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="="
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/finalPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="结算价"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="+"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/returnPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="返佣"
-                android:textColor="@color/red_setting"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="元"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="儿童："
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-
-            <EditText
-                android:id="@+id/totalPriceChild"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="直客价"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="="
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/finalPriceChild"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="结算价"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="+"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-            <EditText
-                android:id="@+id/returnPriceChild"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="13dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingLeft="8dp"
-                android:paddingTop="10dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="10dp"
-                android:hint="返佣"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="元"
-                android:textColor="@color/register_font"
-                android:textSize="16dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="14dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/add_country"
-                android:layout_width="152dp"
-                android:layout_height="wrap_content"
-                android:background="@color/login_forget_password_code_fort"
-                android:paddingBottom="9dp"
-                android:paddingLeft="12dp"
-                android:paddingTop="9dp"
-                android:text="添加多个国家"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp"
-                android:visibility="gone"/>
-
-            <ImageView
-                android:id="@+id/add_countrys"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_moare2"
-                android:visibility="gone"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="周边接送费："
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-            <RelativeLayout
-                android:id="@+id/rl_release1_type"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="11dp"
-                android:background="@color/login_forget_password_code_fort"
-                android:gravity="center">
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/release1_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="无"
+                    android:text="成人："
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+
+                <EditText
+                    android:id="@+id/totalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="直客价"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
                     android:textColor="@color/login_walling_fort"
                     android:textSize="14dp" />
 
-                <ImageView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="="
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/finalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
-                    android:layout_marginRight="13dp"
-                    android:layout_toRightOf="@id/release1_type"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="结算价"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="+"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/returnPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="返佣"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/red_setting"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="元"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="儿童："
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+
+                <EditText
+                    android:id="@+id/totalPriceChild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="直客价"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="="
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/finalPriceChild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="结算价"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="+"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/returnPriceChild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:hint="返佣"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="元"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/add_country"
+                    android:layout_width="152dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="9dp"
+                    android:paddingBottom="9dp"
+                    android:text="添加多个国家"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/add_countrys"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_triangle" />
+                    android:src="@drawable/icon_moare2"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周边接送费："
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_release1_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:background="@color/login_forget_password_code_fort"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/release1_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="无"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/release1_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/travelTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:hint="标题信息（30字内）"
+                android:padding="9dp"
+                android:textColorHint="@color/login_walling_fort" />
+
+            <EditText
+                android:id="@+id/generalize"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="12dp"
+                android:background="@color/login_forget_password_code_fort"
+                android:gravity="top"
+                android:hint="推广话术"
+                android:padding="9dp"
+                android:textColorHint="@color/login_walling_fort" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="线路的地点标签"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="17dp"
+                    android:layout_marginRight="13dp"
+                    android:text="标签可多选"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
             </RelativeLayout>
-        </LinearLayout>
 
-        <EditText
-            android:id="@+id/travelTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:hint="标题信息（30字内）"
-            android:padding="9dp"
-            android:textColorHint="@color/login_walling_fort" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/address_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
 
-        <EditText
-            android:id="@+id/generalize"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/login_forget_password_code_fort"
-            android:gravity="top"
-            android:hint="推广话术"
-            android:padding="9dp"
-            android:textColorHint="@color/login_walling_fort" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="15dp"
-                android:text="线路的地点标签"
+                android:text="线路的交通标签"
                 android:textColor="@color/register_font"
                 android:textSize="16dp" />
 
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/traffic_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的消费标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cons_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的活动标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/activity_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的住宿标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/stay_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的其他标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/other_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="18dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="甩位"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/lineOrThrow_shuaiWei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_normal" />
+
+                <ImageView
+                    android:id="@+id/lineOrThrow_shuaiWei_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_selected"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="33dp"
+                    android:text="踩线"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/lineOrThrow_caixian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_normal" />
+
+                <ImageView
+                    android:id="@+id/lineOrThrow_caixian_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_circle_selected"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择置顶标签"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/top_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="置顶信息剩余5条"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
-                android:layout_marginRight="13dp"
-                android:text="标签可多选"
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-        </RelativeLayout>
+                android:layout_marginRight="12dp"
+                android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/address_recycler"
-            android:nestedScrollingEnabled="false"/>
+                <RelativeLayout
 
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的交通标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
+                    <ImageView
+                        android:id="@+id/stick_new"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/traffic_recycler"
-            android:nestedScrollingEnabled="false"/>
+                    <ImageView
+                        android:id="@+id/rl_stick_new"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的消费标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/sign_shangxin"
+                        android:scaleType="centerCrop" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cons_recycler"
-            android:nestedScrollingEnabled="false"/>
+                </RelativeLayout>
 
+                <RelativeLayout
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的活动标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/activity_recycler"
-            android:nestedScrollingEnabled="false"/>
+                    <ImageView
+                        android:id="@+id/stick_low"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的住宿标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
+                    <ImageView
+                        android:id="@+id/rl_stick_low"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_tejia" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/stick_better"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/stay_recycler"
-            android:nestedScrollingEnabled="false"/>
+                    <ImageView
+                        android:id="@+id/rl_stick_better"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的其他标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_jingpin" />
+
+                </RelativeLayout>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/other_recycler"
-            android:nestedScrollingEnabled="false"/>
+                <RelativeLayout
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="18dp"
-            android:orientation="horizontal">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
 
-            <TextView
-                android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/stick_throw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
+
+
+                    <ImageView
+                        android:id="@+id/rl_stick_throw"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_shuaiwei" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="甩位"
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="12dp"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/lineOrThrow_shuaiWei"
-                android:layout_width="wrap_content"
+                <RelativeLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/stick_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
+
+
+                    <ImageView
+                        android:id="@+id/rl_stick_rate"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_xingjiabi" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/stick_return"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
+
+
+                    <ImageView
+                        android:id="@+id/rl_stick_return"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_gaofanyong" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/stick_hot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
+
+
+                    <ImageView
+                        android:id="@+id/rl_stick_hot"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_hot" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="17dp"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/stick_zeroC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/icon_circle_normal"
+                        android:scaleType="centerCrop" />
+
+
+                    <ImageView
+                        android:id="@+id/rl_stick_zeroC"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sign_ziwei" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/lineOrThrow_shuaiWei_click"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上传海报"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="最大不超过5M"
+                    android:textColor="@color/login_walling_fort"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
+                android:choiceMode="singleChoice"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:listSelector="@android:color/transparent"
+                android:scrollbarStyle="outsideOverlay"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/list_travel_item_image" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="33dp"
-                android:text="踩线"
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-            <ImageView
-                android:id="@+id/lineOrThrow_caixian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_normal" />
-
-            <ImageView
-                android:id="@+id/lineOrThrow_caixian_click"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_circle_selected"
-                android:visibility="gone" />
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/blue"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="立即发布"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
 
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择置顶标签"
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-            <TextView
-                android:id="@+id/top_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="置顶信息剩余5条"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_new"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_new"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/sign_shangxin" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_low"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_low"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_tejia" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_better"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_better"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_jingpin" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_throw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_throw"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_shuaiwei" />
-
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_rate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_rate"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_xingjiabi"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_return"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_return"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_gaofanyong"
-                    />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_hot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_hot"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_hot" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="17dp"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/stick_zeroC"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/icon_circle_normal" />
-
-
-                <ImageView
-                    android:id="@+id/rl_stick_zeroC"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/sign_ziwei" />
-
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="上传海报"
-                android:textColor="@color/register_font"
-                android:textSize="14dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="最大不超过5M"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:listSelector="@android:color/transparent"
-            android:scrollbarStyle="outsideOverlay"
-            app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="4"
-            tools:listitem="@layout/list_item_image" />
-
-        <TextView
-            android:id="@+id/confirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/blue"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="立即发布"
-            android:textColor="@color/white"
-            android:textSize="17dp" />
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

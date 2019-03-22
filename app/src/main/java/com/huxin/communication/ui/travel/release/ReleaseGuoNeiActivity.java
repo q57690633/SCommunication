@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.ImagePickerTravelAdapter;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
 import com.huxin.communication.adpter.TableTravelAddressListAdapter;
 import com.huxin.communication.adpter.TableTravelConsAdapter;
@@ -143,7 +144,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     private int maxImgCount = 9;               //允许选择图片最大数
 
     private RecyclerView mRecyclerViewAddPicture;
-    private ImagePickerAdapter adapter;
+    private ImagePickerTravelAdapter adapter;
 
     private HttpUtil httpUtil;
 
@@ -168,6 +169,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
     private int id = 0;
     private AroundTravelEntity.ListBean listBean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +182,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_release2);
 
         type = getIntent().getStringExtra("type");
-        id = getIntent().getIntExtra("id",0);
+        id = getIntent().getIntExtra("id", 0);
         listBean = getIntent().getParcelableExtra("list");
     }
 
@@ -188,7 +190,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     protected void initViews() {
         if (id == 0) {
             setToolbarCenterMode("发布国内游线路", MODE_BACK);
-        }else {
+        } else {
             setToolbarCenterMode("编辑国内游线路", MODE_BACK);
 
         }
@@ -308,11 +310,9 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
-        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,1);
-        getUseInfo();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
-        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter = new ImagePickerTravelAdapter(this, selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
 
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
@@ -362,7 +362,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_normal);
                 caixian = 1;
-            }else {
+            } else {
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
                 caixian = 2;
@@ -519,17 +519,16 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 1;
             }
 
-            if (listBean.getPickupPrice() == 0){
+            if (listBean.getPickupPrice() == 0) {
                 mTextViewRelease1Type.setText("有周边接送费");
                 pickupPrice = "有周边接送费";
-            }else {
+            } else {
                 mTextViewRelease1Type.setText("无接送费");
                 pickupPrice = "无接送费";
 
             }
         }
     }
-
 
 
     @Override
@@ -708,10 +707,10 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 zeroC = 1;
                 break;
             case R.id.confirm:
-             if (id == 0){
+                if (id == 0) {
                     uploadImage(selImageList);
-                }else {
-                    uploadDataImage(selImageList,id);
+                } else {
+                    uploadDataImage(selImageList, id);
                 }
                 break;
             case R.id.rl_travel_Occupation_type:
@@ -1134,6 +1133,8 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 super.onResponse(response, id);
                 //返回图片的地址
                 KyLog.d(response);
+                getUseInfo();
+
                 Toast.makeText(ReleaseGuoNeiActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseGuoNeiActivity.this, MainActivity.class);
@@ -1172,7 +1173,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
      *
      * @param pathList
      */
-    private void uploadDataImage(ArrayList<ImageItem> pathList,int id) {
+    private void uploadDataImage(ArrayList<ImageItem> pathList, int id) {
 
         String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
         String Generalize = mEditTextGeneralize.getText().toString().trim();
@@ -1213,16 +1214,16 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
 
             Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
+        if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1238,27 +1239,27 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
-        if (TextUtils.isEmpty(listBean.getDepart_code())){
+        if (TextUtils.isEmpty(listBean.getDepart_code())) {
             map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
-        }else {
+        } else {
             map.put("depart_code", listBean.getDepart_code());
         }
-        if (TextUtils.isEmpty(listBean.getDepart_pro_code())){
+        if (TextUtils.isEmpty(listBean.getDepart_pro_code())) {
             map.put("depart_pro_code", PreferenceUtil.getString(Constanst.PROVINCE_CODE));
-        }else {
+        } else {
             map.put("depart_pro_code", listBean.getDepart_pro_code());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoalsId())){
+        if (TextUtils.isEmpty(listBean.getGoalsId())) {
             map.put("goalsId", PreferenceUtil.getString(Constanst.SPOT_ID));
 
-        }else {
+        } else {
             map.put("goalsId", listBean.getGoalsId());
         }
 
-        if (TextUtils.isEmpty(listBean.getSpotName())){
+        if (TextUtils.isEmpty(listBean.getSpotName())) {
             map.put("spotName", PreferenceUtil.getString(Constanst.SPOT_NAME));
-        }else {
+        } else {
             map.put("spotName", listBean.getSpotName());
         }
 
@@ -1309,30 +1310,30 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         map.put("stick_hot", String.valueOf(hot));
         map.put("stick_zeroC", String.valueOf(zeroC));
 
-        if (TextUtils.isEmpty(listBean.getGoals_city())){
+        if (TextUtils.isEmpty(listBean.getGoals_city())) {
             map.put("goals_city", PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
 
-        }else {
+        } else {
             map.put("goals_city", listBean.getGoals_city());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoals_pro())){
+        if (TextUtils.isEmpty(listBean.getGoals_pro())) {
             map.put("goals_pro", PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
 
-        }else {
+        } else {
             map.put("goals_pro", listBean.getGoals_pro());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoals_city_code())){
+        if (TextUtils.isEmpty(listBean.getGoals_city_code())) {
             map.put("goals_city_code", PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
 
-        }else {
+        } else {
             map.put("goals_city_code", listBean.getGoals_city_code());
         }
 
-        if (TextUtils.isEmpty(listBean.getDepart_name())){
+        if (TextUtils.isEmpty(listBean.getDepart_name())) {
             map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
-        }else {
+        } else {
             map.put("depart_name", listBean.getDepart_name());
         }
         map.put("id", String.valueOf(id));
@@ -1358,6 +1359,8 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 super.onResponse(response, id);
                 //返回图片的地址
                 cancelProgressDialog();
+                getUseInfo();
+
                 KyLog.d("release == " + response);
                 Toast.makeText(ReleaseGuoNeiActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ReleaseGuoNeiActivity.this, MainActivity.class);
@@ -1378,7 +1381,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     private void getUseInfo() {
         ApiModule.getInstance().getUserInfo(String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(loginEntity -> {
-                    PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
+                    PreferenceUtil.putInt(Constanst.TOP_ZHIDING, loginEntity.getStickNumber());
 
                 }, throwable -> {
 //                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1386,7 +1389,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 });
     }
 
-    private void SetEnabled(){
+    private void SetEnabled() {
         if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) <= 0) {
             mRelativeLayoutStickBetter.setEnabled(false);
             mRelativeLayoutStickBetter.setFocusable(false);
@@ -1411,7 +1414,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
             mRelativeLayoutStickZeroC.setEnabled(false);
             mRelativeLayoutStickZeroC.setFocusable(false);
-        }else {
+        } else {
             mRelativeLayoutStickBetter.setEnabled(true);
             mRelativeLayoutStickBetter.setFocusable(true);
 

@@ -766,10 +766,10 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
             Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (loans == 0 && keying == 0){
-            Toast.makeText(this, "请选择钥匙和贷款", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if ( keying == 0){
+//            Toast.makeText(this, "请选择钥匙", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
@@ -902,7 +902,7 @@ public class ReleseLaseActivity extends BaseActivity implements View.OnClickList
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
                         mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
                         mRecyclerViewSearch.setLayoutManager(manager);
-                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {

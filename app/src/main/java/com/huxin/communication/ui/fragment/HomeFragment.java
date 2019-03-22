@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.SQLiteUtil;
 import com.huxin.communication.view.AutoScrollLayoutManager;
+import com.huxin.communication.view.SmoothLinearLayoutManager;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -76,6 +78,8 @@ import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -418,11 +422,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         KyLog.d(homeEntity.getCarousel().size() + "");
                         setOnBinner(homeEntity.getCarousel());
                         if (homeEntity.getHeadLine() != null && homeEntity.getHeadLine().size() > 0) {
-                            AutoScrollLayoutManager manager = new AutoScrollLayoutManager(getContext());
+                            final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
                             mHeadLineAdapter = new HeadHouseAdapter(homeEntity.getHeadLine(), getContext());
                             mRecyclerViewHead.setAdapter(mHeadLineAdapter);
-                            mRecyclerViewHead.setLayoutManager(manager);
-//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
+                            mRecyclerViewHead.setLayoutManager(layoutManager);
+
+                            PagerSnapHelper snapHelper = new PagerSnapHelper();
+                            snapHelper.attachToRecyclerView(mRecyclerViewHead);
+
+                            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+                            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
+                                }
+                            }, 4000, 4000, TimeUnit.MILLISECONDS);
                         }
                     }
 
@@ -490,29 +505,33 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         KyLog.object(list);
 
                         if (list.size() > 0) {
-                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
+                            final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+
                             mHeadTravelAdapter = new HomeTravelAdapter(list, getContext());
                             mRecyclerViewHead.setAdapter(mHeadTravelAdapter);
-                            mRecyclerViewHead.setLayoutManager(manager);
-//                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
-                        }
-//
-//                        if (homeTravelEntity.getTicketHead() != null && homeTravelEntity.getTicketHead().size() > 0) {
-//                            LinearLayoutManager manager = new LinearLayoutManager(getContext());
-//                            mTravelTicketAdapter = new HeadTravelTicketAdapter(homeTravelEntity.getTicketHead(), getContext());
-//                            mRecyclerViewHead.setAdapter(mHeadLineAdapter);
-//                            mRecyclerViewHead.setLayoutManager(manager);
-////                            mRecyclerViewHead.addItemDecoration(new SpaceItemDecoration(0, 15));
-//                        }
+                            mRecyclerViewHead.setHasFixedSize(true);
+                            mRecyclerViewHead.setLayoutManager(layoutManager);
 
+                            PagerSnapHelper snapHelper = new PagerSnapHelper();
+                            snapHelper.attachToRecyclerView(mRecyclerViewHead);
+
+                            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+                            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
+                                }
+                            }, 4000, 4000, TimeUnit.MILLISECONDS);
+                        }
                     }
+
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-//                    cancelProgressDialog();
 //                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     // 设置焦点图片数量小圆点的方法
     // private int page=0;
@@ -1015,6 +1034,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 });
 
     }
+
 
     /**
      * 取消订阅

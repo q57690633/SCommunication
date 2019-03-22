@@ -48,7 +48,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      */
     @Override
     public int getItemViewType(int position) {
-        KyLog.d(position + "a");
+        KyLog.d(list.get(position % list.size()).getProductType() + "a");
 //        KyLog.d(list.get(position).getProductType() + "a");
 
         if (position < list.size()) {
@@ -100,28 +100,28 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHoder) {
-            ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position).getTravelTitle());
-            ((MyViewHoder) holder).mTextViewchufadi.setText(list.get(position).getDepart_name());
-            ((MyViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position).getGoals_city());
-            ((MyViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position).getTotalPrice()) + "元/人");
-            ((MyViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position).getNumberDays()) + "天");
-            ((MyViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position).getNumberDays())+ "元/人");
-            ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
+            ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravelTitle());
+            ((MyViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
+            ((MyViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_city());
+            ((MyViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotalPrice()) + "元/人");
+            ((MyViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumberDays()) + "天");
+            ((MyViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays())+ "元/人");
+            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
         }if (holder instanceof MyJinWaiViewHoder) {
-            ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position).getTravelTitle());
-            ((MyJinWaiViewHoder) holder).mTextViewchufadi.setText(list.get(position).getDepart_name());
-            ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position).getGoals_city());
-            ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position).getTotalPrice()) + "元/人");
-            ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position).getNumberDays())+ "元/人");
+            ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravelTitle());
+            ((MyJinWaiViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
+            ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_nat_name());
+            ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotalPrice()) + "元/人");
+            ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays())+ "元/人");
 
-            ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position).getNumberDays()) + "天");
-            ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), ((MyJinWaiViewHoder) holder).mImageViewPhoto);
+            ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumberDays()) + "天");
+            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyJinWaiViewHoder) holder).mImageViewPhoto);
         } else if (holder instanceof MyRentViewHoder) {
-            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position).getTicket_name());
-            ((MyRentViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position).getOriginal_price()) + "元/人");
-            ((MyRentViewHoder) holder).mTextViewAddress.setText(list.get(position).getTicket_city_name());
-            ((MyRentViewHoder) holder).mTextViewReturnPrice.setText(String.valueOf("返佣：" + list.get(position).getFinal_price()) + "元/人");
-            ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
+            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTicket_name());
+            ((MyRentViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getOriginal_price()) + "元/人");
+            ((MyRentViewHoder) holder).mTextViewAddress.setText(list.get(position % list.size()).getTicket_city_name());
+            ((MyRentViewHoder) holder).mTextViewReturnPrice.setText(String.valueOf("返佣：" + list.get(position % list.size()).getFinal_price()) + "元/人");
+            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
 //            setTextView(list, position % list.size(), ((MyRentViewHoder) holder).mRecyclerView);
         }
 

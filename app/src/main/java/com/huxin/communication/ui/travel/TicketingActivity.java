@@ -9,7 +9,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,7 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TicketingActivity extends BaseActivity implements View.OnClickListener {
+public class TicketingActivity extends BaseActivity implements View.OnClickListener , EditText.OnEditorActionListener{
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -169,6 +171,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
     private TextView mTextViewCity;
     private TextView mTextViewMoren;
 
+    private EditText mEditTextSearch;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -272,6 +277,12 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
         mTextViewChuFaDetermine = findViewById(R.id.chufa_Determine);
         mTextViewChuFaBuXian = findViewById(R.id.chufa_buxian);
+
+
+        mEditTextSearch = findViewById(R.id.toolbar_editText_search);
+
+        mEditTextSearch.setOnEditorActionListener(this);
+
 
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
@@ -1275,6 +1286,24 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             stringBuffer.append("{").append(sb).append("}");
         }
         return "L" + sb.toString();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        switch (i) {
+            case EditorInfo.IME_ACTION_GO:
+                String search = mEditTextSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(search)) {
+                    getTicketInfo(String.valueOf(TicketType), "", "", "",
+                            "", "", "", search, "1");
+                } else {
+                    Toast.makeText(TicketingActivity.this, "请输入要搜索的内容", Toast.LENGTH_SHORT).show();
+                }
+                KyLog.d("Done_content: " + search);
+                break;
+
+        }
+        return true;
     }
 
     private void setEnabled(boolean isFocusable) {

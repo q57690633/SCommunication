@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.ImagePickerTravelAdapter;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
 import com.huxin.communication.adpter.TableTravelAddressListAdapter;
 import com.huxin.communication.adpter.TableTravelConsAdapter;
@@ -154,7 +155,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     private int maxImgCount = 9;               //允许选择图片最大数
 
     private RecyclerView mRecyclerViewAddPicture;
-    private ImagePickerAdapter adapter;
+    private ImagePickerTravelAdapter adapter;
 
     private HttpUtil httpUtil;
 
@@ -321,10 +322,9 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         PreferenceUtil.putInt(Constanst.TOP_ZHIDING,0);
         selectTravelTab();
         deteledData();
-        getUseInfo();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
-        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter = new ImagePickerTravelAdapter(this, selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
@@ -1080,16 +1080,16 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
 
             Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
+        if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1171,6 +1171,8 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 super.onResponse(response, id);
                 //返回图片的地址
                 KyLog.d(response);
+                getUseInfo();
+
                 Toast.makeText(OverseasReleaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(OverseasReleaseActivity.this, MainActivity.class);
@@ -1220,7 +1222,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 }, throwable -> {
 //                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     KyLog.d(throwable.getMessage());
-                    PreferenceUtil.putInt(Constanst.TOP_ZHIDING,0);
 
                 });
     }

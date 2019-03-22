@@ -411,7 +411,7 @@ public class ReleaseRentActivity extends BaseActivity implements View.OnClickLis
                         mSelectBylikeAdapter = new SelectByLikeAdapter(selectByLikeEntities, this);
                         mRecyclerViewSearch.setAdapter(mSelectBylikeAdapter);
                         mRecyclerViewSearch.setLayoutManager(manager);
-                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
+//                        mRecyclerViewSearch.addItemDecoration(new SpaceItemDecoration(0, 15));
                         mSelectBylikeAdapter.setOnMyItemClickListener(new SelectByLikeAdapter.OnMyItemClickListener() {
                             @Override
                             public void myClick(View v, int pos) {

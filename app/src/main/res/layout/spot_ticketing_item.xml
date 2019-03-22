@@ -764,7 +764,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="置顶信息剩余5条"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
     </LinearLayout>
@@ -1045,7 +1044,7 @@
         android:scrollbarStyle="outsideOverlay"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="4"
-        tools:listitem="@layout/list_item_image" />
+        tools:listitem="@layout/list_travel_item_image" />
 
     <TextView
         android:id="@+id/confirm"

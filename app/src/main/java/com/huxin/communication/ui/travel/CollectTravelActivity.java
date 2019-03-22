@@ -1238,6 +1238,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
         } else {
+            mRecyclerView.setVisibility(View.GONE);
+
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
     }

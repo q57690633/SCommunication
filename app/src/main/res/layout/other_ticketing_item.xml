@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/other_ticket_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -23,7 +24,6 @@
         android:orientation="horizontal">
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -33,7 +33,7 @@
             android:textSize="16dp" />
 
         <RelativeLayout
-            android:id="@+id/rl_travel_ticket_province"
+            android:id="@+id/other_rl_travel_ticket_province"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/biaoqian_radius"
@@ -41,7 +41,7 @@
             android:layout_marginTop="14dp">
 
             <TextView
-                android:id="@+id/travel_ticket_province"
+                android:id="@+id/other_travel_ticket_province"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -60,7 +60,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_travel_ticket_city"
+            android:id="@+id/other_rl_travel_ticket_city"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/biaoqian_radius"
@@ -69,7 +69,7 @@
             android:layout_marginLeft="30dp">
 
             <TextView
-                android:id="@+id/travel_ticket_city"
+                android:id="@+id/other_travel_ticket_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -106,7 +106,7 @@
             android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/start_time"
+            android:id="@+id/other_start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/biaoqian_radius"
@@ -128,7 +128,7 @@
             android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/end_start"
+            android:id="@+id/other_end_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/biaoqian_radius"
@@ -140,6 +140,20 @@
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
     </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/other_generalize"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/login_forget_password_code_fort"
+        android:gravity="top"
+        android:hint="推广话术"
+        android:padding="9dp"
+        android:textColorHint="@color/login_walling_fort" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -160,7 +174,8 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <EditText
+            android:id="@+id/other_final_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/login_forget_password_code_fort"
@@ -168,7 +183,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="10dp"
-            android:text="结算价"
+            android:hint="结算价"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
 
@@ -180,7 +195,8 @@
             android:textColor="@color/register_font"
             android:textSize="16dp" />
 
-        <TextView
+        <EditText
+            android:id="@+id/other_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -189,7 +205,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="10dp"
-            android:text="原价"
+            android:hint="原价"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
 
@@ -204,140 +220,11 @@
     </LinearLayout>
 
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/other_ticket_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="11dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="一卡通"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="代金券"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="折扣群"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="游乐场"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="洗车"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="113dp"
-        android:layout_marginTop="11dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="汗蒸"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="保健"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="足疗"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="9dp"
-            android:layout_weight="1"
-            android:background="@color/login_walling_fort"
-            android:gravity="center"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:text="租车"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
-
-    </LinearLayout>
-
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -354,11 +241,12 @@
             android:textSize="14dp" />
 
         <ImageView
+            android:id="@+id/other_ticket_shuaiWei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_normal" />
+            android:background="@drawable/icon_circle_normal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -369,6 +257,7 @@
             android:textSize="14dp" />
 
         <ImageView
+            android:id="@+id/other_lineOrThrow_shuaiWei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -392,6 +281,7 @@
             android:textSize="14dp" />
 
         <TextView
+            android:id="@+id/other_top_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -414,7 +304,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_new"
+                android:id="@+id/other_stick_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -424,7 +314,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_new"
+                android:id="@+id/other_rl_stick_new"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -441,7 +331,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_low"
+                android:id="@+id/other_stick_low"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -452,7 +342,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_low"
+                android:id="@+id/other_rl_stick_low"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -469,7 +359,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_better"
+                android:id="@+id/other_stick_better"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -480,7 +370,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_better"
+                android:id="@+id/other_rl_stick_better"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -498,7 +388,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_throw"
+                android:id="@+id/other_stick_throw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -509,7 +399,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_throw"
+                android:id="@+id/other_rl_stick_throw"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -535,7 +425,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_rate"
+                android:id="@+id/other_stick_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -546,7 +436,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_rate"
+                android:id="@+id/other_rl_stick_rate"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -563,7 +453,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_return"
+                android:id="@+id/other_stick_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -574,7 +464,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_return"
+                android:id="@+id/other_rl_stick_return"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -592,7 +482,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_hot"
+                android:id="@+id/other_stick_hot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
@@ -603,7 +493,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_hot"
+                android:id="@+id/other_rl_stick_hot"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -621,7 +511,7 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/stick_zeroC"
+                android:id="@+id/other_stick_zeroC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -632,7 +522,7 @@
 
 
             <ImageView
-                android:id="@+id/rl_stick_zeroC"
+                android:id="@+id/other_rl_stick_zeroC"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -666,7 +556,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/other_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:choiceMode="singleChoice"
@@ -676,10 +566,10 @@
         android:scrollbarStyle="outsideOverlay"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="4"
-        tools:listitem="@layout/list_item_image" />
+        tools:listitem="@layout/list_travel_item_image" />
 
     <TextView
-        android:id="@+id/confirm"
+        android:id="@+id/other_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

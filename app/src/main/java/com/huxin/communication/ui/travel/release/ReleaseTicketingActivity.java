@@ -19,6 +19,7 @@ import com.aitangba.pickdatetime.DatePickDialog;
 import com.aitangba.pickdatetime.OnSureListener;
 import com.aitangba.pickdatetime.bean.DateParams;
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.ImagePickerTravelAdapter;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
 import com.huxin.communication.adpter.TableTravelOverseasAdapter;
 import com.huxin.communication.base.BaseActivity;
@@ -87,33 +88,18 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     private EditText mEditTextFinalCar;
     private EditText mEditTextOriginalCar;
 
+
     private RecyclerView mRecyclerViewtheme;
     private RecyclerView mRecyclerViewActivity;
 
-
     private ImageView mImageViewStickNew;
-//    private ImageView mImageViewStickNewClick;
-
     private ImageView mImageViewStickLow;
-//    private ImageView mImageViewStickLowClick;
-
     private ImageView mImageViewStickBetter;
-//    private ImageView mImageViewStickBetterClick;
-
     private ImageView mImageViewStickThrow;
-//    private ImageView mImageViewStickThrowClick;
-
     private ImageView mImageViewStickRate;
-//    private ImageView mImageViewStickRateClick;
-
     private ImageView mImageViewStickReturn;
-//    private ImageView mImageViewStickReturnClick;
-
     private ImageView mImageViewStickHot;
-//    private ImageView mImageViewStickHotClick;
-
     private ImageView mImageViewStickZeroC;
-//    private ImageView mImageViewStickZeroClick;
 
     private TextView mTextViewConfirm;
     private TextView mTextViewProvince;
@@ -142,10 +128,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     public static final int REQUEST_CODE_PREVIEW = 101;
 
     private ArrayList<ImageItem> selImageList; //当前选择的所有图片
+    private ArrayList<ImageItem> selImageListOther; //当前选择的所有图片
+
+
     private int maxImgCount = 9;               //允许选择图片最大数
 
     private RecyclerView mRecyclerViewAddPicture;
-    private ImagePickerAdapter adapter;
+    private ImagePickerTravelAdapter adapter;
 
     private HttpUtil httpUtil;
 
@@ -176,13 +165,60 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
     private int id = 0;
     private TicketInfoEntity.ListBean listBean;
+    private int ticket_type = 1;
+
+    //******************分割线******************//
+
+    private EditText mEditTextTicketNameOther;
+
+    private EditText mEditTextfinalpriceOther;
+    private EditText mEditTextoriginalpriceOther;
+
+    private RecyclerView mRecyclerViewthemeOther;
+
+    private ImageView mImageViewStickNewOther;
+    private ImageView mImageViewStickLowOther;
+    private ImageView mImageViewStickBetterOther;
+    private ImageView mImageViewStickThrowOther;
+    private ImageView mImageViewStickRateOther;
+    private ImageView mImageViewStickReturnOther;
+    private ImageView mImageViewStickHotOther;
+    private ImageView mImageViewStickZeroCOther;
+
+    private TextView mTextViewConfirmOther;
+    private TextView mTextViewProvinceOther;
+    private TextView mTextViewCityOther;
+    private TextView mEditTextStartTimeOther;
+    private TextView mEditTextEndStartOther;
+
+    private RelativeLayout mRelativeLayoutProvinceOther;
+    private RelativeLayout mRelativeLayoutCityOther;
+
+    private RecyclerView mRecyclerViewAddPictureOther;
+    private ImagePickerTravelAdapter adapterOther;
+
+    private TextView mTextViewTopMessageOther;
+
+
+    private ImageView mRelativeLayoutStickZeroCOther;
+    private ImageView mRelativeLayoutStickReturnOther;
+    private ImageView mRelativeLayoutStickHotOther;
+    private ImageView mRelativeLayoutStickThrowOther;
+    private ImageView mRelativeLayoutStickBetterOther;
+    private ImageView mRelativeLayoutStickLowOther;
+    private ImageView mRelativeLayoutStickNewOther;
+    private ImageView mRelativeLayoutStickRateOther;
+
+    private EditText mEditTextGeneralizeOther;
+
+    private ImageView mImageViewShuaiWeiOther;
+
+    private ImageView mImageViewCaiXianOther;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
 
     }
@@ -201,7 +237,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     protected void initViews() {
         if (id == 0) {
             setToolbarCenterMode("发布票务", MODE_BACK);
-        }else {
+        } else {
             setToolbarCenterMode("编辑票务", MODE_BACK);
 
         }
@@ -238,32 +274,14 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
 
         mImageViewStickNew = (ImageView) findViewById(R.id.stick_new);
-//        mImageViewStickNewClick = (ImageView) findViewById(R.id.stick_new_click);
-
         mImageViewStickLow = (ImageView) findViewById(R.id.stick_low);
-//        mImageViewStickLowClick = (ImageView) findViewById(R.id.stick_low_click);
-
         mImageViewStickBetter = (ImageView) findViewById(R.id.stick_better);
-//        mImageViewStickBetterClick = (ImageView) findViewById(R.id.stick_better_click);
-
         mImageViewStickThrow = (ImageView) findViewById(R.id.stick_throw);
-//        mImageViewStickThrowClick = (ImageView) findViewById(R.id.stick_throw_click);
-
         mImageViewStickRate = (ImageView) findViewById(R.id.stick_rate);
-//        mImageViewStickRateClick = (ImageView) findViewById(R.id.stick_rate_click);
-
         mImageViewStickReturn = (ImageView) findViewById(R.id.stick_return);
-//        mImageViewStickReturnClick = (ImageView) findViewById(R.id.stick_return_click);
-
-
         mImageViewStickHot = (ImageView) findViewById(R.id.stick_hot);
-//        mImageViewStickHotClick = (ImageView) findViewById(R.id.stick_hot_click);
-
         mImageViewStickZeroC = (ImageView) findViewById(R.id.stick_zeroC);
-//        mImageViewStickZeroClick = (ImageView) findViewById(R.id.stick_zeroC_click);
-
         mTextViewConfirm = (TextView) findViewById(R.id.confirm);
-
         mRecyclerViewAddPicture = (RecyclerView) findViewById(R.id.recyclerView);
 
         mRelativeLayoutProvince = findViewById(R.id.rl_travel_ticket_province);
@@ -283,28 +301,64 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mRelativeLayoutStickHot = findViewById(R.id.rl_stick_hot);
         mRelativeLayoutStickThrow = findViewById(R.id.rl_stick_throw);
         mRelativeLayoutStickZeroC = findViewById(R.id.rl_stick_zeroC);
-
         mEditTextGeneralize = findViewById(R.id.generalize);
+
+
+        //**********************分割线**************************//
+
+        mEditTextTicketNameOther = (EditText) findViewById(R.id.other_ticket_name);
+
+
+        mEditTextfinalpriceOther = (EditText) findViewById(R.id.other_final_price);
+        mEditTextoriginalpriceOther = (EditText) findViewById(R.id.other_original_price);
+
+        mImageViewShuaiWeiOther = (ImageView) findViewById(R.id.other_ticket_shuaiWei);
+        mImageViewCaiXianOther = (ImageView) findViewById(R.id.other_lineOrThrow_shuaiWei);
+        mRecyclerViewthemeOther = (RecyclerView) findViewById(R.id.other_ticket_theme);
+
+        mImageViewStickNewOther = (ImageView) findViewById(R.id.other_stick_new);
+        mImageViewStickLowOther = (ImageView) findViewById(R.id.other_stick_low);
+        mImageViewStickBetterOther = (ImageView) findViewById(R.id.other_stick_better);
+        mImageViewStickThrowOther = (ImageView) findViewById(R.id.other_stick_throw);
+        mImageViewStickRateOther = (ImageView) findViewById(R.id.other_stick_rate);
+        mImageViewStickReturnOther = (ImageView) findViewById(R.id.other_stick_return);
+        mImageViewStickHotOther = (ImageView) findViewById(R.id.other_stick_hot);
+        mImageViewStickZeroCOther = (ImageView) findViewById(R.id.other_stick_zeroC);
+        mTextViewConfirmOther = (TextView) findViewById(R.id.other_confirm);
+        mRecyclerViewAddPictureOther = (RecyclerView) findViewById(R.id.other_recyclerView);
+
+
+        mRelativeLayoutProvinceOther = findViewById(R.id.other_rl_travel_ticket_province);
+        mRelativeLayoutCityOther = findViewById(R.id.other_rl_travel_ticket_city);
+        mTextViewProvinceOther = findViewById(R.id.other_travel_ticket_province);
+        mTextViewCityOther = findViewById(R.id.other_travel_ticket_city);
+        mEditTextStartTimeOther = findViewById(R.id.other_start_time);
+        mEditTextEndStartOther = findViewById(R.id.other_end_start);
+
+        mTextViewTopMessageOther = findViewById(R.id.other_top_message);
+
+        mRelativeLayoutStickNewOther = findViewById(R.id.other_rl_stick_new);
+        mRelativeLayoutStickBetterOther = findViewById(R.id.other_rl_stick_better);
+        mRelativeLayoutStickLowOther = findViewById(R.id.other_rl_stick_low);
+        mRelativeLayoutStickRateOther = findViewById(R.id.other_rl_stick_rate);
+        mRelativeLayoutStickReturnOther = findViewById(R.id.other_rl_stick_return);
+        mRelativeLayoutStickHotOther = findViewById(R.id.other_rl_stick_hot);
+        mRelativeLayoutStickThrowOther = findViewById(R.id.other_rl_stick_throw);
+        mRelativeLayoutStickZeroCOther = findViewById(R.id.other_rl_stick_zeroC);
+
+        mEditTextGeneralizeOther = findViewById(R.id.other_generalize);
 
         mTextViewSpot.setOnClickListener(this);
         mTextViewOther.setOnClickListener(this);
 
         mImageViewStickNew.setOnClickListener(this);
-//        mImageViewStickNewClick.setOnClickListener(this);
         mImageViewStickLow.setOnClickListener(this);
-//        mImageViewStickLowClick.setOnClickListener(this);
         mImageViewStickBetter.setOnClickListener(this);
-//        mImageViewStickBetterClick.setOnClickListener(this);
         mImageViewStickThrow.setOnClickListener(this);
-//        mImageViewStickThrowClick.setOnClickListener(this);
         mImageViewStickRate.setOnClickListener(this);
-//        mImageViewStickRateClick.setOnClickListener(this);
         mImageViewStickReturn.setOnClickListener(this);
-//        mImageViewStickReturnClick.setOnClickListener(this);
         mImageViewStickHot.setOnClickListener(this);
-//        mImageViewStickHotClick.setOnClickListener(this);
         mImageViewStickZeroC.setOnClickListener(this);
-//        mImageViewStickZeroClick.setOnClickListener(this);
         mTextViewConfirm.setOnClickListener(this);
 
         mRelativeLayoutCity.setOnClickListener(this);
@@ -322,37 +376,87 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         mRelativeLayoutStickThrow.setOnClickListener(this);
         mRelativeLayoutStickNew.setOnClickListener(this);
 
+
+        //***********************分割线*************************//
+
+        mImageViewStickNewOther.setOnClickListener(this);
+        mImageViewStickLowOther.setOnClickListener(this);
+        mImageViewStickBetterOther.setOnClickListener(this);
+        mImageViewStickThrowOther.setOnClickListener(this);
+        mImageViewStickRateOther.setOnClickListener(this);
+        mImageViewStickReturnOther.setOnClickListener(this);
+        mImageViewStickHotOther.setOnClickListener(this);
+        mImageViewStickZeroCOther.setOnClickListener(this);
+        mTextViewConfirmOther.setOnClickListener(this);
+
+        mRelativeLayoutCityOther.setOnClickListener(this);
+        mRelativeLayoutProvinceOther.setOnClickListener(this);
+
+        mEditTextEndStartOther.setOnClickListener(this);
+        mEditTextStartTimeOther.setOnClickListener(this);
+
+        mRelativeLayoutStickZeroCOther.setOnClickListener(this);
+        mRelativeLayoutStickBetterOther.setOnClickListener(this);
+        mRelativeLayoutStickLowOther.setOnClickListener(this);
+        mRelativeLayoutStickReturnOther.setOnClickListener(this);
+        mRelativeLayoutStickRateOther.setOnClickListener(this);
+        mRelativeLayoutStickHotOther.setOnClickListener(this);
+        mRelativeLayoutStickThrowOther.setOnClickListener(this);
+        mRelativeLayoutStickNewOther.setOnClickListener(this);
+
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-
-        selectTravelTab();
-        PreferenceUtil.putInt(Constanst.TOP_ZHIDING, 0);
-        getUseInfo();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
-        adapter = new ImagePickerAdapter(this, selImageList, maxImgCount);
+        adapter = new ImagePickerTravelAdapter(this, selImageList, maxImgCount);
         adapter.setOnItemClickListener(this);
-
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
         mRecyclerViewAddPicture.setAdapter(adapter);
 
-        mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+        selImageListOther = new ArrayList<>();
+        adapterOther = new ImagePickerTravelAdapter(this, selImageListOther, maxImgCount);
+        adapterOther.setOnItemClickListener(this);
+        mRecyclerViewAddPictureOther.setLayoutManager(new GridLayoutManager(this, 4));
+        mRecyclerViewAddPictureOther.setHasFixedSize(true);
+        mRecyclerViewAddPictureOther.setAdapter(adapterOther);
 
-        SetEnabled();
+        mTextViewSpot.setBackgroundResource(R.color.blue);
+        mTextViewOther.setBackgroundResource(R.color.login_forget_password_code_fort);
+        mTextViewOther.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewSpot.setTextColor(getResources().getColor(R.color.white_ticketing));
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        selectTravelTab(ticket_type);
 
-        mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
-        mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+        if (ticket_type == 1) {
+            mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+            mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+            mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+        } else {
+            mTextViewTopMessageOther.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+            mTextViewProvinceOther.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+            mTextViewCityOther.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+        }
+        if (ticket_type == 1) {
+            SetEnabled();
+        } else {
+            SetOtherEnabled();
+
+        }
+
         if (id != 0) {
-            setData();
+            if (ticket_type == 1) {
+                setData();
+            } else {
+                setOterData();
+            }
         }
     }
 
@@ -561,6 +665,196 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     }
 
 
+    private void setOterData() {
+        KyLog.object(listBean);
+        if (listBean != null) {
+            if (!TextUtils.isEmpty(listBean.getTicket_name())) {
+                mEditTextTicketNameOther.setText(String.valueOf(listBean.getTicket_name()));
+            }
+            mEditTextfinalpriceOther.setText(String.valueOf(listBean.getFinal_price()));
+            mEditTextoriginalpriceOther.setText(String.valueOf(listBean.getOriginal_price()));
+
+
+            if (!TextUtils.isEmpty(listBean.getTicket_addr())) {
+                mTextViewProvinceOther.setText(String.valueOf(listBean.getTicket_addr()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getGeneralize())) {
+                mEditTextGeneralizeOther.setText(String.valueOf(listBean.getGeneralize()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getIssue_time())) {
+                mEditTextStartTimeOther.setText(listBean.getIssue_time());
+            }
+
+            if (listBean.getLine_or_throw() == 0) {
+                mImageViewShuaiWeiOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewCaiXianOther.setBackgroundResource(R.drawable.icon_circle_normal);
+
+                caixian = 1;
+            } else {
+                mImageViewShuaiWeiOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewCaiXianOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                caixian = 2;
+            }
+
+            if (listBean.getStick_better() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                better = 1;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_hot() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_low() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+            if (listBean.getStick_new() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_rate() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_throw() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_return() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 1;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_zeroC() == 1) {
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 1;
+            }
+
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -571,6 +865,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mTextViewOther.setBackgroundResource(R.color.login_forget_password_code_fort);
                 mTextViewOther.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSpot.setTextColor(getResources().getColor(R.color.white_ticketing));
+                ticket_type = 1;
                 break;
             case R.id.other_tv:
                 mLinearLayoutOther.setVisibility(View.VISIBLE);
@@ -579,6 +874,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mTextViewOther.setBackgroundResource(R.color.blue);
                 mTextViewOther.setTextColor(getResources().getColor(R.color.white_ticketing));
                 mTextViewSpot.setTextColor(getResources().getColor(R.color.register_font));
+                ticket_type = 2;
                 break;
             case R.id.rl_stick_better:
                 mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
@@ -733,8 +1029,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 zeroC = 1;
                 break;
             case R.id.confirm:
-//                issueTicketForeignRoute();
-                uploadImage(selImageList);
+                    if (id == 0) {
+                        uploadImage(selImageList);
+                    }else {
+                        uploadDataImage(selImageList);
+                    }
+
                 break;
 
             case R.id.rl_travel_ticket_province:
@@ -769,81 +1069,222 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
 
+                caixian = 2;
+                break;
+
+
+            case R.id.other_rl_stick_better:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                better = 1;
+
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+            case R.id.other_rl_stick_hot:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+
+            case R.id.other_rl_stick_new:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.other_rl_stick_low:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.other_rl_stick_throw:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.other_rl_stick_rate:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+                break;
+
+            case R.id.other_rl_stick_return:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 1;
+                zeroC = 0;
+                break;
+
+            case R.id.other_rl_stick_zeroC:
+                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 1;
+                break;
+            case R.id.other_confirm:
+                if (id == 0) {
+                    uploadImage(selImageListOther);
+                }else {
+                    uploadDataImage(selImageListOther);
+                }
+                break;
+
+            case R.id.other_rl_travel_ticket_province:
+                Intent intentOther = new Intent(this, ProvincesTravelActivity.class);
+                intentOther.putExtra("type", 4);
+                startActivity(intentOther);
+                break;
+            case R.id.other_rl_travel_ticket_city:
+
+                Intent intentCityOther = new Intent(this, CityTravelActivity.class);
+                intentCityOther.putExtra("type", 4);
+                intentCityOther.putExtra(Constanst.PROVINCE_CODE, PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
+                startActivity(intentCityOther);
+                break;
+
+            case R.id.other_start_time:
+                StartDatePickDialog(DateParams.TYPE_HOUR, DateParams.TYPE_MINUTE);
+
+                break;
+            case R.id.other_end_start:
+                EndDatePickDialog(DateParams.TYPE_HOUR, DateParams.TYPE_MINUTE);
+                break;
+
+            case R.id.other_ticket_shuaiWei:
+                mImageViewShuaiWeiOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewCaiXianOther.setBackgroundResource(R.drawable.icon_circle_normal);
+
                 caixian = 1;
+
+                break;
+            case R.id.other_lineOrThrow_shuaiWei:
+                mImageViewCaiXianOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewShuaiWeiOther.setBackgroundResource(R.drawable.icon_circle_normal);
+
+                caixian = 2;
                 break;
         }
     }
 
-    private void issueTicketForeignRoute() {
-        String TicketName = mEditTextTicketName.getText().toString().trim();
-        String EndStart = mEditTextEndStart.getText().toString().trim();
-        String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
-        String FinalCar = mEditTextFinalCar.getText().toString().trim();
-        String finalprice = mEditTextfinalprice.getText().toString().trim();
-        String FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
-        String FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
-        String FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
-        String FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
-        String FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
-        String OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
-        String OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
-        String OriginalCar = mEditTextOriginalCar.getText().toString().trim();
-        String originalprice = mEditTextoriginalprice.getText().toString().trim();
-        String OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
-        String OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
-        String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
-        String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
-        String StartTime = mEditTextStartTime.getText().toString().trim();
-        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
-        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
-            stick = 2;
-        } else {
-            stick = 1;
-        }
+    private void selectTravelTab(int type) {
         showProgressDialog();
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_CODE));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
-
-        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
-        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
-
-        ApiModule.getInstance().issueTicketForeignRoute(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME), PreferenceUtil.getString(Constanst.TICKET_CITY_NAME), TicketName, TicketAddr, "1",
-                StartTime + "~" + EndStart, originalprice, finalprice, OiginalPriceChild, FinalPriceChild, OriginalPriceEvening, FinalPriceEvening,
-                OriginalPriceParentChild, FinalPriceParentChild, OriginalPriceFamily, FinalPriceFamily, OriginalBoat, FinalBoat, OriginalCar, FinalCar,
-                null, null, null, String.valueOf(stick), String.valueOf(caixian),
-                null, String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), null,
-                OriginalPriceTotal, FinalPriceTotal, "", String.valueOf(PreferenceUtil.getInt(UID)))
-                .subscribe(response -> {
-
-                    cancelProgressDialog();
-//                    KyLog.d(response.getResultMsg());
-//                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
-
-    private void selectTravelTab() {
-        showProgressDialog();
-        ApiModule.getInstance().selectTravelTab("1")
+        ApiModule.getInstance().selectTravelTab(String.valueOf(type))
                 .subscribe(tabTravelNameEntity -> {
                     KyLog.object(tabTravelNameEntity + "");
                     cancelProgressDialog();
-                    setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
-                    setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
+                    if (type == 1) {
+                        setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
+                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
 
+                    } else {
+                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewthemeOther);
+
+                    }
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
@@ -924,8 +1365,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             if (data != null && requestCode == REQUEST_CODE_SELECT) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 if (images != null) {
-                    selImageList.addAll(images);
-                    adapter.setImages(selImageList);
+                    if (ticket_type == 1) {
+                        selImageList.addAll(images);
+                        adapter.setImages(selImageList);
+                    }else {
+                        selImageListOther.addAll(images);
+                        adapterOther.setImages(selImageListOther);
+                    }
                 }
             }
         } else if (resultCode == ImagePicker.RESULT_CODE_BACK) {
@@ -933,14 +1379,37 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             if (data != null && requestCode == REQUEST_CODE_PREVIEW) {
                 ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_ITEMS);
                 if (images != null) {
-                    selImageList.clear();
-                    selImageList.addAll(images);
-                    adapter.setImages(selImageList);
+                    if (ticket_type == 1) {
+                        selImageList.clear();
+                        selImageList.addAll(images);
+                        adapter.setImages(selImageList);
+                    }else {
+                        selImageListOther.clear();
+                        selImageListOther.addAll(images);
+                        adapterOther.setImages(selImageListOther);
+                    }
                 }
             }
         }
     }
 
+    String TicketName;
+    String FinalBoat;
+    String FinalCar;
+    String finalprice;
+    String FinalPriceChild;
+    String FinalPriceEvening;
+    String FinalPriceFamily;
+    String FinalPriceParentChild;
+    String FinalPriceTotal;
+    String OiginalPriceChild;
+    String OriginalBoat;
+    String OriginalCar;
+    String originalprice;
+    String OriginalPriceEvening;
+    String OriginalPriceFamily;
+    String OriginalPriceParentChild;
+    String OriginalPriceTotal;
 
     /**
      * 上传图片
@@ -948,24 +1417,31 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
      * @param pathList
      */
     private void uploadDataImage(ArrayList<ImageItem> pathList) {
+        if (ticket_type == 1) {
+            TicketName = mEditTextTicketName.getText().toString().trim();
+            FinalBoat = mEditTextFinalBoat.getText().toString().trim();
+            FinalCar = mEditTextFinalCar.getText().toString().trim();
+            finalprice = mEditTextfinalprice.getText().toString().trim();
+            FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
+            FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
+            FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
+            FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
+            FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
+            OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
+            OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
+            OriginalCar = mEditTextOriginalCar.getText().toString().trim();
+            originalprice = mEditTextoriginalprice.getText().toString().trim();
+            OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
+            OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
+            OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
+            OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
+        } else {
+            TicketName = mEditTextTicketNameOther.getText().toString().trim();
+            finalprice = mEditTextfinalpriceOther.getText().toString().trim();
+            originalprice = mEditTextoriginalpriceOther.getText().toString().trim();
 
-        String TicketName = mEditTextTicketName.getText().toString().trim();
-        String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
-        String FinalCar = mEditTextFinalCar.getText().toString().trim();
-        String finalprice = mEditTextfinalprice.getText().toString().trim();
-        String FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
-        String FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
-        String FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
-        String FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
-        String FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
-        String OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
-        String OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
-        String OriginalCar = mEditTextOriginalCar.getText().toString().trim();
-        String originalprice = mEditTextoriginalprice.getText().toString().trim();
-        String OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
-        String OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
-        String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
-        String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
+        }
+
         String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
         if (TextUtils.isEmpty(TicketAddr) && TextUtils.isEmpty(TicketName)) {
@@ -1005,31 +1481,73 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
             map.put("ticket_city_name", PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
         }
-        map.put("ticket_name", TicketName);
+        if (!TextUtils.isEmpty(TicketName)) {
+            map.put("ticket_name", TicketName);
+        }
+
         if (!TextUtils.isEmpty(TicketAddr)) {
             map.put("ticket_addr", TicketAddr);
         }
-        map.put("ticket_type", "1");
+
+        map.put("ticket_type", String.valueOf(ticket_type));
+        if (!TextUtils.isEmpty(startTime)&& !TextUtils.isEmpty(endTime))
         map.put("open_time", startTime + "~" + endTime);
-        map.put("original_price", originalprice);
-        map.put("final_price", finalprice);
+        if (!TextUtils.isEmpty(originalprice)) {
 
-        map.put("original_price_child", OiginalPriceChild);
-        map.put("final_price_child", FinalPriceChild);
-        map.put("original_price_evening", OriginalPriceEvening);
+            map.put("original_price", originalprice);
+        }
+        if (!TextUtils.isEmpty(finalprice)){
+            map.put("final_price", finalprice);
 
-        map.put("final_price_evening", FinalPriceEvening);
-        map.put("original_price_parent_child", OriginalPriceParentChild);
-        map.put("final_price_parent_child", FinalPriceParentChild);
-        map.put("original_price_family", OriginalPriceFamily);
+        }
+        if (!TextUtils.isEmpty(FinalPriceChild)) {
+            map.put("original_price_child", FinalPriceChild);
+        }
 
+        if (!TextUtils.isEmpty(FinalPriceChild)) {
+            map.put("final_price_child", FinalPriceChild);
+        }
 
-        map.put("final_price_family", FinalPriceFamily);
-        map.put("original_boat", OriginalBoat);
-        map.put("final_boat", FinalBoat);
-        map.put("original_car", OriginalCar);
+        if (!TextUtils.isEmpty(OriginalPriceEvening)) {
+            map.put("original_price_evening", OriginalPriceEvening);
+        }
+        if (!TextUtils.isEmpty(FinalPriceEvening)) {
 
-        map.put("final_car", FinalCar);
+            map.put("final_price_evening", FinalPriceEvening);
+        }
+        if (!TextUtils.isEmpty(OriginalPriceParentChild)) {
+
+            map.put("original_price_parent_child", OriginalPriceParentChild);
+        }
+        if (!TextUtils.isEmpty(FinalPriceParentChild)) {
+
+            map.put("final_price_parent_child", FinalPriceParentChild);
+        }
+        if (!TextUtils.isEmpty(OriginalPriceFamily)) {
+
+            map.put("original_price_family", OriginalPriceFamily);
+        }
+
+        if (!TextUtils.isEmpty(FinalPriceFamily)) {
+
+            map.put("final_price_family", FinalPriceFamily);
+        }
+
+        if (!TextUtils.isEmpty(OriginalBoat)) {
+
+            map.put("original_boat", OriginalBoat);
+        }
+        if (!TextUtils.isEmpty(FinalBoat)) {
+
+            map.put("final_boat", FinalBoat);}
+        if (!TextUtils.isEmpty(OriginalCar)) {
+
+            map.put("original_car", OriginalCar);
+        }
+        if (!TextUtils.isEmpty(FinalCar)) {
+
+            map.put("final_car", FinalCar);
+        }
         map.put("ticket_theme_id", "");
         if (!TextUtils.isEmpty(Activity)) {
             map.put("ticket_activity_id", Activity);
@@ -1054,8 +1572,14 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         map.put("token", PreferenceUtil.getString(TOKEN));
 
         map.put("generalize", "");
-        map.put("original_price_total", OriginalPriceTotal);
-        map.put("final_price_total", FinalPriceTotal);
+        if (!TextUtils.isEmpty(OriginalPriceTotal)) {
+
+            map.put("original_price_total", OriginalPriceTotal);
+        }
+        if (!TextUtils.isEmpty(FinalPriceTotal)) {
+
+            map.put("final_price_total", FinalPriceTotal);
+        }
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
             map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
         }
@@ -1072,6 +1596,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 cancelProgressDialog();
                 super.onError(call, e, id);
                 KyLog.d(e + "");
+                Toast.makeText(ReleaseTicketingActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -1081,6 +1607,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 KyLog.d(response);
                 //返回图片的地址
                 getUseInfo();
+                Toast.makeText(ReleaseTicketingActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 if (TextUtils.isEmpty(type)) {
                     Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -1120,31 +1647,39 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
      */
     private void uploadImage(ArrayList<ImageItem> pathList) {
 
-        String TicketName = mEditTextTicketName.getText().toString().trim();
-        String FinalBoat = mEditTextFinalBoat.getText().toString().trim();
-        String FinalCar = mEditTextFinalCar.getText().toString().trim();
-        String finalprice = mEditTextfinalprice.getText().toString().trim();
-        String FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
-        String FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
-        String FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
-        String FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
-        String FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
-        String OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
-        String OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
-        String OriginalCar = mEditTextOriginalCar.getText().toString().trim();
-        String originalprice = mEditTextoriginalprice.getText().toString().trim();
-        String OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
-        String OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
-        String OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
-        String OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
+        if (ticket_type == 1) {
+            TicketName = mEditTextTicketName.getText().toString().trim();
+            FinalBoat = mEditTextFinalBoat.getText().toString().trim();
+            FinalCar = mEditTextFinalCar.getText().toString().trim();
+            finalprice = mEditTextfinalprice.getText().toString().trim();
+            FinalPriceChild = mEditTextFinalPriceChild.getText().toString().trim();
+            FinalPriceEvening = mEditTextFinalPriceEvening.getText().toString().trim();
+            FinalPriceFamily = mEditTextFinalPriceFamily.getText().toString().trim();
+            FinalPriceParentChild = mEditTextFinalPriceParentChild.getText().toString().trim();
+            FinalPriceTotal = mEditTextFinalPriceTotal.getText().toString().trim();
+            OiginalPriceChild = mEditTextoOiginalPriceChild.getText().toString().trim();
+            OriginalBoat = mEditTextOriginalBoat.getText().toString().trim();
+            OriginalCar = mEditTextOriginalCar.getText().toString().trim();
+            originalprice = mEditTextoriginalprice.getText().toString().trim();
+            OriginalPriceEvening = mEditTextOriginalPriceEvening.getText().toString().trim();
+            OriginalPriceFamily = mEditTextOriginalPriceFamily.getText().toString().trim();
+            OriginalPriceParentChild = mEditTextOriginalPriceParentChild.getText().toString().trim();
+            OriginalPriceTotal = mEditTextOriginalPriceTotal.getText().toString().trim();
+        } else {
+            TicketName = mEditTextTicketNameOther.getText().toString().trim();
+            finalprice = mEditTextfinalpriceOther.getText().toString().trim();
+            originalprice = mEditTextoriginalpriceOther.getText().toString().trim();
+
+        }
+
         String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
-        if (TextUtils.isEmpty(TicketAddr) && TextUtils.isEmpty(TicketName)) {
+        if (TextUtils.isEmpty(TicketAddr) || TextUtils.isEmpty(TicketName)) {
             Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
+        if (TextUtils.isEmpty(startTime) || TextUtils.isEmpty(endTime)) {
             Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1176,31 +1711,73 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
             map.put("ticket_city_name", PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
         }
-        map.put("ticket_name", TicketName);
+        if (!TextUtils.isEmpty(TicketName)) {
+            map.put("ticket_name", TicketName);
+        }
+
         if (!TextUtils.isEmpty(TicketAddr)) {
             map.put("ticket_addr", TicketAddr);
         }
-        map.put("ticket_type", "1");
-        map.put("open_time", startTime + "~" + endTime);
-        map.put("original_price", originalprice);
-        map.put("final_price", finalprice);
 
-        map.put("original_price_child", OiginalPriceChild);
-        map.put("final_price_child", FinalPriceChild);
-        map.put("original_price_evening", OriginalPriceEvening);
+        map.put("ticket_type", String.valueOf(ticket_type));
+        if (!TextUtils.isEmpty(startTime)&& !TextUtils.isEmpty(endTime))
+            map.put("open_time", startTime + "~" + endTime);
+        if (!TextUtils.isEmpty(originalprice)) {
 
-        map.put("final_price_evening", FinalPriceEvening);
-        map.put("original_price_parent_child", OriginalPriceParentChild);
-        map.put("final_price_parent_child", FinalPriceParentChild);
-        map.put("original_price_family", OriginalPriceFamily);
+            map.put("original_price", originalprice);
+        }
+        if (!TextUtils.isEmpty(finalprice)){
+            map.put("final_price", finalprice);
 
+        }
+        if (!TextUtils.isEmpty(FinalPriceChild)) {
+            map.put("original_price_child", FinalPriceChild);
+        }
 
-        map.put("final_price_family", FinalPriceFamily);
-        map.put("original_boat", OriginalBoat);
-        map.put("final_boat", FinalBoat);
-        map.put("original_car", OriginalCar);
+        if (!TextUtils.isEmpty(FinalPriceChild)) {
+            map.put("final_price_child", FinalPriceChild);
+        }
 
-        map.put("final_car", FinalCar);
+        if (!TextUtils.isEmpty(OriginalPriceEvening)) {
+            map.put("original_price_evening", OriginalPriceEvening);
+        }
+        if (!TextUtils.isEmpty(FinalPriceEvening)) {
+
+            map.put("final_price_evening", FinalPriceEvening);
+        }
+        if (!TextUtils.isEmpty(OriginalPriceParentChild)) {
+
+            map.put("original_price_parent_child", OriginalPriceParentChild);
+        }
+        if (!TextUtils.isEmpty(FinalPriceParentChild)) {
+
+            map.put("final_price_parent_child", FinalPriceParentChild);
+        }
+        if (!TextUtils.isEmpty(OriginalPriceFamily)) {
+
+            map.put("original_price_family", OriginalPriceFamily);
+        }
+
+        if (!TextUtils.isEmpty(FinalPriceFamily)) {
+
+            map.put("final_price_family", FinalPriceFamily);
+        }
+
+        if (!TextUtils.isEmpty(OriginalBoat)) {
+
+            map.put("original_boat", OriginalBoat);
+        }
+        if (!TextUtils.isEmpty(FinalBoat)) {
+
+            map.put("final_boat", FinalBoat);}
+        if (!TextUtils.isEmpty(OriginalCar)) {
+
+            map.put("original_car", OriginalCar);
+        }
+        if (!TextUtils.isEmpty(FinalCar)) {
+
+            map.put("final_car", FinalCar);
+        }
         map.put("ticket_theme_id", "");
         if (!TextUtils.isEmpty(Activity)) {
             map.put("ticket_activity_id", Activity);
@@ -1225,8 +1802,14 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         map.put("token", PreferenceUtil.getString(TOKEN));
 
         map.put("generalize", "");
-        map.put("original_price_total", OriginalPriceTotal);
-        map.put("final_price_total", FinalPriceTotal);
+        if (!TextUtils.isEmpty(OriginalPriceTotal)) {
+
+            map.put("original_price_total", OriginalPriceTotal);
+        }
+        if (!TextUtils.isEmpty(FinalPriceTotal)) {
+
+            map.put("final_price_total", FinalPriceTotal);
+        }
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
             map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
         }
@@ -1243,15 +1826,19 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 cancelProgressDialog();
                 super.onError(call, e, id);
                 KyLog.d(e + "");
+                Toast.makeText(ReleaseTicketingActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onResponse(String response, int id) {
                 cancelProgressDialog();
+                getUseInfo();
                 super.onResponse(response, id);
                 KyLog.d(response);
                 //返回图片的地址
                 getUseInfo();
+                Toast.makeText(ReleaseTicketingActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -1282,7 +1869,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void onSure(Date date) {
                         startTime = new SimpleDateFormat("HH:mm").format(date);
-                        mEditTextStartTime.setText(startTime);
+                        if (ticket_type == 1) {
+                            mEditTextStartTime.setText(startTime);
+                        } else {
+                            mEditTextStartTimeOther.setText(startTime);
+                        }
                     }
                 })
                 .show(this);
@@ -1303,7 +1894,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void onSure(Date date) {
                         endTime = new SimpleDateFormat("HH:mm").format(date);
-                        mEditTextEndStart.setText(endTime);
+                        if (ticket_type == 1) {
+                            mEditTextEndStart.setText(endTime);
+                        } else {
+                            mEditTextEndStartOther.setText(endTime);
+                        }
                     }
                 })
                 .show(this);
@@ -1317,7 +1912,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 }, throwable -> {
 //                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     KyLog.d(throwable.getMessage());
-                    PreferenceUtil.putInt(Constanst.TOP_ZHIDING, 0);
 
                 });
     }
@@ -1372,6 +1966,59 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
             mRelativeLayoutStickZeroC.setEnabled(true);
             mRelativeLayoutStickZeroC.setFocusable(true);
+        }
+    }
+
+
+    private void SetOtherEnabled() {
+        if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) <= 0) {
+            mRelativeLayoutStickBetterOther.setEnabled(false);
+            mRelativeLayoutStickBetterOther.setFocusable(false);
+
+            mRelativeLayoutStickHotOther.setEnabled(false);
+            mRelativeLayoutStickHotOther.setFocusable(false);
+
+            mRelativeLayoutStickLowOther.setEnabled(false);
+            mRelativeLayoutStickLowOther.setFocusable(false);
+
+            mRelativeLayoutStickNewOther.setEnabled(false);
+            mRelativeLayoutStickNewOther.setFocusable(false);
+
+            mRelativeLayoutStickRateOther.setEnabled(false);
+            mRelativeLayoutStickRateOther.setFocusable(false);
+
+            mRelativeLayoutStickReturnOther.setEnabled(false);
+            mRelativeLayoutStickReturnOther.setFocusable(false);
+
+            mRelativeLayoutStickThrowOther.setEnabled(false);
+            mRelativeLayoutStickThrowOther.setFocusable(false);
+
+            mRelativeLayoutStickZeroCOther.setEnabled(false);
+            mRelativeLayoutStickZeroCOther.setFocusable(false);
+        } else {
+            mRelativeLayoutStickBetterOther.setEnabled(true);
+            mRelativeLayoutStickBetterOther.setFocusable(true);
+
+            mRelativeLayoutStickHotOther.setEnabled(true);
+            mRelativeLayoutStickHotOther.setFocusable(true);
+
+            mRelativeLayoutStickLowOther.setEnabled(true);
+            mRelativeLayoutStickLowOther.setFocusable(true);
+
+            mRelativeLayoutStickNewOther.setEnabled(true);
+            mRelativeLayoutStickNewOther.setFocusable(true);
+
+            mRelativeLayoutStickRateOther.setEnabled(true);
+            mRelativeLayoutStickRateOther.setFocusable(true);
+
+            mRelativeLayoutStickReturnOther.setEnabled(true);
+            mRelativeLayoutStickReturnOther.setFocusable(true);
+
+            mRelativeLayoutStickThrowOther.setEnabled(true);
+            mRelativeLayoutStickThrowOther.setFocusable(true);
+
+            mRelativeLayoutStickZeroCOther.setEnabled(true);
+            mRelativeLayoutStickZeroCOther.setFocusable(true);
         }
     }
 
