@@ -1556,6 +1556,14 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                     dataObj.put("tagName", SaleEntity.getTagName());
                     dataObj.put("userCity", SaleEntity.getUserCity());
                     dataObj.put("username", SaleEntity.getUsername());
+                    dataObj.put("TActivityId", SaleEntity.getTActivityId());
+                    dataObj.put("TAddressId", SaleEntity.getTAddressId());
+                    dataObj.put("TConsumeId", SaleEntity.getTConsumeId());
+                    dataObj.put("TOtherId", SaleEntity.getTOtherId());
+                    dataObj.put("TOverseasId", SaleEntity.getTOverseasId());
+                    dataObj.put("TStayId", SaleEntity.getTStayId());
+                    dataObj.put("TTrafficId", SaleEntity.getTTrafficId());
+                    dataObj.put("companyName", SaleEntity.getCompanyName());
                     jsonArray.put(dataObj);
                 }
                 data.put("list", jsonArray);

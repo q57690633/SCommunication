@@ -52,7 +52,8 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <activity android:name=".business.chat.group.view.GroupDeleteMemberActivity"></activity>
+        <activity android:name=".business.chat.group.view.GroupDeleteMemberActivity" />
+        <activity android:name=".operation.group.GroupMoreMemberActivity"></activity>
     </application>
 
 </manifest>

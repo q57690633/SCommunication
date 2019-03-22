@@ -373,7 +373,8 @@ public class ChatAdapter extends IChatAdapter {
                         customHolder.stick.setVisibility(View.GONE);
                         customHolder.productType.setBackgroundResource(R.drawable.sign_chhshou);
                         String[] tab = tabName.split(",");
-                        setAdapter(customHolder.tabName_line, getStrArr(tab), self, 1, 12, 0);
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
+                        setAdapter(customHolder.tabName_line, adapter, 1, 12, 0);
                     }else if(jsonObject.getInt("houseType") == 2){
                         //出租
                         String villageName = jsonData.getString("villageName");
@@ -393,7 +394,8 @@ public class ChatAdapter extends IChatAdapter {
                         customHolder.stick.setVisibility(View.GONE);
                         customHolder.productType.setBackgroundResource(R.drawable.sign_chuzu);
                         String[] tab = tabName.split(",");
-                        setAdapter(customHolder.tabName_line, getStrArr(tab), self, 1, 12, 0);
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
+                        setAdapter(customHolder.tabName_line, adapter, 1, 12, 0);
                     }else if(jsonObject.getInt("houseType") == 3){
                         //求购
                         String villageName = jsonData.getString("villageName");
@@ -413,7 +415,8 @@ public class ChatAdapter extends IChatAdapter {
                         customHolder.stick.setVisibility(View.GONE);
                         customHolder.productType.setBackgroundResource(R.drawable.sign_qiugou);
                         String[] tab = tabName.split(",");
-                        setAdapter(customHolder.tabName_line, getStrArr(tab), self,1, 12, 0);
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
+                        setAdapter(customHolder.tabName_line, adapter,1, 12, 0);
                     }else if(jsonObject.getInt("houseType") == 4){
                         //求租
                         String villageName = jsonData.getString("villageName");
@@ -433,7 +436,8 @@ public class ChatAdapter extends IChatAdapter {
                         customHolder.stick.setVisibility(View.GONE);
                         customHolder.productType.setBackgroundResource(R.drawable.sign_qiuzu);
                         String[] tab = tabName.split(",");
-                        setAdapter(customHolder.tabName_line, getStrArr(tab), self,1, 12, 0);
+                        ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
+                        setAdapter(customHolder.tabName_line, adapter,1, 12, 0);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -473,6 +477,9 @@ public class ChatAdapter extends IChatAdapter {
                 self = 1;
             case MessageInfo.MSG_TYPE_TRAVEL_CUSTOM + 1:
                 try {
+                    if(self == 0) {
+                        self = 2;
+                    }
                     TIMCustomElem customElem = (TIMCustomElem) timMsg.getElement(0);
                     byte[] data = customElem.getData();
                     String str = new String(data);
@@ -521,8 +528,10 @@ public class ChatAdapter extends IChatAdapter {
                             Glide.with(mContext).load(photoUrl).placeholder(R.drawable.ic_photo).into(customHolder.travelPhotoIv);
                             ArrayList<String> title = getTitleStrArr(TActivityId, TAddressId, TConsumeId, TOtherId, TOverseasId, TStayId, TTrafficId);
                             ArrayList<String> tab = getStrArr(tagName);
-                            setAdapter(customHolder.travelTitleRv, title, self,4, 7, 7);
-                            setAdapter(customHolder.travelHotPosRv, tab, self,3, 7, 7);
+                            ChatCustomTitleAdapter titleAdapter = new ChatCustomTitleAdapter(mContext, title, self);
+                            setAdapter(customHolder.travelTitleRv, titleAdapter,4, 7, 7);
+                            ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, tab, self);
+                            setAdapter(customHolder.travelHotPosRv, tabAdapter,3, 7, 7);
                         }
                     }
                     if(3 == travelType) {
@@ -560,8 +569,10 @@ public class ChatAdapter extends IChatAdapter {
                             Glide.with(mContext).load(photoUrl).placeholder(R.drawable.ic_photo).into(customHolder.travelPhotoIv);
                             ArrayList<String> title = getTitleStrArr(travel_title, "", "", "", "", "", "");
                             ArrayList<String> tab = getStrArr(tagName);
-                            setAdapter(customHolder.travelTitleRv, title, self,4, 7, 7);
-                            setAdapter(customHolder.travelHotPosRv, tab, self,3, 7, 7);
+                            ChatCustomTitleAdapter titleAdapter = new ChatCustomTitleAdapter(mContext, title, self);
+                            setAdapter(customHolder.travelTitleRv, titleAdapter,4, 7, 7);
+                            ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, tab, self);
+                            setAdapter(customHolder.travelHotPosRv, tabAdapter,3, 7, 7);
                         }
                     }
                     if(4 == travelType) {
@@ -584,7 +595,8 @@ public class ChatAdapter extends IChatAdapter {
                             customHolder.ticketAddr.setText(ticketAddr);
                             customHolder.ticketAdultPrice.setText(ticketAdultPrice);
                             Glide.with(mContext).load(dataObj.getString("photo_url")).placeholder(R.drawable.default_head).into(customHolder.ticketImageAddr);
-                            setAdapter(customHolder.ticketTabRv, getStrArr(tab), self,2, 12, 5);
+                            ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
+                            setAdapter(customHolder.ticketTabRv, tabAdapter,2, 12, 5);
                         }
                     }
                 } catch (JSONException e) {
@@ -1238,11 +1250,17 @@ public class ChatAdapter extends IChatAdapter {
         return list;
     }
 
-    private void setAdapter(RecyclerView rv, ArrayList<String> list, int isSelf, int spanCount, int leftRight, int topBottom) {
+    private void setAdapter(RecyclerView rv, RecyclerView.Adapter adapter, int spanCount, int leftRight, int topBottom) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, spanCount);
-        gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+        if(adapter.getClass() == ChatCustomMsgAdapter.class) {
+            gridLayoutManager.setOrientation(GridLayout.HORIZONTAL);
+            rv.addItemDecoration(new GridSpacingItemDecoration(leftRight, topBottom));
+        }
+        if(adapter.getClass() == ChatCustomTitleAdapter.class) {
+            gridLayoutManager.setOrientation(GridLayout.VERTICAL);
+            rv.addItemDecoration(new GridSpacingItemDecoration(topBottom, leftRight));
+        }
         rv.setLayoutManager(gridLayoutManager);
-        rv.addItemDecoration(new GridSpacingItemDecoration(leftRight, topBottom));
-        rv.setAdapter(new ChatCustomMsgAdapter(mContext, list, isSelf));
+        rv.setAdapter(adapter);
     }
 }

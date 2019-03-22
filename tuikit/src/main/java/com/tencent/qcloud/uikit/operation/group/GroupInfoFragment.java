@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.imsdk.TIMCallBack;
@@ -33,6 +34,7 @@ import com.tencent.qcloud.uikit.business.chat.group.view.GroupDeleteMemberActivi
 import com.tencent.qcloud.uikit.business.chat.view.itemdecoration.GridSpacingItemDecoration;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
+import com.tencent.qcloud.uikit.entity.MemberHeadUrlEntity;
 import com.tencent.qcloud.uikit.http.NetWorkService;
 
 import org.json.JSONArray;
@@ -73,8 +75,11 @@ public class GroupInfoFragment extends BaseFragment {
     private CheckBox mMsgNoAlertCheckBox;
     private LinearLayout mClearRecordLl;
     private Button mQuitBtn;
+    private TextView mCheckMoreTv;
 
     private JSONArray groupMemberJSONArr = new JSONArray();
+    private List<MemberHeadUrlEntity> memberList = new ArrayList<>();
+    private ArrayList<String> headUrlList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -95,6 +100,7 @@ public class GroupInfoFragment extends BaseFragment {
         mMsgNoAlertCheckBox = mBaseView.findViewById(R.id.msg_no_alert_checkbox);
         mClearRecordLl = mBaseView.findViewById(R.id.clear_record_ll);
         mQuitBtn = mBaseView.findViewById(R.id.quit_btn);
+        mCheckMoreTv = mBaseView.findViewById(R.id.check_more);
     }
 
     private void initData(String groupId) {
@@ -142,12 +148,19 @@ public class GroupInfoFragment extends BaseFragment {
                 try {
                     for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
+                        MemberHeadUrlEntity entity = new MemberHeadUrlEntity();
+                        entity.setCompanyName(object.getString("companyName"));
+                        List<String> headurllist = new ArrayList<>();
                         JSONArray data = object.getJSONArray("data");
                         for(int j = 0; j < data.length(); j++) {
                             String headUrl = data.getJSONObject(j).getString("headUrl");
+                            headurllist.add(headUrl);
                             list.add(headUrl);
                         }
+                        entity.setHeadUrl(headurllist);
+                        memberList.add(entity);
                     }
+                    headUrlList = list;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -199,6 +212,15 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 quitGroup(groupId);
+            }
+        });
+        mCheckMoreTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GroupMoreMemberActivity.class);
+                String data = listToString(headUrlList);
+                intent.putExtra("data", data);
+                startActivity(intent);
             }
         });
     }
@@ -385,6 +407,17 @@ public class GroupInfoFragment extends BaseFragment {
         ArrayList<String> groupList = new ArrayList<String>();
         groupList.add(groupId);
         TIMGroupManagerExt.getInstance().getGroupDetailInfo(groupList, cb);
+    }
+
+    private String listToString(List<String> list) {
+        StringBuffer sb = new StringBuffer();
+        for(int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+            if(i != list.size()) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
     }
 
     @Override
