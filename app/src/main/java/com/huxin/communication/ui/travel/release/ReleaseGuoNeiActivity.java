@@ -186,7 +186,12 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("发布国内游线路", MODE_BACK);
+        if (id == 0) {
+            setToolbarCenterMode("发布国内游线路", MODE_BACK);
+        }else {
+            setToolbarCenterMode("编辑国内游线路", MODE_BACK);
+
+        }
         mRelativeLayoutOccupationType = (RelativeLayout) findViewById(R.id.rl_travel_Occupation_type);
         mRelativeLayoutMudiType = (RelativeLayout) findViewById(R.id.rl_travel_mudi_type);
         mRelativeLayoutHotType = (RelativeLayout) findViewById(R.id.rl_travel_hot_type);
@@ -323,11 +328,6 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setData() {
-        mTextViewMudiType = (TextView) findViewById(R.id.travel_mudi_type);
-        mTextViewHotType = (TextView) findViewById(R.id.travel_hot_type);
-        mTextViewDayType = (TextView) findViewById(R.id.travel_day_type);
-        mTextViewRelease1Type = (TextView) findViewById(R.id.release1_type);
-        mTextViewOccupationType = (TextView) findViewById(R.id.travel_Occupation_type);
         if (listBean != null) {
             mTextViewTotalPrice.setText(String.valueOf(listBean.getTotalPrice()));
             mTextViewFinalPrice.setText(String.valueOf(listBean.getFinalPrice()));
@@ -1044,16 +1044,16 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
-                && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) && TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
 
             Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
+        if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }

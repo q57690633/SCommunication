@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.entity.BuyerScreeningEntity;
+import com.huxin.communication.entity.ForeignCityEntity;
 import com.huxin.communication.entity.InlandCityEntity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
@@ -23,24 +23,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static com.huxin.communication.controls.Constanst.CITY_CODE;
 import static com.huxin.communication.controls.Constanst.CITY_MUDI_CODE;
 import static com.huxin.communication.controls.Constanst.CITY_MUDI_TRAVEL_NAME;
-import static com.huxin.communication.controls.Constanst.CITY_TRAVEL_NAME;
-import static com.huxin.communication.controls.Constanst.PROVINCE_CODE;
+import static com.huxin.communication.controls.Constanst.CITY_NATION_NAME;
+import static com.huxin.communication.controls.Constanst.MUDI_FOREGIN_NAME;
 import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_CODE;
 import static com.huxin.communication.controls.Constanst.PROVINCE_MUDI_TRAVEL_NAME;
-import static com.huxin.communication.controls.Constanst.PROVINCE_TRAVEL_NAME;
-import static com.huxin.communication.controls.Constanst.TICKET_CITY_NAME;
 
-public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.BodyViewHoder> {
+public class CityForeginNationsAdapter extends RecyclerView.Adapter<CityForeginNationsAdapter.BodyViewHoder> {
 
     private Activity mActivity;
-    private List<InlandCityEntity> mList;
+    private List<ForeignCityEntity> mList;
     private LayoutInflater mInflater;
-    private int type;
-
-    private TableNameAdapter mAdapterTableName;
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
@@ -49,8 +43,10 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
 
     private int mPosition = -1;
 
+    private int type;
+
     //更新adpter的数据和选择状态
-    public void updateDataSet(ArrayList<InlandCityEntity> list) {
+    public void updateDataSet(ArrayList<ForeignCityEntity> list) {
         this.mList = list;
         mSelectedPositions = new SparseBooleanArray();
 //        ab.setTitle("已选择" + 0 + "项");
@@ -58,8 +54,8 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
 
 
     //获得选中条目的结果
-    public ArrayList<InlandCityEntity> getSelectedItem() {
-        ArrayList<InlandCityEntity> selectList = new ArrayList<>();
+    public ArrayList<ForeignCityEntity> getSelectedItem() {
+        ArrayList<ForeignCityEntity> selectList = new ArrayList<>();
         if (mList != null && mList.size() > 0) {
             for (int i = 0; i < mList.size(); i++) {
                 if (isItemChecked(i)) {
@@ -73,10 +69,11 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
         return selectList;
     }
 
-    public CityTravelsAdapter(List<InlandCityEntity> mList, Activity mActivity, int type) {
+    public CityForeginNationsAdapter(List<ForeignCityEntity> mList, Activity mActivity, int type) {
         this.mList = mList;
         this.mActivity = mActivity;
         this.type = type;
+
         mInflater = LayoutInflater.from(mActivity);
         if (mList == null) {
             throw new IllegalArgumentException("model Data must not be null");
@@ -92,14 +89,7 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
             public void onClick(View v) {
                 if (type == 1) {
                     mPosition = Hoder.getAdapterPosition();
-                    if (mList.get(Hoder.getAdapterPosition()).getCity_name().contains("市")) {
-                        PreferenceUtil.putString(CITY_TRAVEL_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name());
-                    } else {
-                        PreferenceUtil.putString(CITY_TRAVEL_NAME, mList.get(Hoder.getAdapterPosition()).getCity_name() + "市");
-                    }
-                    PreferenceUtil.putString(CITY_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
-                    PreferenceUtil.putString(PROVINCE_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
-                    PreferenceUtil.putString(PROVINCE_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
+                    PreferenceUtil.putString(MUDI_FOREGIN_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_name()));
                     notifyDataSetChanged();
 
                 } else if (type == 3) {
@@ -117,24 +107,15 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
                         userStr += iterator.next() + ",";
                     }
                     if (!TextUtils.isEmpty(userStr)) {
-                        if (mList.get(Hoder.getAdapterPosition()).getCity_name().contains("市")) {
-                            PreferenceUtil.putString(CITY_MUDI_TRAVEL_NAME, userStr.substring(4, userStr.length() - 1));
-                        } else {
-                            PreferenceUtil.putString(CITY_MUDI_TRAVEL_NAME, userStr.substring(4, userStr.length() - 1) + "市");
-                        }
-                    }
-                    KyLog.d(String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
-                    PreferenceUtil.putString(CITY_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_code()));
-                    PreferenceUtil.putString(PROVINCE_MUDI_CODE, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_code()));
-                    PreferenceUtil.putString(PROVINCE_MUDI_TRAVEL_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getProvince_name()));
+                        PreferenceUtil.putString(MUDI_FOREGIN_NAME, String.valueOf(mList.get(Hoder.getAdapterPosition()).getCity_name()));
 
-//                    Intent intent = new Intent(mActivity, ShuaiShuanInlandSpotActivity.class);
-//                    mActivity.startActivity(intent);
+                    }
                 }
             }
         });
         return Hoder;
     }
+
 
     //设置给定位置条目的选择状态
     private void setItemChecked(int position, boolean isChecked) {
@@ -158,9 +139,10 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
 
     @Override
     public void onBindViewHolder(BodyViewHoder holder, int position) {
+//        holder.mTextViewAddress.setText(mList.get(position).getAddress());
         KyLog.d(mList.get(position).getCity_name());
         holder.mTextViewName.setText(mList.get(position).getCity_name());
-
+//        holder.mTextViewPhone.setText(mList.get(position).getPhone());
         if (type == 1) {
             holder.mTextViewmClicked.setVisibility(View.GONE);
             if (position == mPosition) {
@@ -180,7 +162,6 @@ public class CityTravelsAdapter extends RecyclerView.Adapter<CityTravelsAdapter.
             }
 
         }
-
 
     }
 

@@ -13,14 +13,21 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.huxin.communication.ForeginNationAdapter;
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.CityForeginNationsAdapter;
+import com.huxin.communication.adpter.CityTravelsAdapter;
+import com.huxin.communication.adpter.ForeginNationsAdapter;
+import com.huxin.communication.adpter.ForeignCityAdapter;
 import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.JingWaiAdapter;
+import com.huxin.communication.adpter.ProvincesTravelsAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
@@ -49,7 +56,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JinWaiActivity extends BaseActivity implements View.OnClickListener ,EditText.OnEditorActionListener{
+public class JinWaiActivity extends BaseActivity implements View.OnClickListener, EditText.OnEditorActionListener {
     private RecyclerView mRecyclerView;
     private RecyclerView mRecyclerViewDuoXuan;
 
@@ -69,7 +76,6 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     private TextView mTextViewGuanLi;
     private TextView mTextViewQuXiao;
-
 
 
     private TextView mTextViewSort;
@@ -151,7 +157,23 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
 
     private EditText mEditTextSearch;
-    private int numberDays = 1;
+
+    private RelativeLayout mLinearLayoutMudi;
+    private RecyclerView mRecyclerViewAreaOne;
+    private RecyclerView mRecyclerViewAreaTwo;
+    private TextView mTextViewChufa;
+    private TextView mTextViewMuDi;
+
+    private TextView mTextViewChuFaDetermine;
+    private TextView mTextViewChuFaBuXian;
+    private TextView mTextViewCity;
+    private TextView mTextViewMoren;
+
+    private ImageView mImageViewPrice;
+    private ImageView mImageViewSort;
+    private ImageView mImageViewMeasure;
+    private ImageView mImageViewMore;
+    private ImageView mImageViewFangxin;
 
 
     @Override
@@ -243,6 +265,27 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
         mEditTextSearch = findViewById(R.id.toolbar_editText_search);
 
+        mLinearLayoutMudi = findViewById(R.id.travel_mudi);
+        mRecyclerViewAreaOne = findViewById(R.id.recyclerView_provinces);
+        mRecyclerViewAreaTwo = findViewById(R.id.recycler_city);
+        mTextViewChufa = findViewById(R.id.tv_chufa);
+        mTextViewMuDi = findViewById(R.id.tv_fangxin);
+
+        mTextViewChuFaDetermine = findViewById(R.id.chufa_Determine);
+        mTextViewChuFaBuXian = findViewById(R.id.chufa_buxian);
+        mTextViewCity = findViewById(R.id.tv_city);
+        mTextViewMoren = findViewById(R.id.moren);
+
+
+        mImageViewFangxin = findViewById(R.id.chufadi);
+        mImageViewPrice = findViewById(R.id.image_price);
+        mImageViewSort = findViewById(R.id.image_sort);
+        mImageViewMeasure = findViewById(R.id.mudidi);
+        mImageViewMore = findViewById(R.id.image_more);
+
+        mTextViewChuFaDetermine.setOnClickListener(this);
+        mTextViewChuFaBuXian.setOnClickListener(this);
+
 
         mEditTextSearch.setOnEditorActionListener(this);
 
@@ -333,32 +376,6 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isClickQuYu) {
-            return;
-        }
-        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
-
-        KyLog.d(ChufaCityCode  + "travel");
-        KyLog.d(MuDi + "travel");
-
-        if (!TextUtils.isEmpty(ChufaCityCode) && !TextUtils.isEmpty(MuDi)) {
-            gettingForeignTravel(ChufaCityCode, "", "", MuDi, "", "", "", "",
-                    "", "", "", "", "", "", "", "",
-                    "1", null, "");
-        } else if (!TextUtils.isEmpty(ChufaCityCode)) {
-            gettingForeignTravel(ChufaCityCode, "", "", "", "", "", "", "",
-                    "", "", "", "", "", "", "", "",
-                    "1", null, "");
-        } else if (!TextUtils.isEmpty(MuDi)) {
-            gettingForeignTravel("", "", "", MuDi, "", "", "", "",
-                    "", "", "", "", "", "", "", "",
-                    "1", null, "");
-        }else {
-            gettingForeignTravel("", "", "", "", "", "", "", "",
-                    "", "", "", "", "", "", "", "",
-                    "1", null, "");
-        }
 
     }
 
@@ -395,23 +412,66 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mRecyclerView.setVisibility(View.GONE);
                 break;
             case R.id.chufadi_line:
-                Intent intent = new Intent(this, ProvincesTravelActivity.class);
-                intent.putExtra("type", 1);
-                startActivity(intent);
-                isClickQuYu = true;
-                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))){
-                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME,Constanst.SP_NAME);
+                getForeignNation(1);
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
+                    mTextViewCity.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
                 }
+                mLinearLayoutSorts.setVisibility(View.GONE);
+                mLinearLayoutPrices.setVisibility(View.GONE);
+                mLinearLayoutMores.setVisibility(View.GONE);
+                mLinearLayoutMudi.setVisibility(View.VISIBLE);
+                mTextViewMoren.setVisibility(View.VISIBLE);
+                mTextViewCity.setVisibility(View.VISIBLE);
+
+                mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+
+
+                mRelativeLayoutRL.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle_pre);
+
+
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))) {
+                    PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME, Constanst.SP_NAME);
+                }
+
                 break;
 
 
             case R.id.mudidi_line:
-                Intent intentMudDi = new Intent(this, ForeignNationActivity.class);
-                intentMudDi.putExtra("type", 3);
-                startActivity(intentMudDi);
+                getForeignNation(3);
+                mLinearLayoutSorts.setVisibility(View.GONE);
+                mLinearLayoutPrices.setVisibility(View.GONE);
+                mLinearLayoutMores.setVisibility(View.GONE);
+                mLinearLayoutMudi.setVisibility(View.VISIBLE);
+                mTextViewMoren.setVisibility(View.GONE);
+                mTextViewCity.setVisibility(View.GONE);
+
+                mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.blue));
+
+
+                mRelativeLayoutRL.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
                 isClickQuYu = true;
-                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))){
-                    PreferenceUtil.removeSp(Constanst.CITY_CODE,Constanst.SP_NAME);
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))) {
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE, Constanst.SP_NAME);
                 }
 
                 break;
@@ -443,7 +503,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                             "1", null, "");
                 } else if (Integer.parseInt(minPrice) > 7000) {
                     gettingForeignTravel("", "", "", "", "", "", "", "",
-                            "", "", "", "", "", 7000 + "," + 1000000, "", "",
+                            "", "", "", "", "", minPrice + "," + 1000000, "", "",
                             "1", null, "");
                 }
                 break;
@@ -453,6 +513,34 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                         "", "", "", "", productType, "", "", "",
                         "1", null, "");
                 break;
+
+
+            case R.id.chufa_Determine:
+
+                String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
+                String MuDi = PreferenceUtil.getString(Constanst.MUDI_FOREGIN_NAME);
+                String MuDiProvince = PreferenceUtil.getString(Constanst.MUDI_PROVINCE_NAME);
+                KyLog.d(ChufaCityCode + "travel");
+                KyLog.d(MuDi + "travel");
+                updata();
+                if (!TextUtils.isEmpty(ChufaCityCode)) {
+                    gettingForeignTravel(ChufaCityCode, "", "", "", "", "", "", "",
+                            "", "", "", "", "", "", "", "",
+                            "1", null, "");
+                } else if (!TextUtils.isEmpty(MuDi) && !TextUtils.isEmpty(MuDiProvince)) {
+                    gettingForeignTravel("", "", "", MuDi, MuDiProvince, "", "", "",
+                            "", "", "", "", "", "", "", "",
+                            "1", null, "");
+                }
+                break;
+
+            case R.id.chufa_buxian:
+                updata();
+                gettingForeignTravel("", "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", "",
+                        "1", null, "");
+                break;
+
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.color.blue);
                 mTextViewPrice2.setBackgroundResource(R.color.login_forget_password_code_fort);
@@ -917,7 +1005,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 //                addCollectTravel(productType);
                 if (mJinWaiDuoXuanAdapter.getSelectedItem().size() > 0) {
                     zhuanfa(mJinWaiDuoXuanAdapter);
-                }else {
+                } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -926,13 +1014,23 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
 
     public void updata() {
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mRelativeLayoutRL.setVisibility(View.VISIBLE);
+        mRecyclerViewDuoXuan.setVisibility(View.GONE);
         mLinearLayoutSorts.setVisibility(View.GONE);
         mLinearLayoutPrices.setVisibility(View.GONE);
         mLinearLayoutMores.setVisibility(View.GONE);
+        mLinearLayoutMudi.setVisibility(View.GONE);
         mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+        mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
     }
 
     private void setDuoXuanData(ForeignTravelEntity entity) {
@@ -957,13 +1055,13 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             mRecyclerView.setVisibility(View.VISIBLE);
 
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdpter = new JingWaiAdapter(entity.getList(), this,1);
+            mAdpter = new JingWaiAdapter(entity.getList(), this, 1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
@@ -971,19 +1069,19 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void gettingForeignTravel(String depart_name, String min_days,
-                                      String max_days, String spot_name,
+                                      String max_days, String goals_nat_name,
                                       String goals_name, String t_activity_id,
                                       String t_stay_id, String t_other_id,
                                       String t_address_id, String t_traffic_id,
                                       String t_overseas_id
-                   ,                   String t_consume_id, String sort_type,
+            , String t_consume_id, String sort_type,
                                       String minPri_maxPri, String number_days,
                                       String keyWord, String curPage, String uid,
                                       String line_or_throw) {
         showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
-                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, line_or_throw,"0",String.valueOf(PreferenceUtil.getInt(UID)))
+                max_days, goals_nat_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, line_or_throw, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
@@ -1008,7 +1106,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-                    Intent intent =  new Intent(this,JinWaiActivity.class);
+                    Intent intent = new Intent(this, JinWaiActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
@@ -1282,7 +1380,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
                     JSONObject dataObj = new JSONObject();
                     dataObj.put("depart_name", SaleEntity.getDepart_name());
-                    dataObj.put("goals_city", "");
+                    dataObj.put("goals_city", SaleEntity.getGoals_nat_name());
                     dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
                     dataObj.put("numberDays", String.valueOf(SaleEntity.getNumber_days()));
                     dataObj.put("photo_url", SaleEntity.getPhoto_url());
@@ -1400,4 +1498,55 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
 
     }
+
+
+    public void getForeignNation(int type){
+        showProgressDialog();
+        ApiModule.getInstance().getForeignNation().subscribe(foreignNationEntities -> {
+            cancelProgressDialog();
+            if (foreignNationEntities != null && foreignNationEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                ForeginNationsAdapter  mAdapter = new ForeginNationsAdapter(foreignNationEntities, this);
+                mRecyclerViewAreaOne.setAdapter(mAdapter);
+                mRecyclerViewAreaOne.setLayoutManager(manager);
+                mAdapter.setOnItemClickListener(new ForeginNationsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        PreferenceUtil.putString(Constanst.MUDI_PROVINCE_NAME, foreignNationEntities.get(position).getCountry());
+                        getForeignCity(String.valueOf(foreignNationEntities.get(position).getCountry()), type);
+                        mRecyclerViewAreaTwo.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                mRecyclerViewAreaTwo.setVisibility(View.GONE);
+
+            }
+        },throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+
+    public void getForeignCity(String provinceCode, int type) {
+        KyLog.d(provinceCode);
+        showProgressDialog();
+        ApiModule.getInstance().getForeignCity(provinceCode).subscribe(foreignCityEntities  -> {
+            cancelProgressDialog();
+            if (foreignCityEntities != null && foreignCityEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                CityForeginNationsAdapter mAdapter = new CityForeginNationsAdapter(foreignCityEntities, this,type);
+                mRecyclerViewAreaTwo.setAdapter(mAdapter);
+                mRecyclerViewAreaTwo.setLayoutManager(manager);
+                mAdapter.NotifyChanged();
+
+            }
+        }, throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
 }

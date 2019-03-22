@@ -516,7 +516,6 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME))) {
                     PreferenceUtil.removeSp(Constanst.CITY_MUDI_TRAVEL_NAME, Constanst.SP_NAME);
                 }
-                updata();
 
                 break;
 

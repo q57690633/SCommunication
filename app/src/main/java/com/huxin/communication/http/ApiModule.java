@@ -729,7 +729,7 @@ public class ApiModule {
      * @return
      */
     public Observable<ForeignTravelEntity> gettingForeignTravel(String depart_name, String min_days,
-                                                                String max_days, String spot_name,
+                                                                String max_days, String goals_nat_name,
                                                                 String goals_name, String t_activity_id,
                                                                 String t_stay_id, String t_other_id,
                                                                 String t_address_id, String t_traffic_id,
@@ -739,7 +739,7 @@ public class ApiModule {
                                                                 String keyWord, String curPage, String uid,
                                                                 String line_or_throw,String ifSevenInfo, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingForeignTravel(depart_name, min_days,
-                max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
+                max_days, goals_nat_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
                 PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, line_or_throw,ifSevenInfo,user_idForCol)
                 .subscribeOn(Schedulers.io())

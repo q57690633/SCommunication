@@ -62,7 +62,6 @@
                         android:id="@+id/username"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
-                        android:text="胡八一"
                         android:ellipsize="end"
                         android:lines="1"
                         android:textColor="@color/register_font"
@@ -81,7 +80,6 @@
                         android:id="@+id/userCity"
                         android:layout_width="70dp"
                         android:layout_height="wrap_content"
-                        android:text="齐齐哈尔"
                         android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/register_font"
@@ -103,7 +101,6 @@
                     android:background="@drawable/list_divider"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="保定"
                     android:lines="1"
                     android:ellipsize="end"
                     android:textColor="@color/register_font"
@@ -128,7 +125,6 @@
                     android:paddingRight="10dp"
                     android:lines="1"
                     android:ellipsize="end"
-                    android:text="哈尔滨"
                     android:textColor="@color/register_font"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -137,7 +133,6 @@
                 android:id="@+id/numberDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="行程天数：3天"
                 android:textColor="@color/register_font"
                 android:textSize="14dp" />
 
@@ -151,7 +146,6 @@
                     android:id="@+id/totalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="成人：580元"
                     android:textColor="@color/register_font"
                     android:textSize="14dp" />
 
@@ -161,7 +155,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="返200元"
                     android:textColor="@color/red_setting"
                     android:textSize="14dp" />
 
@@ -177,7 +170,6 @@
                     android:id="@+id/totalPriceChild"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="成人：580元"
                     android:textColor="@color/register_font"
                     android:textSize="14dp" />
 
@@ -187,7 +179,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="返200元"
                     android:textColor="@color/red_setting"
                     android:textSize="14dp" />
 
@@ -197,10 +188,9 @@
             <TextView
                 android:id="@+id/spotName"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="29dp"
-                android:text="【最美古韵】济南 泰山 双高三日游"
                 android:lines="2"
                 android:ellipsize="end"
                 android:textColor="@color/register_font"
@@ -210,12 +200,11 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_travel"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_height="30dp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.1dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="11dp"
                 android:background="@color/login_line" />
@@ -223,7 +212,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-               >
+               android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/kanxingcheng"
@@ -242,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="21dp"
+                    android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/biaoqian_radius_blue"
                     android:gravity="center"

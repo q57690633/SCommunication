@@ -222,7 +222,7 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
             }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);

@@ -56,7 +56,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     private LinearLayout mLinearLayoutSorts;
     private LinearLayout mLinearLayoutPrices;
-    private LinearLayout mLinearLayoutMores;
+    private RelativeLayout mLinearLayoutMores;
 
     private RelativeLayout mRelativeLayoutSearch;
 
@@ -195,7 +195,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mLinearLayoutPrice = (LinearLayout) findViewById(R.id.price);
         mLinearLayoutSort = (LinearLayout) findViewById(R.id.sort);
 
-        mLinearLayoutMores = (LinearLayout) findViewById(R.id.travel_more);
+        mLinearLayoutMores = (RelativeLayout) findViewById(R.id.travel_more);
         mLinearLayoutPrices = (LinearLayout) findViewById(R.id.travel_price);
         mLinearLayoutSorts = (LinearLayout) findViewById(R.id.travel_sort);
 
@@ -1229,6 +1229,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private void setData(AroundTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
+            mRecyclerView.setVisibility(View.VISIBLE);
 
             mAdpter = new ZhouBianAdapter(entity.getList(), this,2);
             mRecyclerView.setAdapter(mAdpter);
@@ -1236,6 +1237,10 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -1252,12 +1257,17 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     private void setJinWaiData(ForeignTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
 
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this,2);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -1274,11 +1284,16 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     private void setTicketData(TicketInfoEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mTicketAdapter = new TicketingAdapter(entity.getList(), this,2);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -1357,7 +1372,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     if (ticketInfoEntity != null) {
-                        KyLog.object(ticketInfoEntity);
+                        KyLog.object(ticketInfoEntity.getList());
                         setTicketData(ticketInfoEntity);
                         setTicketDuoXuanData(ticketInfoEntity);
                     }

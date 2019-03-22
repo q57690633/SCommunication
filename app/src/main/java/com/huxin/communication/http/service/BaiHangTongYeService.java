@@ -533,7 +533,7 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("travel/gettingForeignTravel")
     Observable<Response<ForeignTravelEntity>> gettingForeignTravel(@Field("depart_name") String depart_name, @Field("min_days") String min_days,
-                                                                   @Field("max_days") String max_days, @Field("spot_name") String spot_name,
+                                                                   @Field("max_days") String max_days, @Field("goals_nat_name") String goals_nat_name,
                                                                    @Field("goals_name") String goals_name, @Field("t_activity_id") String t_activity_id,
                                                                    @Field("t_stay_id") String t_stay_id, @Field("t_other_id") String t_other_id,
                                                                    @Field("t_address_id") String t_address_id, @Field("t_traffic_id") String t_traffic_id,

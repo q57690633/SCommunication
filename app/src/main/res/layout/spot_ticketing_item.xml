@@ -142,6 +142,21 @@
             android:textSize="14dp" />
     </LinearLayout>
 
+
+    <EditText
+        android:id="@+id/generalize"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="12dp"
+        android:background="@color/login_forget_password_code_fort"
+        android:gravity="top"
+        android:hint="推广话术"
+        android:padding="9dp"
+        android:textColorHint="@color/login_walling_fort" />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -707,16 +722,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_normal" />
+            android:background="@drawable/icon_circle_normal" />
 
-        <ImageView
-            android:id="@+id/shuaiWei_click"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_selected"
-            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -732,16 +739,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_normal" />
+            android:background="@drawable/icon_circle_normal" />
 
-        <ImageView
-            android:id="@+id/lineOrThrow_shuaiWei_click"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_circle_selected"
-            android:visibility="gone" />
+
 
     </LinearLayout>
 

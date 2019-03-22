@@ -35,9 +35,9 @@ public class ForeignNationActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        getProvinces();
+        getForeignNation();
     }
-    public void getProvinces(){
+    public void getForeignNation(){
         showProgressDialog();
         ApiModule.getInstance().getForeignNation().subscribe(foreignNationEntities -> {
             cancelProgressDialog();

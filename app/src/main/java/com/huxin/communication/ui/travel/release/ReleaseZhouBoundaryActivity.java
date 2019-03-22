@@ -185,8 +185,12 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     @Override
     protected void initViews() {
+        if (id == 0) {
+            setToolbarCenterMode("发布周边游线路", MODE_BACK);
+        }else {
+            setToolbarCenterMode("编辑周边游线路", MODE_BACK);
 
-        setToolbarCenterMode("发布周边游线路", MODE_BACK);
+        }
         mRelativeLayoutOccupationType = (RelativeLayout) findViewById(R.id.rl_travel_Occupation_type);
         mRelativeLayoutMudiType = (RelativeLayout) findViewById(R.id.rl_travel_mudi_type);
         mRelativeLayoutHotType = (RelativeLayout) findViewById(R.id.rl_travel_hot_type);

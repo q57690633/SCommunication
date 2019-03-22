@@ -131,7 +131,12 @@
     <string name="custom_unitPrice_sell_m2">/㎡</string>
     <string name="custom_travel_adult">成人：</string>
     <string name="custom_travel_child">儿童：</string>
-    <string name="custom_travel_return">返</string>
+    <string name="custom_travel_return">返佣</string>
+    <string name="custom_travel_depart_spot">出发地</string>
+    <string name="custom_travel_goals_city">目的地</string>
+    <string name="custom_travel_days">天</string>
+    <string name="custom_travel_number_days">行程天数</string>
+    <string name="custom_travel_hot_position">热门景点：</string>
     <string name="group_info_add_friend">邀请同行入群</string>
     <string name="group_info_check_more">查看更多本地同行</string>
     <string name="group_info_set_top">置顶聊天</string>

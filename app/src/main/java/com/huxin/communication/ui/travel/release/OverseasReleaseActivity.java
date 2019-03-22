@@ -23,6 +23,8 @@ import com.huxin.communication.adpter.TableTravelTrafficAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
+import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.http.ApiModule;
@@ -167,6 +169,10 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
     private TextView mTextViewTopMessage;
 
+    private int id = 0;
+    private ForeignTravelEntity.ListBean listBean;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,12 +186,19 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         httpUtil = new HttpUtil();
 
         type = getIntent().getStringExtra("type");
+        id = getIntent().getIntExtra("id",0);
+        listBean = getIntent().getParcelableExtra("list");
 
     }
 
     @Override
     protected void initViews() {
-        setToolbarCenterMode("发布境外游线路", MODE_BACK);
+        if (id == 0) {
+            setToolbarCenterMode("发布境外游线路", MODE_BACK);
+        }else {
+            setToolbarCenterMode("编辑境外游线路", MODE_BACK);
+
+        }
 
         mRelativeLayoutOccupationType = (RelativeLayout) findViewById(R.id.rl_travel_Occupation_type);
         mRelativeLayoutMudiType = (RelativeLayout) findViewById(R.id.rl_travel_mudi_type);
@@ -305,7 +318,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,1);
+        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,0);
         selectTravelTab();
         deteledData();
         getUseInfo();
@@ -319,6 +332,9 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
         mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
         SetEnabled();
+        if (id != 0) {
+            setData();
+        }
     }
 
     @Override
@@ -326,6 +342,211 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         super.onResume();
         setViewData();
     }
+
+
+    private void setData() {
+        if (listBean != null) {
+            mTextViewTotalPrice.setText(String.valueOf(listBean.getTotal_price()));
+            mTextViewFinalPrice.setText(String.valueOf(listBean.getFinal_price()));
+            mTextViewReturnPrice.setText(String.valueOf(listBean.getReturn_price()));
+            mTextViewTotalPriceChild.setText(String.valueOf(listBean.getTotal_price_child()));
+            mTextViewFinalPriceChild.setText(String.valueOf(listBean.getFinal_price_child()));
+            mTextViewReturnPriceChild.setText(String.valueOf(listBean.getReturn_price_child()));
+            mTextViewDayType.setText(String.valueOf(listBean.getNumber_days()));
+            if (!TextUtils.isEmpty(listBean.getTravel_title())) {
+                mEditTextTravelTitle.setText(String.valueOf(listBean.getTravel_title()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getGeneralize())) {
+                mEditTextGeneralize.setText(String.valueOf(listBean.getGeneralize()));
+
+            }
+
+            if (!TextUtils.isEmpty(listBean.getGoals_nat_name())) {
+                mTextViewMudiType.setText(listBean.getGoals_nat_name());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getDepart_name())) {
+                mTextViewOccupationType.setText(listBean.getDepart_name());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getSpot_name())) {
+                mTextViewHotType.setText(listBean.getSpot_name());
+            }
+
+            if (listBean.getLine_or_throw() == 0) {
+                mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_normal);
+                caixian = 1;
+            }else {
+                mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
+                caixian = 2;
+            }
+
+            if (listBean.getStick_better() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
+                better = 1;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_hot() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 1;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_low() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 1;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+            if (listBean.getStick_new() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 1;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_rate() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 1;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_throw() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 1;
+                rate = 0;
+                returns = 0;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_return() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 1;
+                zeroC = 0;
+            }
+
+            if (listBean.getStick_zeroC() == 1) {
+                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                better = 0;
+                news = 0;
+                low = 0;
+                hot = 0;
+                shuaiwei = 0;
+                rate = 0;
+                returns = 0;
+                zeroC = 1;
+            }
+
+            if (listBean.getPickup_price() == 0){
+                mTextViewRelease1Type.setText("有周边接送费");
+                pickupPrice = "有周边接送费";
+            }else {
+                mTextViewRelease1Type.setText("无接送费");
+                pickupPrice = "无接送费";
+
+            }
+        }
+    }
+
 
     @Override
     public void onClick(View v) {

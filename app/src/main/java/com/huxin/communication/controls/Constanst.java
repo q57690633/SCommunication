@@ -178,6 +178,9 @@ public class Constanst {
 
     public static final String MUDI_PROVINCE_NAME = "mudi_province_name";
 
+    public static final String MUDI_FOREGIN_NAME = "mudi_foregin_name";
+
+
 
 
 

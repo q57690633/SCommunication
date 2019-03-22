@@ -1233,6 +1233,8 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     private void setData(AroundTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
+            mRecyclerView.setVisibility(View.VISIBLE);
+
             LinearLayoutManager manager = new LinearLayoutManager(this);
 
             mAdpter = new ZhouBianAdapter(entity.getList(), this,1);
@@ -1241,6 +1243,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1257,12 +1262,15 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     private void setJinWaiData(ForeignTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
-
+            mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+        }else {
+            mRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
     }
 

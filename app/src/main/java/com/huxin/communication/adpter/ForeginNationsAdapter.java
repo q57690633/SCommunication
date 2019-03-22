@@ -10,20 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.huxin.communication.ForeginNationAdapter;
 import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
-import com.huxin.communication.entity.ProvinceEntity;
-import com.huxin.communication.ui.CityTravelActivity;
+import com.huxin.communication.entity.ForeignNationEntity;
+import com.huxin.communication.ui.ForeignCityActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 
 import java.util.List;
 
-public class ProvincesTravelsAdapter extends RecyclerView.Adapter<ProvincesTravelsAdapter.BodyViewHoder> {
+public class ForeginNationsAdapter extends RecyclerView.Adapter<ForeginNationsAdapter.BodyViewHoder>{
+
     private Activity mActivity;
-    private List<ProvinceEntity> mList;
+    private List<ForeignNationEntity> mList;
     private LayoutInflater mInflater;
-    private int type;
 
     private OnItemClickListener mClickListener;
     private String oldName;
@@ -33,42 +34,52 @@ public class ProvincesTravelsAdapter extends RecyclerView.Adapter<ProvincesTrave
         void onClick(int position);
     }
 
-
-    public ProvincesTravelsAdapter(List<ProvinceEntity> mList, Activity mActivity, int type) {
+    public ForeginNationsAdapter(List<ForeignNationEntity> mList, Activity mActivity) {
         this.mList = mList;
         this.mActivity = mActivity;
-        this.type = type;
         mInflater = LayoutInflater.from(mActivity);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mClickListener = listener;
     }
-
     @Override
     public BodyViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_province_recycler, parent, false);
         BodyViewHoder Hoder = new BodyViewHoder(view);
+//        Hoder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(mActivity,ForeignCityActivity.class);
+//                intent.putExtra(Constanst.NATION_NAME,mList.get(Hoder.getAdapterPosition()).getCountry());
+//                PreferenceUtil.putString(Constanst.NATION_NAME,mList.get(Hoder.getAdapterPosition()).getCountry());
+//                mActivity.startActivity(intent);
+//                mActivity.finish();
+//            }
+//        });
         return Hoder;
     }
 
     @Override
     public void onBindViewHolder(BodyViewHoder holder, int position) {
-        KyLog.d(mList.get(position).getProvince_name());
-        holder.mTextViewName.setText(mList.get(position).getProvince_name());
+//        holder.mTextViewAddress.setText(mList.get(position).getAddress());
+        KyLog.d(mList.get(position).getCountry());
+        holder.mTextViewName.setText(mList.get(position).getCountry());
+//        holder.mTextViewPhone.setText(mList.get(position).getPhone());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mClickListener != null) {
                     mClickListener.onClick(holder.getAdapterPosition());
-                    oldName = mList.get(holder.getAdapterPosition()).getProvince_name();
+                    oldName = mList.get(holder.getAdapterPosition()).getCountry();
                     notifyDataSetChanged();
 
                 }
             }
+
         });
 
-        if (mList.get(position).getProvince_name().equals(oldName)) {
+        if (mList.get(position).getCountry().equals(oldName)) {
             holder.mTextViewName.setTextColor(mActivity.getResources().getColor(R.color.blue));
         } else {
             holder.mTextViewName.setTextColor(mActivity.getResources().getColor(R.color.Font_color_title));
@@ -86,14 +97,14 @@ public class ProvincesTravelsAdapter extends RecyclerView.Adapter<ProvincesTrave
     public class BodyViewHoder extends RecyclerView.ViewHolder {
         private TextView mTextViewName;
         private LinearLayout mRelativeLayout;
+        private TextView mTextViewLine;
 
 
         public BodyViewHoder(View itemView) {
             super(itemView);
             mTextViewName = (TextView) itemView.findViewById(R.id.City_Name);
             mRelativeLayout = (LinearLayout) itemView.findViewById(R.id.name_line);
+
         }
-
-
     }
 }

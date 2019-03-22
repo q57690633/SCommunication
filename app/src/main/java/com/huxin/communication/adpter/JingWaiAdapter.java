@@ -19,6 +19,7 @@ import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.travel.WebViewActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.ui.travel.release.OverseasReleaseActivity;
 import com.huxin.communication.ui.travel.release.ReleaseGuoNeiActivity;
 import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.utils.PreferenceUtil;
@@ -64,7 +65,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
                     intent.putExtra("list", list.get(hoder.getAdapterPosition()));
                     mContext.startActivity(intent);
                 } else if (type == 2) {
-                    Intent intents = new Intent(mContext, ReleaseZhouBoundaryActivity.class);
+                    Intent intents = new Intent(mContext, OverseasReleaseActivity.class);
                     intents.putExtra("list", list.get(hoder.getAdapterPosition()));
                     intents.putExtra("id", list.get(hoder.getAdapterPosition()).getId());
                     mContext.startActivity(intents);
@@ -102,7 +103,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewDepartName.setText(list.get(position).getDepart_name());
         holder.mTextViewUsername.setText(list.get(position).getUsername());
         holder.mTextViewUserCity.setText(list.get(position).getUserCity());
-//        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
+        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_nat_name());
         holder.mTextViewNumberDays.setText("行程天数：" + list.get(position).getNumber_days() + "天");
         holder.mTextViewTotalPrice.setText("成人：" + list.get(position).getTotal_price() + "元");
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");
@@ -219,7 +220,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             }
         }
         if (list1.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+            GridLayoutManager manager = new GridLayoutManager(mContext, 3);
             mAdapterTableName = new TableNameAdapter(list1, mContext);
             linearLayout.setAdapter(mAdapterTableName);
             linearLayout.setLayoutManager(manager);
