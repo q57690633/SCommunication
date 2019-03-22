@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
@@ -165,7 +166,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewTotalPrice;
         private TextView mTextViewnNmdays;
         private TextView mTextViewTitles;
-        private TextView mTextViewGuonei;
+        private LinearLayout mTextViewGuonei;
 
         private TextView mTextViewReturnPrice;
 
