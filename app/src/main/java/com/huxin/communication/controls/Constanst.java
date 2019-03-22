@@ -176,6 +176,9 @@ public class Constanst {
 
     public static final String TOP_ZHIDING = "top";
 
+    public static final String MUDI_PROVINCE_NAME = "mudi_province_name";
+
+
 
 
 

@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!--
     <uses-permission android:name="android.permission.INTERNET" />
@@ -107,9 +107,10 @@
         <activity android:name=".ui.my.collect.DataBaseTravelActivity" />
         <activity android:name=".ui.my.history.HistroyActivity" />
         <activity android:name=".ui.KeFuActivity" />
-        <activity android:name=".ui.my.tuijian.TuiJianActivity" >
+        <activity android:name=".ui.my.tuijian.TuiJianActivity">
             <intent-filter>
                 <action android:name="com.huxin.communication.tuijian" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -166,6 +167,14 @@
         <activity
             android:name=".ui.house.details.ImageActivity"
             android:label="@string/title_activity_image"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.travel.details.DataBaseTravelDetiailsActivity"
+            android:label="@string/title_activity_data_base_travel_detiails"
+            android:theme="@style/Theme.MaterialDesign" />
+        <activity
+            android:name=".ui.travel.details.DataBaseTravelTicketDetitalActivity"
+            android:label="@string/title_activity_data_base_travel_ticket_detital"
             android:theme="@style/Theme.MaterialDesign"></activity>
     </application>
 

@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huxin.communication.R;
+import com.huxin.communication.adpter.CityTravelsAdapter;
 import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
+import com.huxin.communication.adpter.ProvincesTravelsAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
 import com.huxin.communication.adpter.TableTravelOtherAdapter;
@@ -156,6 +158,16 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     private LinearLayout mLinearLayoutSortTime;
 
+    private RelativeLayout mLinearLayoutMudi;
+    private RecyclerView mRecyclerViewAreaOne;
+    private RecyclerView mRecyclerViewAreaTwo;
+//    private TextView mTextViewChufa;
+    private TextView mTextViewMuDi;
+
+    private TextView mTextViewChuFaDetermine;
+    private TextView mTextViewChuFaBuXian;
+    private TextView mTextViewCity;
+    private TextView mTextViewMoren;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,6 +261,21 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
         mLinearLayoutSortTime = findViewById(R.id.recycler_sort_time);
 
+
+        mLinearLayoutMudi = findViewById(R.id.travel_mudi);
+        mRecyclerViewAreaOne = findViewById(R.id.recyclerView_provinces);
+        mRecyclerViewAreaTwo = findViewById(R.id.recycler_city);
+        mTextViewMuDi = findViewById(R.id.tv_spot);
+
+        mTextViewCity = findViewById(R.id.tv_city);
+        mTextViewMoren = findViewById(R.id.moren);
+
+        mTextViewChuFaDetermine = findViewById(R.id.chufa_Determine);
+        mTextViewChuFaBuXian = findViewById(R.id.chufa_buxian);
+
+        mTextViewChuFaDetermine.setOnClickListener(this);
+        mTextViewChuFaBuXian.setOnClickListener(this);
+
         mLinearLayoutMore.setOnClickListener(this);
         mLinearLayoutPrice.setOnClickListener(this);
         mLinearLayoutSort.setOnClickListener(this);
@@ -340,20 +367,6 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isClickQuYu) {
-            return;
-        }
-        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
-//        String MuDi = PreferenceUtil.getString(Constanst.SHAIXUAN_SPOT_NAME);
-        KyLog.d(ChufaCityCode + "tiket");
-        if (!TextUtils.isEmpty(ChufaCityCode)) {
-            getTicketInfo(String.valueOf(TicketType), ChufaCityCode, "", "",
-                    "", "", "", "", "1");
-        } else {
-
-            getTicketInfo(String.valueOf(TicketType), "", "", "",
-                    "", "", "", "", "1");
-        }
 
     }
 
@@ -415,9 +428,32 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.mudidi_line:
-                Intent intentMudDi = new Intent(this, ProvincesTravelActivity.class);
-                intentMudDi.putExtra("type", 3);
-                startActivity(intentMudDi);
+                getProvinces(3);
+                mLinearLayoutSorts.setVisibility(View.GONE);
+                mLinearLayoutPrices.setVisibility(View.GONE);
+                mLinearLayoutMores.setVisibility(View.GONE);
+                mLinearLayoutMudi.setVisibility(View.VISIBLE);
+                mTextViewMoren.setVisibility(View.GONE);
+                mTextViewCity.setVisibility(View.GONE);
+
+                mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+//                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.blue));
+
+
+                mRelativeLayoutRL.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+//                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
+                isClickQuYu = true;
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))) {
+                    PreferenceUtil.removeSp(Constanst.CITY_CODE, Constanst.SP_NAME);
+                }
                 isClickQuYu = true;
                 break;
 
@@ -472,6 +508,23 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 updata();
                 getTicketInfo(String.valueOf(TicketType), "", "", "",
                         "", "", productType, "", "1");
+                break;
+
+            case R.id.chufa_Determine:
+
+                String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
+                KyLog.d(ChufaCityCode + "travel");
+                updata();
+                if (!TextUtils.isEmpty(ChufaCityCode)) {
+                    getTicketInfo(String.valueOf(TicketType), ChufaCityCode, "", "",
+                            "", "", "", "", "1");
+                }
+                break;
+
+            case R.id.chufa_buxian:
+                updata();
+                getTicketInfo(String.valueOf(TicketType), "", "", "",
+                        "", "", "", "", "1");
                 break;
             case R.id.price1:
                 mTextViewPrice1.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
@@ -948,9 +1001,17 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mLinearLayoutSorts.setVisibility(View.GONE);
         mLinearLayoutPrices.setVisibility(View.GONE);
         mLinearLayoutMores.setVisibility(View.GONE);
+        mLinearLayoutMudi.setVisibility(View.GONE);
         mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+//        mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+        mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
     }
 
 
@@ -974,7 +1035,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mAdpter = new TicketingAdapter(entity.getList(), this);
+            mAdpter = new TicketingAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1231,5 +1292,51 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mRecyclerViewDuoXuan.setFocusable(isFocusable);
 
 
+    }
+
+    public void getProvinces(int type) {
+        showProgressDialog();
+        ApiModule.getInstance().getProvinces().subscribe(provinceEntities -> {
+            cancelProgressDialog();
+            if (provinceEntities != null && provinceEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                ProvincesTravelsAdapter mAdapter = new ProvincesTravelsAdapter(provinceEntities, this, type);
+                mRecyclerViewAreaOne.setAdapter(mAdapter);
+                mRecyclerViewAreaOne.setLayoutManager(manager);
+                mAdapter.setOnItemClickListener(new ProvincesTravelsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        PreferenceUtil.putString(Constanst.MUDI_PROVINCE_NAME, provinceEntities.get(position).getProvince_name());
+                        getInlandCity(provinceEntities.get(position).getProvince_code(), type);
+                        mRecyclerViewAreaTwo.setVisibility(View.VISIBLE);
+
+                    }
+                });
+                mRecyclerViewAreaTwo.setVisibility(View.GONE);
+            }
+        }, throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    public void getInlandCity(String provinceCode, int type) {
+        showProgressDialog();
+        ApiModule.getInstance().getInlandCity(provinceCode).subscribe(inlandCityEntities -> {
+            cancelProgressDialog();
+            if (inlandCityEntities != null && inlandCityEntities.size() > 0) {
+                LinearLayoutManager manager = new LinearLayoutManager(this);
+                CityTravelsAdapter mAdapter = new CityTravelsAdapter(inlandCityEntities, this, type);
+                mRecyclerViewAreaTwo.setAdapter(mAdapter);
+                mRecyclerViewAreaTwo.setLayoutManager(manager);
+                mAdapter.NotifyChanged();
+
+            }
+        }, throwable -> {
+            KyLog.d(throwable.toString());
+            cancelProgressDialog();
+            Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
 }

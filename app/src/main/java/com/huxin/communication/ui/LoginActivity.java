@@ -133,18 +133,65 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getArea());
                         if (!TextUtils.isEmpty(loginEntity.getProvince())) {
                             PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
+                        }else {
+                            PreferenceUtil.putString(Constanst.PROVINCE_NAME, "");
+
                         }
                         PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
+                        if ( !TextUtils.isEmpty(loginEntity.getUsername())){
+                            PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
+                        }else {
+                            PreferenceUtil.putString(Constanst.USER_NAME, "");
+                        }
 
-                        PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
-                        PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
-                        PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
-                        PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
-                        PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
-                        PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
-                        PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
-                        PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
-                        PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
+                        if ( !TextUtils.isEmpty(loginEntity.getPhone())){
+                            PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
+                        }else {
+                            PreferenceUtil.putString(Constanst.PHONE, "");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getSecondPhone())){
+                            PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
+                        }else {
+                            PreferenceUtil.putString(Constanst.SECOND_PHONE,"");
+
+                        }
+                        if ( !TextUtils.isEmpty(loginEntity.getHeadUrl())){
+                            PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
+                        }else {
+                            PreferenceUtil.putString(Constanst.IMAGE_URL, "");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getCompanyName())){
+                            PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
+                        }else {
+                            PreferenceUtil.putString(Constanst.COMPANY,"");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getLicenseCode())){
+                            PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
+                        }else {
+                            PreferenceUtil.putString(Constanst.COMPANY_CODE, "");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getStoreName())){
+                            PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
+                        }else {
+                            PreferenceUtil.putString(Constanst.STORE_NAME, "");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getPositions())){
+                            PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
+                        }else {
+                            PreferenceUtil.putString(Constanst.POSITION, "");
+                        }
+
+                        if ( !TextUtils.isEmpty(loginEntity.getIndustryType())){
+                            PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
+                        }else {
+                            PreferenceUtil.putString(Constanst.INDUSTRYTYPE, "");
+                        }
+
 
                         new Thread(new Runnable() {
                             

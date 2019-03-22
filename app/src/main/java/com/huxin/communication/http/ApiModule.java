@@ -707,7 +707,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<AroundTravelEntity> gettingAroundTravel(String depart_code, String goalsId,
+    public Observable<AroundTravelEntity> gettingAroundTravel(String depart_code, String goals_city, String goals_pro,
                                                               int sort_type, String tOtherId,
                                                               String tActivityId, String tStayId,
                                                               String tAddressId, String tTrafficId,
@@ -715,7 +715,7 @@ public class ApiModule {
                                                               String numberDays, String keyWord,
                                                               String curPage, String minDay, String maxDay, String uid,
                                                               String travel_kind, String lineOrThrow, String ifSevenInfo, String user_idForCol) {
-        return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goalsId,
+        return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goals_city,goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrow,ifSevenInfo,user_idForCol)
                 .subscribeOn(Schedulers.io())
@@ -994,7 +994,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<AroundTravelEntity> getCollectAround(String depart_code, String goalsId,
+    public Observable<AroundTravelEntity> getCollectAround(String depart_code,  String goals_city, String goals_pro,
                                                            String sort_type, String tOtherId,
                                                            String tActivityId, String tStayId,
                                                            String tAddressId, String tTrafficId,
@@ -1002,7 +1002,7 @@ public class ApiModule {
                                                            String numberDays, String keyWord,
                                                            String curPage, String minDay, String maxDay, String uid,
                                                            String travel_kind,String user_idForCol) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goalsId,
+        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goals_city,goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind,user_idForCol)
                 .subscribeOn(Schedulers.io())

@@ -512,7 +512,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/gettingAroundTravel")
-    Observable<Response<AroundTravelEntity>> gettingAroundTravel(@Field("depart_code") String depart_code, @Field("goalsId") String goalsId,
+    Observable<Response<AroundTravelEntity>> gettingAroundTravel(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city,@Field("goals_pro") String goals_pro,
                                                                  @Field("sort_type") int sort_type, @Field("tOtherId") String tOtherId,
                                                                  @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
                                                                  @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,
@@ -751,7 +751,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/getCollectAround")
-    Observable<Response<AroundTravelEntity>> getCollectAround(@Field("depart_code") String depart_code, @Field("goalsId") String goalsId,
+    Observable<Response<AroundTravelEntity>> getCollectAround(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city,@Field("goals_pro") String goals_pro,
                                                               @Field("sort_type") String sort_type, @Field("tOtherId") String tOtherId,
                                                               @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
                                                               @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,

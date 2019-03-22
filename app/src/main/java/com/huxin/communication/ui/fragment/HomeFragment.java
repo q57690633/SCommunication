@@ -429,7 +429,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
-                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -510,7 +510,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
 //                    cancelProgressDialog();
-                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
 

@@ -49,6 +49,8 @@ public class CaiXianForeignAdapter extends RecyclerView.Adapter<CaiXianForeignAd
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
                 intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                intent.putExtra("type",2);
+
                 mContext.startActivity(intent);
             }
         });

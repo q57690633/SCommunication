@@ -24,6 +24,8 @@ import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.AroundTravelEntity;
+import com.huxin.communication.entity.HeadTravelEntivty;
+import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
@@ -78,6 +80,10 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     private AroundTravelEntity.ListBean listBean;
 
+    private HeadTravelEntivty headTravelEntivty;
+
+    private int type;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +117,12 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
         listBean = getIntent().getParcelableExtra("list");
+
+        headTravelEntivty = getIntent().getParcelableExtra("headlist");
+
+        type = getIntent().getIntExtra("type", 0);
+
+
         KyLog.object(listBean);
 
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
@@ -125,11 +137,18 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                     KyLog.d(userId);
                     KyLog.d(listBean.getId() + "");
 
-
-                    if (!userId.equals(String.valueOf(listBean.getUid()))){
-                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
-                    }else {
-                        Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                    if (type == 1) {
+                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
+                        } else {
+                            Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                        } else {
+                            Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -145,7 +164,13 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = listBean.getUserPhone();
+                String phone = null;
+                if (type == 1) {
+                    phone = headTravelEntivty.getUserPhone();
+                } else {
+                    phone = listBean.getUserPhone();
+
+                }
                 if (!TextUtils.isEmpty(phone)) {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
                     if (ActivityCompat.checkSelfPermission(ZhouBianDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -153,7 +178,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                         return;
                     }
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(ZhouBianDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -162,29 +187,49 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        setData(listBean);
-        setOnBinner(listBean);
-        setTextView(listBean, mRecyclerView);
+        setData(listBean,headTravelEntivty);
+        setOnBinner(listBean,headTravelEntivty);
+        setTextView(listBean, headTravelEntivty,mRecyclerView);
     }
 
 
-    private void setData(AroundTravelEntity.ListBean entity) {
-        if (entity != null) {
-            mTextViewTravelTitle.setText(entity.getTravelTitle());
-            mTextViewDepartName.setText(entity.getDepart_name());
-            mTextViewGoalsCity.setText(entity.getGoals_city());
-            mTextViewNumberDays.setText(String.valueOf(entity.getNumberDays()) + "天");
-            mTextViewTotalPrice.setText(String.valueOf("成人：" + entity.getTotalPrice()) + "元");
-            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturnPrice()) + "元");
-            mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotalPriceChild()) + "元");
-            mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturnPriceChild()) + "元");
-            mTextViewSpotName.setText(String.valueOf(entity.getSpotName()));
-            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
-            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
-            mTextViewGeneralize.setText(entity.getGeneralize());
-            mTextViewUsername.setText(entity.getUsername());
-            mTextViewCompanyName.setText(entity.getCompanyName());
+    private void setData(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty) {
+        if (type == 1){
+            if (entivty != null) {
+                mTextViewTravelTitle.setText(entivty.getTravelTitle());
+                mTextViewDepartName.setText(entivty.getDepart_name());
+                mTextViewGoalsCity.setText(entivty.getGoals_city());
+                mTextViewNumberDays.setText(String.valueOf(entivty.getNumberDays()) + "天");
+                mTextViewTotalPrice.setText(String.valueOf("成人：" + entivty.getTotalPrice()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entivty.getReturnPrice()) + "元");
+                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entivty.getTotalPriceChild()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entivty.getReturnPriceChild()) + "元");
+                mTextViewSpotName.setText(String.valueOf(entivty.getSpotName()));
+                mTextViewViewCount.setText(String.valueOf(entivty.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entivty.getIssue_count()) + "次");
+                mTextViewGeneralize.setText(entivty.getGeneralize());
+                mTextViewUsername.setText(entivty.getUsername());
+                mTextViewCompanyName.setText(entivty.getCompanyName());
+            }
+        }else {
+            if (entity != null) {
+                mTextViewTravelTitle.setText(entity.getTravelTitle());
+                mTextViewDepartName.setText(entity.getDepart_name());
+                mTextViewGoalsCity.setText(entity.getGoals_city());
+                mTextViewNumberDays.setText(String.valueOf(entity.getNumberDays()) + "天");
+                mTextViewTotalPrice.setText(String.valueOf("成人：" + entity.getTotalPrice()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturnPrice()) + "元");
+                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotalPriceChild()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturnPriceChild()) + "元");
+                mTextViewSpotName.setText(String.valueOf(entity.getSpotName()));
+                mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+                mTextViewGeneralize.setText(entity.getGeneralize());
+                mTextViewUsername.setText(entity.getUsername());
+                mTextViewCompanyName.setText(entity.getCompanyName());
+            }
         }
+
     }
 
     // 设置焦点图片数量小圆点的方法
@@ -261,14 +306,24 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(AroundTravelEntity.ListBean listBean) {
+    private void setOnBinner(AroundTravelEntity.ListBean listBean,HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(listBean.getPhoto_url())) {
-            String[] str = listBean.getPhoto_url().split(",");
-            for (String strs : str) {
-                imageList.add(strs);
+        if (type == 1){
+            if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
+                String[] str = entivty.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
+            }
+        }else {
+            if (!TextUtils.isEmpty(listBean.getPhoto_url())) {
+                String[] str = listBean.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
             }
         }
+
         KyLog.d(imageList.size() + "");
         if (imageList.size() > 0) {
             mViewPagerAdapter = new ViewPagerAdapter(this, imageList);
@@ -299,13 +354,23 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     }
 
 
-    private void setTextView(AroundTravelEntity.ListBean entity, RecyclerView linearLayout) {
+    private void setTextView(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        if (!TextUtils.isEmpty(entity.getTagName())) {
-            String[] strings = entity.getTagName().split(",");
-            KyLog.d(entity.getTagName());
-            for (int i = 0; i < strings.length; i++) {
-                list1.add(strings[i]);
+        if (type == 1) {
+            if (!TextUtils.isEmpty(entivty.getTagName())) {
+                String[] strings = entivty.getTagName().split(",");
+                KyLog.d(entivty.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
+            }
+        }else {
+            if (!TextUtils.isEmpty(entity.getTagName())) {
+                String[] strings = entity.getTagName().split(",");
+                KyLog.d(entity.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
             }
         }
         if (list1.size() > 0) {

@@ -78,8 +78,11 @@ public class HomeViewPagerAdapter extends PagerAdapter {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(mContext,ImageActivity.class);
-                intent.putExtra("url",mlist.get(position % mImageViews.size()).getUrl());
+                if (position < mImageViews.size()){
+                    intent.putExtra("url",mlist.get(position % mImageViews.size()).getUrl());
+                }
                 mContext.startActivity(intent);
             }
         });

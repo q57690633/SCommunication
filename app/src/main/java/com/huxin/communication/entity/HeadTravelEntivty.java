@@ -1,8 +1,13 @@
 package com.huxin.communication.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class HeadTravelEntivty {
+public class HeadTravelEntivty implements Parcelable {
+
+
 
     private String carousel_detail;
     private int category;
@@ -1057,5 +1062,266 @@ public class HeadTravelEntivty {
     public void setProductType(int productType) {
         this.productType = productType;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.carousel_detail);
+        dest.writeInt(this.category);
+        dest.writeString(this.city);
+        dest.writeString(this.company_name);
+        dest.writeString(this.create_time);
+        dest.writeInt(this.id);
+        dest.writeString(this.img_url);
+        dest.writeInt(this.status);
+        dest.writeString(this.url);
+        dest.writeString(this.TActivityId);
+        dest.writeString(this.TAddressId);
+        dest.writeString(this.TConsumeId);
+        dest.writeString(this.TOtherId);
+        dest.writeString(this.TOverseasId);
+        dest.writeString(this.TStayId);
+        dest.writeString(this.TTrafficId);
+        dest.writeString(this.companyName);
+        dest.writeString(this.curPage);
+        dest.writeString(this.depart_code);
+        dest.writeString(this.depart_name);
+        dest.writeString(this.depart_pro_code);
+        dest.writeInt(this.finalPrice);
+        dest.writeInt(this.finalPriceChild);
+        dest.writeString(this.generalize);
+        dest.writeString(this.goalsId);
+        dest.writeString(this.goals_city);
+        dest.writeString(this.goals_city_code);
+        dest.writeString(this.goals_pro);
+        dest.writeString(this.headUrl);
+        dest.writeInt(this.issue_count);
+        dest.writeString(this.issue_time);
+        dest.writeString(this.keyWord);
+        dest.writeInt(this.lineOrThrow);
+        dest.writeInt(this.maxDay);
+        dest.writeInt(this.maxPrice);
+        dest.writeInt(this.minDay);
+        dest.writeString(this.minPri_maxPri);
+        dest.writeInt(this.minPrice);
+        dest.writeInt(this.numberDays);
+        dest.writeString(this.photo_url);
+        dest.writeInt(this.pickupPrice);
+        dest.writeInt(this.returnPrice);
+        dest.writeInt(this.returnPriceChild);
+        dest.writeInt(this.sort_type);
+        dest.writeInt(this.specilDays);
+        dest.writeString(this.spotName);
+        dest.writeInt(this.stick);
+        dest.writeInt(this.stick_better);
+        dest.writeInt(this.stick_hot);
+        dest.writeInt(this.stick_low);
+        dest.writeString(this.stick_name);
+        dest.writeInt(this.stick_new);
+        dest.writeInt(this.stick_rate);
+        dest.writeInt(this.stick_return);
+        dest.writeInt(this.stick_throw);
+        dest.writeLong(this.stick_time);
+        dest.writeInt(this.stick_zeroC);
+        dest.writeString(this.tagName);
+        dest.writeInt(this.totalPrice);
+        dest.writeInt(this.totalPriceChild);
+        dest.writeString(this.travelTitle);
+        dest.writeInt(this.uid);
+        dest.writeString(this.userCity);
+        dest.writeString(this.userPhone);
+        dest.writeString(this.username);
+        dest.writeInt(this.view_count);
+        dest.writeStringList(this.files);
+        dest.writeString(this.depart_pro_name);
+        dest.writeInt(this.final_price);
+        dest.writeInt(this.final_price_child);
+        dest.writeString(this.goals_name);
+        dest.writeString(this.goals_nat_name);
+        dest.writeInt(this.line_or_throw);
+        dest.writeInt(this.max_days);
+        dest.writeInt(this.max_price);
+        dest.writeInt(this.min_days);
+        dest.writeInt(this.min_price);
+        dest.writeInt(this.number_days);
+        dest.writeInt(this.pickup_price);
+        dest.writeInt(this.return_price);
+        dest.writeInt(this.return_price_child);
+        dest.writeString(this.spot_name);
+        dest.writeString(this.t_activity_id);
+        dest.writeString(this.t_address_id);
+        dest.writeString(this.t_consume_id);
+        dest.writeString(this.t_other_id);
+        dest.writeString(this.t_overseas_id);
+        dest.writeString(this.t_stay_id);
+        dest.writeString(this.t_traffic_id);
+        dest.writeInt(this.total_price);
+        dest.writeInt(this.total_price_child);
+        dest.writeString(this.travel_title);
+        dest.writeInt(this.final_boat);
+        dest.writeInt(this.final_car);
+        dest.writeInt(this.final_price_evening);
+        dest.writeInt(this.final_price_family);
+        dest.writeInt(this.final_price_parent_child);
+        dest.writeInt(this.final_price_total);
+        dest.writeString(this.open_time);
+        dest.writeInt(this.original_boat);
+        dest.writeInt(this.original_car);
+        dest.writeInt(this.original_price);
+        dest.writeInt(this.original_price_child);
+        dest.writeInt(this.original_price_evening);
+        dest.writeInt(this.original_price_family);
+        dest.writeInt(this.original_price_parent_child);
+        dest.writeInt(this.original_price_total);
+        dest.writeString(this.ticket_activity_id);
+        dest.writeString(this.ticket_addr);
+        dest.writeString(this.ticket_city_name);
+        dest.writeString(this.ticket_name);
+        dest.writeString(this.ticket_other_id);
+        dest.writeString(this.ticket_pro_code);
+        dest.writeString(this.ticket_pro_name);
+        dest.writeString(this.ticket_theme_id);
+        dest.writeInt(this.ticket_type);
+        dest.writeInt(this.productType);
+    }
+
+    public HeadTravelEntivty() {
+    }
+
+    protected HeadTravelEntivty(Parcel in) {
+        this.carousel_detail = in.readString();
+        this.category = in.readInt();
+        this.city = in.readString();
+        this.company_name = in.readString();
+        this.create_time = in.readString();
+        this.id = in.readInt();
+        this.img_url = in.readString();
+        this.status = in.readInt();
+        this.url = in.readString();
+        this.TActivityId = in.readString();
+        this.TAddressId = in.readString();
+        this.TConsumeId = in.readString();
+        this.TOtherId = in.readString();
+        this.TOverseasId = in.readString();
+        this.TStayId = in.readString();
+        this.TTrafficId = in.readString();
+        this.companyName = in.readString();
+        this.curPage = in.readString();
+        this.depart_code = in.readString();
+        this.depart_name = in.readString();
+        this.depart_pro_code = in.readString();
+        this.finalPrice = in.readInt();
+        this.finalPriceChild = in.readInt();
+        this.generalize = in.readString();
+        this.goalsId = in.readString();
+        this.goals_city = in.readString();
+        this.goals_city_code = in.readString();
+        this.goals_pro = in.readString();
+        this.headUrl = in.readString();
+        this.issue_count = in.readInt();
+        this.issue_time = in.readString();
+        this.keyWord = in.readString();
+        this.lineOrThrow = in.readInt();
+        this.maxDay = in.readInt();
+        this.maxPrice = in.readInt();
+        this.minDay = in.readInt();
+        this.minPri_maxPri = in.readString();
+        this.minPrice = in.readInt();
+        this.numberDays = in.readInt();
+        this.photo_url = in.readString();
+        this.pickupPrice = in.readInt();
+        this.returnPrice = in.readInt();
+        this.returnPriceChild = in.readInt();
+        this.sort_type = in.readInt();
+        this.specilDays = in.readInt();
+        this.spotName = in.readString();
+        this.stick = in.readInt();
+        this.stick_better = in.readInt();
+        this.stick_hot = in.readInt();
+        this.stick_low = in.readInt();
+        this.stick_name = in.readString();
+        this.stick_new = in.readInt();
+        this.stick_rate = in.readInt();
+        this.stick_return = in.readInt();
+        this.stick_throw = in.readInt();
+        this.stick_time = in.readLong();
+        this.stick_zeroC = in.readInt();
+        this.tagName = in.readString();
+        this.totalPrice = in.readInt();
+        this.totalPriceChild = in.readInt();
+        this.travelTitle = in.readString();
+        this.uid = in.readInt();
+        this.userCity = in.readString();
+        this.userPhone = in.readString();
+        this.username = in.readString();
+        this.view_count = in.readInt();
+        this.files = in.createStringArrayList();
+        this.depart_pro_name = in.readString();
+        this.final_price = in.readInt();
+        this.final_price_child = in.readInt();
+        this.goals_name = in.readString();
+        this.goals_nat_name = in.readString();
+        this.line_or_throw = in.readInt();
+        this.max_days = in.readInt();
+        this.max_price = in.readInt();
+        this.min_days = in.readInt();
+        this.min_price = in.readInt();
+        this.number_days = in.readInt();
+        this.pickup_price = in.readInt();
+        this.return_price = in.readInt();
+        this.return_price_child = in.readInt();
+        this.spot_name = in.readString();
+        this.t_activity_id = in.readString();
+        this.t_address_id = in.readString();
+        this.t_consume_id = in.readString();
+        this.t_other_id = in.readString();
+        this.t_overseas_id = in.readString();
+        this.t_stay_id = in.readString();
+        this.t_traffic_id = in.readString();
+        this.total_price = in.readInt();
+        this.total_price_child = in.readInt();
+        this.travel_title = in.readString();
+        this.final_boat = in.readInt();
+        this.final_car = in.readInt();
+        this.final_price_evening = in.readInt();
+        this.final_price_family = in.readInt();
+        this.final_price_parent_child = in.readInt();
+        this.final_price_total = in.readInt();
+        this.open_time = in.readString();
+        this.original_boat = in.readInt();
+        this.original_car = in.readInt();
+        this.original_price = in.readInt();
+        this.original_price_child = in.readInt();
+        this.original_price_evening = in.readInt();
+        this.original_price_family = in.readInt();
+        this.original_price_parent_child = in.readInt();
+        this.original_price_total = in.readInt();
+        this.ticket_activity_id = in.readString();
+        this.ticket_addr = in.readString();
+        this.ticket_city_name = in.readString();
+        this.ticket_name = in.readString();
+        this.ticket_other_id = in.readString();
+        this.ticket_pro_code = in.readString();
+        this.ticket_pro_name = in.readString();
+        this.ticket_theme_id = in.readString();
+        this.ticket_type = in.readInt();
+        this.productType = in.readInt();
+    }
+
+    public static final Parcelable.Creator<HeadTravelEntivty> CREATOR = new Parcelable.Creator<HeadTravelEntivty>() {
+        @Override
+        public HeadTravelEntivty createFromParcel(Parcel source) {
+            return new HeadTravelEntivty(source);
+        }
+
+        @Override
+        public HeadTravelEntivty[] newArray(int size) {
+            return new HeadTravelEntivty[size];
+        }
+    };
 }
 

@@ -1,6 +1,7 @@
 package com.huxin.communication.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import com.huxin.communication.R;
 import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
+import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -65,10 +67,25 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (viewType == TYPE_SELL) {
             View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
             MyViewHoder hoderSell = new MyViewHoder(view);
+            hoderSell.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,ZhouBianDetailsActivity.class);
+                    intent.putExtra("headlist", list.get(hoderSell.getAdapterPosition()));
+                    intent.putExtra("type",1);
+                    mContext.startActivity(intent);
+                }
+            });
             return hoderSell;
         }else if (viewType == TYPE_RENT) {
             View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
-            MyRentViewHoder hoderRent = new MyRentViewHoder(view);
+            MyJinWaiViewHoder hoderRent = new MyJinWaiViewHoder(view);
+            hoderRent.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
             return hoderRent;
         } else if (viewType == TYPE_TICKET) {
             View view = mInflater.inflate(R.layout.item_travel_ticket_recycelr, parent, false);
@@ -123,6 +140,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewnNmdays;
         private TextView mTextViewTitles;
         private TextView mTextViewReturnPrice;
+        private TextView mTextViewGuonei;
 
 
         public MyViewHoder(View itemView) {
@@ -134,7 +152,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewnNmdays = (TextView) itemView.findViewById(R.id.numdays);
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
-
+            mTextViewGuonei = itemView.findViewById(R.id.guonei);
 
         }
     }
@@ -147,6 +165,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewTotalPrice;
         private TextView mTextViewnNmdays;
         private TextView mTextViewTitles;
+        private TextView mTextViewGuonei;
 
         private TextView mTextViewReturnPrice;
 
@@ -160,6 +179,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewnNmdays = (TextView) itemView.findViewById(R.id.numdays);
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
+            mTextViewGuonei = itemView.findViewById(R.id.guonei);
 
 
         }
@@ -173,6 +193,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewTitles;
 
         private TextView mTextViewReturnPrice;
+        private TextView mTextViewTicket;
 
 
         public MyRentViewHoder(View itemView) {
@@ -182,7 +203,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewAddress = (TextView) itemView.findViewById(R.id.address);
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
-
+            mTextViewTicket = itemView.findViewById(R.id.ticket);
 
         }
     }

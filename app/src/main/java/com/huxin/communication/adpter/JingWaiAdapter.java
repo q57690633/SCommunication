@@ -18,6 +18,9 @@ import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.travel.WebViewActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
+import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.ui.travel.release.ReleaseGuoNeiActivity;
+import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,10 +41,13 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
+    private int type;
 
-    public JingWaiAdapter(List<ForeignTravelEntity.ListBean> list, Context mContext) {
+    public JingWaiAdapter(List<ForeignTravelEntity.ListBean> list, Context mContext, int type) {
         this.list = list;
         this.mContext = mContext;
+        this.type = type;
+
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -52,10 +58,19 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, JinWaiDetailsActivity.class);
-                intent.putExtra("list", list.get(hoder.getAdapterPosition()));
-                mContext.startActivity(intent);
+
+                if (type == 1) {
+                    Intent intent = new Intent(mContext, JinWaiDetailsActivity.class);
+                    intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    mContext.startActivity(intent);
+                } else if (type == 2) {
+                    Intent intents = new Intent(mContext, ReleaseZhouBoundaryActivity.class);
+                    intents.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    intents.putExtra("id", list.get(hoder.getAdapterPosition()).getId());
+                    mContext.startActivity(intents);
+                }
             }
+
         });
 
         hoder.mTextViewKanxingcheng.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +89,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
                 String userSig = PreferenceUtil.getString("usersig");
                 if (!userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))) {
                     onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
-                }else {
+                } else {
                     Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -105,9 +120,9 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             setTextView(list, position, holder.mRecyclerView);
         }
 
-        if (TextUtils.isEmpty(list.get(position).getQrCode_url())){
+        if (TextUtils.isEmpty(list.get(position).getQrCode_url())) {
             holder.mTextViewKanxingcheng.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.mTextViewKanxingcheng.setVisibility(View.VISIBLE);
 
         }
@@ -115,28 +130,28 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         KyLog.object(list.get(position));
 
 
-        if (list.get(position).getStick_hot() == 1){
+        if (list.get(position).getStick_hot() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_hot);
         }
-        if (list.get(position).getStick_low() == 1){
+        if (list.get(position).getStick_low() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_tejia);
         }
-        if (list.get(position).getStick_new() == 1){
+        if (list.get(position).getStick_new() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shangxin);
         }
-        if (list.get(position).getStick_return() == 1){
+        if (list.get(position).getStick_return() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_gaofanyong);
         }
-        if (list.get(position).getStick_zeroC() == 1){
+        if (list.get(position).getStick_zeroC() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_ziwei);
         }
-        if (list.get(position).getStick_better() == 1){
+        if (list.get(position).getStick_better() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_jingpin);
         }
-        if (list.get(position).getStick_rate() == 1){
+        if (list.get(position).getStick_rate() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_xingjiabi);
         }
-        if (list.get(position).getStick_throw() == 1){
+        if (list.get(position).getStick_throw() == 1) {
             holder.mImageViewStickName.setBackgroundResource(R.drawable.sign_shuaiwei);
         }
     }
@@ -186,7 +201,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             mTextViewSpotName = (TextView) itemView.findViewById(R.id.spotName);
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
-            mTextViewCompanyName =  itemView.findViewById(R.id.company_name);
+            mTextViewCompanyName = itemView.findViewById(R.id.company_name);
 
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
@@ -223,10 +238,11 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
                 intent.putExtra("TARGET_ID", targetId);
                 mContext.startActivity(intent);
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(mContext, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
-                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "用户Id == " + userId + " \n" + "imlogin fail" + errMsg
+                        + " \n" + "imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
                 KyLog.e("imlogin fail", errMsg);
             }
         });

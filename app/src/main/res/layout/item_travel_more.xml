@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -7,251 +7,270 @@
     android:overScrollMode="never"
     android:scrollbars="none">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="行程天数"
-        android:textColor="@color/register_font"
-        android:textSize="16sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingBottom="70dp">
 
 
-        <RelativeLayout
-            android:id="@+id/rl_travel_hot_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/biaoqian_radius"
-            android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:paddingBottom="70dp">
+
 
             <TextView
-                android:id="@+id/travel_hot_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="选择天数"
-                android:textColor="@color/login_walling_fort"
-                android:textSize="14dp" />
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="行程天数"
+                android:textColor="@color/register_font"
+                android:textSize="16sp" />
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="13dp"
-                android:layout_toRightOf="@id/travel_hot_type"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_triangle" />
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="天"
-            android:textColor="@color/register_font"
-            android:textSize="16sp" />
-    </LinearLayout>
+                android:orientation="horizontal">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="自定义天数"
-        android:textColor="@color/register_font"
-        android:textSize="16sp" />
+                <RelativeLayout
+                    android:id="@+id/rl_travel_hot_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/biaoqian_radius"
+                    android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/travel_hot_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="选择天数"
+                        android:textColor="@color/login_walling_fort"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="13dp"
+                        android:layout_toRightOf="@id/travel_hot_type"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_triangle" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="天"
+                    android:textColor="@color/register_font"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/ed_day_min"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:gravity="center"
-            android:background="@drawable/biaoqian_radius"
-            android:scaleType="centerCrop"
-            android:hint="最短天数"
-            android:textColor="@color/register_font" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="自定义天数"
+                android:textColor="@color/register_font"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="12dp"
-            android:text="天"
-            android:textColor="@color/register_font"
-            android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:text="~"
-            android:textColor="@color/register_font"
-            android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/ed_day_max"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:gravity="center"
-            android:background="@drawable/biaoqian_radius"
-            android:scaleType="centerCrop"
-            android:hint="最长天数"
-            android:textColor="@color/register_font" />
+                <EditText
+                    android:id="@+id/ed_day_min"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:background="@drawable/biaoqian_radius"
+                    android:gravity="center"
+                    android:hint="最短天数"
+                    android:scaleType="centerCrop"
+                    android:textColor="@color/register_font" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:text="天"
-            android:textColor="@color/register_font"
-            android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="12dp"
+                    android:text="天"
+                    android:textColor="@color/register_font"
+                    android:textSize="16sp" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="~"
+                    android:textColor="@color/register_font"
+                    android:textSize="16sp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="11dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="11dp"
-        android:background="@color/login_line" />
+                <EditText
+                    android:id="@+id/ed_day_max"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:background="@drawable/biaoqian_radius"
+                    android:gravity="center"
+                    android:hint="最长天数"
+                    android:scaleType="centerCrop"
+                    android:textColor="@color/register_font" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:text="天"
+                    android:textColor="@color/register_font"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/login_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="线路的地点标签"
+                    android:textColor="@color/register_font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="17dp"
+                    android:text="标签可多选"
+                    android:textColor="@color/register_font"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/didian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的交通标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/jiaotong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的消费标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/xiaofei_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的活动标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/huodong_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的住宿标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/zhushu_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:text="线路的其他标签"
+                android:textColor="@color/register_font"
+                android:textSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/QiTa_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="15dp"
-            android:text="线路的地点标签"
-            android:textColor="@color/register_font"
-            android:textSize="16dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="17dp"
-            android:layout_marginRight="13dp"
-            android:text="标签可多选"
-            android:textColor="@color/register_font"
-            android:textSize="14dp" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/didian"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="线路的交通标签"
-        android:textColor="@color/register_font"
-        android:textSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/jiaotong"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="线路的消费标签"
-        android:textColor="@color/register_font"
-        android:textSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/xiaofei_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="线路的活动标签"
-        android:textColor="@color/register_font"
-        android:textSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/huodong_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="线路的住宿标签"
-        android:textColor="@color/register_font"
-        android:textSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/zhushu_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="15dp"
-        android:text="线路的其他标签"
-        android:textColor="@color/register_font"
-        android:textSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/QiTa_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true">
 
 
         <TextView
@@ -259,8 +278,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="13dp"
-            android:layout_marginTop="18dp"
             android:layout_marginRight="13dp"
+            android:layout_marginTop="18dp"
             android:background="@color/login_line" />
 
         <LinearLayout
@@ -275,10 +294,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
-                android:background="@color/login_forget_password_code_fort"
+                android:background="@drawable/biaoqian_radius"
                 android:gravity="center"
-                android:paddingTop="14dp"
                 android:paddingBottom="15dp"
+                android:paddingTop="14dp"
                 android:text="不限条件"
                 android:textColor="@color/register_font"
                 android:textSize="16sp" />
@@ -290,13 +309,13 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="21dp"
                 android:layout_weight="1"
-                android:background="@color/blue"
+                android:background="@drawable/biaoqian_radius_blue"
                 android:gravity="center"
-                android:paddingTop="14dp"
                 android:paddingBottom="15dp"
+                android:paddingTop="14dp"
                 android:text="确定"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

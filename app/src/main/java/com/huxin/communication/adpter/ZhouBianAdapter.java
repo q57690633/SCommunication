@@ -20,6 +20,8 @@ import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.travel.WebViewActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.ui.travel.release.ReleaseGuoNeiActivity;
+import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -39,10 +41,14 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
     private Context mContext;
     private LayoutInflater mInflater;
     private TableNameAdapter mAdapterTableName;
+    private int type;
 
-    public ZhouBianAdapter(List<AroundTravelEntity.ListBean> list, Context mContext) {
+
+    public ZhouBianAdapter(List<AroundTravelEntity.ListBean> list, Context mContext,int type) {
         this.list = list;
         this.mContext = mContext;
+        this.type = type;
+
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -53,9 +59,24 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
-                intent.putExtra("list", list.get(hoder.getAdapterPosition()));
-                mContext.startActivity(intent);
+                if (type == 1) {
+                    Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
+                    intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                    intent.putExtra("type",2);
+                    mContext.startActivity(intent);
+                }else if (type == 2){
+                    if (list.get(hoder.getAdapterPosition()).getTravel_kind() == 1) {
+                        Intent intent = new Intent(mContext, ReleaseZhouBoundaryActivity.class);
+                        intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                        intent.putExtra("id", list.get(hoder.getAdapterPosition()).getId());
+                        mContext.startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(mContext, ReleaseGuoNeiActivity.class);
+                        intent.putExtra("list", list.get(hoder.getAdapterPosition()));
+                        intent.putExtra("id", list.get(hoder.getAdapterPosition()).getId());
+                        mContext.startActivity(intent);
+                    }
+                }
             }
         });
         hoder.mTextViewKanxingcheng.setOnClickListener(new View.OnClickListener() {

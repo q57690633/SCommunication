@@ -1391,7 +1391,7 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = null;
                 if (setHouseTypeList.size() > 0) {
-                    getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", stringBuffer.toString(), "", "",
+                    getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "", "", "",
                             "", "", "", "", "", "",
                             "", "", "", "0", 0, "", "", "1", "");
                 } else {
@@ -1409,8 +1409,8 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.register_font));
                 newOrOld = "2";
 
-                getRentalScreening("", "", "", "", "", "", "", "", "", "",
-                        "", "", "", "0", 2, PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
+                getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "两室", "", "", "", "", "", "", "", "",
+                        "", "", "", "0", 0, "", "", "1", "");
                 break;
             case R.id.xinfang:
                 mTextViewQuanBu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1421,10 +1421,8 @@ public class RentActivity extends BaseActivity implements View.OnClickListener, 
                 mTextViewXinFang.setTextColor(getResources().getColor(R.color.white));
                 newOrOld = "1";
 
-                getRentalScreening("", "", "", "", "",
-                        "", "", "", "", "",
-                        "", "", "", "0", 1, PreferenceUtil.getString(Constanst.CITY_NAME)
-                        , PreferenceUtil.getString(Constanst.DISTRICT_NAME), "1", "");
+                getRentalScreening(PreferenceUtil.getString(Constanst.CITY_NAME) + ",-1,-1,-1", "三室", "", "", "", "", "", "", "", "",
+                        "", "", "", "0", 0, "", "", "1", "");
                 break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
