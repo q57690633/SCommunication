@@ -3,7 +3,6 @@ package com.tencent.qcloud.uikit.business.chat.view.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,10 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMCustomElem;
-import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMFileElem;
 import com.tencent.imsdk.TIMImage;
@@ -33,9 +30,12 @@ import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMSnapshot;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.TIMVideo;
 import com.tencent.imsdk.TIMVideoElem;
+import com.tencent.imsdk.conversation.ProgressInfo;
 import com.tencent.imsdk.log.QLog;
+import com.tencent.qcloud.uikit.PreferenceUtil;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.api.chat.IChatAdapter;
@@ -60,8 +60,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -117,7 +117,6 @@ public class ChatAdapter extends IChatAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(TUIKit.getAppContext());
         RecyclerView.ViewHolder holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
-        Log.i(TAG, "viewType = " + viewType);
         switch (viewType) {
             case MessageInfo.MSG_TYPE_TEXT:
                 holder = new ChatTextHolder(inflater.inflate(R.layout.chat_adapter_text, parent, false));
@@ -796,28 +795,11 @@ public class ChatAdapter extends IChatAdapter {
                             UIKitAudioArmMachine.getInstance().stopPlayRecord();
                             return;
                         }
-
-                        if (TextUtils.isEmpty(msg.getDataPath())) {
-                            UIUtils.toastLongMessage("语音文件还未下载完成");
-                            return;
+                        try {
+                            playAudio(soundElem, audioHolder);
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        audioHolder.imgPlay.setImageResource(R.drawable.play_voice_message);
-                        final AnimationDrawable animationDrawable = (AnimationDrawable) audioHolder.imgPlay.getDrawable();
-                        animationDrawable.start();
-                        UIKitAudioArmMachine.getInstance().playRecord(msg.getDataPath(), new UIKitAudioArmMachine.AudioPlayCallback() {
-                            @Override
-                            public void playComplete() {
-                                audioHolder.imgPlay.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        animationDrawable.stop();
-                                        audioHolder.imgPlay.setImageResource(R.drawable.voice_msg_playing_3);
-                                    }
-                                });
-                            }
-                        });
-
-
                     }
                 });
                 break;
@@ -935,6 +917,68 @@ public class ChatAdapter extends IChatAdapter {
 
         //}
         self = 0;
+    }
+
+    private void playAudio(TIMSoundElem elem, ChatAudioHolder audioHolder) throws IOException {
+        String cache = mContext.getCacheDir().getPath();
+        String loginId = PreferenceUtil.getInt(mContext, "uid") + "";
+        String audioDir = cache + "/" + loginId;
+        File audioFileDir = new File(audioDir);
+        if(!audioFileDir.exists()) {
+            audioFileDir.mkdir();
+        }
+        String uuid = elem.getUuid();
+        File audioFile = new File(audioDir + "/" + uuid);
+        if(audioFile.exists()) {
+            play(audioHolder, audioFile);
+        }else {
+            //下载
+            audioFile.createNewFile();
+            elem.getSoundToFile(audioFile.getPath(), new TIMValueCallBack<ProgressInfo>() {
+                @Override
+                public void onError(int i, String s) {
+                    Log.i(TAG, "TIMValueCallBack error code = " + i + " msg = " + s);
+                    UIUtils.toastLongMessage("语音文件还未下载完成");
+                }
+
+                @Override
+                public void onSuccess(ProgressInfo progressInfo) {
+                    Log.i(TAG, "getCurrentSize = " + progressInfo.getCurrentSize());
+                }
+            }, new TIMCallBack() {
+                @Override
+                public void onError(int i, String s) {
+                    Log.i(TAG, "TIMCallBack error code = " + i + " msg = " + s);
+                    UIUtils.toastLongMessage("语音文件还未下载完成");
+                }
+
+                @Override
+                public void onSuccess() {
+                    //播放
+                    Log.i(TAG, "Audio File Download Success");
+                    play(audioHolder, audioFile);
+                }
+            });
+        }
+    }
+
+    private void play(ChatAudioHolder audioHolder, File audioFile) {
+        Log.i(TAG, "play audio");
+        audioHolder.imgPlay.setImageResource(R.drawable.play_voice_message);
+        final AnimationDrawable animationDrawable = (AnimationDrawable) audioHolder.imgPlay.getDrawable();
+        animationDrawable.start();
+        UIKitAudioArmMachine.getInstance().playRecord(audioFile.getPath(), new UIKitAudioArmMachine.AudioPlayCallback() {
+            @Override
+            public void playComplete() {
+                audioHolder.imgPlay.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        animationDrawable.stop();
+                        audioHolder.imgPlay.setImageResource(R.drawable.voice_msg_playing_3);
+                    }
+                });
+            }
+        });
     }
 
     @Override
