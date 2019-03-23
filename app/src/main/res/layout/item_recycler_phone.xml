@@ -43,7 +43,7 @@
                 android:layout_height="44dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:background="@color/blue"
+                android:background="@drawable/head2"
                 android:scaleType="centerCrop"
                 android:layout_centerVertical="true"/>
 

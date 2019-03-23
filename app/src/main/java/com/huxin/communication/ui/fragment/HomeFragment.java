@@ -457,7 +457,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         KyLog.d(homeTravelEntity.getCarousel().size() + "");
                         setTravelOnBinner(homeTravelEntity.getCarousel());
 
-
                         List<HeadTravelEntivty> list = new ArrayList<>();
                         if (homeTravelEntity.getAroundHead() != null && homeTravelEntity.getAroundHead().size() > 0) {
                             for (HomeTravelEntity.AroundHeadBean aroundHeadBean : homeTravelEntity.getAroundHead()) {
@@ -478,10 +477,12 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 HeadTravelEntivty headTravelEntivty = new HeadTravelEntivty();
                                 headTravelEntivty.setTravel_title(foreignHeadBean.getTravel_title());
                                 headTravelEntivty.setDepart_name(foreignHeadBean.getDepart_name());
-                                headTravelEntivty.setGoals_city(foreignHeadBean.getGoals_city());
+                                headTravelEntivty.setGoals_name(foreignHeadBean.getGoals_name());
                                 headTravelEntivty.setTotal_price(foreignHeadBean.getTotal_price());
                                 headTravelEntivty.setNumber_days(foreignHeadBean.getNumber_days());
                                 headTravelEntivty.setHeadUrl(foreignHeadBean.getHeadUrl());
+                                headTravelEntivty.setReturn_price(foreignHeadBean.getReturn_price());
+
                                 headTravelEntivty.setProductType(2);
                                 list.add(headTravelEntivty);
                             }
@@ -514,14 +515,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                             PagerSnapHelper snapHelper = new PagerSnapHelper();
                             snapHelper.attachToRecyclerView(mRecyclerViewHead);
-
-                            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-                            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-                                }
-                            }, 4000, 4000, TimeUnit.MILLISECONDS);
+                            if (list.size() > 1) {
+                                ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+                                scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
+                                    }
+                                }, 4000, 4000, TimeUnit.MILLISECONDS);
+                            }
                         }
                     }
 

@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.UserInfoEntity;
-import com.huxin.communication.listener.TuiJianStarPhoneListener;
+import com.huxin.communication.listener.TuiJianGounpListener;
+import com.huxin.communication.listener.TuijianCompanyListener;
 import com.huxin.communication.utils.JsonUitil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
@@ -23,62 +24,61 @@ import com.sky.kylog.KyLog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapter.BodyViewHoder> {
-
-    private List<AddressBookEntity.StarListBean> mList;
+public class TuiJIanGounpAdapter extends RecyclerView.Adapter<TuiJIanGounpAdapter.BodyViewHoder> {
+    private List<AddressBookEntity.GroupBean> mList;
     private Activity mActivity;
     private LayoutInflater mInflater;
     private boolean isClicked = true;
+    private TuiJianGounpListener mTuiJianPhoneListener;
+
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
 
-    private TuiJianStarPhoneListener mTuiJianPhoneListener;
 
-
-    public void setTuiJianStarListener(TuiJianStarPhoneListener tuiJianStarListener) {
-        mTuiJianPhoneListener = tuiJianStarListener;
+    public void setTuiJianGounpListener(TuiJianGounpListener tuiJianPhoneListener) {
+        mTuiJianPhoneListener = tuiJianPhoneListener;
     }
 
 
     //更新adpter的数据和选择状态
-    public void updateDataSet(ArrayList<AddressBookEntity.StarListBean> list) {
+    public void updateDataSet(ArrayList<AddressBookEntity.GroupBean> list) {
         this.mList = list;
         mSelectedPositions = new SparseBooleanArray();
 //        ab.setTitle("已选择" + 0 + "项");
     }
 
-    ArrayList<UserInfoEntity> listUserInfo;
+
     //获得选中条目的结果
-    public ArrayList<AddressBookEntity.StarListBean> getSelectedItem(int position) {
-        ArrayList<AddressBookEntity.StarListBean> selectList = new ArrayList<>();
+    public ArrayList<AddressBookEntity.GroupBean> getSelectedItem(int position) {
+        ArrayList<AddressBookEntity.GroupBean> selectList = new ArrayList<>();
         if (mList != null && mList.size() > 0) {
             for (int i = 0; i < mList.size(); i++) {
                 if (isItemChecked(i)) {
                     selectList.add(mList.get(i));
                     if (mTuiJianPhoneListener != null) {
-                        listUserInfo = new ArrayList<>();
+                        ArrayList<UserInfoEntity> listUserInfo = new ArrayList<>();
                         UserInfoEntity userInfoEntity = new UserInfoEntity();
-                        userInfoEntity.setImageHead(mList.get(i).getHeadUrl());
-                        userInfoEntity.setName(mList.get(i).getCompanyName());
-                        userInfoEntity.setPhone(mList.get(i).getPhone());
+                        userInfoEntity.setImageHead(mList.get(position).getUrl());
+                        userInfoEntity.setName(mList.get(position).getFlockName());
                         listUserInfo.add(userInfoEntity);
-                        mTuiJianPhoneListener.starPhone(mList.get(i).getHeadUrl(), isItemChecked(i));
+                        mTuiJianPhoneListener.updateGounp(mList.get(position).getUrl(), isItemChecked(position));
                         if (listUserInfo.size() > 0) {
-                            mTuiJianPhoneListener.starUserInfo(JsonUitil.getData(listUserInfo), isItemChecked(i));
+                            mTuiJianPhoneListener.updateUserInfoGounp(JsonUitil.getData(listUserInfo), isItemChecked(position));
                         }
                     }
-                }else {
-                    mTuiJianPhoneListener.starPhone(mList.get(i).getHeadUrl(), isItemChecked(position));
-                    mTuiJianPhoneListener.starUserInfo(JsonUitil.getData(listUserInfo), isItemChecked(i));
+                } else {
+                    mTuiJianPhoneListener.updateGounp(null, isItemChecked(position));
+                    mTuiJianPhoneListener.updateUserInfoGounp(null, isItemChecked(position));
                 }
+
+
             }
         }
         return selectList;
     }
 
-
-    public TuiJIanStickAdapter(List<AddressBookEntity.StarListBean> mList, Activity mActivity) {
+    public TuiJIanGounpAdapter(List<AddressBookEntity.GroupBean> mList, Activity mActivity) {
         this.mList = mList;
         this.mActivity = mActivity;
         mInflater = LayoutInflater.from(mActivity);
@@ -94,7 +94,6 @@ public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapte
         Hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("qiugou", "isClicked == " + isClicked);
                 if (isItemChecked(Hoder.getAdapterPosition())) {
                     setItemChecked(Hoder.getAdapterPosition(), false);
                 } else {
@@ -104,11 +103,11 @@ public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapte
                 getSelectedItem(Hoder.getAdapterPosition());
 
                 Log.d("qiugou", "isClicked == " + isClicked);
+
             }
         });
         return Hoder;
     }
-
 
     //设置给定位置条目的选择状态
     private void setItemChecked(int position, boolean isChecked) {
@@ -130,24 +129,23 @@ public class TuiJIanStickAdapter extends RecyclerView.Adapter<TuiJIanStickAdapte
         mIsSelectable = selectable;
     }
 
-
     @Override
     public void onBindViewHolder(BodyViewHoder holder, int position) {
 //        holder.mTextViewAddress.setText(mList.get(position).getAddress());
-        KyLog.d(mList.get(position).getStoreName());
-        holder.tvTitle.setText(mList.get(position).getStoreName());
-        if (!TextUtils.isEmpty(mList.get(position).getHeadUrl())) {
-            ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.mImageView);
+        KyLog.d(mList.get(position).getFlockName());
+        holder.tvTitle.setText(mList.get(position).getFlockName());
+        if (!TextUtils.isEmpty(mList.get(position).getUrl())) {
+            ImageLoader.getInstance().displayImage(mList.get(position).getUrl(), holder.mImageView);
         } else {
             holder.mImageView.setBackgroundResource(R.drawable.head2);
         }
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
-
         if (isItemChecked(position)) {
             holder.image.setBackgroundResource(R.drawable.icon_circle_selected);
         } else {
             holder.image.setBackgroundResource(R.drawable.icon_circle_normal);
         }
+
     }
 
     @Override

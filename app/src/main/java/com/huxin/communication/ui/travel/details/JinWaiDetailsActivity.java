@@ -25,6 +25,7 @@ import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
@@ -64,6 +65,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
     private ForeignTravelEntity.ListBean listBean;
 
+    private HeadTravelEntivty headTravelEntivty;
+
     /**
      * 滚动焦点图片
      **/
@@ -79,6 +82,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
     private boolean mIsStop = false;// 焦点图触摸暂停切换
 
     private int big_index = 0;// 大焦点图自动切换初始位置
+
+    private int type;
 
 
     @Override
@@ -117,6 +122,10 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
         listBean = getIntent().getParcelableExtra("list");
 
+        headTravelEntivty = getIntent().getParcelableExtra("headlist");
+
+        type = getIntent().getIntExtra("type", 0);
+
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,10 +135,19 @@ public class JinWaiDetailsActivity extends BaseActivity {
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    if (!userId.equals(String.valueOf(listBean.getUid()))){
-                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
-                    }else {
-                        Toast.makeText(JinWaiDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+
+                    if (type != 1) {
+                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
+                        } else {
+                            Toast.makeText(JinWaiDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                        } else {
+                            Toast.makeText(JinWaiDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
@@ -145,7 +163,13 @@ public class JinWaiDetailsActivity extends BaseActivity {
         findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = listBean.getUserPhone();
+                String phone = null;
+                if (type != 1) {
+                    phone = headTravelEntivty.getUserPhone();
+                } else {
+                    phone = listBean.getUserPhone();
+
+                }
                 if (!TextUtils.isEmpty(phone)) {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
                     if (ActivityCompat.checkSelfPermission(JinWaiDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -153,7 +177,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
                         return;
                     }
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(JinWaiDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -162,9 +186,9 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-            setData(listBean);
-            setOnBinner(listBean);
-            setTextView(listBean,mRecyclerView);
+        setData(listBean, headTravelEntivty);
+        setOnBinner(listBean, headTravelEntivty);
+        setTextView(listBean, mRecyclerView, headTravelEntivty);
     }
 
 //    private void gettingForeignTravel() {
@@ -190,23 +214,44 @@ public class JinWaiDetailsActivity extends BaseActivity {
 //                });
 //    }
 
-    private void setData(ForeignTravelEntity.ListBean entity) {
-        if (entity != null) {
-            mTextViewTravelTitle.setText(entity.getTravel_title());
-            mTextViewDepartName.setText(entity.getDepart_name());
-            mTextViewGoalsCity.setText(entity.getGoals_name());
-            mTextViewNumberDays.setText(String.valueOf(entity.getNumber_days()) + "天");
-            mTextViewTotalPrice.setText(String.valueOf( "成人：" + entity.getTotal_price()) + "元");
-            mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");
-            mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotal_price_child()) + "元");
-            mTextViewReturnPriceChild.setText(String.valueOf( "返佣：" + entity.getReturn_price_child()) + "元" );
-            mTextViewSpotName.setText(entity.getSpot_name());
-            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
-            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
-            mTextViewGeneralize.setText(entity.getGeneralize());
-            mTextViewUsername.setText(entity.getUsername());
-            mTextViewCompanyName.setText(entity.getCompanyName());
+    private void setData(ForeignTravelEntity.ListBean entity, HeadTravelEntivty entivty) {
+        if (type != 1) {
+
+            if (entity != null) {
+                mTextViewTravelTitle.setText(entity.getTravel_title());
+                mTextViewDepartName.setText(entity.getDepart_name());
+                mTextViewGoalsCity.setText(entity.getGoals_name());
+                mTextViewNumberDays.setText(String.valueOf(entity.getNumber_days()) + "天");
+                mTextViewTotalPrice.setText(String.valueOf("成人：" + entity.getTotal_price()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entity.getReturn_price()) + "元");
+                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entity.getTotal_price_child()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entity.getReturn_price_child()) + "元");
+                mTextViewSpotName.setText(entity.getSpot_name());
+                mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+                mTextViewGeneralize.setText(entity.getGeneralize());
+                mTextViewUsername.setText(entity.getUsername());
+                mTextViewCompanyName.setText(entity.getCompanyName());
+            }
+        } else {
+            if (entivty != null) {
+                mTextViewTravelTitle.setText(entivty.getTravel_title());
+                mTextViewDepartName.setText(entivty.getDepart_name());
+                mTextViewGoalsCity.setText(entivty.getGoals_name());
+                mTextViewNumberDays.setText(String.valueOf(entivty.getNumber_days()) + "天");
+                mTextViewTotalPrice.setText(String.valueOf("成人：" + entivty.getTotal_price()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entivty.getReturn_price()) + "元");
+                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entivty.getTotal_price_child()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entivty.getReturn_price_child()) + "元");
+                mTextViewSpotName.setText(entivty.getSpot_name());
+                mTextViewViewCount.setText(String.valueOf(entivty.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entivty.getIssue_count()) + "次");
+                mTextViewGeneralize.setText(entivty.getGeneralize());
+                mTextViewUsername.setText(entivty.getUsername());
+                mTextViewCompanyName.setText(entivty.getCompanyName());
+            }
         }
+
     }
 
     // 设置焦点图片数量小圆点的方法
@@ -283,14 +328,24 @@ public class JinWaiDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(ForeignTravelEntity.ListBean entity) {
+    private void setOnBinner(ForeignTravelEntity.ListBean entity,HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(entity.getPhoto_url())) {
-            String[] str = entity.getPhoto_url().split(",");
-            for (String strs : str) {
-                imageList.add(strs);
+        if (type != 1){
+            if (!TextUtils.isEmpty(entity.getPhoto_url())) {
+                String[] str = entity.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
+            }
+        }else {
+            if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
+                String[] str = entivty.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
             }
         }
+
         KyLog.d(imageList.size() + "");
         if (imageList.size() > 0) {
             mViewPagerAdapter = new ViewPagerAdapter(this, imageList);
@@ -320,15 +375,26 @@ public class JinWaiDetailsActivity extends BaseActivity {
         }
     }
 
-    private void setTextView(ForeignTravelEntity.ListBean entity, RecyclerView linearLayout) {
+    private void setTextView(ForeignTravelEntity.ListBean entity, RecyclerView linearLayout,HeadTravelEntivty entivty) {
         List<String> list1 = new ArrayList<>();
-        if (!TextUtils.isEmpty(entity.getTagName())) {
-            String[] strings = entity.getTagName().split(",");
-            KyLog.d(entity.getTagName());
-            for (int i = 0; i < strings.length; i++) {
-                list1.add(strings[i]);
+        if (type != 1){
+            if (!TextUtils.isEmpty(entity.getTagName())) {
+                String[] strings = entity.getTagName().split(",");
+                KyLog.d(entity.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
+            }
+        }else {
+            if (!TextUtils.isEmpty(entivty.getTagName())) {
+                String[] strings = entivty.getTagName().split(",");
+                KyLog.d(entivty.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
             }
         }
+
         if (list1.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
             mAdapterTableName = new TableNameAdapter(list1, this);
@@ -336,7 +402,6 @@ public class JinWaiDetailsActivity extends BaseActivity {
             linearLayout.setLayoutManager(manager);
 //            linearLayout.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
-
 
 
     }
@@ -350,10 +415,11 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 intent.putExtra("TARGET_ID", targetId);
                 startActivity(intent);
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                Toast.makeText(JinWaiDetailsActivity.this, "用户Id == " + userId + " \n"+"imlogin fail" + errMsg
-                        + " \n"+"imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
+                Toast.makeText(JinWaiDetailsActivity.this, "用户Id == " + userId + " \n" + "imlogin fail" + errMsg
+                        + " \n" + "imlogin fail" + userSig, Toast.LENGTH_SHORT).show();
                 KyLog.e("imlogin fail", errMsg);
             }
         });

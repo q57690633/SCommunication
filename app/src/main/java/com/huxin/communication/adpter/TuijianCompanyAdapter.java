@@ -2,6 +2,7 @@ package com.huxin.communication.adpter;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -58,20 +59,20 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
             for (int i = 0; i < mList.size(); i++) {
                 if (isItemChecked(i)) {
                     selectList.add(mList.get(i));
+
                 }
                 if (mTuiJianPhoneListener != null) {
                     ArrayList<UserInfoEntity> listUserInfo = new ArrayList<>();
                     UserInfoEntity userInfoEntity = new UserInfoEntity();
-                    userInfoEntity.setImageHead(mList.get(position).getHeadUrl());
-                    userInfoEntity.setName(mList.get(position).getCompanyName());
-                    userInfoEntity.setPhone(mList.get(position).getPhone());
+                    userInfoEntity.setImageHead(mList.get(i).getHeadUrl());
+                    userInfoEntity.setName(mList.get(i).getCompanyName());
+                    userInfoEntity.setPhone(mList.get(i).getPhone());
                     listUserInfo.add(userInfoEntity);
-                    mTuiJianPhoneListener.updataCompany(mList.get(position).getHeadUrl(), isItemChecked(position));
+                    mTuiJianPhoneListener.updataCompany(mList.get(i).getHeadUrl(), isItemChecked(i));
                     if (listUserInfo.size() > 0) {
-                        mTuiJianPhoneListener.CompanyUserInfo(JsonUitil.getData(listUserInfo), isItemChecked(position));
+                        mTuiJianPhoneListener.CompanyUserInfo(JsonUitil.getData(listUserInfo), isItemChecked(i));
                     }
                 }
-
 
             }
         }
@@ -134,12 +135,16 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
 //        holder.mTextViewAddress.setText(mList.get(position).getAddress());
         KyLog.d(mList.get(position).getStoreName());
         holder.tvTitle.setText(mList.get(position).getStoreName());
-        ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.image);
+        if (!TextUtils.isEmpty(mList.get(position).getHeadUrl())) {
+            ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.mImageView);
+        } else {
+            holder.mImageView.setBackgroundResource(R.drawable.head2);
+        }
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
         if (isItemChecked(position)) {
-            holder.mImageView.setBackgroundResource(R.drawable.icon_circle_selected);
+            holder.image.setBackgroundResource(R.drawable.icon_circle_selected);
         } else {
-            holder.mImageView.setBackgroundResource(R.drawable.icon_circle_normal);
+            holder.image.setBackgroundResource(R.drawable.icon_circle_normal);
         }
 
     }

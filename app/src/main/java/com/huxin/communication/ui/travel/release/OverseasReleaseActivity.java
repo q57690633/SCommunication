@@ -319,7 +319,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        PreferenceUtil.putInt(Constanst.TOP_ZHIDING,0);
         selectTravelTab();
         deteledData();
         httpUtil = new HttpUtil();

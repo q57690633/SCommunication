@@ -27,6 +27,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
@@ -90,6 +91,9 @@ public class TicketingDetailsActivity extends BaseActivity {
 
     private TicketInfoEntity.ListBean listBean;
 
+    private HeadTravelEntivty headTravelEntivty;
+
+    private int type;
 
     @Override
     protected void initContentView() {
@@ -123,6 +127,11 @@ public class TicketingDetailsActivity extends BaseActivity {
 
         listBean = getIntent().getParcelableExtra("list");
 
+        headTravelEntivty = getIntent().getParcelableExtra("headlist");
+
+        type = getIntent().getIntExtra("type", 0);
+
+
         findViewById(R.id.zaixianwen).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,10 +141,18 @@ public class TicketingDetailsActivity extends BaseActivity {
                     //KyLog.i("usersig = " + userSig);
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
-                    if (!userId.equals(String.valueOf(listBean.getUid()))){
-                        onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
-                    }else {
-                        Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                    if (type != 1) {
+                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
+                        } else {
+                            Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                        } else {
+                            Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -152,7 +169,13 @@ public class TicketingDetailsActivity extends BaseActivity {
         findViewById(R.id.call_phone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phone = listBean.getUserPhone();
+                String phone = null;
+                if (type != 1) {
+                    phone = headTravelEntivty.getUserPhone();
+                } else {
+                    phone = listBean.getUserPhone();
+
+                }
                 if (!TextUtils.isEmpty(phone)) {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
                     if (ActivityCompat.checkSelfPermission(TicketingDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -160,7 +183,7 @@ public class TicketingDetailsActivity extends BaseActivity {
                         return;
                     }
                     startActivity(intent);
-                }else {
+                } else {
                     Toast.makeText(TicketingDetailsActivity.this, "电话号码为空", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -170,9 +193,9 @@ public class TicketingDetailsActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        setData(listBean);
-        setOnBinner(listBean);
-        setTextView(listBean,mRecyclerView);
+        setData(listBean, headTravelEntivty);
+        setOnBinner(listBean, headTravelEntivty);
+        setTextView(listBean, mRecyclerView, headTravelEntivty);
     }
 
 //    private void gettingForeignTravel() {
@@ -196,26 +219,48 @@ public class TicketingDetailsActivity extends BaseActivity {
 //                });
 //    }
 
-    private void setData(TicketInfoEntity.ListBean entity) {
-        if (entity != null) {
-            mTextViewTravelTitle.setText(entity.getTicket_name());
-            mTextViewOriginalPrice.setText(String.valueOf("成人：" + entity.getOriginal_price())  + "元");
-            mTextViewReturnPrice.setText(String.valueOf("结算价：" + entity.getFinal_price()) + "元");
-            mTextViewReturnPriceChild.setText(String.valueOf("结算价：" + entity.getFinal_price_child()) + "元");
-            mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
-            mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
-            if (!TextUtils.isEmpty(entity.getGeneralize())) {
-                mTextViewGeneralize.setText(entity.getGeneralize());
+    private void setData(TicketInfoEntity.ListBean entity, HeadTravelEntivty entivty) {
+        if (type != 1) {
+            if (entity != null) {
+                mTextViewTravelTitle.setText(entity.getTicket_name());
+                mTextViewOriginalPrice.setText(String.valueOf("成人：" + entity.getOriginal_price()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("结算价：" + entity.getFinal_price()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("结算价：" + entity.getFinal_price_child()) + "元");
+                mTextViewViewCount.setText(String.valueOf(entity.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entity.getIssue_count()) + "次");
+                if (!TextUtils.isEmpty(entity.getGeneralize())) {
+                    mTextViewGeneralize.setText(entity.getGeneralize());
+                }
+                mTextViewUsername.setText(entity.getUsername());
+                mTextViewCompanyName.setText(entity.getCompanyName());
+                mTextViewOriginalPriceChild.setText(String.valueOf("成人：" + entity.getOriginal_price_child()) + "元");
+                mTextViewOriginalPriceEvening.setText(String.valueOf("夜场：" + entity.getOriginal_price_evening()) + "元");
+                mTextViewOriginalPriceEvening.setText(String.valueOf("结算价：" + entity.getFinal_price_evening()) + "元");
+
+                mTextViewTicketAddr.setText(entity.getTicket_addr());
+                mTextViewOpenTime.setText(entity.getOpen_time());
+
             }
-            mTextViewUsername.setText(entity.getUsername());
-            mTextViewCompanyName.setText(entity.getCompanyName());
-            mTextViewOriginalPriceChild.setText(String.valueOf( "成人：" + entity.getOriginal_price_child()) + "元");
-            mTextViewOriginalPriceEvening.setText(String.valueOf("夜场：" + entity.getOriginal_price_evening()) + "元");
-            mTextViewOriginalPriceEvening.setText(String.valueOf("结算价：" + entity.getFinal_price_evening()) + "元");
+        } else {
+            if (entivty != null) {
+                mTextViewTravelTitle.setText(entivty.getTicket_name());
+                mTextViewOriginalPrice.setText(String.valueOf("成人：" + entivty.getOriginal_price()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("结算价：" + entivty.getFinal_price()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("结算价：" + entivty.getFinal_price_child()) + "元");
+                mTextViewViewCount.setText(String.valueOf(entivty.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entivty.getIssue_count()) + "次");
+                if (!TextUtils.isEmpty(entivty.getGeneralize())) {
+                    mTextViewGeneralize.setText(entivty.getGeneralize());
+                }
+                mTextViewUsername.setText(entivty.getUsername());
+                mTextViewCompanyName.setText(entivty.getCompanyName());
+                mTextViewOriginalPriceChild.setText(String.valueOf("成人：" + entivty.getOriginal_price_child()) + "元");
+                mTextViewOriginalPriceEvening.setText(String.valueOf("夜场：" + entivty.getOriginal_price_evening()) + "元");
+                mTextViewOriginalPriceEvening.setText(String.valueOf("结算价：" + entivty.getFinal_price_evening()) + "元");
 
-
-            mTextViewTicketAddr.setText(entity.getTicket_addr());
-            mTextViewOpenTime.setText(entity.getOpen_time());
+                mTextViewTicketAddr.setText(entivty.getTicket_addr());
+                mTextViewOpenTime.setText(entivty.getOpen_time());
+            }
 
         }
     }
@@ -294,12 +339,21 @@ public class TicketingDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(TicketInfoEntity.ListBean entity) {
+    private void setOnBinner(TicketInfoEntity.ListBean entity,HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
-        if (!TextUtils.isEmpty(entity.getPhoto_url())) {
-            String[] str = entity.getPhoto_url().split(",");
-            for (String strs : str) {
-                imageList.add(strs);
+        if (type != 1) {
+            if (!TextUtils.isEmpty(entity.getPhoto_url())) {
+                String[] str = entity.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
+            }
+        } else {
+            if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
+                String[] str = entivty.getPhoto_url().split(",");
+                for (String strs : str) {
+                    imageList.add(strs);
+                }
             }
         }
         KyLog.d(imageList.size() + "");
@@ -331,13 +385,23 @@ public class TicketingDetailsActivity extends BaseActivity {
         }
     }
 
-    private void setTextView(TicketInfoEntity.ListBean entity, RecyclerView linearLayout) {
+    private void setTextView(TicketInfoEntity.ListBean entity, RecyclerView linearLayout,HeadTravelEntivty entivty) {
         List<String> list1 = new ArrayList<>();
-        if (!TextUtils.isEmpty(entity.getTagName())) {
-            String[] strings = entity.getTagName().split(",");
-            KyLog.d(entity.getTagName());
-            for (int i = 0; i < strings.length; i++) {
-                list1.add(strings[i]);
+        if (type != 1) {
+            if (!TextUtils.isEmpty(entity.getTagName())) {
+                String[] strings = entity.getTagName().split(",");
+                KyLog.d(entity.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
+            }
+        }else {
+            if (!TextUtils.isEmpty(entivty.getTagName())) {
+                String[] strings = entivty.getTagName().split(",");
+                KyLog.d(entivty.getTagName());
+                for (int i = 0; i < strings.length; i++) {
+                    list1.add(strings[i]);
+                }
             }
         }
 

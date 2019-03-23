@@ -16,6 +16,8 @@ import com.huxin.communication.R;
 import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
+import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
+import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
@@ -84,13 +86,25 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             hoderRent.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(mContext,JinWaiDetailsActivity.class);
+                    intent.putExtra("headlist", list.get(hoderRent.getAdapterPosition()));
+                    intent.putExtra("type",1);
+                    mContext.startActivity(intent);
                 }
             });
             return hoderRent;
         } else if (viewType == TYPE_TICKET) {
             View view = mInflater.inflate(R.layout.item_travel_ticket_recycelr, parent, false);
             MyRentViewHoder hoderTicket = new MyRentViewHoder(view);
+            hoderTicket.mTextViewTicket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext,TicketingDetailsActivity.class);
+                    intent.putExtra("headlist", list.get(hoderTicket.getAdapterPosition()));
+                    intent.putExtra("type",1);
+                    mContext.startActivity(intent);
+                }
+            });
             return hoderTicket;
         }
         return null;
@@ -108,13 +122,14 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((MyViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays())+ "元/人");
             ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
         }if (holder instanceof MyJinWaiViewHoder) {
-            ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravelTitle());
+            KyLog.d(list.get(position % list.size()).getGoals_name());
+            ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravel_title());
             ((MyJinWaiViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
-            ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_nat_name());
-            ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotalPrice()) + "元/人");
-            ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays())+ "元/人");
+            ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_name());
+            ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotal_price()) + "元/人");
+            ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getReturn_price())+ "元/人");
 
-            ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumberDays()) + "天");
+            ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumber_days()) + "天");
             ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyJinWaiViewHoder) holder).mImageViewPhoto);
         } else if (holder instanceof MyRentViewHoder) {
             ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTicket_name());

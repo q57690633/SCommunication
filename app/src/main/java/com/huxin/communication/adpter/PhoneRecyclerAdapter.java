@@ -2,11 +2,15 @@ package com.huxin.communication.adpter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.huxin.communication.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.L;
 
 import java.util.List;
 
@@ -43,6 +47,11 @@ public class PhoneRecyclerAdapter  extends RecyclerView.Adapter<PhoneRecyclerAda
 
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
+        if (!TextUtils.isEmpty(list.get(position))) {
+            ImageLoader.getInstance().displayImage(list.get(position), holder.mImageView);
+        } else {
+            holder.mImageView.setBackgroundResource(R.drawable.head2);
+        }
 
     }
 
@@ -52,9 +61,11 @@ public class PhoneRecyclerAdapter  extends RecyclerView.Adapter<PhoneRecyclerAda
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {
+        private ImageView mImageView;
 
         public MyViewHoder(View itemView) {
             super(itemView);
+            mImageView = itemView.findViewById(R.id.image);
         }
     }
 }

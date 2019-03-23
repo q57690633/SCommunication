@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import com.huxin.communication.adpter.FamousAdapter;
 import com.huxin.communication.adpter.GounpAdapter;
 import com.huxin.communication.adpter.PhoneRecyclerAdapter;
 import com.huxin.communication.adpter.StickAdapter;
+import com.huxin.communication.adpter.TuiJIanGounpAdapter;
 import com.huxin.communication.adpter.TuiJIanStickAdapter;
 import com.huxin.communication.adpter.TuiJianPhoneAdapter;
 import com.huxin.communication.adpter.TuijianCompanyAdapter;
@@ -28,6 +30,7 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.entity.FamousEntity;
 import com.huxin.communication.entity.UserInfoEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.listener.TuiJianGounpListener;
 import com.huxin.communication.listener.TuiJianPhoneListener;
 import com.huxin.communication.listener.TuiJianStarPhoneListener;
 import com.huxin.communication.listener.TuijianCompanyListener;
@@ -44,7 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TuiJianActivity extends BaseActivity implements View.OnClickListener, TuiJianPhoneListener,TuiJianStarPhoneListener ,TuijianCompanyListener {
+public class TuiJianActivity extends BaseActivity implements View.OnClickListener, TuiJianPhoneListener, TuiJianStarPhoneListener, TuijianCompanyListener, TuiJianGounpListener {
 
 
     private ListView mListView;
@@ -57,16 +60,19 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     private List<String> userInfo = new ArrayList<>();
 
 
-
     private ImageView mImageView;
     private RelativeLayout mRelativeLayoutStick;
 
 
     private RecyclerView mRecyclerViewStick;
     private RecyclerView mRecyclerViewCompany;
+    private RecyclerView mRecyclerViewGroup;
+
 
     private TuiJIanStickAdapter mStickAdapter;
     private TuijianCompanyAdapter mCompanyAdapter;
+    private TuiJIanGounpAdapter mGounpAdapter;
+
 
     private JSONObject resultJson = new JSONObject();
     private int targetId = 0;
@@ -79,7 +85,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!"".equalsIgnoreCase(getIntent().getStringExtra("from")) && null != getIntent().getStringExtra("from")) {
+        if (!"".equalsIgnoreCase(getIntent().getStringExtra("from")) && null != getIntent().getStringExtra("from")) {
             from = getIntent().getStringExtra("from");
         }
         data = getIntent().getStringExtra("data");
@@ -98,6 +104,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         mImageView = (ImageView) findViewById(R.id.back);
         mRecyclerViewStick = findViewById(R.id.stick_recycler);
         mRecyclerViewCompany = findViewById(R.id.company_recycler);
+        mRecyclerViewGroup = findViewById(R.id.group_recycler);
         mRelativeLayoutStick = findViewById(R.id.stick_rl);
 
 
@@ -119,14 +126,14 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
         mRecyclerAdapter = new PhoneRecyclerAdapter(list, this);
         mRecyclerView.setAdapter(mRecyclerAdapter);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(15, 0));
+//        mRecyclerView.addItemDecoration(new SpaceItemDecoration(15, 0));
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_phone_person:
-                if("invite_group".equalsIgnoreCase(from)) {
+                if ("invite_group".equalsIgnoreCase(from)) {
                     Bundle bundle = new Bundle();
                     bundle.putString("TARGET_ID", targetId + "");
                     bundle.putString("data", resultJson.toString());
@@ -134,10 +141,10 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                     intent.putExtras(bundle);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
-                }else {
+                } else {
                     Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
                     Bundle bundle = new Bundle();
-                    if("tuijian".equalsIgnoreCase(from)) {
+                    if ("tuijian".equalsIgnoreCase(from)) {
                         data = resultJson.toString();
                     }
                     bundle.putString("data", data);
@@ -165,6 +172,15 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                     cancelProgressDialog();
                     if (lists != null) {
                         lists.clear();
+                    }
+
+                    if (AddressBookEntity.getGroup() != null && AddressBookEntity.getGroup().size() > 0) {
+                        KyLog.object(AddressBookEntity.getGroup());
+                        LinearLayoutManager manager = new LinearLayoutManager(this);
+                        mGounpAdapter = new TuiJIanGounpAdapter(AddressBookEntity.getGroup(), this);
+                        mRecyclerViewGroup.setAdapter(mGounpAdapter);
+                        mGounpAdapter.setTuiJianGounpListener(this);
+                        mRecyclerViewGroup.setLayoutManager(manager);
                     }
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
@@ -262,7 +278,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void starPhone(String image, boolean b) {
         if (b) {
-            list.add(image);
+            if (!TextUtils.isEmpty(image)) {
+                list.add(image);
+            }
         } else {
             list.remove(image);
         }
@@ -272,7 +290,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void starUserInfo(String userinfo, boolean b) {
         if (b) {
-            userInfo.add(userinfo);
+            if (!TextUtils.isEmpty(userinfo)) {
+                userInfo.add(userinfo);
+            }
         } else {
             userInfo.remove(userinfo);
         }
@@ -283,7 +303,9 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void updataCompany(String image, boolean b) {
         if (b) {
-            list.add(image);
+            if (!TextUtils.isEmpty(image)) {
+                list.add(image);
+            }
         } else {
             list.remove(image);
         }
@@ -293,7 +315,33 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void CompanyUserInfo(String userinfo, boolean b) {
         if (b) {
-            userInfo.add(userinfo);
+            if (!TextUtils.isEmpty(userinfo)) {
+                userInfo.add(userinfo);
+            }
+        } else {
+            userInfo.remove(userinfo);
+        }
+        KyLog.d(userinfo);
+    }
+
+    @Override
+    public void updateGounp(String image, boolean b) {
+        if (b) {
+            if (!TextUtils.isEmpty(image)) {
+                list.add(image);
+            }
+        } else {
+            list.remove(image);
+        }
+        mRecyclerAdapter.setList(list);
+    }
+
+    @Override
+    public void updateUserInfoGounp(String userinfo, boolean b) {
+        if (b) {
+            if (!TextUtils.isEmpty(userinfo)) {
+                userInfo.add(userinfo);
+            }
         } else {
             userInfo.remove(userinfo);
         }
