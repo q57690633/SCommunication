@@ -137,7 +137,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             PreferenceUtil.putString(Constanst.PROVINCE_NAME, "");
 
                         }
-                        PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
+                        //PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
                         if ( !TextUtils.isEmpty(loginEntity.getUsername())){
                             PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
                         }else {

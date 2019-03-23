@@ -9,7 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.huxin.communication.R;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.listener.MessageUnitClickListener;
+import com.huxin.communication.ui.house.release.ReleaseActivity;
+import com.huxin.communication.ui.house.release.ReleaseBuyActivity;
+import com.huxin.communication.ui.house.release.ReleaseRentActivity;
+import com.huxin.communication.ui.house.release.ReleseLaseActivity;
 import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
@@ -18,7 +23,12 @@ import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
 import com.huxin.communication.ui.travel.details.ZhouBianDetailsActivity;
+import com.huxin.communication.ui.travel.release.OverseasReleaseActivity;
+import com.huxin.communication.ui.travel.release.ReleaseGuoNeiActivity;
+import com.huxin.communication.ui.travel.release.ReleaseTicketingActivity;
+import com.huxin.communication.ui.travel.release.ReleaseZhouBoundaryActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.utils.SendImageMessageUtil;
 import com.huxin.communication.view.chatmenuunit.DataBaseUnit;
 import com.huxin.communication.view.chatmenuunit.FavoriteUnit;
 import com.huxin.communication.view.chatmenuunit.GuoNeiYouUnit;
@@ -33,10 +43,15 @@ import com.huxin.communication.view.chatmenuunit.ZhouBianYouUnit;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.group.view.GroupChatPanel;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
+import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
+import com.tencent.qcloud.uikit.business.chat.view.ChatBottomInputGroup;
 import com.tencent.qcloud.uikit.business.chat.view.widget.MessageOperaUnit;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.component.titlebar.PageTitleBar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -48,21 +63,41 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
     private PageTitleBar chatTitleBar;
     private String type = "";
     private String chatId = "";
+    private String data = "";
+    private String from = "";
+    private ChatBottomInputGroup.MessageHandler msgHandler;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment_group, container, false);
+        init();
+        if("tuijian".equalsIgnoreCase(from)) {
+            sendBusinessCard();
+        }
+        if("zhuanfa".equalsIgnoreCase(from)) {
+            sendZhuanFa();
+        }
+        return mBaseView;
+    }
+
+    private void init() {
+        msgHandler = new ChatBottomInputGroup.MessageHandler() {
+            @Override
+            public void sendMessage(MessageInfo msg) {
+                chatPanel.sendMessage(msg);
+            }
+        };
         Bundle datas = getArguments();
         //由会话列表传入的会话ID
         if(datas != null) {
             chatId = datas.getString("TARGET_ID");
             type = datas.getString("TARGET_TYPE");
+            data = datas.getString("data");
+            from = datas.getString("from");
         }
         initView();
-        return mBaseView;
     }
-
 
     private void initView() {
         List<MessageOperaUnit> units = initUnitList();
@@ -148,58 +183,105 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
         return units;
     }
 
+    private void sendBusinessCard() {
+        if(data == null) {
+            return;
+        }
+        try {
+            JSONObject dataJson = new JSONObject(data);
+            msgHandler.sendMessage(MessageInfoUtil.buildBussinessCardCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendZhuanFa() {
+        if(data == null) {
+            return;
+        }
+        try {
+            JSONObject dataJson = new JSONObject(data);
+            if("1".equalsIgnoreCase(dataJson.getString("type"))) {
+                for(int i = 0; i < dataJson.getJSONArray("data").length(); i++) {
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("type", Integer.parseInt(dataJson.getString("type")));
+                    jsonObj.put("houseType", Integer.parseInt(dataJson.getString("houseType")));
+                    JSONArray arr = new JSONArray();
+                    jsonObj.put("data", arr.put(dataJson.getJSONArray("data").get(i)));
+                    msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
+                }
+            }
+            if("2".equalsIgnoreCase(dataJson.getString("type"))) {
+                for(int i = 0; i < dataJson.getJSONObject("data").getJSONArray("list").length(); i++) {
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("type", dataJson.getInt("type"));
+                    jsonObj.put("travelType", dataJson.getInt("travelType"));
+                    JSONObject data = new JSONObject();
+                    JSONArray arr = new JSONArray();
+                    data.put("list", arr.put(dataJson.getJSONObject("data").getJSONArray("list").get(i)));
+                    jsonObj.put("data", data);
+                    msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(jsonObj.toString().getBytes(), "Zhuan Fa"));
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onClick(int iconResId) {
         switch (iconResId) {
             case R.drawable.tab_icon_sell:
-                Intent intent = new Intent(getActivity(), SellActivity.class);
+                Intent intent = new Intent(getActivity(), ReleaseActivity.class);
                 intent.putExtra("type", "GROUP");
                 intent.putExtra("peer", chatId);
                 startActivityForResult(intent, 2);
                 break;
             case R.drawable.tab_icon_rent:
-                Intent intentRent = new Intent(getActivity(), RentActivity.class);
+                Intent intentRent = new Intent(getActivity(), ReleseLaseActivity.class);
                 intentRent.putExtra("type", "GROUP");
                 intentRent.putExtra("peer", chatId);
-                getActivity().startActivity(intentRent);
+                startActivityForResult(intentRent, 2);
                 break;
             case R.drawable.tab_icon_qiugou:
-                Intent intentQiuGou = new Intent(getActivity(), QiuGouActivity.class);
+                Intent intentQiuGou = new Intent(getActivity(), ReleaseBuyActivity.class);
                 intentQiuGou.putExtra("type", "GROUP");
                 intentQiuGou.putExtra("peer", chatId);
-                getActivity().startActivity(intentQiuGou);
+                startActivityForResult(intentQiuGou, 2);
                 break;
             case R.drawable.tab_icon_qiuzu:
-                Intent intentQiuZu= new Intent(getActivity(), QiuZuActivity.class);
+                Intent intentQiuZu= new Intent(getActivity(), ReleaseRentActivity.class);
                 intentQiuZu.putExtra("type", "GROUP");
                 intentQiuZu.putExtra("peer", chatId);
-                getActivity().startActivity(intentQiuZu);
+                startActivityForResult(intentQiuZu, 2);
                 break;
             case R.drawable.tab_icon_guoneiyou:
-                Intent intentGuoNei = new Intent(getActivity(), DomesticDetailsActivity.class);
+                Intent intentGuoNei = new Intent(getActivity(), ReleaseGuoNeiActivity.class);
                 intentGuoNei.putExtra("type", "GROUP");
                 intentGuoNei.putExtra("peer", chatId);
                 startActivityForResult(intentGuoNei, 2);
                 break;
             case R.drawable.tab_icon_zhoubianyou:
-                Intent intentZhouBian = new Intent(getActivity(), ZhouBianDetailsActivity.class);
+                Intent intentZhouBian = new Intent(getActivity(), ReleaseZhouBoundaryActivity.class);
                 intentZhouBian.putExtra("type", "GROUP");
                 intentZhouBian.putExtra("peer", chatId);
-                getActivity().startActivity(intentZhouBian);
+                startActivityForResult(intentZhouBian, 2);
                 break;
             case R.drawable.tab_icon_jingwaiyou:
-                Intent intentJingWai = new Intent(getActivity(), JinWaiDetailsActivity.class);
+                Intent intentJingWai = new Intent(getActivity(), OverseasReleaseActivity.class);
                 intentJingWai.putExtra("type", "GROUP");
                 intentJingWai.putExtra("peer", chatId);
-                getActivity().startActivity(intentJingWai);
+                startActivityForResult(intentJingWai, 2);
                 break;
             case R.drawable.tab_icon_piowu:
-                Intent intentPiaoWu = new Intent(getActivity(), TicketingDetailsActivity.class);
+                Intent intentPiaoWu = new Intent(getActivity(), ReleaseTicketingActivity.class);
                 intentPiaoWu.putExtra("type", "GROUP");
                 intentPiaoWu.putExtra("peer", chatId);
-                getActivity().startActivity(intentPiaoWu);
+                startActivityForResult(intentPiaoWu, 2);
                 break;
             case R.drawable.tab_icon_photo:
+                new SendImageMessageUtil(this, chatPanel).openAlbum();
                 break;
             case R.drawable.tab_icon_database:
                 break;
@@ -208,4 +290,30 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == 2) {
+            String str = data.getStringExtra("msg");
+            KyLog.i("onActivityResult str = " + str);
+            try {
+                JSONObject dataJson = new JSONObject(str);
+                if(dataJson.getInt("type") == 1) {
+                    msgHandler.sendMessage(MessageInfoUtil.buildHouseCustomMessage(str.getBytes(), "sell message"));
+                }
+                if(dataJson.getInt("type") == 2) {
+                    JSONArray arr = dataJson.getJSONArray("arrData");
+                    for(int i = 0; i < arr.length(); i++) {
+                        msgHandler.sendMessage(MessageInfoUtil.buildTravelCustomMessage(arr.getJSONObject(i).toString().getBytes(), "Travel message"));
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
+            new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);
+        }
+    }
 }
