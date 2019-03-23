@@ -512,7 +512,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/gettingAroundTravel")
-    Observable<Response<AroundTravelEntity>> gettingAroundTravel(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city,@Field("goals_pro") String goals_pro,
+    Observable<Response<AroundTravelEntity>> gettingAroundTravel(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
                                                                  @Field("sort_type") int sort_type, @Field("tOtherId") String tOtherId,
                                                                  @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
                                                                  @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,
@@ -619,7 +619,7 @@ public interface BaiHangTongYeService {
                                                               @Field("stick_hot") String stick_hot, @Field("stick_zeroC") String stick_zeroC,
                                                               @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
                                                               @Field("goals_city_code") String goals_city_code, @Field("depart_name") String depart_name,
-                                                              @Field("travel_kind") String travel_kind,@Field("user_idForCol") String user_idForCol);
+                                                              @Field("travel_kind") String travel_kind, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 发布国外游
@@ -646,7 +646,7 @@ public interface BaiHangTongYeService {
                                                                 @Field("stick_low") String stick_low, @Field("stick_better") String stick_better,
                                                                 @Field("stick_throw") String stick_throw, @Field("stick_rate") String stick_rate,
                                                                 @Field("stick_return") String stick_return, @Field("stick_hot") String stick_hot,
-                                                                @Field("stick_zeroC") String stick_zeroC,@Field("user_idForCol") String user_idForCol);
+                                                                @Field("stick_zeroC") String stick_zeroC, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 发布票务
@@ -751,7 +751,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("travel/getCollectAround")
-    Observable<Response<AroundTravelEntity>> getCollectAround(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city,@Field("goals_pro") String goals_pro,
+    Observable<Response<AroundTravelEntity>> getCollectAround(@Field("depart_code") String depart_code, @Field("goals_city") String goals_city, @Field("goals_pro") String goals_pro,
                                                               @Field("sort_type") String sort_type, @Field("tOtherId") String tOtherId,
                                                               @Field("tActivityId") String tActivityId, @Field("tStayId") String tStayId,
                                                               @Field("tAddressId") String tAddressId, @Field("tTrafficId") String tTrafficId,
@@ -760,7 +760,7 @@ public interface BaiHangTongYeService {
                                                               @Field("token") String token, @Field("keyWord") String keyWord,
                                                               @Field("curPage") String curPage,
                                                               @Field("minDay") String minDay, @Field("maxDay") String maxDay, @Field("uid") String uid,
-                                                              @Field("travel_kind") String travel_kind,@Field("user_idForCol") String user_idForCol);
+                                                              @Field("travel_kind") String travel_kind, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 个人收藏查询-境外
@@ -776,7 +776,7 @@ public interface BaiHangTongYeService {
                                                                 @Field("t_consume_id") String t_consume_id, @Field("sort_type") String sort_type,
                                                                 @Field("minPri_maxPri") String minPri_maxPri, @Field("number_days") String number_days,
                                                                 @Field("token") String token, @Field("keyWord") String keyWord,
-                                                                @Field("curPage") String curPage, @Field("uid") String uid,@Field("user_idForCol") String user_idForCol);
+                                                                @Field("curPage") String curPage, @Field("uid") String uid, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 个人收藏查询-票务
@@ -788,7 +788,7 @@ public interface BaiHangTongYeService {
                                                             @Field("ticket_activity_id") String ticket_activity_id, @Field("ticket_other_id") String ticket_other_id,
                                                             @Field("sort_type") String sort_type, @Field("token") String token,
                                                             @Field("keyWord") String keyWord,
-                                                            @Field("curPage") String curPage, @Field("uid") String uid,@Field("user_idForCol") String user_idForCol);
+                                                            @Field("curPage") String curPage, @Field("uid") String uid, @Field("user_idForCol") String user_idForCol);
 
 
     /**
@@ -914,7 +914,7 @@ public interface BaiHangTongYeService {
                                                                  @Field("sort_type") String sort_type, @Field("token") String token,
                                                                  @Field("keyWord") String keyWord,
                                                                  @Field("curPage") String curPage, @Field("uid") String uid,
-                                                                 @Field("ifSevenInfo") String ifSevenInfo,@Field("user_idForCol") String user_idForCol);
+                                                                 @Field("ifSevenInfo") String ifSevenInfo, @Field("user_idForCol") String user_idForCol);
 
     /**
      * 跳转到vip
@@ -1032,9 +1032,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<SaleOfScreeningEntity>> selectFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                        @Field("condition") String condition, @Field("token") String token,
-                                                        @Field("uid") String uid, @Field("stick") String stick,
-                                                        @Field("collectType") String collectType,@Field("curPage") String curPage);
+                                                            @Field("condition") String condition, @Field("token") String token,
+                                                            @Field("uid") String uid, @Field("stick") String stick,
+                                                            @Field("collectType") String collectType, @Field("curPage") String curPage);
 
     /**
      * 房产出租搜索接口
@@ -1042,10 +1042,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<RentalScreeningEntity>> selectRentFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                            @Field("condition") String condition, @Field("token") String token,
-                                                            @Field("uid") String uid, @Field("stick") String stick,
-                                                            @Field("collectType") String collectType,@Field("curPage") String curPage);
-
+                                                                @Field("condition") String condition, @Field("token") String token,
+                                                                @Field("uid") String uid, @Field("stick") String stick,
+                                                                @Field("collectType") String collectType, @Field("curPage") String curPage);
 
 
     /**
@@ -1054,9 +1053,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<BuyerScreeningEntity>> selectQiuGouFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                                @Field("condition") String condition, @Field("token") String token,
-                                                                @Field("uid") String uid, @Field("stick") String stick,
-                                                                @Field("collectType") String collectType,@Field("curPage") String curPage);
+                                                                 @Field("condition") String condition, @Field("token") String token,
+                                                                 @Field("uid") String uid, @Field("stick") String stick,
+                                                                 @Field("collectType") String collectType, @Field("curPage") String curPage);
 
     /**
      * 房产求租搜索接口
@@ -1064,9 +1063,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<WantedScreeningEntity>> selectQiuZuFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                                @Field("condition") String condition, @Field("token") String token,
-                                                                @Field("uid") String uid, @Field("stick") String stick,
-                                                                @Field("collectType") String collectType,@Field("curPage") String curPage);
+                                                                 @Field("condition") String condition, @Field("token") String token,
+                                                                 @Field("uid") String uid, @Field("stick") String stick,
+                                                                 @Field("collectType") String collectType, @Field("curPage") String curPage);
 
 
     /**
@@ -1075,9 +1074,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<CollectEntity>> selectCollectFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                                 @Field("condition") String condition, @Field("token") String token,
-                                                                 @Field("uid") String uid, @Field("stick") String stick,
-                                                                 @Field("collectType") String collectType,@Field("curPage") String curPage);
+                                                           @Field("condition") String condition, @Field("token") String token,
+                                                           @Field("uid") String uid, @Field("stick") String stick,
+                                                           @Field("collectType") String collectType, @Field("curPage") String curPage);
 
 
     /**
@@ -1086,9 +1085,9 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/selectFrame")
     Observable<Response<PersonProductEntity>> selectDataBaseFrame(@Field("productType") String productType, @Field("newOrOld") String newOrOld,
-                                                                 @Field("condition") String condition, @Field("token") String token,
-                                                                 @Field("uid") String uid, @Field("stick") String stick,
-                                                                 @Field("collectType") String collectType,@Field("curPage") String curPage);
+                                                                  @Field("condition") String condition, @Field("token") String token,
+                                                                  @Field("uid") String uid, @Field("stick") String stick,
+                                                                  @Field("collectType") String collectType, @Field("curPage") String curPage);
 
 
     /**
@@ -1128,5 +1127,46 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("houseProduct/pictureDetail")
     Observable<Response> pictureDetail(@Field("token") String token, @Field("uid") String uid);
+
+
+    /**
+     * 删除收藏
+     */
+    @FormUrlEncoded
+    @POST("travel/deleteCollectTravel")
+    Observable<ResponseUntil> deleteCollectTravel(@Field("token") String token, @Field("uid") String uid,
+                                                  @Field("ids") String ids, @Field("travelType") String travelType);
+
+    /**
+     * 删除个人发布的数据
+     */
+    @FormUrlEncoded
+    @POST("travel/deletePersonageTravel")
+    Observable<ResponseUntil> deletePersonageTravel(@Field("token") String token,
+                                                    @Field("id") String ids, @Field("travelType") String travelType);
+
+    /**
+     * 转发接口
+     */
+    @FormUrlEncoded
+    @POST("travel/updateIssueCount")
+    Observable<ResponseUntil> updateIssueCount(@Field("token") String token,
+                                               @Field("id") String ids, @Field("type") String type);
+
+    /**
+     * 浏览次数接口
+     */
+    @FormUrlEncoded
+    @POST("travel/updateViewCount")
+    Observable<ResponseUntil> updateViewCount(@Field("token") String token,
+                                              @Field("id") String ids, @Field("type") String type);
+
+    /**
+     * 删除好友
+     */
+    @FormUrlEncoded
+    @POST("user/deleteFriend")
+    Observable<Response> deleteFriend(@Field("token") String token,
+                                      @Field("uid") String ids, @Field("friendId") String friendId);
 
 }

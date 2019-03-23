@@ -1196,6 +1196,26 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 break;
+            case R.id.collect_btn:
+                if (travelType == 1 || travelType  == 2){
+                    addTravelCollect(1);
+                }else if (travelType == 3){
+                    addTravelCollect(2);
+                }else if (travelType == 4){
+                    addTravelCollect(3);
+                }
+                break;
+
+            case R.id.delete_collect:
+                //转发
+                if (travelType == 1 || travelType == 2) {
+                    updateIssueCount(1);
+                } else if (travelType == 3) {
+                    updateIssueCount(2);
+                } else if (travelType == 4) {
+                    updateIssueCount(3);
+                }
+                break;
         }
     }
 
@@ -1716,6 +1736,21 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateIssueCount(int travelTypes) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelTypes))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+//                    zhuanfa(mZhouBianDuoXuanAdapter);
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

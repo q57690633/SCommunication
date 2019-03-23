@@ -116,6 +116,13 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         } else {
             mImageViewHead.setBackgroundResource(R.drawable.head2);
         }
+
+        findViewById(R.id.delete_phone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteFriend(String.valueOf(uid));
+            }
+        });
     }
 
     @Override
@@ -258,6 +265,17 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         ApiModule.getInstance().addStarFriend(friendId,type)
                 .subscribe(response -> {
                         Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void deleteFriend(String friendId) {
+        ApiModule.getInstance().deleteFriend(String.valueOf(PreferenceUtil.getInt(UID)),friendId)
+                .subscribe(response -> {
+                    Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();

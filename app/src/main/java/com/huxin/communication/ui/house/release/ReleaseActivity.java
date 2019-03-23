@@ -717,10 +717,10 @@ public class ReleaseActivity extends BaseActivity implements View.OnClickListene
             return;
         }
 
-        if (loans == 0 && keying == 0){
-            Toast.makeText(this, "请选择钥匙和贷款", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (loans == 0 && keying == 0){
+//            Toast.makeText(this, "请选择钥匙和贷款", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         showProgressDialog();
         Map<String, String> map = new HashMap<>();

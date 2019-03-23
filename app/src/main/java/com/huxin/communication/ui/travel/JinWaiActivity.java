@@ -176,6 +176,8 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     private ImageView mImageViewFangxin;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1004,7 +1006,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             case R.id.delete_collect:
 //                addCollectTravel(productType);
                 if (mJinWaiDuoXuanAdapter.getSelectedItem().size() > 0) {
-                    zhuanfa(mJinWaiDuoXuanAdapter);
+                    updateIssueCount(2);
                 } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
@@ -1405,37 +1407,6 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             e.printStackTrace();
         }
         return str;
-/*
-        List<TravelEntity> list = new ArrayList<>();
-        List<TravelEntity.ListBean> listBeans = new ArrayList<>();
-        TravelEntity entityTravel = new TravelEntity();
-
-        if (Salelist != null && Salelist.size() > 0) {
-            for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
-                TravelEntity.ListBean entity = new TravelEntity.ListBean();
-                entity.setDepart_name(SaleEntity.getDepart_name());
-                entity.setGoals_city("");
-                entity.setHeadUrl(SaleEntity.getHeadUrl());
-                entity.setNumberDays(SaleEntity.getNumber_days());
-                entity.setPhoto_url(SaleEntity.getPhoto_url());
-                entity.setReturnPrice(SaleEntity.getReturn_price());
-                entity.setReturnPriceChild(SaleEntity.getReturn_price_child());
-                entity.setTotalPrice(SaleEntity.getTotal_price());
-                entity.setTotalPriceChild(SaleEntity.getTotal_price_child());
-                entity.setSpotName(SaleEntity.getSpot_name());
-                entity.setTagName(SaleEntity.getTagName());
-                entity.setUserCity(SaleEntity.getUserCity());
-                entity.setUsername(SaleEntity.getUsername());
-
-                listBeans.add(entity);
-            }
-            entityTravel.setList(listBeans);
-            entityTravel.setTravelType(TravelType);//出售
-            entityTravel.setType(2);
-            list.add(entityTravel);
-        }
-        KyLog.object(list);
-        return ListToString(list);*/
     }
 
     /**
@@ -1547,6 +1518,21 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateIssueCount(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    zhuanfa(mJinWaiDuoXuanAdapter);
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

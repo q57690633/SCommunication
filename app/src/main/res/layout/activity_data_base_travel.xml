@@ -303,7 +303,7 @@
             android:paddingTop="9dp"
             android:paddingRight="30dp"
             android:paddingBottom="9dp"
-            android:text="收藏"
+            android:text="删除"
             android:textColor="@color/white"
             android:textSize="16sp" />
 

@@ -324,10 +324,24 @@
             android:layout_marginLeft="11dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="19dp"
-            android:background="@color/blue"
+            android:background="@drawable/biaoqian_radius_blue"
             android:gravity="center"
             android:padding="15dp"
             android:text="@string/send_message"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/delete_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/biaoqian_radius_blue"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="删除联系人"
             android:textColor="@color/white"
             android:textSize="17dp" />
     </LinearLayout>

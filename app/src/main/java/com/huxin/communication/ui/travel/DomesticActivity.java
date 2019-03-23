@@ -1149,7 +1149,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             case R.id.delete_collect:
 //                addCollectTravel(productType);
                 if (mZhouBianDuoXuanAdapter.getSelectedItem().size() > 0) {
-                    zhuanfa(mZhouBianDuoXuanAdapter);
+                    updateIssueCount(1);
                 }else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
@@ -1687,5 +1687,19 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateIssueCount(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    zhuanfa(mZhouBianDuoXuanAdapter);
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

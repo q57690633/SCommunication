@@ -157,6 +157,10 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
 
     private int travel_kind;
+
+    private TextView mTextViewCollect;
+    private TextView mTextViewDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,6 +266,10 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         mTextViewCity = findViewById(R.id.tv_city);
         mTextViewMoren = findViewById(R.id.moren);
 
+        mTextViewCollect = findViewById(R.id.collect_btn);
+        mTextViewDelete = findViewById(R.id.delete_collect);
+
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
 
@@ -308,7 +316,8 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
         mLinearLayoutMuDi.setOnClickListener(this);
         mLinearLayoutChuFa.setOnClickListener(this);
-
+        mTextViewCollect.setOnClickListener(this);
+        mTextViewDelete.setOnClickListener(this);
 
     }
 
@@ -1180,6 +1189,19 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 setEnabled(true);
                 break;
+
+            case R.id.collect_btn:
+                addTravelCollect(travel_kind);
+                break;
+
+            case R.id.delete_collect:
+                //转发
+                if (travel_kind == 1 || travel_kind == 2) {
+                    updateIssueCount(1);
+                } else if (travel_kind == 3) {
+                    updateIssueCount(2);
+                }
+                break;
         }
     }
 
@@ -1189,9 +1211,18 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         mLinearLayoutSorts.setVisibility(View.GONE);
         mLinearLayoutPrices.setVisibility(View.GONE);
         mLinearLayoutMores.setVisibility(View.GONE);
+        mLinearLayoutMudi.setVisibility(View.GONE);
         mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
         mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
+        mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+        mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+        mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+
     }
 
     private void setDuoXuanData(AroundTravelEntity entity) {
@@ -1621,5 +1652,48 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
+
+    private void updateIssueCount(int travelTypes) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelTypes))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+//                    if (travelType == 1) {
+//                        zhuanFaDuanTu();
+//                    }
+//                    if (travelType == 2) {
+//                        zhuanFaGuoNei();
+//                    }
+//                    if (travelType == 3) {
+//                        zhuanFaJingWai();
+//                    }
+//                    if (travelType == 4) {
+//                        zhuanFaPiaoWu();
+//                    }
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void addTravelCollect(int travelType) {
+        KyLog.d(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT));
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Intent intent = new Intent(this, CollectTravelActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
 }

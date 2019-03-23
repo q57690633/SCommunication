@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableNameAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
+import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
+import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.HomeTravelEntity;
@@ -30,11 +32,17 @@ import com.huxin.communication.entity.InformationDetailEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.ui.house.details.ChuZuDetailsActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
+import com.huxin.communication.ui.travel.CollectTravelActivity;
+import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +92,12 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     private int type;
 
+    private ImageView mImageViewCollect;
+
+    private ImageView mImageViewZhuanFa;
+
+    private boolean isClick = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +130,9 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
+
+
+
         listBean = getIntent().getParcelableExtra("list");
 
         headTravelEntivty = getIntent().getParcelableExtra("headlist");
@@ -138,14 +155,14 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                     KyLog.d(listBean.getId() + "");
 
                     if (type != 1) {
-                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
-                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
+                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
                         } else {
                             Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
-                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
                         } else {
                             Toast.makeText(ZhouBianDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
                         }
@@ -166,9 +183,9 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             public void onClick(View view) {
                 String phone = null;
                 if (type != 1) {
-                    phone = headTravelEntivty.getUserPhone();
-                } else {
                     phone = listBean.getUserPhone();
+                } else {
+                    phone = headTravelEntivty.getUserPhone();
 
                 }
                 if (!TextUtils.isEmpty(phone)) {
@@ -183,35 +200,59 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                 }
             }
         });
+
+        mImageViewCollect = findViewById(R.id.image_collect);
+        mImageViewZhuanFa = findViewById(R.id.image_zhaungfa);
+        mImageViewZhuanFa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                zhuanfa(listBean);
+            }
+        });
+
+        mImageViewCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isClick) {
+                    if (type != 1) {
+                        addTravelCollect(1,String.valueOf(listBean.getId()));
+                    }else {
+                        addTravelCollect(1,String.valueOf(headTravelEntivty.getId()));
+
+                    }
+                    isClick = false;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+                } else {
+                    if (type != 1) {
+                        deleteTravelCollect(1,String.valueOf(listBean.getId()));
+                    }else {
+                        deleteTravelCollect(1,String.valueOf(headTravelEntivty.getId()));
+
+                    }
+                    isClick = true;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+                }
+            }
+        });
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        setData(listBean,headTravelEntivty);
-        setOnBinner(listBean,headTravelEntivty);
-        setTextView(listBean, headTravelEntivty,mRecyclerView);
+        if (listBean.getIsCollect() == 0) {
+            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+        } else {
+            isClick = false;
+            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+
+        }
+        setData(listBean, headTravelEntivty);
+        setOnBinner(listBean, headTravelEntivty);
+        setTextView(listBean, headTravelEntivty, mRecyclerView);
     }
 
 
-    private void setData(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty) {
-        if (type != 1){
-            if (entivty != null) {
-                mTextViewTravelTitle.setText(entivty.getTravelTitle());
-                mTextViewDepartName.setText(entivty.getDepart_name());
-                mTextViewGoalsCity.setText(entivty.getGoals_city());
-                mTextViewNumberDays.setText(String.valueOf(entivty.getNumberDays()) + "天");
-                mTextViewTotalPrice.setText(String.valueOf("成人：" + entivty.getTotalPrice()) + "元");
-                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entivty.getReturnPrice()) + "元");
-                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entivty.getTotalPriceChild()) + "元");
-                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entivty.getReturnPriceChild()) + "元");
-                mTextViewSpotName.setText(String.valueOf(entivty.getSpotName()));
-                mTextViewViewCount.setText(String.valueOf(entivty.getView_count()) + "次");
-                mTextViewIssueCount.setText(String.valueOf(entivty.getIssue_count()) + "次");
-                mTextViewGeneralize.setText(entivty.getGeneralize());
-                mTextViewUsername.setText(entivty.getUsername());
-                mTextViewCompanyName.setText(entivty.getCompanyName());
-            }
-        }else {
+    private void setData(AroundTravelEntity.ListBean entity, HeadTravelEntivty entivty) {
+        if (type != 1) {
             if (entity != null) {
                 mTextViewTravelTitle.setText(entity.getTravelTitle());
                 mTextViewDepartName.setText(entity.getDepart_name());
@@ -227,6 +268,23 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                 mTextViewGeneralize.setText(entity.getGeneralize());
                 mTextViewUsername.setText(entity.getUsername());
                 mTextViewCompanyName.setText(entity.getCompanyName());
+            }
+        } else {
+            if (entivty != null) {
+                mTextViewTravelTitle.setText(entivty.getTravelTitle());
+                mTextViewDepartName.setText(entivty.getDepart_name());
+                mTextViewGoalsCity.setText(entivty.getGoals_city());
+                mTextViewNumberDays.setText(String.valueOf(entivty.getNumberDays()) + "天");
+                mTextViewTotalPrice.setText(String.valueOf("成人：" + entivty.getTotalPrice()) + "元");
+                mTextViewReturnPrice.setText(String.valueOf("返佣：" + entivty.getReturnPrice()) + "元");
+                mTextViewTotalPriceChild.setText(String.valueOf("儿童：" + entivty.getTotalPriceChild()) + "元");
+                mTextViewReturnPriceChild.setText(String.valueOf("返佣：" + entivty.getReturnPriceChild()) + "元");
+                mTextViewSpotName.setText(String.valueOf(entivty.getSpotName()));
+                mTextViewViewCount.setText(String.valueOf(entivty.getView_count()) + "次");
+                mTextViewIssueCount.setText(String.valueOf(entivty.getIssue_count()) + "次");
+                mTextViewGeneralize.setText(entivty.getGeneralize());
+                mTextViewUsername.setText(entivty.getUsername());
+                mTextViewCompanyName.setText(entivty.getCompanyName());
             }
         }
 
@@ -306,18 +364,18 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(AroundTravelEntity.ListBean listBean,HeadTravelEntivty entivty) {
+    private void setOnBinner(AroundTravelEntity.ListBean listBean, HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
-        if (type != 1){
-            if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
-                String[] str = entivty.getPhoto_url().split(",");
+        if (type != 1) {
+            if (!TextUtils.isEmpty(listBean.getPhoto_url())) {
+                String[] str = listBean.getPhoto_url().split(",");
                 for (String strs : str) {
                     imageList.add(strs);
                 }
             }
-        }else {
-            if (!TextUtils.isEmpty(listBean.getPhoto_url())) {
-                String[] str = listBean.getPhoto_url().split(",");
+        } else {
+            if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
+                String[] str = entivty.getPhoto_url().split(",");
                 for (String strs : str) {
                     imageList.add(strs);
                 }
@@ -354,20 +412,20 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     }
 
 
-    private void setTextView(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty, RecyclerView linearLayout) {
+    private void setTextView(AroundTravelEntity.ListBean entity, HeadTravelEntivty entivty, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
         if (type != 1) {
-            if (!TextUtils.isEmpty(entivty.getTagName())) {
-                String[] strings = entivty.getTagName().split(",");
-                KyLog.d(entivty.getTagName());
+            if (!TextUtils.isEmpty(entity.getTagName())) {
+                String[] strings = entity.getTagName().split(",");
+                KyLog.d(entity.getTagName());
                 for (int i = 0; i < strings.length; i++) {
                     list1.add(strings[i]);
                 }
             }
-        }else {
-            if (!TextUtils.isEmpty(entity.getTagName())) {
-                String[] strings = entity.getTagName().split(",");
-                KyLog.d(entity.getTagName());
+        } else {
+            if (!TextUtils.isEmpty(entivty.getTagName())) {
+                String[] strings = entivty.getTagName().split(",");
+                KyLog.d(entivty.getTagName());
                 for (int i = 0; i < strings.length; i++) {
                     list1.add(strings[i]);
                 }
@@ -401,6 +459,90 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                 KyLog.e("imlogin fail", errMsg);
             }
         });
+    }
+
+
+    private void addTravelCollect(int travelType,String id) {
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(id, travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    private void deleteTravelCollect(int travelType,String id) {
+        showProgressDialog();
+        ApiModule.getInstance().deleteCollectTravel(id, String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Toast.makeText(this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    private void zhuanfa(AroundTravelEntity.ListBean listBean) {
+        String data = getData(listBean, 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(ZhouBianDetailsActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    public static String getData(AroundTravelEntity.ListBean SaleEntity, int TravelType) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            JSONObject dataObj = new JSONObject();
+            dataObj.put("depart_name", SaleEntity.getDepart_name());
+            dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
+            dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+            dataObj.put("numberDays", String.valueOf(SaleEntity.getNumberDays()));
+            dataObj.put("photo_url", SaleEntity.getPhoto_url());
+            dataObj.put("finalPrice", String.valueOf(SaleEntity.getReturnPrice()));
+            dataObj.put("finalPriceChild", SaleEntity.getReturnPriceChild());
+            dataObj.put("totalPrice", String.valueOf(SaleEntity.getTotalPrice()));
+            dataObj.put("totalPriceChild", SaleEntity.getTotalPriceChild());
+            dataObj.put("spotName", String.valueOf(SaleEntity.getSpotName()));
+            dataObj.put("tagName", SaleEntity.getTagName());
+            dataObj.put("userCity", SaleEntity.getUserCity());
+            dataObj.put("username", SaleEntity.getUsername());
+            dataObj.put("TActivityId", SaleEntity.getTActivityId());
+            dataObj.put("TAddressId", SaleEntity.getTAddressId());
+            dataObj.put("TConsumeId", SaleEntity.getTConsumeId());
+            dataObj.put("TOtherId", SaleEntity.getTOtherId());
+            dataObj.put("TOverseasId", SaleEntity.getTOverseasId());
+            dataObj.put("TStayId", SaleEntity.getTStayId());
+            dataObj.put("TTrafficId", SaleEntity.getTTrafficId());
+            dataObj.put("companyName", SaleEntity.getCompanyName());
+            jsonArray.put(dataObj);
+            data.put("list", jsonArray);
+            jsonObject.put("type", 2);
+            jsonObject.put("travelType", 1);
+            jsonObject.put("data", data);
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 
 }
