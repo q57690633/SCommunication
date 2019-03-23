@@ -137,7 +137,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                     KyLog.d(userId);
                     KyLog.d(listBean.getId() + "");
 
-                    if (type == 1) {
+                    if (type != 1) {
                         if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
                             onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
                         } else {
@@ -165,7 +165,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 String phone = null;
-                if (type == 1) {
+                if (type != 1) {
                     phone = headTravelEntivty.getUserPhone();
                 } else {
                     phone = listBean.getUserPhone();
@@ -194,7 +194,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
 
     private void setData(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty) {
-        if (type == 1){
+        if (type != 1){
             if (entivty != null) {
                 mTextViewTravelTitle.setText(entivty.getTravelTitle());
                 mTextViewDepartName.setText(entivty.getDepart_name());
@@ -308,7 +308,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
      */
     private void setOnBinner(AroundTravelEntity.ListBean listBean,HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
-        if (type == 1){
+        if (type != 1){
             if (!TextUtils.isEmpty(entivty.getPhoto_url())) {
                 String[] str = entivty.getPhoto_url().split(",");
                 for (String strs : str) {
@@ -356,7 +356,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     private void setTextView(AroundTravelEntity.ListBean entity,HeadTravelEntivty entivty, RecyclerView linearLayout) {
         List<String> list1 = new ArrayList<>();
-        if (type == 1) {
+        if (type != 1) {
             if (!TextUtils.isEmpty(entivty.getTagName())) {
                 String[] strings = entivty.getTagName().split(",");
                 KyLog.d(entivty.getTagName());

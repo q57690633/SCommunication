@@ -434,7 +434,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         selectTravelTab(ticket_type);
-
         if (ticket_type == 1) {
             mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
             mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
@@ -1833,7 +1832,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             @Override
             public void onResponse(String response, int id) {
                 cancelProgressDialog();
-                getUseInfo();
                 super.onResponse(response, id);
                 KyLog.d(response);
                 //返回图片的地址

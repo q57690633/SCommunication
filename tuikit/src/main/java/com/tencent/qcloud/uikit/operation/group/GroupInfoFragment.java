@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,16 +77,22 @@ public class GroupInfoFragment extends BaseFragment {
     private LinearLayout mClearRecordLl;
     private Button mQuitBtn;
     private TextView mCheckMoreTv;
+    private TextView mGroupName;
+
 
     private JSONArray groupMemberJSONArr = new JSONArray();
     private List<MemberHeadUrlEntity> memberList = new ArrayList<>();
     private ArrayList<String> headUrlList = new ArrayList<>();
+
+    private String name;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.info_fragment_group_new, container, false);
         groupId = getArguments().getString(UIKitConstants.GROUP_ID);
+        name = getArguments().getString(UIKitConstants.GROUP_NAME);
+
         initView();
         initData(groupId);
         initOnClickListener();
@@ -101,9 +108,23 @@ public class GroupInfoFragment extends BaseFragment {
         mClearRecordLl = mBaseView.findViewById(R.id.clear_record_ll);
         mQuitBtn = mBaseView.findViewById(R.id.quit_btn);
         mCheckMoreTv = mBaseView.findViewById(R.id.check_more);
+
+        mGroupName = mBaseView.findViewById(R.id.text_group);
+
+        mBaseView.findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
     }
 
     private void initData(String groupId) {
+
+        if (!TextUtils.isEmpty(name)){
+            mGroupName.setText(name);
+        }
         initGroupMember(groupId);
     }
 

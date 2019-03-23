@@ -132,6 +132,7 @@ public class GroupChatPanel extends ChatPanel implements IChatPanel {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), GroupManagerActivity.class);
                 intent.putExtra(UIKitConstants.GROUP_ID, mBaseInfo.getPeer());
+                intent.putExtra(UIKitConstants.GROUP_NAME,mBaseInfo.getGroupName());
                 getContext().startActivity(intent);
 
             }

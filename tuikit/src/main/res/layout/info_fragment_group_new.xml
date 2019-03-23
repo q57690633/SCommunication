@@ -8,6 +8,33 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/blue">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/nav_icon_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/text_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="群详情"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+
+
+    </RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/group_member_rv"
         android:layout_width="match_parent"

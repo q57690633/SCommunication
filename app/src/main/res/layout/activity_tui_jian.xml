@@ -98,6 +98,14 @@
             android:layout_margin="10dp"/>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/group_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/company_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
