@@ -61,6 +61,7 @@ public class TuiJIanGounpAdapter extends RecyclerView.Adapter<TuiJIanGounpAdapte
                         UserInfoEntity userInfoEntity = new UserInfoEntity();
                         userInfoEntity.setImageHead(mList.get(position).getUrl());
                         userInfoEntity.setName(mList.get(position).getFlockName());
+                        userInfoEntity.setUid(mList.get(position).getFlockId());
                         listUserInfo.add(userInfoEntity);
                         mTuiJianPhoneListener.updateGounp(mList.get(position).getUrl(), isItemChecked(position));
                         if (listUserInfo.size() > 0) {

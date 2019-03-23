@@ -31,6 +31,8 @@ import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
+import org.json.JSONObject;
+
 public class FriendDetailedActivity extends BaseActivity implements View.OnClickListener {
 
     private String name;
@@ -78,6 +80,12 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mAddressTv.setText(address);
         mIndustryTv.setText(industry);
         mPhoneTv.setText(getResources().getString(R.string.phone) + phone);
+
+        if (!TextUtils.isEmpty(imageUrl)) {
+            ImageLoader.getInstance().displayImage(imageUrl, mImageViewHead);
+        } else {
+            mImageViewHead.setBackgroundResource(R.drawable.head2);
+        }
     }
 
     @Override
@@ -110,12 +118,6 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mStarFriendIv.setOnClickListener(this);
         mSetTopIv.setOnClickListener(this);
         mMessageAlertIv.setOnClickListener(this);
-
-        if (!TextUtils.isEmpty(imageUrl)) {
-            ImageLoader.getInstance().displayImage(imageUrl, mImageViewHead);
-        } else {
-            mImageViewHead.setBackgroundResource(R.drawable.head2);
-        }
     }
 
     @Override
@@ -165,6 +167,8 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.tuijian_rl:
                 Intent intentTuiJian = new Intent(this, TuiJianActivity.class);
+                intentTuiJian.putExtra("data", getData());
+                intentTuiJian.putExtra("from", "tuijian");
                 startActivity(intentTuiJian);
                 break;
             case R.id.history_rl:
@@ -252,6 +256,18 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         }
     }
 
+    private String getData() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("headUrl", imageUrl);
+            jsonObject.put("phone", phone);
+            jsonObject.put("uid", uid);
+            jsonObject.put("username", name);
+        }catch (Exception e) {
+
+        }
+        return jsonObject.toString();
+    }
 
 
     private void addStarFriend(String friendId, String type) {

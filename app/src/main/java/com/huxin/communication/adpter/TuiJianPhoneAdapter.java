@@ -111,7 +111,7 @@ public class TuiJianPhoneAdapter extends BaseAdapter implements SectionIndexer {
                     userInfoEntity.setImageHead(list.get(position).getImage());
                     userInfoEntity.setName(list.get(position).getName());
                     userInfoEntity.setPhone(list.get(position).getPhone());
-                    userInfoEntity.setUid(list.get(position).getId());
+                    userInfoEntity.setUid(list.get(position).getId() + "");
                     if(listUserInfo.size() == 0) {
                         listUserInfo.add(userInfoEntity);
                     }else {

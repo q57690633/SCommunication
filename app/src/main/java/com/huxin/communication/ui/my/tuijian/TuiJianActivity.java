@@ -75,10 +75,12 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
 
     private JSONObject resultJson = new JSONObject();
-    private int targetId = 0;
+    private String targetId = "";
 
     private String from = "tuijian";
     private String data = "";
+
+    private boolean isGroupChat = false;
 
 
     @Override
@@ -140,20 +142,31 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                     Intent intent = getIntent();
                     intent.putExtras(bundle);
                     setResult(Activity.RESULT_OK, intent);
-                    finish();
                 } else {
+                    try {
                     Intent intent = new Intent(TuiJianActivity.this, TIMChatActivity.class);
                     Bundle bundle = new Bundle();
                     if ("tuijian".equalsIgnoreCase(from)) {
+                        JSONObject obj = new JSONObject();
+                        obj.put("data", new JSONObject(data));
+                        resultJson.put("data", obj);
                         data = resultJson.toString();
+                    }
+                    if(isGroupChat) {
+                        bundle.putString("TARGET_TYPE", "group");
+                    }else {
+                        bundle.putString("TARGET_TYPE", "C2C");
                     }
                     bundle.putString("data", data);
                     bundle.putString("from", from);
-                    bundle.putString("TARGET_TYPE", "C2C");
-                    bundle.putString("TARGET_ID", targetId + "");
+                    bundle.putString("TARGET_ID", targetId);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+                finish();
                 break;
             case R.id.back:
                 finish();
@@ -264,11 +277,12 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
             for (String info : userInfo) {
                 info = info.substring(1, info.length() - 1);
                 JSONObject infoJSONObj = new JSONObject(info);
-                targetId = infoJSONObj.getInt("id");
+                targetId = infoJSONObj.getString("id");
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
-            resultJson.put("info", jsonArray);
+            resultJson.put("obj", targetId);
+            isGroupChat = false;
             Log.i("updateUserInfo", "resultJson.toString() = " + resultJson.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -297,6 +311,21 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
             userInfo.remove(userinfo);
         }
         KyLog.object(userInfo);
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (String info : userInfo) {
+                info = info.substring(1, info.length() - 1);
+                JSONObject infoJSONObj = new JSONObject(info);
+                targetId = infoJSONObj.getString("id");
+                jsonArray.put(infoJSONObj);
+            }
+            resultJson.put("type", 3);
+            resultJson.put("info", targetId);
+            isGroupChat = false;
+            Log.i("starUserInfo", "resultJson.toString() = " + resultJson.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -322,6 +351,21 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
             userInfo.remove(userinfo);
         }
         KyLog.d(userinfo);
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (String info : userInfo) {
+                info = info.substring(1, info.length() - 1);
+                JSONObject infoJSONObj = new JSONObject(info);
+                targetId = infoJSONObj.getString("id");
+                jsonArray.put(infoJSONObj);
+            }
+            resultJson.put("type", 3);
+            resultJson.put("info", targetId);
+            isGroupChat = false;
+            Log.i("CompanyUserInfo", "resultJson.toString() = " + resultJson.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -344,6 +388,21 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
             }
         } else {
             userInfo.remove(userinfo);
+        }
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (String info : userInfo) {
+                info = info.substring(1, info.length() - 1);
+                JSONObject infoJSONObj = new JSONObject(info);
+                targetId = infoJSONObj.getString("id");
+                jsonArray.put(infoJSONObj);
+            }
+            resultJson.put("type", 3);
+            resultJson.put("info", targetId);
+            isGroupChat = true;
+            Log.i("updateUserInfoGounp", "resultJson.toString() = " + resultJson.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         KyLog.d(userinfo);
     }

@@ -24,6 +24,7 @@ import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 import java.util.List;
 
 import static com.huxin.communication.ui.fragment.AssortmentFragment.ADDRESS_TAG;
+import static com.huxin.communication.ui.fragment.AssortmentFragment.IMAGE_TAG;
 import static com.huxin.communication.ui.fragment.AssortmentFragment.INDUSTRY_TAG;
 import static com.huxin.communication.ui.fragment.AssortmentFragment.NAME_TAG;
 import static com.huxin.communication.ui.fragment.AssortmentFragment.PHONE_TAG;
@@ -53,6 +54,7 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
                 String industry = mList.get(Hoder.getAdapterPosition()).getIndustryType();
                 String phone = mList.get(Hoder.getAdapterPosition()).getPhone();
                 String starFriend = mList.get(Hoder.getAdapterPosition()).getStarFriend();
+                String headUrl = mList.get(Hoder.getAdapterPosition()).getHeadUrl();
                 int uid = mList.get(Hoder.getAdapterPosition()).getId();
                 Intent intent = new Intent(mActivity, FriendDetailedActivity.class);
                 intent.putExtra(NAME_TAG, name);
@@ -61,6 +63,7 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
                 intent.putExtra(PHONE_TAG, phone);
                 intent.putExtra(STAR_FRIEND_TAG, starFriend);
                 intent.putExtra(UID_TAG, uid);
+                intent.putExtra(IMAGE_TAG, headUrl);
                 intent.putExtra("starFriend","star");
                 KyLog.d("starFriend");
                 mActivity.startActivity(intent);

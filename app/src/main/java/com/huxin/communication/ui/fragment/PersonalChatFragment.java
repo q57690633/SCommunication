@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,12 @@ import com.huxin.communication.view.chatmenuunit.RentUnit;
 import com.huxin.communication.view.chatmenuunit.SellUnit;
 import com.huxin.communication.view.chatmenuunit.ZhouBianYouUnit;
 import com.sky.kylog.KyLog;
+import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.qcloud.uikit.business.chat.c2c.view.C2CChatPanel;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfo;
 import com.tencent.qcloud.uikit.business.chat.model.MessageInfoUtil;
@@ -188,7 +195,9 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         }
         try {
             JSONObject dataJson = new JSONObject(data);
-            msgHandler.sendMessage(MessageInfoUtil.buildBussinessCardCustomMessage(dataJson.toString().getBytes(), "Business Card"));
+            JSONObject data = dataJson.getJSONObject("data");
+            data.put("type", 3);
+            msgHandler.sendMessage(MessageInfoUtil.buildBussinessCardCustomMessage(data.toString().getBytes(), "Business Card"));
         }catch (Exception e) {
             e.printStackTrace();
         }
