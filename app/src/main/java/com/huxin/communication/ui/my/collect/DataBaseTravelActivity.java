@@ -2,6 +2,7 @@ package com.huxin.communication.ui.my.collect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,13 +33,18 @@ import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +140,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private TextView mTextViewChongGaoDaoDi;
     private TextView mTextViewChongGaoDaoDiFanXian;
     private TextView mTextViewChongDuoDaoShaoDay;
+    private TextView mZhuanFa;
 
 
     private EditText mEditTextMax;
@@ -252,6 +259,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewPrice10 = (TextView) findViewById(R.id.price10);
         mTextViewPrice11 = (TextView) findViewById(R.id.price11);
         mTextViewPrice12 = (TextView) findViewById(R.id.price12);
+        mZhuanFa = (TextView) findViewById(R.id.delete_collect);
 
 
         mEditTextMax = (EditText) findViewById(R.id.ed_max);
@@ -314,6 +322,7 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewPrice10.setOnClickListener(this);
         mTextViewPrice11.setOnClickListener(this);
         mTextViewPrice12.setOnClickListener(this);
+        mZhuanFa.setOnClickListener(this);
 
         mTextViewZuiXin.setOnClickListener(this);
         mTextViewChongDiDaoGao.setOnClickListener(this);
@@ -1191,6 +1200,20 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             case R.id.collect_btn:
                 addTravelCollect(travelType);
                 break;
+            case R.id.delete_collect:
+                if(travelType == 1) {
+                    zhuanFaDuanTu();
+                }
+                if(travelType == 2) {
+                    zhuanFaGuoNei();
+                }
+                if(travelType == 3) {
+                    zhuanFaJingWai();
+                }
+                if(travelType == 4) {
+                    zhuanFaPiaoWu();
+                }
+                break;
         }
     }
 
@@ -1528,6 +1551,164 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         return Kouweilist;
     }
 
+    private String getDuanTuData(ArrayList<AroundTravelEntity.ListBean> Salelist, int type) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (AroundTravelEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("depart_name", SaleEntity.getDepart_name());
+                    dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
+                    dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+                    dataObj.put("numberDays", String.valueOf(SaleEntity.getNumberDays()));
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("finalPrice", String.valueOf(SaleEntity.getReturnPrice()));
+                    dataObj.put("finalPriceChild", SaleEntity.getReturnPriceChild());
+                    dataObj.put("totalPrice", String.valueOf(SaleEntity.getTotalPrice()));
+                    dataObj.put("totalPriceChild", SaleEntity.getTotalPriceChild());
+                    dataObj.put("spotName", String.valueOf(SaleEntity.getSpotName()));
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("username", SaleEntity.getUsername());
+                    dataObj.put("TActivityId", SaleEntity.getTActivityId());
+                    dataObj.put("TAddressId", SaleEntity.getTAddressId());
+                    dataObj.put("TConsumeId", SaleEntity.getTConsumeId());
+                    dataObj.put("TOtherId", SaleEntity.getTOtherId());
+                    dataObj.put("TOverseasId", SaleEntity.getTOverseasId());
+                    dataObj.put("TStayId", SaleEntity.getTStayId());
+                    dataObj.put("TTrafficId", SaleEntity.getTTrafficId());
+                    dataObj.put("companyName", SaleEntity.getCompanyName());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 1);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private String getJingWaiData(ArrayList<ForeignTravelEntity.ListBean> Salelist, int type) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("depart_name", SaleEntity.getDepart_name());
+                    dataObj.put("goals_city", SaleEntity.getGoals_nat_name());
+                    dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+                    dataObj.put("numberDays", String.valueOf(SaleEntity.getNumber_days()));
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("finalPrice", String.valueOf(SaleEntity.getReturn_price()));
+                    dataObj.put("finalPriceChild", SaleEntity.getReturn_price_child());
+                    dataObj.put("totalPrice", String.valueOf(SaleEntity.getTotal_price()));
+                    dataObj.put("totalPriceChild", SaleEntity.getTotal_price_child());
+                    dataObj.put("spotName", String.valueOf(SaleEntity.getSpot_name()));
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("username", SaleEntity.getUsername());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 3);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private String getTicketingData(ArrayList<TicketInfoEntity.ListBean> Salelist, int type) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (TicketInfoEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("ticket_name", SaleEntity.getTicket_name());
+                    dataObj.put("ticket_addr", SaleEntity.getTicket_addr());
+                    dataObj.put("original_price", SaleEntity.getOriginal_price());
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 4);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private void zhuanFaDuanTu() {
+        String data = getDuanTuData(mZhouBianDuoXuanAdapter.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(DataBaseTravelActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaGuoNei() {
+        String data = getDuanTuData(mZhouBianDuoXuanAdapter.getSelectedItem(), 2);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(DataBaseTravelActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaJingWai() {
+        String data = getJingWaiData(mJinWaiDuoXuanAdapter.getSelectedItem(), 2);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(DataBaseTravelActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaPiaoWu() {
+        String data = getTicketingData(mTicketingDuoXuanAdapter.getSelectedItem(), 2);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(DataBaseTravelActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
 
     private void setMoreData() {
         GridLayoutManager manager = new GridLayoutManager(this, 4);
