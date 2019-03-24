@@ -44,6 +44,7 @@ public class QiuZuDetailsActivity extends BaseActivity {
     private InformationDetailEntity entity;
     private TextView mTextViewCampany;
     private TextView mTextViewUserName;
+    private String userName = "";
 
 
     @Override
@@ -130,6 +131,7 @@ public class QiuZuDetailsActivity extends BaseActivity {
         mTextViewfindNumber.setText(String.valueOf(entity.getFindNumber())+ "次");
         mTextViewCampany.setText(entity.getUserModel().getCompanyName());
         mTextViewUserName.setText(entity.getUserModel().getUsername());
+        userName = entity.getUserModel().getUsername();
     }
 
     private List<String> getTableNameList(InformationDetailEntity entity) {
@@ -149,6 +151,7 @@ public class QiuZuDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(QiuZuDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
             @Override

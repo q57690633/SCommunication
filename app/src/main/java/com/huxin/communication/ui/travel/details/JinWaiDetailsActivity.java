@@ -60,6 +60,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
     private TextView mTextViewGeneralize;
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
+    private String userName = "";
 
     private ViewPagerAdapter mViewPagerAdapter;
 
@@ -305,7 +306,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 mTextViewCompanyName.setText(entivty.getCompanyName());
             }
         }
-
+        userName = entivty.getUsername();
     }
 
     // 设置焦点图片数量小圆点的方法
@@ -467,6 +468,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(JinWaiDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
 

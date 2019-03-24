@@ -79,6 +79,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
 
     private String from = "tuijian";
     private String data = "";
+    private String name = "";
 
     private boolean isGroupChat = false;
 
@@ -159,6 +160,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                     }
                     bundle.putString("data", data);
                     bundle.putString("from", from);
+                    bundle.putString("username", name);
                     bundle.putString("TARGET_ID", targetId);
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -278,6 +280,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 info = info.substring(1, info.length() - 1);
                 JSONObject infoJSONObj = new JSONObject(info);
                 targetId = infoJSONObj.getString("id");
+                name = infoJSONObj.getString("name");
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
@@ -317,6 +320,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 info = info.substring(1, info.length() - 1);
                 JSONObject infoJSONObj = new JSONObject(info);
                 targetId = infoJSONObj.getString("id");
+                name = infoJSONObj.getString("name");
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
@@ -357,6 +361,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 info = info.substring(1, info.length() - 1);
                 JSONObject infoJSONObj = new JSONObject(info);
                 targetId = infoJSONObj.getString("id");
+                name = infoJSONObj.getString("name");
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
@@ -395,6 +400,7 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 info = info.substring(1, info.length() - 1);
                 JSONObject infoJSONObj = new JSONObject(info);
                 targetId = infoJSONObj.getString("id");
+                name = infoJSONObj.getString("name");
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);

@@ -61,6 +61,7 @@ public class SellDetailsActivity extends BaseActivity {
     private TextView mTextViewMoreSimilar;
     private TextView mTextViewCampany;
     private TextView mTextViewUserName;
+    private String userName = "";
 
     /**
      * 滚动焦点图片
@@ -203,7 +204,7 @@ public class SellDetailsActivity extends BaseActivity {
         mTextViewfindNumbers.setText(String.valueOf(list.get(0).getFindNumber()) + "次");
         mTextViewCampany.setText(list.get(0).getUserModel().getCompanyName());
         mTextViewUserName.setText(list.get(0).getUserModel().getUsername());
-
+        userName = list.get(0).getUserModel().getUsername();
         mTextViewPublicTime.setText(DateUtil.timeslashData(String.valueOf(list.get(0).getShowTime())));
         if (list.size() >= 2) {
             mTextViewMoreSimilar.setText("更多相似房源(" + (list.size() - 1) + ")");
@@ -332,6 +333,7 @@ public class SellDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(SellDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
             @Override

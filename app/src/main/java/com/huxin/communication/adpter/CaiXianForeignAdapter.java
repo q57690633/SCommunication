@@ -69,7 +69,8 @@ public class CaiXianForeignAdapter extends RecyclerView.Adapter<CaiXianForeignAd
                 String userId = PreferenceUtil.getInt("uid") + "";
                 String userSig = PreferenceUtil.getString("usersig");
                 if (userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getId()))){
-                    onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getId()));
+                    String userName = list.get(hoder.getAdapterPosition()).getUsername();
+                    onRecvUserSig(userName, userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getId()));
                 }else {
                     Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
                 }
@@ -166,13 +167,14 @@ public class CaiXianForeignAdapter extends RecyclerView.Adapter<CaiXianForeignAd
 
 
     }
-    private void onRecvUserSig(String userId, String userSig, String targetId) {
+    private void onRecvUserSig(String username, String userId, String userSig, String targetId) {
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(mContext, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", username);
                 mContext.startActivity(intent);
             }
             @Override

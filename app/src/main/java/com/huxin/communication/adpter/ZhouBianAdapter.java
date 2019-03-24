@@ -95,7 +95,8 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
                 KyLog.d(userId);
                 KyLog.d(list.get(hoder.getAdapterPosition()).getUid() + "");
                 if (!userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))){
-                    onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
+                    String userName = list.get(hoder.getAdapterPosition()).getUsername();
+                    onRecvUserSig(userName, userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
                 }else {
                     Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
                 }
@@ -232,13 +233,14 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
 
     }
 
-    private void onRecvUserSig(String userId, String userSig, String targetId) {
+    private void onRecvUserSig(String username, String userId, String userSig, String targetId) {
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(mContext, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", username);
                 mContext.startActivity(intent);
             }
             @Override

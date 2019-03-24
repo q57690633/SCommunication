@@ -63,6 +63,7 @@ public class ChuZuDetailsActivity extends BaseActivity {
 
     private TextView mTextViewCampany;
     private TextView mTextViewUserName;
+    private String userName = "";
     /**
      * 滚动焦点图片
      **/
@@ -198,7 +199,7 @@ public class ChuZuDetailsActivity extends BaseActivity {
 
         mTextViewCampany.setText(list.get(0).getUserModel().getCompanyName());
         mTextViewUserName.setText(list.get(0).getUserModel().getUsername());
-
+        userName = list.get(0).getUserModel().getUsername();
 
         if (list.size() >= 2) {
             mTextViewMoreSimilar.setText("更多相似房源(" + (list.size() - 1) + ")");
@@ -326,6 +327,7 @@ public class ChuZuDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(ChuZuDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
 

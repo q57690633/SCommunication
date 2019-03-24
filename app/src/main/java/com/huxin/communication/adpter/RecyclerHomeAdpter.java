@@ -52,7 +52,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext,TIMChatActivity.class);
-                    intent.putExtra("TARGET_TYPE", "C2C");
+                    intent.putExtra("TARGET_TYPE", list.get(hoder.getAdapterPosition()).getType());
                     intent.putExtra("TARGET_ID", list.get(hoder.getAdapterPosition()).getId() + "");
                     KyLog.i("position.getId = " + list.get(hoder.getAdapterPosition()).getId() + "");
                     updateDataBase(list.get(hoder.getAdapterPosition()).getId() + "");

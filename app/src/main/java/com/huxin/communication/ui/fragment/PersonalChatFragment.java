@@ -1,9 +1,12 @@
 package com.huxin.communication.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +74,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
     private String chatId = "";
     private String data = "";
     private String from = "";
+    private String username = "";
     private ChatBottomInputGroup.MessageHandler msgHandler;
 
     @Nullable
@@ -101,6 +105,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
             type = datas.getString("TARGET_TYPE");
             data = datas.getString("data");
             from = datas.getString("from");
+            username = datas.getString("username");
         }
         initView();
     }
@@ -127,6 +132,9 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
 
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();
+        if(!"".equalsIgnoreCase(username) && null != username) {
+            chatTitleBar.mCenterTitle.setText(username);
+        }
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         chatTitleBar.setLeftClick(new View.OnClickListener() {
             @Override
@@ -134,7 +142,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 getActivity().finish();
             }
         });
-
+        verifyAudioPermissions(getActivity());
     }
 
     private List<MessageOperaUnit> initUnitList() {
@@ -322,6 +330,19 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         }
         if(resultCode == Activity.RESULT_OK && requestCode == Constanst.REQUEST_SYSTEM_PIC) {
             new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);
+        }
+    }
+
+    public static void verifyAudioPermissions(Activity activity) {
+        int GET_RECODE_AUDIO = 1;
+        String[] PERMISSION_AUDIO = {
+                Manifest.permission.RECORD_AUDIO
+        };
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
+                    GET_RECODE_AUDIO);
         }
     }
 }

@@ -1,9 +1,12 @@
 package com.huxin.communication.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +131,7 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
                 getActivity().finish();
             }
         });
-
+        verifyAudioPermissions(getActivity());
     }
 
     private List<MessageOperaUnit> initUnitList() {
@@ -316,4 +319,18 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
             new SendImageMessageUtil(this, chatPanel).sendImageMessage(data);
         }
     }
+
+    public static void verifyAudioPermissions(Activity activity) {
+        int GET_RECODE_AUDIO = 1;
+        String[] PERMISSION_AUDIO = {
+                Manifest.permission.RECORD_AUDIO
+        };
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
+                    GET_RECODE_AUDIO);
+        }
+    }
+
 }

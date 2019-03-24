@@ -156,7 +156,6 @@ public class ChatBottomInputGroup extends LinearLayout implements View.OnClickLi
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                verifyAudioPermissions(activity);
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     audioCancel = true;
                     startRecordY = motionEvent.getY();
@@ -604,17 +603,5 @@ public class ChatBottomInputGroup extends LinearLayout implements View.OnClickLi
         void tooShortRecording();
 
         void cancelRecording();
-    }
-    public static void verifyAudioPermissions(Activity activity) {
-        int GET_RECODE_AUDIO = 1;
-        String[] PERMISSION_AUDIO = {
-                Manifest.permission.RECORD_AUDIO
-        };
-        int permission = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.RECORD_AUDIO);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, PERMISSION_AUDIO,
-                    GET_RECODE_AUDIO);
-        }
     }
 }

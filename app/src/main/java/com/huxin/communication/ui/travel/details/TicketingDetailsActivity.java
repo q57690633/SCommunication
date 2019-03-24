@@ -67,6 +67,7 @@ public class TicketingDetailsActivity extends BaseActivity {
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
     private TextView mTextViewPriceEveing;
+    private String userName;
 
     private RecyclerView mRecyclerView;
 
@@ -316,7 +317,7 @@ public class TicketingDetailsActivity extends BaseActivity {
                 mTextViewTicketAddr.setText(entivty.getTicket_addr());
                 mTextViewOpenTime.setText(entivty.getOpen_time());
             }
-
+            userName = entivty.getUsername();
         }
     }
 
@@ -479,6 +480,7 @@ public class TicketingDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(TicketingDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
 

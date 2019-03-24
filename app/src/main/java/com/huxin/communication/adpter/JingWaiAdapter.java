@@ -89,7 +89,8 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
                 String userId = PreferenceUtil.getInt("uid") + "";
                 String userSig = PreferenceUtil.getString("usersig");
                 if (!userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))) {
-                    onRecvUserSig(userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
+                    String userName = list.get(hoder.getAdapterPosition()).getUsername();
+                    onRecvUserSig(userName, userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
                 } else {
                     Toast.makeText(mContext, "用户id一样，不能进行聊天", Toast.LENGTH_SHORT).show();
                 }
@@ -111,7 +112,6 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
         holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getTravel_title()));
         holder.mTextViewCompanyName.setText(String.valueOf(list.get(position).getCompanyName()));
-
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -230,13 +230,14 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
 
     }
 
-    private void onRecvUserSig(String userId, String userSig, String targetId) {
+    private void onRecvUserSig(String userName, String userId, String userSig, String targetId) {
         TUIKit.login(userId, userSig, new IUIKitCallBack() {
             @Override
             public void onSuccess(Object data) {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(mContext, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 mContext.startActivity(intent);
             }
 

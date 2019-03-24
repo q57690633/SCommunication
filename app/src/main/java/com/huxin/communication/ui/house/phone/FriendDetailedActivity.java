@@ -218,6 +218,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                         Intent chatIntent = new Intent(FriendDetailedActivity.this, TIMChatActivity.class);
                         chatIntent.putExtra("TARGET_TYPE", "C2C");
                         chatIntent.putExtra("TARGET_ID", uid + "");
+                        chatIntent.putExtra("username", name);
                         startActivity(chatIntent);
                     }
 

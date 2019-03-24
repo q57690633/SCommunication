@@ -52,6 +52,7 @@ public class DomesticDetailsActivity extends BaseActivity {
     private TextView mTextViewGeneralize;
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
+    private String userName = "";
 
 
     private ViewPagerAdapter mViewPagerAdapter;
@@ -172,6 +173,7 @@ public class DomesticDetailsActivity extends BaseActivity {
             mTextViewGeneralize.setText(entity.getList().get(position).getGeneralize());
             mTextViewUsername.setText(entity.getList().get(position).getUsername());
             mTextViewCompanyName.setText(entity.getList().get(position).getCompanyName());
+            userName = entity.getList().get(position).getUsername();
         }
     }
 
@@ -313,6 +315,7 @@ public class DomesticDetailsActivity extends BaseActivity {
                 KyLog.i("imlogin onSuccess", data);
                 Intent intent = new Intent(DomesticDetailsActivity.this, TIMChatActivity.class);
                 intent.putExtra("TARGET_ID", targetId);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
             @Override

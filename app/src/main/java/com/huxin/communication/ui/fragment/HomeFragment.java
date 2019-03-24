@@ -589,26 +589,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         String UNREAD_NUM = HomeFragmentMsgDBHelper.UNREAD_NUM;
         String IS_READ = HomeFragmentMsgDBHelper.IS_READ;
         SQLiteUtil util = new SQLiteUtil(getContext());
+        String currentId = PreferenceUtil.getInt("uid") + "";
         Cursor cursor = util.query(TABLE_NAME, null);
         List<GetMessageEntity> dbList = new ArrayList<>();
         while (cursor.moveToNext()) {
             GetMessageEntity entity = new GetMessageEntity();
-            String uid, message, time, head_url, type, unread_num, isread;
-            uid = cursor.getString(cursor.getColumnIndex(UID));
-            message = cursor.getString(cursor.getColumnIndex(MESSAGE));
-            time = cursor.getString(cursor.getColumnIndex(TIME));
-            head_url = cursor.getString(cursor.getColumnIndex(HEAD_URL));
-            type = cursor.getString(cursor.getColumnIndex(TYPE));
-            unread_num = cursor.getString(cursor.getColumnIndex(UNREAD_NUM));
-            isread = cursor.getString(cursor.getColumnIndex(IS_READ));
-            entity.setId(uid);
-            entity.setMsg(message);
-            entity.setTimeStamp(Long.parseLong(time));
-            entity.setHead_url(head_url);
-            entity.setType(type);
-            entity.setNum(Long.parseLong(unread_num));
-            entity.setRead(Boolean.getBoolean(isread));
-            dbList.add(entity);
+            String curId = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.CURRENTUID));
+            if(currentId.equalsIgnoreCase(curId)) {
+                String uid, message, time, head_url, type, unread_num, isread;
+                uid = cursor.getString(cursor.getColumnIndex(UID));
+                message = cursor.getString(cursor.getColumnIndex(MESSAGE));
+                time = cursor.getString(cursor.getColumnIndex(TIME));
+                head_url = cursor.getString(cursor.getColumnIndex(HEAD_URL));
+                type = cursor.getString(cursor.getColumnIndex(TYPE));
+                unread_num = cursor.getString(cursor.getColumnIndex(UNREAD_NUM));
+                isread = cursor.getString(cursor.getColumnIndex(IS_READ));
+                entity.setId(uid);
+                entity.setMsg(message);
+                entity.setTimeStamp(Long.parseLong(time));
+                entity.setHead_url(head_url);
+                entity.setType(type);
+                entity.setNum(Long.parseLong(unread_num));
+                entity.setRead(Boolean.getBoolean(isread));
+                dbList.add(entity);
+            }
         }
         if (dbList.size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(getContext());
@@ -654,6 +658,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if (elem.getType() == TIMElemType.Face) {
                 text = getResources().getString(R.string.msg_face);
             }
+            String currentId = PreferenceUtil.getInt("uid") + "";
             String sender = message.getConversation().getPeer();
             String faceUrl = message.getSenderProfile().getFaceUrl();
             TIMConversationType conversationType = message.getConversation().getType();
@@ -669,22 +674,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             KyLog.d("faceUrl == " + faceUrl);
             KyLog.d("type == " + type);
             KyLog.d("timeStamp == " + timeStamp);
-            /*GetMessageEntity entity = new GetMessageEntity();
-            entity.setHead_url(faceUrl);
-            entity.setId(sender);
-            entity.setMsg(text);
-            entity.setNum(count);
-            entity.setTimeStamp(timeStamp);
-            entity.setType(type);
-            lists.add(entity);*/
             ContentValues values = new ContentValues();
-            values.put("uid", sender);
-            values.put("message", text);
-            values.put("timeStamp", timeStamp);
-            values.put("headurl", faceUrl);
-            values.put("type", type);
-            values.put("num", count);
-            values.put("isread", isRead + "");
+            values.put(HomeFragmentMsgDBHelper.UID, sender);
+            values.put(HomeFragmentMsgDBHelper.MESSAGE, text);
+            values.put(HomeFragmentMsgDBHelper.TIME, timeStamp);
+            values.put(HomeFragmentMsgDBHelper.HEAD_URL, faceUrl);
+            values.put(HomeFragmentMsgDBHelper.TYPE, type);
+            values.put(HomeFragmentMsgDBHelper.UNREAD_NUM, count);
+            values.put(HomeFragmentMsgDBHelper.IS_READ, isRead + "");
+            values.put(HomeFragmentMsgDBHelper.CURRENTUID, currentId);
             SQLiteUtil util = new SQLiteUtil(getContext());
             boolean isUpdate = false;
             Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
@@ -893,7 +891,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         TIMConversation con = TIMManager.getInstance().getConversation(type, peer);
         TIMConversationExt conExt = new TIMConversationExt(con);
 
-        conExt.getLocalMessage(1, conExt.getLastMsg(),//不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
+        conExt.getLocalMessage(1, null,//不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
                 new TIMValueCallBack<List<TIMMessage>>() {//回调接口
                     @Override
                     public void onError(int code, String desc) {//获取消息失败
@@ -933,6 +931,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             if (elem.getType() == TIMElemType.Face) {
                                 text = getResources().getString(R.string.msg_face);
                             }
+                            String currentId = PreferenceUtil.getInt("uid") + "";
                             String sender = message.getConversation().getPeer();
                             String faceUrl = message.getSenderProfile().getFaceUrl();
                             TIMConversationType conversationType = message.getConversation().getType();
@@ -954,13 +953,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             list.add(entity);
                             KyLog.d(list.size() + "");
                             ContentValues values = new ContentValues();
-                            values.put("uid", sender);
-                            values.put("message", text);
-                            values.put("timeStamp", timeStamp);
-                            values.put("headurl", faceUrl);
-                            values.put("type", type);
-                            values.put("num", count);
-                            values.put("isread", isRead + "");
+                            values.put(HomeFragmentMsgDBHelper.UID, sender);
+                            values.put(HomeFragmentMsgDBHelper.MESSAGE, text);
+                            values.put(HomeFragmentMsgDBHelper.TIME, timeStamp);
+                            values.put(HomeFragmentMsgDBHelper.HEAD_URL, faceUrl);
+                            values.put(HomeFragmentMsgDBHelper.TYPE, type);
+                            values.put(HomeFragmentMsgDBHelper.UNREAD_NUM, count);
+                            values.put(HomeFragmentMsgDBHelper.IS_READ, isRead + "");
+                            values.put(HomeFragmentMsgDBHelper.CURRENTUID, currentId);
                             SQLiteUtil util = new SQLiteUtil(getContext());
                             boolean isUpdate = false;
                             boolean canUpdate = false;
