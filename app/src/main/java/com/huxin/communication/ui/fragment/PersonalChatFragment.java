@@ -135,6 +135,12 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(null != username) {
             chatTitleBar.mCenterTitle.setText(username);
         }
+        if("".equalsIgnoreCase(username)) {
+
+        }
+        if("homefragment".equalsIgnoreCase(from)) {
+            chatTitleBar.mCenterTitle.setText(getActivity().getBaseContext().getResources().getString(R.string.default_chat_name));
+        }
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
         chatTitleBar.setLeftClick(new View.OnClickListener() {
             @Override
