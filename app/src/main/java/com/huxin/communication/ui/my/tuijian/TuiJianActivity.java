@@ -284,7 +284,13 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
-            resultJson.put("obj", targetId);
+            if("invite_group".equalsIgnoreCase(from)) {
+                JSONArray arr = new JSONArray();
+                arr.put(targetId);
+                resultJson.put("info", arr);
+            }else {
+                resultJson.put("info", targetId);
+            }
             isGroupChat = false;
             Log.i("updateUserInfo", "resultJson.toString() = " + resultJson.toString());
         } catch (JSONException e) {
@@ -324,7 +330,13 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
-            resultJson.put("info", targetId);
+            if("invite_group".equalsIgnoreCase(from)) {
+                JSONArray arr = new JSONArray();
+                arr.put(targetId);
+                resultJson.put("info", arr);
+            }else {
+                resultJson.put("info", targetId);
+            }
             isGroupChat = false;
             Log.i("starUserInfo", "resultJson.toString() = " + resultJson.toString());
         } catch (JSONException e) {
@@ -365,7 +377,13 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
-            resultJson.put("info", targetId);
+            if("invite_group".equalsIgnoreCase(from)) {
+                JSONArray arr = new JSONArray();
+                arr.put(targetId);
+                resultJson.put("info", arr);
+            }else {
+                resultJson.put("info", targetId);
+            }
             isGroupChat = false;
             Log.i("CompanyUserInfo", "resultJson.toString() = " + resultJson.toString());
         } catch (JSONException e) {
@@ -404,7 +422,13 @@ public class TuiJianActivity extends BaseActivity implements View.OnClickListene
                 jsonArray.put(infoJSONObj);
             }
             resultJson.put("type", 3);
-            resultJson.put("info", targetId);
+            if("invite_group".equalsIgnoreCase(from)) {
+                JSONArray arr = new JSONArray();
+                arr.put(targetId);
+                resultJson.put("info", arr);
+            }else {
+                resultJson.put("info", targetId);
+            }
             isGroupChat = true;
             Log.i("updateUserInfoGounp", "resultJson.toString() = " + resultJson.toString());
         } catch (JSONException e) {
