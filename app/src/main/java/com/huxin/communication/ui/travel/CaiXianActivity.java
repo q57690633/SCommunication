@@ -325,12 +325,17 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
     protected void loadData(Bundle savedInstanceState) {
 //        setData();
 //        setDuoXuanData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setEnabled(true);
         if (lineOrThrow == 1) {
             gettingAroundTravel("", "", "",productType, ""
                     , "", "", "", "", "",
                     "", "", "",
-                    "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
+                    "1", "", "", null, String.valueOf(travel_kind), String.valueOf(lineOrThrow));
         } else {
             gettingForeignTravel("", "", "", "", "", "", "", "",
                     "", "", "", "", "", "", "", "",
@@ -372,45 +377,6 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isClickQuYu) {
-            return;
-        }
-        String ChufaCityCode = PreferenceUtil.getString(Constanst.CITY_CODE);
-        String MuDi = PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME);
-        KyLog.d(ChufaCityCode+ "travel");
-        KyLog.d(MuDi+ "travel");
-
-       if (!TextUtils.isEmpty(ChufaCityCode)) {
-            if (lineOrThrow == 1) {
-                gettingAroundTravel(ChufaCityCode,"","" , productType, ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
-            } else {
-                gettingForeignTravel(ChufaCityCode, "", "", "", "", "", "", "",
-                        "", "", "", "", "", "", "", "",
-                        "1", null, String.valueOf(lineOrThrow));
-            }
-
-
-        } else if (!TextUtils.isEmpty(MuDi)) {
-            if (lineOrThrow == 1) {
-                gettingAroundTravel("", MuDi, "",productType, ""
-                        , "", "", "", "", "",
-                        "", "", "",
-                        "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
-            } else {
-                gettingForeignTravel("", "", "", MuDi, "", "", "", "",
-                        "", "", "", "", "", "", "", "",
-                        "1", null, String.valueOf(lineOrThrow));
-            }
-        }
-
     }
 
     @Override

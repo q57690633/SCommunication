@@ -132,6 +132,8 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
         holder.mTextViewName.setText(list.get(position).getTicket_name());
         holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()));
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewAddr);
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
+
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
         }
@@ -184,6 +186,7 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
         private TextView mTextViewName;
         private TextView mTextViewOriginalPrice;
         private TextView mTextViewAddr;
+        private TextView mTextViewCount;
 
 
         private RecyclerView mRecyclerView;
@@ -199,7 +202,7 @@ public class TicketingDuoXuanAdapter extends RecyclerView.Adapter<TicketingDuoXu
             mTextViewOriginalPrice = (TextView) itemView.findViewById(R.id.original_price);
             mImageViewDuoXuan = (ImageView) itemView.findViewById(R.id.image_duoxuan);
             mImageViewStickName = itemView.findViewById(R.id.image_stick);
-
+            mTextViewCount = itemView.findViewById(R.id.view_count);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_ticket);
         }

@@ -113,6 +113,8 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getTravel_title()));
         holder.mTextViewCompanyName.setText(String.valueOf(list.get(position).getCompanyName()));
 
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
+
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
 
@@ -181,6 +183,8 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
         private TextView mTextViewKanxingcheng;
         private TextView mTextViewSendMessage;
         private TextView mTextViewCompanyName;
+        private TextView mTextViewCount;
+
 
         private RecyclerView mRecyclerView;
 
@@ -203,6 +207,7 @@ public class JingWaiAdapter extends RecyclerView.Adapter<JingWaiAdapter.MyViewHo
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
             mTextViewCompanyName = itemView.findViewById(R.id.company_name);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
 
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);

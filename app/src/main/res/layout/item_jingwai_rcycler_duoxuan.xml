@@ -61,7 +61,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
-                        android:background="@drawable/sign_hot" />
+                        />
+                    <TextView
+                        android:id="@+id/view_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/white"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="已浏览23次"
+                        android:textColor="@color/register_font"
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <LinearLayout

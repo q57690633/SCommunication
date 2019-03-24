@@ -334,6 +334,12 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mTextViewSpotTicket.setTextColor(getResources().getColor(R.color.white));
         mTextViewQiTaTicket.setBackgroundResource(R.drawable.biaoqian_radius_top);
         mTextViewQiTaTicket.setTextColor(getResources().getColor(R.color.register_font));
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setEnabled(true);
         getTicketInfo(String.valueOf(TicketType), "", "", "",
                 "", "", "", "", "1");
@@ -372,13 +378,6 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
             }
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     @Override

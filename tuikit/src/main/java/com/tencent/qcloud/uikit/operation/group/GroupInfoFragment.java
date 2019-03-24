@@ -1,9 +1,13 @@
 package com.tencent.qcloud.uikit.operation.group;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
@@ -81,7 +86,7 @@ public class GroupInfoFragment extends BaseFragment {
 
 
     private JSONArray groupMemberJSONArr = new JSONArray();
-    private List<MemberHeadUrlEntity> memberList = new ArrayList<>();
+    private ArrayList<MemberHeadUrlEntity> memberList = new ArrayList<>();
     private ArrayList<String> headUrlList = new ArrayList<>();
 
     private String name;
@@ -122,10 +127,10 @@ public class GroupInfoFragment extends BaseFragment {
 
     private void initData(String groupId) {
 
-        if (!TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)) {
             mGroupName.setText(name);
         }
-        initGroupMember(groupId);
+//        initGroupMember(groupId);
     }
 
     private void initGroupMember(String groupId) {
@@ -147,7 +152,7 @@ public class GroupInfoFragment extends BaseFragment {
                     ArrayList<String> mapKey = new ArrayList<>();
                     Set keySet = res.keySet();
                     Iterator iterator = keySet.iterator();
-                    while(iterator.hasNext()){
+                    while (iterator.hasNext()) {
                         String key = iterator.next().toString();
                         mapKey.add(key);
                     }
@@ -158,40 +163,40 @@ public class GroupInfoFragment extends BaseFragment {
                 return result;
             }
         })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Action1<JSONArray>() {
-            @Override
-            public void call(JSONArray jsonArray) {
-                Log.i(TAG, "jsonArray = " + jsonArray.toString());
-                groupMemberJSONArr = jsonArray;
-                ArrayList<String> list = new ArrayList<>();
-                try {
-                    for(int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        MemberHeadUrlEntity entity = new MemberHeadUrlEntity();
-                        entity.setCompanyName(object.getString("companyName"));
-                        List<String> headurllist = new ArrayList<>();
-                        JSONArray data = object.getJSONArray("data");
-                        for(int j = 0; j < data.length(); j++) {
-                            String headUrl = data.getJSONObject(j).getString("headUrl");
-                            headurllist.add(headUrl);
-                            list.add(headUrl);
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<JSONArray>() {
+                    @Override
+                    public void call(JSONArray jsonArray) {
+                        Log.i(TAG, "jsonArray = " + jsonArray.toString());
+                        groupMemberJSONArr = jsonArray;
+                        ArrayList<String> list = new ArrayList<>();
+                        try {
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                MemberHeadUrlEntity entity = new MemberHeadUrlEntity();
+                                entity.setCompanyName(object.getString("companyName"));
+                                ArrayList<String> headurllist = new ArrayList<>();
+                                JSONArray data = object.getJSONArray("data");
+                                for (int j = 0; j < data.length(); j++) {
+                                    String headUrl = data.getJSONObject(j).getString("headUrl");
+                                    headurllist.add(headUrl);
+                                    list.add(headUrl);
+                                }
+                                entity.setHeadUrl(headurllist);
+                                memberList.add(entity);
+                            }
+                            headUrlList = list;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        entity.setHeadUrl(headurllist);
-                        memberList.add(entity);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+                        gridLayoutManager.setOrientation(GridLayout.VERTICAL);
+                        mMemberRv.setLayoutManager(gridLayoutManager);
+//                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(20, 20));
+                        mMemberRv.setAdapter(new GroupInfoMemberAdapter(getActivity(), list));
                     }
-                    headUrlList = list;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
-                gridLayoutManager.setOrientation(GridLayout.VERTICAL);
-                mMemberRv.setLayoutManager(gridLayoutManager);
-                mMemberRv.addItemDecoration(new GridSpacingItemDecoration(20, 20));
-                mMemberRv.setAdapter(new GroupInfoMemberAdapter(getActivity(), list));
-            }
-        });
+                });
     }
 
     private void initOnClickListener() {
@@ -206,6 +211,7 @@ public class GroupInfoFragment extends BaseFragment {
             }
         });
         mDeleteMemberIv.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 delMember();
@@ -239,8 +245,10 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GroupMoreMemberActivity.class);
-                String data = listToString(headUrlList);
-                intent.putExtra("data", data);
+//                String data = listToString(headUrlList);
+                KyLog.d(memberList.size() + "== data");
+                intent.putParcelableArrayListExtra("data", memberList);
+//                intent.putExtra("data",data);
                 startActivity(intent);
             }
         });
@@ -256,7 +264,7 @@ public class GroupInfoFragment extends BaseFragment {
     private void inviteGroupMember(ArrayList<String> list) {
         String token = PreferenceUtil.getString(getActivity().getBaseContext(), "token");
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             sb.append(list.get(i) + ",");
         }
         String uid = sb.substring(0, sb.toString().length() - 1);
@@ -270,7 +278,7 @@ public class GroupInfoFragment extends BaseFragment {
                     public void call(ResponseBody responseBody) {
                         try {
                             JSONObject result = new JSONObject(responseBody.string());
-                            if(0 == result.getInt("resultCode")) {
+                            if (0 == result.getInt("resultCode")) {
                                 Toast.makeText(getActivity(), result.getString("resultMsg"), Toast.LENGTH_SHORT).show();
                                 initGroupMember(groupId);
                             }
@@ -291,13 +299,11 @@ public class GroupInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess() {
-                Toast.makeText(getActivity(), getContext().getResources().getString(R.string.exit_group), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), (R.string.exit_group), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
                 intent.setAction("com.huxin.communication.main");
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                getActivity().finish();
-                startActivity(intent);
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
@@ -314,7 +320,7 @@ public class GroupInfoFragment extends BaseFragment {
         JSONObject jsonObject = new JSONObject(str);
         Iterator it = jsonObject.keys();
         List<String> keys = new ArrayList<String>();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             String key = (String) it.next();
             Object value = jsonObject.get(key);
             res.put(key, value);
@@ -323,53 +329,53 @@ public class GroupInfoFragment extends BaseFragment {
 
     private JSONArray getResultData(ArrayList<String> mapKey, String data) throws JSONException {
         JSONArray result = new JSONArray();
-        for(int i = 0; i < mapKey.size(); i++) {
+        for (int i = 0; i < mapKey.size(); i++) {
             JSONArray jsonArray = new JSONObject(data).getJSONArray(mapKey.get(i));
 
             JSONObject company = new JSONObject();
             JSONArray headUrlJSONArr = new JSONArray();
 
-            for(int j = 0; j < jsonArray.length(); j++) {
+            for (int j = 0; j < jsonArray.length(); j++) {
                 JSONObject headUrlJSONObj = new JSONObject();
-                if(jsonArray.getJSONObject(j).has("headUrl")) {
+                if (jsonArray.getJSONObject(j).has("headUrl")) {
                     String headUrl = jsonArray.getJSONObject(j).getString("headUrl");
                     headUrlJSONObj.put("headUrl", headUrl);
-                }else {
+                } else {
                     headUrlJSONObj.put("headUrl", "");
                 }
 
-                if(jsonArray.getJSONObject(j).has("username")) {
+                if (jsonArray.getJSONObject(j).has("username")) {
                     String username = jsonArray.getJSONObject(j).getString("username");
                     headUrlJSONObj.put("username", username);
-                }else {
+                } else {
                     headUrlJSONObj.put("username", "");
                 }
 
-                if(jsonArray.getJSONObject(j).has("positions")) {
+                if (jsonArray.getJSONObject(j).has("positions")) {
                     String positions = jsonArray.getJSONObject(j).getString("positions");
                     headUrlJSONObj.put("positions", positions);
-                }else {
+                } else {
                     headUrlJSONObj.put("positions", "");
                 }
 
-                if(jsonArray.getJSONObject(j).has("companyName")) {
+                if (jsonArray.getJSONObject(j).has("companyName")) {
                     String companyName = jsonArray.getJSONObject(j).getString("companyName");
                     headUrlJSONObj.put("companyName", companyName);
-                }else {
+                } else {
                     headUrlJSONObj.put("companyName", "");
                 }
 
-                if(jsonArray.getJSONObject(j).has("industryType")) {
+                if (jsonArray.getJSONObject(j).has("industryType")) {
                     String industryType = jsonArray.getJSONObject(j).getString("industryType");
                     headUrlJSONObj.put("industryType", industryType);
-                }else {
+                } else {
                     headUrlJSONObj.put("industryType", "");
                 }
 
-                if(jsonArray.getJSONObject(j).has("uid")) {
+                if (jsonArray.getJSONObject(j).has("uid")) {
                     int uid = jsonArray.getJSONObject(j).getInt("uid");
                     headUrlJSONObj.put("uid", uid);
-                }else {
+                } else {
                     headUrlJSONObj.put("uid", -100);
                 }
 
@@ -385,7 +391,7 @@ public class GroupInfoFragment extends BaseFragment {
     }
 
     private void getGroupMembers() {
-        TIMValueCallBack<List<TIMGroupMemberInfo>> cb = new TIMValueCallBack<List<TIMGroupMemberInfo>> () {
+        TIMValueCallBack<List<TIMGroupMemberInfo>> cb = new TIMValueCallBack<List<TIMGroupMemberInfo>>() {
             @Override
             public void onError(int code, String desc) {
                 Log.i(TAG, "getGroupMembers error code = " + code + " desc = " + desc);
@@ -394,7 +400,7 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(List<TIMGroupMemberInfo> infoList) {//参数返回群组成员信息
 
-                for(TIMGroupMemberInfo info : infoList) {
+                for (TIMGroupMemberInfo info : infoList) {
                     Log.i(TAG, "info = " + info.toString());
                 }
             }
@@ -403,6 +409,7 @@ public class GroupInfoFragment extends BaseFragment {
         TIMGroupManagerExt.getInstance().getGroupMembers(groupId, cb);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void delMember() {
         int uid = PreferenceUtil.getInt(getContext(), "uid");
         TIMValueCallBack<List<TIMGroupDetailInfo>> cb = new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
@@ -411,15 +418,16 @@ public class GroupInfoFragment extends BaseFragment {
                 Log.i(TAG, "getGroupInfo error code = " + code + " desc = " + desc);
             }
 
+            @SuppressLint("NewApi")
             @Override
             public void onSuccess(List<TIMGroupDetailInfo> infoList) { //参数中返回群组信息列表
-                for(TIMGroupDetailInfo info : infoList) {
-                    if(uid == Integer.parseInt(info.getGroupOwner())) {
+                for (TIMGroupDetailInfo info : infoList) {
+                    if (uid == Integer.parseInt(info.getGroupOwner())) {
                         Intent intent = new Intent(getActivity(), GroupDeleteMemberActivity.class);
                         intent.putExtra("data", groupMemberJSONArr.toString());
                         intent.putExtra("groupId", groupId);
                         getActivity().startActivity(intent);
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), getContext().getResources().getString(R.string.group_info_not_owner), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -437,9 +445,9 @@ public class GroupInfoFragment extends BaseFragment {
 
     private String listToString(List<String> list) {
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             sb.append(list.get(i));
-            if(i != list.size()) {
+            if (i != list.size()) {
                 sb.append(",");
             }
         }
@@ -449,15 +457,15 @@ public class GroupInfoFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if(resultCode == Activity.RESULT_OK && requestCode == 20) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 20) {
             String data = intent.getStringExtra("data");
             ArrayList<String> list = new ArrayList<>();
             try {
-                if(null == data) {
+                if (null == data) {
                     return;
                 }
                 JSONObject dataJson = new JSONObject(data);
-                for(int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
+                for (int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
                     String id = dataJson.getJSONArray("info").getJSONObject(i).getInt("id") + "";
                     list.add(id);
                 }

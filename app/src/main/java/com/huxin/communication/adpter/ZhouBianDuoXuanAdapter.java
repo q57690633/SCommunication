@@ -133,6 +133,8 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getTravelTitle());
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
+
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -209,6 +211,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
 
         private ImageView mImageViewDuoXuan;
         private RecyclerView mRecyclerView;
+        private TextView mTextViewCount;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -229,6 +232,7 @@ public class ZhouBianDuoXuanAdapter extends RecyclerView.Adapter<ZhouBianDuoXuan
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
             mImageViewDuoXuan = (ImageView) itemView.findViewById(R.id.image_duoxuan);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }
