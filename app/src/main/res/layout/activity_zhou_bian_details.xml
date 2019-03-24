@@ -52,7 +52,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="12dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/nav_icon_zhuanfa" />
+                    android:background="@drawable/nav_icon_zhuanfa" />
 
                 <ImageView
                     android:id="@+id/image_collect"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/image_zhaungfa"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/nav_icon_shoucang" />
+                    android:background="@drawable/nav_icon_shoucang" />
             </RelativeLayout>
         </RelativeLayout>
 

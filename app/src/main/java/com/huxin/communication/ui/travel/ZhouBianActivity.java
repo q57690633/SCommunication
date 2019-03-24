@@ -1163,10 +1163,11 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.delete_collect:
                 if (mZhouBianDuoXuanAdapter.getSelectedItem().size() > 0) {
-                    zhuanfa(mZhouBianDuoXuanAdapter);
+                    updateIssueCount(1);
                 } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
 
             case R.id.rl_travel_hot_type:
@@ -1702,6 +1703,21 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateIssueCount(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    zhuanfa(mZhouBianDuoXuanAdapter);
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

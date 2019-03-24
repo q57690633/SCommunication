@@ -177,6 +177,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
     private TextView mTextViewMoren;
     private TextView mZhuanFa;
 
+    private TextView mTextViewDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -283,6 +285,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         mTextViewMoren = findViewById(R.id.moren);
         mZhuanFa = findViewById(R.id.delete_collect);
 
+        mTextViewDelete = findViewById(R.id.collect_btn);
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
 
@@ -330,6 +334,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         mLinearLayoutChuFa.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
 
+        mTextViewDelete.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -337,13 +344,8 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         super.onResume();
 
 
-    }
-
-    @Override
-    protected void loadData(Bundle savedInstanceState) {
-        setEnabled(true);
         if (travelType == 1 || travelType == 2) {
-            gettingAroundTravel(null, null, null,null, null
+            gettingAroundTravel(null, null, null, null, null
                     , null, null, null, null, null,
                     null, null, null,
                     "1", null, null, String.valueOf(travelType));
@@ -355,6 +357,12 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             getTicketInfo("1", null, null, null,
                     null, null, productType, null, "1");
         }
+
+    }
+
+    @Override
+    protected void loadData(Bundle savedInstanceState) {
+        setEnabled(true);
 
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
@@ -545,7 +553,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 KyLog.d(xiaofei);
 
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel(null, null, null,null, qita
+                    gettingAroundTravel(null, null, null, null, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
                             null, null, null,
                             "1", null, null, String.valueOf(travelType));
@@ -564,18 +572,18 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 if (travelType == 1 || travelType == 2) {
                     //国内和周边
                     if (Integer.parseInt(minPrice) < 500) {
-                        gettingAroundTravel(null, null, null,null, null
+                        gettingAroundTravel(null, null, null, null, null
                                 , null, null, null, null, null,
                                 0 + "," + maxPrice, null, null,
                                 "1", null, null, String.valueOf(travelType));
                     } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
-                        gettingAroundTravel(null, null, null,null, null
+                        gettingAroundTravel(null, null, null, null, null
                                 , null, null, null, null, null,
                                 minPrice + "," + maxPrice, null, null,
                                 "1", null, null, String.valueOf(travelType));
 
                     } else if (Integer.parseInt(minPrice) > 7000) {
-                        gettingAroundTravel(null, null, null,null, null
+                        gettingAroundTravel(null, null, null, null, null
                                 , null, null, null, null, null,
                                 minPrice + "," + 1000000, null, null,
                                 "1", null, null, String.valueOf(travelType));
@@ -615,20 +623,20 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             case R.id.sort_Determine:
                 updata();
                 if (travelType == 1 || travelType == 2) {
-                gettingAroundTravel(null, null, null,productType, null
-                        , null, null, null, null, null,
-                        null, null, null,
-                        "1", null, null, String.valueOf(travelType));
-            } else if (travelType == 3) {
-                gettingForeignTravel(null, null, null, null, null, null, null, null,
-                        null, null, null, null, productType, null, null, null,
-                        "1");
-            } else {
-                getTicketInfo("1", null, null, null,
-                        null, null, productType, null, "1");
-            }
+                    gettingAroundTravel(null, null, null, productType, null
+                            , null, null, null, null, null,
+                            null, null, null,
+                            "1", null, null, String.valueOf(travelType));
+                } else if (travelType == 3) {
+                    gettingForeignTravel(null, null, null, null, null, null, null, null,
+                            null, null, null, null, productType, null, null, null,
+                            "1");
+                } else {
+                    getTicketInfo("1", null, null, null,
+                            null, null, productType, null, "1");
+                }
 
-            break;
+                break;
 
             case R.id.chufa_Determine:
 
@@ -640,7 +648,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 updata();
                 if (!TextUtils.isEmpty(ChufaCityCode)) {
                     if (travelType == 1 || travelType == 2) {
-                        gettingAroundTravel(ChufaCityCode, null, null,null, qita
+                        gettingAroundTravel(ChufaCityCode, null, null, null, qita
                                 , huodong, zhushu, didian, jiaotong, xiaofei,
                                 null, null, null,
                                 "1", null, null, String.valueOf(travelType));
@@ -654,7 +662,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                     }
                 } else if (!TextUtils.isEmpty(MuDi) && !TextUtils.isEmpty(MuDiProvince)) {
                     if (travelType == 1 || travelType == 2) {
-                        gettingAroundTravel(null, MuDi, MuDiProvince,null, null
+                        gettingAroundTravel(null, MuDi, MuDiProvince, null, null
                                 , null, null, null, null, null,
                                 null, null, null,
                                 "1", null, null, String.valueOf(travelType));
@@ -672,7 +680,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             case R.id.chufa_buxian:
                 updata();
                 if (travelType == 1 || travelType == 2) {
-                    gettingAroundTravel(null, null, null, null,null
+                    gettingAroundTravel(null, null, null, null, null
                             , null, null, null, null, null,
                             null, null, null,
                             "1", null, null, String.valueOf(travelType));
@@ -1133,7 +1141,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel(null, null, null,null, null
+                gettingAroundTravel(null, null, null, null, null
                         , null, null, null, null, null,
                         null, null, null,
                         "1", null, null, String.valueOf(1));
@@ -1148,7 +1156,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewPiaoWu.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewPiaoWu.setTextColor(getResources().getColor(R.color.register_font));
-                gettingAroundTravel(null, null, null,null, null
+                gettingAroundTravel(null, null, null, null, null
                         , null, null, null, null, null,
                         null, null, null,
                         "1", null, null, String.valueOf(2));
@@ -1200,17 +1208,26 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                 setEnabled(true);
                 break;
             case R.id.delete_collect:
-                if(travelType == 1) {
-                    zhuanFaDuanTu();
+                //转发
+                if (travelType == 1 || travelType == 2) {
+                    updateIssueCount(1);
+
+                } else if (travelType == 3) {
+                    updateIssueCount(2);
+
+                } else if (travelType == 4) {
+                    updateIssueCount(3);
+
                 }
-                if(travelType == 2) {
-                    zhuanFaGuoNei();
-                }
-                if(travelType == 3) {
-                    zhuanFaJingWai();
-                }
-                if(travelType == 4) {
-                    zhuanFaPiaoWu();
+                break;
+
+            case R.id.collect_btn:
+                if (travelType == 1 || travelType == 2) {
+                    deleteTravelCollect(1);
+                } else if (travelType == 3) {
+                    deleteTravelCollect(2);
+                } else if (travelType == 4) {
+                    deleteTravelCollect(3);
                 }
                 break;
         }
@@ -1252,7 +1269,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         if (entity.getList() != null && entity.getList().size() > 0) {
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mRecyclerView.setVisibility(View.VISIBLE);
-            mAdpter = new ZhouBianAdapter(entity.getList(), this,1);
+            mAdpter = new ZhouBianAdapter(entity.getList(), this, 1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1280,7 +1297,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this,1);
+            mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this, 1);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1305,7 +1322,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         if (entity.getList() != null && entity.getList().size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
-            mTicketAdapter = new TicketingAdapter(entity.getList(), this,1);
+            mTicketAdapter = new TicketingAdapter(entity.getList(), this, 1);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
@@ -1328,9 +1345,9 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
                                      String curPage, String minDay, String maxDay,
                                      String travel_kind) {
         showProgressDialog();
-        ApiModule.getInstance().getCollectAround(depart_code,goals_city, goals_pro,
+        ApiModule.getInstance().getCollectAround(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind,String.valueOf(PreferenceUtil.getInt(UID)))
+                numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind, String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
@@ -1358,7 +1375,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
         ApiModule.getInstance().getCollectForeign(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)),String.valueOf(PreferenceUtil.getInt(UID)))
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)), String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
@@ -1387,7 +1404,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
         showProgressDialog();
         ApiModule.getInstance().getCollectTicket(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)),String.valueOf(PreferenceUtil.getInt(UID)))
+                keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)), String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
                     cancelProgressDialog();
                     if (ticketInfoEntity != null) {
@@ -1869,6 +1886,45 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void deleteTravelCollect(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().deleteCollectTravel(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Toast.makeText(this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void updateIssueCount(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    if (travelType == 1) {
+                        zhuanFaDuanTu();
+                    }
+                    if (travelType == 2) {
+                        zhuanFaGuoNei();
+                    }
+                    if (travelType == 3) {
+                        zhuanFaJingWai();
+                    }
+                    if (travelType == 4) {
+                        zhuanFaPiaoWu();
+                    }
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 }

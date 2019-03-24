@@ -365,10 +365,10 @@ public class ApiModule {
                                                             String houseHoldAppliances, String fitment,
                                                             String permit, String purpose,
                                                             String ownership, String floorAge,
-                                                            String productType, String curPage, int uid,String dateNumber) {
+                                                            String productType, String curPage, int uid, String dateNumber) {
         return ApiFactory.getFactory().BaiHangTongYeService().getPersonProduct(String.valueOf(uid), villageName,
                 minAcreage, maxAcreage, houseType, minPrice, maxPrice, element, newOrOld, orientation, houseHoldAppliances, fitment,
-                permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage,dateNumber)
+                permit, purpose, ownership, floorAge, productType, PreferenceUtil.getString(TOKEN), curPage, dateNumber)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -715,9 +715,9 @@ public class ApiModule {
                                                               String numberDays, String keyWord,
                                                               String curPage, String minDay, String maxDay, String uid,
                                                               String travel_kind, String lineOrThrow, String ifSevenInfo, String user_idForCol) {
-        return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goals_city,goals_pro,
+        return ApiFactory.getFactory().BaiHangTongYeService().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrow,ifSevenInfo,user_idForCol)
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrow, ifSevenInfo, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -737,11 +737,11 @@ public class ApiModule {
                                                                 String t_consume_id, String sort_type,
                                                                 String minPri_maxPri, String number_days,
                                                                 String keyWord, String curPage, String uid,
-                                                                String line_or_throw,String ifSevenInfo, String user_idForCol) {
+                                                                String line_or_throw, String ifSevenInfo, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingForeignTravel(depart_name, min_days,
                 max_days, goals_nat_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
-                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, line_or_throw,ifSevenInfo,user_idForCol)
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, line_or_throw, ifSevenInfo, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -756,10 +756,10 @@ public class ApiModule {
                                                       String minPri_maxPri, String ticket_theme_id,
                                                       String ticket_activity_id, String ticket_other_id,
                                                       String sort_type,
-                                                      String keyWord, String curPage, String uid,String ifSevenInfo, String user_idForCol) {
+                                                      String keyWord, String curPage, String uid, String ifSevenInfo, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid,ifSevenInfo,user_idForCol)
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, ifSevenInfo, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -782,7 +782,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingCaiXianForeignTravel(line_or_throw, number_days,
                 PreferenceUtil.getString(TOKEN), depart_code, min_days, max_days, spot_name,
                 goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id, t_traffic_id,
-                t_overseas_id, minPri_maxPri, t_consume_id, sort_type,ifSevenInfo,user_idForCol)
+                t_overseas_id, minPri_maxPri, t_consume_id, sort_type, ifSevenInfo, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -800,7 +800,7 @@ public class ApiModule {
                                                                            String sort_type, String tOtherId,
                                                                            String tActivityId, String tStayId,
                                                                            String tAddressId, String tTrafficId,
-                                                                           String tConsumeId,String ifSevenInfo, String user_idForCol) {
+                                                                           String tConsumeId, String ifSevenInfo, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().gettingCaiXianAroundTravel(line_or_throw,
                 PreferenceUtil.getString(TOKEN), maxDay, minPri_maxPri, numberDays,
                 minDay, depart_code, goalsId, sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId,
@@ -815,8 +815,8 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<HomeTravelEntity> getTravelHome(String city_name,String user_idForCol) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getTravelHome(city_name, PreferenceUtil.getString(TOKEN),user_idForCol)
+    public Observable<HomeTravelEntity> getTravelHome(String city_name, String user_idForCol) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getTravelHome(city_name, PreferenceUtil.getString(TOKEN), user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -843,11 +843,11 @@ public class ApiModule {
                                                            String stick_rate, String stick_return,
                                                            String stick_hot, String stick_zeroC,
                                                            String goals_city, String goals_pro,
-                                                           String goals_city_code, String depart_name, String travel_kind,String user_idForCol) {
+                                                           String goals_city_code, String depart_name, String travel_kind, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().issueAroundRoute(depart_code, depart_pro_code,
                 goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild, returnPriceChild, tAddressId, tTrafficId, tConsumeId,
                 tActivityId, tStayId, tOtherId, travelTitle, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow, PreferenceUtil.getString(TOKEN), files, stick_new, stick_low,
-                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name, travel_kind,user_idForCol)
+                stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, depart_name, travel_kind, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -879,7 +879,7 @@ public class ApiModule {
         return ApiFactory.getFactory().BaiHangTongYeService().issueForeignRoute(depart_name, depart_pro_name,
                 goals_nat_name, goals_name, spot_name, stick, String.valueOf(PreferenceUtil.getInt(UID)), line_or_throw, PreferenceUtil.getString(TOKEN), number_days, total_price, final_price, return_price,
                 pickup_price, total_price_child, final_price_child, return_price_child, t_address_id, t_traffic_id, t_consume_id, t_activity_id, t_stay_id, t_other_id, travel_title, generalize,
-                files, stick_new, stick_low, stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC,user_idForCol)
+                files, stick_new, stick_low, stick_better, stick_throw, stick_rate, stick_return, stick_hot, stick_zeroC, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -907,7 +907,7 @@ public class ApiModule {
                                                                 String stick_throw, String stick_rate,
                                                                 String stick_return, String stick_hot, String stick_zeroC,
                                                                 String generalize, String original_price_total,
-                                                                String final_price_total, String ticket_pro_code,String user_idForCol) {
+                                                                String final_price_total, String ticket_pro_code, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().issueTicketForeignRoute(ticket_pro_name, ticket_city_name,
                 ticket_name, ticket_addr, ticket_type, open_time, original_price, final_price, original_price_child, final_price_child, original_price_evening, final_price_evening, original_price_parent_child,
                 final_price_parent_child, original_price_family, final_price_family, original_boat, final_boat, original_car, final_car, ticket_theme_id, ticket_activity_id, ticket_other_id, String.valueOf(PreferenceUtil.getInt(UID)), stick, line_or_throw,
@@ -994,17 +994,17 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<AroundTravelEntity> getCollectAround(String depart_code,  String goals_city, String goals_pro,
+    public Observable<AroundTravelEntity> getCollectAround(String depart_code, String goals_city, String goals_pro,
                                                            String sort_type, String tOtherId,
                                                            String tActivityId, String tStayId,
                                                            String tAddressId, String tTrafficId,
                                                            String tConsumeId, String minPri_maxPri,
                                                            String numberDays, String keyWord,
                                                            String curPage, String minDay, String maxDay, String uid,
-                                                           String travel_kind,String user_idForCol) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goals_city,goals_pro,
+                                                           String travel_kind, String user_idForCol) {
+        return ApiFactory.getFactory().BaiHangTongYeService().getCollectAround(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind,user_idForCol)
+                numberDays, PreferenceUtil.getString(TOKEN), keyWord, curPage, minDay, maxDay, uid, travel_kind, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1024,11 +1024,11 @@ public class ApiModule {
                                                              String t_overseas_id,
                                                              String t_consume_id, String sort_type,
                                                              String minPri_maxPri, String number_days,
-                                                             String keyWord, String curPage, String uid,String user_idForCol) {
+                                                             String keyWord, String curPage, String uid, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectForeign(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days,
-                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid,user_idForCol)
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1044,10 +1044,10 @@ public class ApiModule {
                                                          String minPri_maxPri, String ticket_theme_id,
                                                          String ticket_activity_id, String ticket_other_id,
                                                          String sort_type,
-                                                         String keyWord, String curPage, String uid,String user_idForCol) {
+                                                         String keyWord, String curPage, String uid, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().getCollectTicket(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
-                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid,user_idForCol)
+                PreferenceUtil.getString(TOKEN), keyWord, curPage, uid, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1222,13 +1222,13 @@ public class ApiModule {
                                                                           String stick_throw, String stick_rate,
                                                                           String stick_return, String stick_hot, String stick_zeroC,
                                                                           String goals_city, String goals_pro,
-                                                                          String goals_city_code, String id,String user_idForCol) {
+                                                                          String goals_city_code, String id, String user_idForCol) {
         return ApiFactory.getFactory().BaiHangTongYeService().updatePersonageTravel(depart_code, depart_pro_code,
                 goalsId, spotName, numberDays, totalPrice, finalPrice, returnPrice, pickupPrice, totalPriceChild, finalPriceChild,
                 returnPriceChild, tAddressId, tTrafficId, tConsumeId, tActivityId, tStayId,
                 final_boat, travelTitle, final_car, generalize, stick, String.valueOf(PreferenceUtil.getInt(UID)), lineOrThrow,
                 PreferenceUtil.getString(TOKEN), stick_new, stick_low, stick_better, stick_throw, stick_rate,
-                stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, id,user_idForCol)
+                stick_return, stick_hot, stick_zeroC, goals_city, goals_pro, goals_city_code, id, user_idForCol)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -1339,8 +1339,8 @@ public class ApiModule {
      * @return
      */
     public Observable<SaleOfScreeningEntity> selectFrame(String productType, String newOrOld,
-                                                           String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                         String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1352,8 +1352,8 @@ public class ApiModule {
      * @return
      */
     public Observable<RentalScreeningEntity> selectRentFrame(String productType, String newOrOld,
-                                                     String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectRentFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                             String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectRentFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1365,8 +1365,8 @@ public class ApiModule {
      * @return
      */
     public Observable<BuyerScreeningEntity> selectQiuGouFrame(String productType, String newOrOld,
-                                                             String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuGouFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                              String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuGouFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1378,13 +1378,12 @@ public class ApiModule {
      * @return
      */
     public Observable<WantedScreeningEntity> selectQiuZuFrame(String productType, String newOrOld,
-                                                             String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuZuFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                              String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectQiuZuFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
 
 
     /**
@@ -1393,8 +1392,8 @@ public class ApiModule {
      * @return
      */
     public Observable<CollectEntity> selectCollectFrame(String productType, String newOrOld,
-                                                              String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectCollectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                        String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectCollectFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1406,8 +1405,8 @@ public class ApiModule {
      * @return
      */
     public Observable<PersonProductEntity> selectDataBaseFrame(String productType, String newOrOld,
-                                                              String condition, String stick, String collectType,String uid,String curPage) {
-        return ApiFactory.getFactory().BaiHangTongYeService().selectDataBaseFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType,curPage)
+                                                               String condition, String stick, String collectType, String uid, String curPage) {
+        return ApiFactory.getFactory().BaiHangTongYeService().selectDataBaseFrame(productType, newOrOld, condition, PreferenceUtil.getString(TOKEN), uid, stick, collectType, curPage)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1445,8 +1444,8 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<ResponseInt> notShowPhone(String uid,String phoneState) {
-        return ApiFactory.getFactory().BaiHangTongYeService().notShowPhone(PreferenceUtil.getString(TOKEN), uid,phoneState)
+    public Observable<ResponseInt> notShowPhone(String uid, String phoneState) {
+        return ApiFactory.getFactory().BaiHangTongYeService().notShowPhone(PreferenceUtil.getString(TOKEN), uid, phoneState)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -1457,7 +1456,7 @@ public class ApiModule {
      * @return
      */
     public Observable<SimilerEntity> getMoreSimple(String curPage, String productType, String id) {
-        return ApiFactory.getFactory().BaiHangTongYeService().getMoreSimple(PreferenceUtil.getString(TOKEN), curPage,productType,id)
+        return ApiFactory.getFactory().BaiHangTongYeService().getMoreSimple(PreferenceUtil.getString(TOKEN), curPage, productType, id)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -1465,12 +1464,67 @@ public class ApiModule {
 
 
     /**
+     * 删除收藏
+     *
+     * @return
+     */
+    public Observable<ResponseUntil> deleteCollectTravel(String ids, String travelType) {
+        return ApiFactory.getFactory().BaiHangTongYeService().deleteCollectTravel(PreferenceUtil.getString(TOKEN), String.valueOf(PreferenceUtil.getInt(UID)), ids, travelType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 删除个人发布的数据
+     *
+     * @return
+     */
+    public Observable<ResponseUntil> deletePersonageTravel(String id, String travelType) {
+        return ApiFactory.getFactory().BaiHangTongYeService().deletePersonageTravel(PreferenceUtil.getString(TOKEN), id, travelType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 转发接口
+     *
+     * @return
+     */
+    public Observable<ResponseUntil> updateIssueCount(String id, String type) {
+        return ApiFactory.getFactory().BaiHangTongYeService().updateIssueCount(PreferenceUtil.getString(TOKEN), id, type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 浏览次数接口
+     *
+     * @return
+     */
+    public Observable<ResponseUntil> updateViewCount(String id, String type) {
+        return ApiFactory.getFactory().BaiHangTongYeService().updateViewCount(PreferenceUtil.getString(TOKEN),id, type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    /**
+     * 浏览次数接口
+     *
+     * @return
+     */
+    public Observable<Response> deleteFriend(String id, String friendId) {
+        return ApiFactory.getFactory().BaiHangTongYeService().deleteFriend(PreferenceUtil.getString(TOKEN),id, friendId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+    /**
      * 不显示电话号码
      *
      * @return
      */
     public Observable<Response> pictureDetail() {
-        return ApiFactory.getFactory().BaiHangTongYeService().pictureDetail(PreferenceUtil.getString(TOKEN),String.valueOf(PreferenceUtil.getInt(UID)))
+        return ApiFactory.getFactory().BaiHangTongYeService().pictureDetail(PreferenceUtil.getString(TOKEN), String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

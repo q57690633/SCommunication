@@ -147,6 +147,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/register_font"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="14dp" />
 
 
@@ -156,6 +158,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/red_setting"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -171,6 +175,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/register_font"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="14dp" />
 
 
@@ -180,6 +186,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/red_setting"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textSize="14dp" />
 
             </LinearLayout>

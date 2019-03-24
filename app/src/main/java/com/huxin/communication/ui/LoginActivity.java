@@ -212,6 +212,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                             @Override
                                             public void run() {
                                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                                finish();
                                             }
                                         });
 //

@@ -998,7 +998,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             case R.id.delete_collect:
 //                addCollectTravel(productType);
                 if (mXuanAdapter.getSelectedItem().size() > 0) {
-                    zhuanfa(mXuanAdapter);
+
+                    updateIssueCount(3);
                 } else {
                     Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
                 }
@@ -1237,32 +1238,6 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             e.printStackTrace();
         }
         return str;
-        /*
-        List<TravelEntity> list = new ArrayList<>();
-        List<TravelEntity.ListBean> listBeans = new ArrayList<>();
-        TravelEntity entityTravel = new TravelEntity();
-
-        if (Salelist != null && Salelist.size() > 0) {
-            for (TicketInfoEntity.ListBean SaleEntity : Salelist) {
-                TravelEntity.ListBean entity = new TravelEntity.ListBean();
-                entity.setGoals_city("");
-                entity.setHeadUrl(SaleEntity.getHeadUrl());
-                entity.setPhoto_url(SaleEntity.getPhoto_url());
-                entity.setReturnPrice(SaleEntity.getFinal_price());
-                entity.setReturnPriceChild(SaleEntity.getFinal_price_child());
-                entity.setTagName(SaleEntity.getTagName());
-                entity.setUserCity(SaleEntity.getUserCity());
-                entity.setUsername(SaleEntity.getUsername());
-
-                listBeans.add(entity);
-            }
-            entityTravel.setList(listBeans);
-            entityTravel.setTravelType(TravelType);//出售
-            entityTravel.setType(2);
-            list.add(entityTravel);
-        }
-        KyLog.object(list);
-        return ListToString(list);*/
     }
 
     /**
@@ -1367,5 +1342,20 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void updateIssueCount(int travelType) {
+        showProgressDialog();
+        ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    zhuanfa(mXuanAdapter);
+
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.alipay.sdk.util.m;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.TableNameAdapter;
+import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
 import com.huxin.communication.adpter.ViewPagerAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
@@ -31,11 +32,16 @@ import com.huxin.communication.entity.HeadTravelEntivty;
 import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
+import com.huxin.communication.ui.travel.TicketingActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +101,13 @@ public class TicketingDetailsActivity extends BaseActivity {
 
     private int type;
 
+    private ImageView mImageViewCollect;
+
+    private ImageView mImageViewZhuanFa;
+
+    private boolean isClick = true;
+
+
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_ticketing_details);
@@ -142,14 +155,14 @@ public class TicketingDetailsActivity extends BaseActivity {
                     String userId = PreferenceUtil.getInt(UID) + "";
                     String userSig = PreferenceUtil.getString("usersig");
                     if (type != 1) {
-                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
-                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
+                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
                         } else {
                             Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        if (!userId.equals(String.valueOf(listBean.getUid()))) {
-                            onRecvUserSig(userId, userSig, String.valueOf(listBean.getUid()));
+                        if (!userId.equals(String.valueOf(headTravelEntivty.getUid()))) {
+                            onRecvUserSig(userId, userSig, String.valueOf(headTravelEntivty.getUid()));
                         } else {
                             Toast.makeText(TicketingDetailsActivity.this, "用户id相同，不能进行聊天", Toast.LENGTH_SHORT).show();
                         }
@@ -171,9 +184,9 @@ public class TicketingDetailsActivity extends BaseActivity {
             public void onClick(View view) {
                 String phone = null;
                 if (type != 1) {
-                    phone = headTravelEntivty.getUserPhone();
-                } else {
                     phone = listBean.getUserPhone();
+                } else {
+                    phone = headTravelEntivty.getUserPhone();
 
                 }
                 if (!TextUtils.isEmpty(phone)) {
@@ -189,10 +202,52 @@ public class TicketingDetailsActivity extends BaseActivity {
             }
         });
 
+
+        mImageViewCollect = findViewById(R.id.image_collect);
+        mImageViewZhuanFa = findViewById(R.id.image_zhaungfa);
+        mImageViewZhuanFa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                zhuanfa(listBean);
+            }
+        });
+
+        mImageViewCollect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isClick) {
+                    if (type != 1) {
+                        addTravelCollect(3, String.valueOf(listBean.getId()));
+                    } else {
+                        addTravelCollect(3, String.valueOf(headTravelEntivty.getId()));
+
+                    }
+                    isClick = false;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+                } else {
+                    if (type != 1) {
+                        deleteTravelCollect(3, String.valueOf(listBean.getId()));
+                    } else {
+                        deleteTravelCollect(3, String.valueOf(headTravelEntivty.getId()));
+
+                    }
+                    isClick = true;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+                }
+            }
+        });
+
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        if (listBean.getIsCollect() == 0) {
+            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+        } else {
+            isClick = false;
+            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+
+        }
         setData(listBean, headTravelEntivty);
         setOnBinner(listBean, headTravelEntivty);
         setTextView(listBean, mRecyclerView, headTravelEntivty);
@@ -339,7 +394,7 @@ public class TicketingDetailsActivity extends BaseActivity {
     /**
      * 加载binner图
      */
-    private void setOnBinner(TicketInfoEntity.ListBean entity,HeadTravelEntivty entivty) {
+    private void setOnBinner(TicketInfoEntity.ListBean entity, HeadTravelEntivty entivty) {
         imageList = new ArrayList<>();
         if (type != 1) {
             if (!TextUtils.isEmpty(entity.getPhoto_url())) {
@@ -385,7 +440,7 @@ public class TicketingDetailsActivity extends BaseActivity {
         }
     }
 
-    private void setTextView(TicketInfoEntity.ListBean entity, RecyclerView linearLayout,HeadTravelEntivty entivty) {
+    private void setTextView(TicketInfoEntity.ListBean entity, RecyclerView linearLayout, HeadTravelEntivty entivty) {
         List<String> list1 = new ArrayList<>();
         if (type != 1) {
             if (!TextUtils.isEmpty(entity.getTagName())) {
@@ -395,7 +450,7 @@ public class TicketingDetailsActivity extends BaseActivity {
                     list1.add(strings[i]);
                 }
             }
-        }else {
+        } else {
             if (!TextUtils.isEmpty(entivty.getTagName())) {
                 String[] strings = entivty.getTagName().split(",");
                 KyLog.d(entivty.getTagName());
@@ -434,5 +489,72 @@ public class TicketingDetailsActivity extends BaseActivity {
                 KyLog.e("imlogin fail", errMsg);
             }
         });
+    }
+
+    private void addTravelCollect(int travelType, String id) {
+        showProgressDialog();
+        ApiModule.getInstance().addTravelCollect(id, travelType)
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+    private void deleteTravelCollect(int travelType, String id) {
+        showProgressDialog();
+        ApiModule.getInstance().deleteCollectTravel(id, String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                    Toast.makeText(this, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void zhuanfa(TicketInfoEntity.ListBean listBean) {
+        String data = getData(listBean, 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(TicketingDetailsActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    public static String getData(TicketInfoEntity.ListBean SaleEntity, int TravelType) {
+
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            JSONObject dataObj = new JSONObject();
+            dataObj.put("ticket_name", SaleEntity.getTicket_name());
+            dataObj.put("ticket_addr", SaleEntity.getTicket_addr());
+            dataObj.put("original_price", SaleEntity.getOriginal_price());
+            dataObj.put("tagName", SaleEntity.getTagName());
+            dataObj.put("photo_url", SaleEntity.getPhoto_url());
+            jsonArray.put(dataObj);
+            data.put("list", jsonArray);
+            jsonObject.put("type", 2);
+            jsonObject.put("travelType", 4);
+            jsonObject.put("data", data);
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 }
