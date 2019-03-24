@@ -262,7 +262,7 @@ public class GroupInfoFragment extends BaseFragment {
         String uid = sb.substring(0, sb.toString().length() - 1);
         Log.i(TAG, "uid = " + uid);
         NetWorkService initGroupMember = createRetrofit().create(NetWorkService.class);
-        Observable<ResponseBody> answers = initGroupMember.addFlockMember(token, groupId, "");
+        Observable<ResponseBody> answers = initGroupMember.addFlockMember(token, groupId, uid);
         answers.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<ResponseBody>() {
