@@ -48,19 +48,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 //        if (PreferenceUtil.getInt("type") == 1) {
             View view = mInflater.inflate(R.layout.recycler_home_item, parent, false);
             hoder = new MyViewHoder(view);
-            hoder.Tm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext,TIMChatActivity.class);
-                    intent.putExtra("TARGET_TYPE", list.get(hoder.getAdapterPosition()).getType());
-                    intent.putExtra("TARGET_ID", list.get(hoder.getAdapterPosition()).getId() + "");
-                    KyLog.i("position.getId = " + list.get(hoder.getAdapterPosition()).getId() + "");
-                    updateDataBase(list.get(hoder.getAdapterPosition()).getId() + "");
-                    list.get(hoder.getAdapterPosition()).setRead(true);
-                    notifyDataSetChanged();
-                    mContext.startActivity(intent);
-                }
-            });
+
 
 //        } else {
 //            View view = mInflater.inflate(R.layout.recycler_home_item_travel, parent, false);
@@ -86,7 +74,19 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             holder.numRl.setVisibility(View.VISIBLE);
 
         }
-
+        hoder.Tm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,TIMChatActivity.class);
+                intent.putExtra("TARGET_TYPE", list.get(position).getType());
+                intent.putExtra("TARGET_ID", list.get(position).getId() + "");
+                KyLog.i("position.getId = " + list.get(position).getId() + "");
+                updateDataBase(list.get(position).getId() + "");
+                list.get(position).setRead(true);
+                notifyDataSetChanged();
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
