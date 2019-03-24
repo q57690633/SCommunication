@@ -51,7 +51,13 @@
         <!-- android:resource="@xml/provider_paths" /> -->
         <!-- </provider> -->
 
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.main" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.ForgetPassWordActivity" />
         <activity android:name=".ui.RegisterOneActivity" />

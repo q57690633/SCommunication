@@ -292,7 +292,12 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getActivity(), getContext().getResources().getString(R.string.exit_group), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setAction("com.huxin.communication.main");
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getActivity().finish();
+                startActivity(intent);
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
