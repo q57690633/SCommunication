@@ -210,7 +210,6 @@ public class GroupInfoFragment extends BaseFragment {
             }
         });
         mDeleteMemberIv.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 delMember();
@@ -303,6 +302,7 @@ public class GroupInfoFragment extends BaseFragment {
                 intent.setAction("com.huxin.communication.main");
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
@@ -408,7 +408,6 @@ public class GroupInfoFragment extends BaseFragment {
         TIMGroupManagerExt.getInstance().getGroupMembers(groupId, cb);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private void delMember() {
         int uid = PreferenceUtil.getInt(getContext(), "uid");
         TIMValueCallBack<List<TIMGroupDetailInfo>> cb = new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
