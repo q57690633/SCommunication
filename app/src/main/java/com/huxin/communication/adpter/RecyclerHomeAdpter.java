@@ -1,7 +1,9 @@
 package com.huxin.communication.adpter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,9 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.huxin.communication.R;
+import com.huxin.communication.base.HomeFragmentMsgDBHelper;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.DateUtil;
+import com.huxin.communication.utils.SQLiteUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
@@ -51,7 +55,8 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                     intent.putExtra("TARGET_TYPE", "C2C");
                     intent.putExtra("TARGET_ID", list.get(hoder.getAdapterPosition()).getId() + "");
                     KyLog.i("position.getId = " + list.get(hoder.getAdapterPosition()).getId() + "");
-                    list.get(hoder.getAdapterPosition()).setRead(false);
+                    updateDataBase(list.get(hoder.getAdapterPosition()).getId() + "");
+                    list.get(hoder.getAdapterPosition()).setRead(true);
                     notifyDataSetChanged();
                     mContext.startActivity(intent);
                 }
@@ -111,4 +116,18 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 
         }
     }
+
+    private void updateDataBase(String peer) {
+        SQLiteUtil util = new SQLiteUtil(mContext);
+        Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
+        while (cursor.moveToNext()) {
+            String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
+            if (peer.equalsIgnoreCase(uid)) {
+                ContentValues values = new ContentValues();
+                values.put("isread", "true");
+                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{uid});
+            }
+        }
+    }
+
 }

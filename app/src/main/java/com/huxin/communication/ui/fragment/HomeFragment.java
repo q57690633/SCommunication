@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,6 @@ import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.ui.travel.ZhouBianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.SQLiteUtil;
-import com.huxin.communication.view.AutoScrollLayoutManager;
 import com.huxin.communication.view.SmoothLinearLayoutManager;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
@@ -578,7 +578,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void getMessage(List<GetMessageEntity> list) {
+    public void getMessage() {
         //KyLog.object("login ==------ list----- " + list);
         String TABLE_NAME = HomeFragmentMsgDBHelper.TABLE_NAME;
         String UID = HomeFragmentMsgDBHelper.UID;
@@ -654,7 +654,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if (elem.getType() == TIMElemType.Face) {
                 text = getResources().getString(R.string.msg_face);
             }
-            String sender = message.getSender();
+            String sender = message.getConversation().getPeer();
             String faceUrl = message.getSenderProfile().getFaceUrl();
             TIMConversationType conversationType = message.getConversation().getType();
             String type = conversationType.name();
@@ -669,7 +669,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             KyLog.d("faceUrl == " + faceUrl);
             KyLog.d("type == " + type);
             KyLog.d("timeStamp == " + timeStamp);
-
             /*GetMessageEntity entity = new GetMessageEntity();
             entity.setHead_url(faceUrl);
             entity.setId(sender);
@@ -687,7 +686,19 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             values.put("num", count);
             values.put("isread", isRead + "");
             SQLiteUtil util = new SQLiteUtil(getContext());
-            util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+            boolean isUpdate = false;
+            Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
+            while (cursor.moveToNext()) {
+                String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
+                if (sender.equalsIgnoreCase(uid)) {
+                    isUpdate = true;
+                }
+            }
+            if (isUpdate) {
+                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+            } else {
+                util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
+            }
 
         }
 
@@ -867,30 +878,21 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 KyLog.d(conversation.getPeer() + " === getPeer");
                 getLocalMessage(conversation.getPeer(), list, conversation.getType());
             }
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    GetMsgManager msgManager = GetMsgManager.instants();
-                    msgManager.setList(list);
-                }
-            }, 1000);
         }
     }
 
-    private void getLocalMessage(String groupId, List<GetMessageEntity> list, TIMConversationType type) {
+    private void getLocalMessage(String peer, List<GetMessageEntity> list, TIMConversationType type) {
         if (type == TIMConversationType.C2C) {
-            getC2CLocalMessage(groupId, list);
+            getLocalMessage(TIMConversationType.C2C, peer, list);
         } else if (type == TIMConversationType.Group) {
-            getC2CLocalMessage(groupId, list);
-
+            getLocalMessage(TIMConversationType.Group, peer, list);
         }
     }
 
-    private void getC2CLocalMessage(String groupId, List<GetMessageEntity> list) {
-        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, groupId);
+    private void getLocalMessage(TIMConversationType type, String peer, List<GetMessageEntity> list) {
+        TIMConversation con = TIMManager.getInstance().getConversation(type, peer);
         TIMConversationExt conExt = new TIMConversationExt(con);
 
-//获取此会话的消息
         conExt.getLocalMessage(1, conExt.getLastMsg(),//不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
                 new TIMValueCallBack<List<TIMMessage>>() {//回调接口
                     @Override
@@ -902,7 +904,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                     @Override
                     public void onSuccess(List<TIMMessage> msgs) {//获取消息成功
-                        KyLog.d("success == " + msgs);
+                        KyLog.i("getLocalMessage success");
                         //遍历取得的消息
                         TIMMessage message = null;
                         String text = "";
@@ -931,7 +933,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             if (elem.getType() == TIMElemType.Face) {
                                 text = getResources().getString(R.string.msg_face);
                             }
-                            String sender = message.getSender();
+                            String sender = message.getConversation().getPeer();
                             String faceUrl = message.getSenderProfile().getFaceUrl();
                             TIMConversationType conversationType = message.getConversation().getType();
                             String type = conversationType.name();
@@ -961,15 +963,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             values.put("isread", isRead + "");
                             SQLiteUtil util = new SQLiteUtil(getContext());
                             boolean isUpdate = false;
+                            boolean canUpdate = false;
                             Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
                             while (cursor.moveToNext()) {
                                 String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
                                 if (sender.equalsIgnoreCase(uid)) {
                                     isUpdate = true;
+                                    long timeStampDB = Long.parseLong(cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.TIME)));
+                                    if(timeStamp > timeStampDB) {
+                                        canUpdate = true;
+                                    }
                                 }
                             }
                             if (isUpdate) {
-                                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+                                if(canUpdate) {
+                                    util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+                                }
                             } else {
                                 util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
                             }

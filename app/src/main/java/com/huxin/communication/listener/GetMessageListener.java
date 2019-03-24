@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GetMessageListener {
 
-    void getMessage(List<GetMessageEntity> list);
+    void getMessage();
 }

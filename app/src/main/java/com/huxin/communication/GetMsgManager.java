@@ -31,8 +31,6 @@ public class GetMsgManager {
     }
 
     public void setList(List<GetMessageEntity> list){
-        if (mMessageListener != null) {
-            mMessageListener.getMessage(list);
-        }
+        mMessageListener.getMessage();
     }
 }
