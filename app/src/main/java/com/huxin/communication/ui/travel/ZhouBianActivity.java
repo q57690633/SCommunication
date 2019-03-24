@@ -325,7 +325,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         mTextViewCity = findViewById(R.id.tv_city);
         mTextViewMoren = findViewById(R.id.moren);
 
-        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+//        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
 
         mTextViewMoreData = findViewById(R.id.more_data);
 
@@ -391,15 +391,15 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
         // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
         // 设置下拉进度的背景颜色，默认就是白色的
-        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        // 设置下拉进度的主题颜色
-        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
-                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
-                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
-
-
-        // 手动调用,通知系统去测量
-        mSwipeRefreshView.measure(0, 0);
+//        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+//        // 设置下拉进度的主题颜色
+//        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+//                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+//                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+//
+//
+//        // 手动调用,通知系统去测量
+//        mSwipeRefreshView.measure(0, 0);
 //        mSwipeRefreshView.setRefreshing(true);
 
     }
@@ -412,7 +412,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 , "", "", "", "", "",
                 "", String.valueOf(numberDays), "",
                 "1", "", "", null, String.valueOf(1), "");
-        initEvent();
+//        initEvent();
 
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1382,13 +1382,15 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                                      String numberDays, String keyWord,
                                      String curPage, String minDay, String maxDay, String uid,
                                      String travel_kind, String lineOrThrows) {
+        showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
-                    if (mSwipeRefreshView.isRefreshing()) {
-                        mSwipeRefreshView.setRefreshing(false);
-                    }
+                    cancelProgressDialog();
+//                    if (mSwipeRefreshView.isRefreshing()) {
+//                        mSwipeRefreshView.setRefreshing(false);
+//                    }
 //                    new Thread(new Runnable() {
 //                        @Override
 //                        public void run() {
@@ -1403,9 +1405,10 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
 
                 }, throwable -> {
-                    if (mSwipeRefreshView.isRefreshing()) {
-                        mSwipeRefreshView.setRefreshing(false);
-                    }
+                    cancelProgressDialog();
+//                    if (mSwipeRefreshView.isRefreshing()) {
+//                        mSwipeRefreshView.setRefreshing(false);
+//                    }
                     KyLog.d(throwable.toString());
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });

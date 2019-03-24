@@ -197,10 +197,10 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <com.huxin.communication.view.SwipeRefreshView
-                android:id="@+id/swipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<com.huxin.communication.view.SwipeRefreshView-->
+                <!--android:id="@+id/swipeRefreshLayout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
 
                 <android.support.v7.widget.RecyclerView
@@ -238,7 +238,7 @@
                     android:textColor="@color/sell_font"
                     android:textSize="14sp" />
 
-            </com.huxin.communication.view.SwipeRefreshView>
+            <!--</com.huxin.communication.view.SwipeRefreshView>-->
 
         </LinearLayout>
 

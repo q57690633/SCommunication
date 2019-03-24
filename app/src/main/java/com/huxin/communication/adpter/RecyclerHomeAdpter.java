@@ -80,6 +80,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                 Intent intent = new Intent(mContext,TIMChatActivity.class);
                 intent.putExtra("TARGET_TYPE", list.get(position).getType());
                 intent.putExtra("TARGET_ID", list.get(position).getId() + "");
+                intent.putExtra("from", "homefragment");
                 KyLog.i("position.getId = " + list.get(position).getId() + "");
                 updateDataBase(list.get(position).getId() + "");
                 list.get(position).setRead(true);

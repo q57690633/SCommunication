@@ -72,7 +72,7 @@ public class CaiXianAdapter extends RecyclerView.Adapter<CaiXianAdapter.MyViewHo
             public void onClick(View view) {
                 String userId = PreferenceUtil.getInt("uid") + "";
                 String userSig = PreferenceUtil.getString("usersig");
-                if (userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))){
+                if (!userId.equals(String.valueOf(list.get(hoder.getAdapterPosition()).getUid()))){
                     String userName = list.get(hoder.getAdapterPosition()).getUsername();
                     onRecvUserSig(userName, userId, userSig, String.valueOf(list.get(hoder.getAdapterPosition()).getUid()));
                 }else {

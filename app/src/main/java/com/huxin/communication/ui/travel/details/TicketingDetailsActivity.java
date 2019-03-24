@@ -296,6 +296,7 @@ public class TicketingDetailsActivity extends BaseActivity {
 
                 mTextViewTicketAddr.setText(entity.getTicket_addr());
                 mTextViewOpenTime.setText(entity.getOpen_time());
+                userName = entity.getUsername();
 
             }
         } else {
@@ -317,8 +318,9 @@ public class TicketingDetailsActivity extends BaseActivity {
 
                 mTextViewTicketAddr.setText(entivty.getTicket_addr());
                 mTextViewOpenTime.setText(entivty.getOpen_time());
+                userName = entivty.getUsername();
+
             }
-            userName = entivty.getUsername();
         }
     }
 

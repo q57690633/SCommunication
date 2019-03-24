@@ -182,6 +182,7 @@ public class StartActivity extends BaseActivity {
                     if (position == 2){
                         Intent intent = new Intent(StartActivity.this,LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             });

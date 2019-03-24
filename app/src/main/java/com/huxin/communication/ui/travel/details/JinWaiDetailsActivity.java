@@ -288,6 +288,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 mTextViewGeneralize.setText(entity.getGeneralize());
                 mTextViewUsername.setText(entity.getUsername());
                 mTextViewCompanyName.setText(entity.getCompanyName());
+                userName = entity.getUsername();
+
             }
         } else {
             if (entivty != null) {
@@ -305,9 +307,9 @@ public class JinWaiDetailsActivity extends BaseActivity {
                 mTextViewGeneralize.setText(entivty.getGeneralize());
                 mTextViewUsername.setText(entivty.getUsername());
                 mTextViewCompanyName.setText(entivty.getCompanyName());
+                userName = entivty.getUsername();
             }
         }
-        userName = entivty.getUsername();
     }
 
     // 设置焦点图片数量小圆点的方法
