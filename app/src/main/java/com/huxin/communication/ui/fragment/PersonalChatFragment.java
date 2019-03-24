@@ -132,7 +132,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
 
         //获取单聊面板的标题栏
         chatTitleBar = chatPanel.getTitleBar();
-        if(!"".equalsIgnoreCase(username) && null != username) {
+        if(null != username) {
             chatTitleBar.mCenterTitle.setText(username);
         }
         //单聊面板标记栏返回按钮点击事件，这里需要开发者自行控制
