@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
@@ -246,7 +245,7 @@ public class GroupInfoFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), GroupMoreMemberActivity.class);
 //                String data = listToString(headUrlList);
-                KyLog.d(memberList.size() + "== data");
+                Log.d("GroupInfoFragment", memberList.size() + "== data");
                 intent.putParcelableArrayListExtra("data", memberList);
 //                intent.putExtra("data",data);
                 startActivity(intent);
@@ -465,8 +464,8 @@ public class GroupInfoFragment extends BaseFragment {
                     return;
                 }
                 JSONObject dataJson = new JSONObject(data);
-                for(int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
-                    String id = dataJson.getJSONArray("info").get(i) + "";
+                for (int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
+                    String id = dataJson.getJSONArray("info").getString(i) + "";
                     list.add(id);
                 }
                 inviteGroupMember(list);
