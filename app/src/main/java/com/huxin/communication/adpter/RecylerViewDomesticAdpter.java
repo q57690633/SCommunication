@@ -95,6 +95,7 @@ public class RecylerViewDomesticAdpter extends RecyclerView.Adapter<RecylerViewD
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getTravelTitle());
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(),holder.mImageViewHeadUrl);
@@ -159,6 +160,7 @@ public class RecylerViewDomesticAdpter extends RecyclerView.Adapter<RecylerViewD
         private TextView mTextViewSpotName;
         private TextView mTextViewKanxingcheng;
         private TextView mTextViewSendMessage;
+        private TextView mTextViewCount;
 
         private RecyclerView mRecyclerView;
 
@@ -180,6 +182,7 @@ public class RecylerViewDomesticAdpter extends RecyclerView.Adapter<RecylerViewD
             mTextViewSpotName = (TextView) itemView.findViewById(R.id.spotName);
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }

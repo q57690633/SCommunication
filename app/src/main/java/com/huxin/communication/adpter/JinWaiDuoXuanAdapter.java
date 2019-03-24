@@ -122,13 +122,14 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
         holder.mTextViewDepartName.setText(list.get(position).getDepart_name());
         holder.mTextViewUsername.setText(list.get(position).getUsername());
         holder.mTextViewUserCity.setText(list.get(position).getUserCity());
-//        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_city());
+        holder.mTextViewGoalsCity.setText(list.get(position).getGoals_nat_name());
         holder.mTextViewNumberDays.setText("行程天数：" + list.get(position).getNumber_days() + "天");
         holder.mTextViewTotalPrice.setText("成人：" + list.get(position).getTotal_price() + "元");
         holder.mTextViewReturnPrice.setText("返" + list.get(position).getReturn_price() + "元");
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotal_price_child() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturn_price_child() + "元");
         holder.mTextViewSpotName.setText(String.valueOf(list.get(position).getTravel_title()));
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -205,7 +206,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
         private TextView mTextViewSpotName;
         private TextView mTextViewKanxingcheng;
         private TextView mTextViewSendMessage;
-
+        private TextView mTextViewCount;
         private ImageView mImageViewDuoXuan;
         private RecyclerView mRecyclerView;
 
@@ -228,6 +229,7 @@ public class JinWaiDuoXuanAdapter extends RecyclerView.Adapter<JinWaiDuoXuanAdap
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
             mImageViewDuoXuan =(ImageView) itemView.findViewById(R.id.image_duoxuan);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }

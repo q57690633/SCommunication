@@ -118,6 +118,7 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
         holder.mTextViewTotalPriceChild.setText("儿童：" + list.get(position).getTotalPriceChild() + "元");
         holder.mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
         holder.mTextViewSpotName.setText(list.get(position).getTravelTitle());
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
 
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), holder.mImageViewPhoto);
         ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), holder.mImageViewHeadUrl);
@@ -187,6 +188,7 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
         private TextView mTextViewSendMessage;
 
         private RecyclerView mRecyclerView;
+        private TextView mTextViewCount;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -207,6 +209,8 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
             mTextViewKanxingcheng = (TextView) itemView.findViewById(R.id.kanxingcheng);
             mTextViewSendMessage = (TextView) itemView.findViewById(R.id.sendMessage);
             mTextViewCompany = itemView.findViewById(R.id.company_name);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
+
 
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_travel);
         }
@@ -250,5 +254,11 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
                 KyLog.e("imlogin fail", errMsg);
             }
         });
+    }
+
+    //用于上拉加载
+    public void addMoreItem(List<AroundTravelEntity.ListBean> newDatas) {
+        list.addAll(newDatas);
+        notifyDataSetChanged();
     }
 }

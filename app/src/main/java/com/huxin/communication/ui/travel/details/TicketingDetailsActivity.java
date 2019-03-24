@@ -252,6 +252,7 @@ public class TicketingDetailsActivity extends BaseActivity {
         setData(listBean, headTravelEntivty);
         setOnBinner(listBean, headTravelEntivty);
         setTextView(listBean, mRecyclerView, headTravelEntivty);
+        updateViewCount(3,String.valueOf(listBean.getId()));
     }
 
 //    private void gettingForeignTravel() {
@@ -558,5 +559,18 @@ public class TicketingDetailsActivity extends BaseActivity {
             e.printStackTrace();
         }
         return str;
+    }
+
+    private void updateViewCount(int travelType,String id) {
+        showProgressDialog();
+        ApiModule.getInstance().updateViewCount(id, String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

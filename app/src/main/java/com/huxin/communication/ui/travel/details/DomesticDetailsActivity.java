@@ -133,6 +133,7 @@ public class DomesticDetailsActivity extends BaseActivity {
     @Override
     protected void loadData(Bundle savedInstanceState) {
         gettingAroundTravel();
+
     }
 
     private void gettingAroundTravel() {
@@ -325,5 +326,18 @@ public class DomesticDetailsActivity extends BaseActivity {
                 KyLog.e("imlogin fail", errMsg);
             }
         });
+    }
+
+    private void updateViewCount(int travelType,String id) {
+        showProgressDialog();
+        ApiModule.getInstance().updateViewCount(id, String.valueOf(travelType))
+                .subscribe(response -> {
+                    KyLog.object(response + "");
+                    cancelProgressDialog();
+                }, throwable -> {
+                    KyLog.d(throwable.toString());
+                    cancelProgressDialog();
+                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
     }
 }

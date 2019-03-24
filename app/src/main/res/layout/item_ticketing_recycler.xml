@@ -26,6 +26,19 @@
                 android:layout_margin="11dp"
                 android:scaleType="centerCrop" />
 
+            <TextView
+                android:id="@+id/view_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/white"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="已浏览23次"
+                android:textColor="@color/register_font"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -75,10 +88,10 @@
                     <TextView
                         android:id="@+id/ticket_addr"
                         android:layout_width="200dp"
-                        android:lines="1"
-                        android:ellipsize="end"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="20dp"
+                        android:ellipsize="end"
+                        android:lines="1"
                         android:text="保定东街与防洪堤交叉口东南50米"
                         android:textColor="@color/login_walling_fort"
                         android:textSize="14sp" />

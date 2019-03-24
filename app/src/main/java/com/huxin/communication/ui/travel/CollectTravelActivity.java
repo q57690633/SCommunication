@@ -342,7 +342,7 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-
+        setEnabled(true);
 
         if (travelType == 1 || travelType == 2) {
             gettingAroundTravel(null, null, null, null, null
@@ -357,12 +357,6 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
             getTicketInfo("1", null, null, null,
                     null, null, productType, null, "1");
         }
-
-    }
-
-    @Override
-    protected void loadData(Bundle savedInstanceState) {
-        setEnabled(true);
 
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
@@ -399,6 +393,12 @@ public class CollectTravelActivity extends BaseActivity implements View.OnClickL
 
             }
         });
+
+    }
+
+    @Override
+    protected void loadData(Bundle savedInstanceState) {
+
     }
 
     @Override

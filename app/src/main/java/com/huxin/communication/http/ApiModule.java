@@ -1509,7 +1509,7 @@ public class ApiModule {
 
 
     /**
-     * 浏览次数接口
+     * 删除好友接口
      *
      * @return
      */

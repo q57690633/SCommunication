@@ -335,6 +335,13 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
             gettingAroundTravel("", "", "", productType, ""
@@ -385,12 +392,6 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
             }
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

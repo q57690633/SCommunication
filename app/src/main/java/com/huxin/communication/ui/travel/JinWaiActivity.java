@@ -334,6 +334,11 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setEnabled(true);
         gettingForeignTravel("", "", "", "", "", "", "", "",
                 "", "", "", "", "", "", "", "",
@@ -373,12 +378,6 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     @Override
@@ -1502,9 +1501,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     public void getForeignCity(String provinceCode, int type) {
         KyLog.d(provinceCode);
-        showProgressDialog();
         ApiModule.getInstance().getForeignCity(provinceCode).subscribe(foreignCityEntities  -> {
-            cancelProgressDialog();
             if (foreignCityEntities != null && foreignCityEntities.size() > 0) {
                 LinearLayoutManager manager = new LinearLayoutManager(this);
                 CityForeginNationsAdapter mAdapter = new CityForeginNationsAdapter(foreignCityEntities, this,type);
@@ -1515,22 +1512,18 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             }
         }, throwable -> {
             KyLog.d(throwable.toString());
-            cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
     private void updateIssueCount(int travelType) {
-        showProgressDialog();
         ApiModule.getInstance().updateIssueCount(PreferenceUtil.getString(Constanst.PID_TRAVEL_COLLECT), String.valueOf(travelType))
                 .subscribe(response -> {
                     KyLog.object(response + "");
-                    cancelProgressDialog();
                     zhuanfa(mJinWaiDuoXuanAdapter);
 
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

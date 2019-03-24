@@ -73,6 +73,8 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         holder.mTextViewName.setText(list.get(position).getTicket_name());
         holder.mTextViewOriginalPrice.setText(String.valueOf(list.get(position).getOriginal_price()) + "元");
         ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(),holder.mImageViewAddr);
+        holder.mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
+
         if (!TextUtils.isEmpty(list.get(position).getTagName())) {
             setTextView(list, position, holder.mRecyclerView);
         }
@@ -115,6 +117,7 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
         private TextView mTextViewName;
         private TextView mTextViewOriginalPrice;
         private TextView mTextViewAddr;
+        private TextView mTextViewCount;
 
 
         private RecyclerView mRecyclerView;
@@ -130,6 +133,8 @@ public class TicketingAdapter extends RecyclerView.Adapter<TicketingAdapter.MyVi
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_ticket);
 
             mImageViewStickName = itemView.findViewById(R.id.image_stick);
+            mTextViewCount = itemView.findViewById(R.id.view_count);
+
         }
     }
 

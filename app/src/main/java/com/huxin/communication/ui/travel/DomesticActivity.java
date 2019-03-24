@@ -356,6 +356,14 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setEnabled(true);
         gettingAroundTravel("", "","", productType, ""
                 , "", "", "", "", "",
@@ -396,14 +404,6 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
     }
 
     @Override
