@@ -67,7 +67,7 @@ public class TuijianCompanyAdapter extends RecyclerView.Adapter<TuijianCompanyAd
                     userInfoEntity.setImageHead(mList.get(i).getHeadUrl());
                     userInfoEntity.setName(mList.get(i).getCompanyName());
                     userInfoEntity.setPhone(mList.get(i).getPhone());
-                    userInfoEntity.setUid(mList.get(position).getId() + "");
+                    userInfoEntity.setUid(mList.get(position).getUid() + "");
                     listUserInfo.add(userInfoEntity);
                     mTuiJianPhoneListener.updataCompany(mList.get(i).getHeadUrl(), isItemChecked(i));
                     if (listUserInfo.size() > 0) {
