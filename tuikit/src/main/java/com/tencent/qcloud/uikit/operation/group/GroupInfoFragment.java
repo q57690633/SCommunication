@@ -465,7 +465,7 @@ public class GroupInfoFragment extends BaseFragment {
                 }
                 JSONObject dataJson = new JSONObject(data);
                 for (int i = 0; i < dataJson.getJSONArray("info").length(); i++) {
-                    String id = dataJson.getJSONArray("info").getJSONObject(i).getInt("id") + "";
+                    String id = dataJson.getJSONArray("info").getString(i) + "";
                     list.add(id);
                 }
                 inviteGroupMember(list);
