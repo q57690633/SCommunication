@@ -52,7 +52,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
                 String phone = mList.get(Hoder.getAdapterPosition()).getPhone();
                 String starFriend = mList.get(Hoder.getAdapterPosition()).getStarFriend();
                 String image = mList.get(Hoder.getAdapterPosition()).getHeadUrl();
-                int uid = mList.get(Hoder.getAdapterPosition()).getId();
+                int uid = mList.get(Hoder.getAdapterPosition()).getUid();
 
                 Intent intent = new Intent(mActivity, FriendDetailedActivity.class);
                 intent.putExtra(NAME_TAG, name);

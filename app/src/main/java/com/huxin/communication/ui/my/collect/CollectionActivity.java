@@ -34,10 +34,13 @@ import com.huxin.communication.entity.CollectEntity;
 import com.huxin.communication.entity.HouseEntity;
 import com.huxin.communication.entity.SaleOfScreeningEntity;
 import com.huxin.communication.entity.SelectFrameEntity;
+import com.huxin.communication.entity.TopSelectionEntity;
 import com.huxin.communication.http.ApiModule;
+import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.house.sell.AreaOneScreenActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
@@ -47,6 +50,9 @@ import com.tencent.imsdk.TIMCustomElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMValueCallBack;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -174,6 +180,8 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
     private TextView mTextViewdanjiaGD;
     private TextView mTextViewmianjiBD;
 
+    private TextView mZhuanFa;
+
     private EditText mEditTextMax;
     private EditText mEditTextMin;
 
@@ -229,6 +237,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
     private TextView mTextViewZhuanFa;
 
     private int newOrOld = 1;
+    private int modeType = 1;
 
     private EditText mEditTextSearch;
 
@@ -369,6 +378,8 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mTextViewdanjiaGD = (TextView) findViewById(R.id.danjia_conggaodaodi);
         mTextViewmianjiBD = (TextView) findViewById(R.id.mianji_congdadaoxiao);
 
+        mZhuanFa = (TextView) findViewById(R.id.zhuanfa_tv);
+
         mEditTextMax = (EditText) findViewById(R.id.ed_max);
         mEditTextMin = (EditText) findViewById(R.id.ed_min);
 
@@ -378,7 +389,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         mEditTextSearch = findViewById(R.id.toolbar_editText_search);
 
         mEditTextSearch.setOnEditorActionListener(this);
-
+        mZhuanFa.setOnClickListener(this);
 
         mLinearLayoutFangXing.setOnClickListener(this);
         mLinearLayoutMeasure.setOnClickListener(this);
@@ -1361,6 +1372,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getCollectProduct("","","","","","","",String.valueOf(newOrOld),
                         "","","","",
                         "","","","1","1");
+                modeType = 2;
                 break;
             case R.id.qiugou:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1375,6 +1387,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getCollectProduct("","","","","","","",String.valueOf(newOrOld),
                         "","","","",
                         "","","","1","1");
+                modeType = 3;
                 break;
             case R.id.qiuzhu:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1389,6 +1402,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getCollectProduct("","","","","","","",String.valueOf(newOrOld),
                         "","","","",
                         "","","","1","1");
+                modeType = 4;
                 break;
             case R.id.sell:
                 mTextViewChuZhu.setBackgroundResource(R.drawable.biaoqian_radius_top);
@@ -1403,6 +1417,7 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
                 getCollectProduct("","","","","","","",String.valueOf(newOrOld),
                         "","","","",
                         "","","","1","1");
+                modeType = 1;
                 break;
             case R.id.toolbar_right:
                 mTextViewQuXiao.setVisibility(View.VISIBLE);
@@ -1429,6 +1444,21 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
 //                }else {
 //                    Toast.makeText(this, "请选择需要转发的数据", Toast.LENGTH_SHORT).show();
 //                }
+                break;
+
+            case R.id.zhuanfa_tv:
+                if(modeType == 1) {
+                    zhuanFaSell();
+                }
+                if(modeType == 2) {
+                    zhuanFaChuZu();
+                }
+                if(modeType == 3) {
+                    zhuanFaQiuGou();
+                }
+                if(modeType == 4) {
+                    zhuanFaQiuZu();
+                }
                 break;
         }
     }
@@ -1705,6 +1735,197 @@ public class CollectionActivity extends BaseActivity implements View.OnClickList
         return Kouweilist;
     }
 
+    private void zhuanFaSell() {
+        String data = getSellData(mAdpterDuoXuan.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CollectionActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaChuZu() {
+        String data = getChuZuData(mAdpterDuoXuan.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CollectionActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaQiuGou() {
+        String data = getQiuGouData(mAdpterDuoXuan.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CollectionActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaQiuZu(){
+        String data = getQiuZuData(mAdpterDuoXuan.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CollectionActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    public static String getSellData(ArrayList<CollectEntity.ListBean> Salelist, int houseType) {
+        String str = "";
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (CollectEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("houseType", SaleEntity.getHouseType());
+                    jsonObject.put("exclusive", String.valueOf(SaleEntity.getExclusive()));
+                    jsonObject.put("id", String.valueOf(SaleEntity.getId()));
+                    jsonObject.put("keying", String.valueOf(SaleEntity.getKeying()));
+                    jsonObject.put("orientation", SaleEntity.getOrientation());
+                    jsonObject.put("stick", String.valueOf(SaleEntity.getStick()));
+                    jsonObject.put("tabName", SaleEntity.getTabName());
+                    jsonObject.put("totalPrice", String.valueOf(SaleEntity.getMinPrice()));
+                    jsonObject.put("title", SaleEntity.getTitle());
+                    jsonObject.put("unitPrice", String.valueOf(SaleEntity.getMaxPrice()));
+                    jsonObject.put("villageName", SaleEntity.getVillageName());
+                    jsonObject.put("acreage", "");
+                    jsonObject.put("tabId", "");
+                    jsonArray.put(jsonObject);
+                }
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", String.valueOf(houseType));
+                jsonObject1.put("data", jsonArray);
+            }
+            str = jsonObject1.toString();
+            KyLog.i("getData str = " + str);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String getChuZuData(ArrayList<CollectEntity.ListBean> Salelist, int houseType) {
+        String str = "";
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (CollectEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("houseType", SaleEntity.getHouseType());
+                    jsonObject.put("exclusive", String.valueOf(SaleEntity.getExclusive()));
+                    jsonObject.put("id", String.valueOf(SaleEntity.getId()));
+                    jsonObject.put("keying", String.valueOf(SaleEntity.getKeying()));
+                    jsonObject.put("orientation", SaleEntity.getOrientation());
+                    jsonObject.put("stick", String.valueOf(SaleEntity.getStick()));
+                    jsonObject.put("tabName", SaleEntity.getTabName());
+//                    jsonObject.put("totalPrice", String.valueOf(SaleEntity.getTotalPrice()));
+                    jsonObject.put("title", SaleEntity.getTitle());
+                    jsonObject.put("unitPrice", String.valueOf(SaleEntity.getMaxPrice()));
+                    jsonObject.put("villageName", SaleEntity.getVillageName());
+                    jsonObject.put("acreage", "");
+                    jsonObject.put("tabId", "");
+                    jsonArray.put(jsonObject);
+                }
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", "2");
+                jsonObject1.put("data", jsonArray);
+            }
+            str = jsonObject1.toString();
+            KyLog.i("getData str = " + str);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String getQiuGouData(ArrayList<CollectEntity.ListBean> Salelist, int houseType) {
+        String str = "";
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (CollectEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("houseType", SaleEntity.getHouseType());
+                    jsonObject.put("exclusive", String.valueOf(SaleEntity.getExclusive()));
+                    jsonObject.put("id", String.valueOf(SaleEntity.getId()));
+                    jsonObject.put("keying", String.valueOf(SaleEntity.getKeying()));
+                    jsonObject.put("orientation", SaleEntity.getOrientation());
+                    jsonObject.put("stick", String.valueOf(SaleEntity.getStick()));
+                    jsonObject.put("tabName", SaleEntity.getTabName());
+                    jsonObject.put("totalPrice", String.valueOf(SaleEntity.getMinPrice()));
+                    jsonObject.put("title", SaleEntity.getTitle());
+                    jsonObject.put("unitPrice", String.valueOf(SaleEntity.getMaxPrice()));
+                    jsonObject.put("villageName", SaleEntity.getVillageName());
+                    jsonObject.put("acreage", "");
+                    jsonObject.put("tabId", "");
+                    jsonArray.put(jsonObject);
+                }
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", "3");
+                jsonObject1.put("data", jsonArray);
+            }
+            str = jsonObject1.toString();
+            KyLog.i("getData str = " + str);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public static String getQiuZuData(ArrayList<CollectEntity.ListBean> Salelist, int houseType) {
+        String str = "";
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (CollectEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("houseType", SaleEntity.getHouseType());
+                    jsonObject.put("exclusive", String.valueOf(SaleEntity.getExclusive()));
+                    jsonObject.put("id", String.valueOf(SaleEntity.getId()));
+                    jsonObject.put("keying", String.valueOf(SaleEntity.getKeying()));
+                    jsonObject.put("orientation", SaleEntity.getOrientation());
+                    jsonObject.put("stick", String.valueOf(SaleEntity.getStick()));
+                    jsonObject.put("tabName", SaleEntity.getTabName());
+                    jsonObject.put("totalPrice", String.valueOf(SaleEntity.getMinPrice()));
+                    jsonObject.put("title", SaleEntity.getTitle());
+                    jsonObject.put("unitPrice", String.valueOf(SaleEntity.getMaxPrice()));
+                    jsonObject.put("villageName", SaleEntity.getVillageName());
+                    jsonObject.put("acreage", "");
+                    jsonObject.put("tabId", "");
+                    jsonArray.put(jsonObject);
+                }
+                jsonObject1.put("type", "1");
+                jsonObject1.put("houseType", "4");
+                jsonObject1.put("data", jsonArray);
+            }
+            str = jsonObject1.toString();
+            KyLog.i("getData str = " + str);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
 
     private List<String> setChaoXiang() {
         Kouweilist = new ArrayList<String>();

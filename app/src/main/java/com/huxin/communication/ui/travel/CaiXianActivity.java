@@ -27,13 +27,15 @@ import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
-import com.huxin.communication.entity.CaixianForeignTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.http.ApiModule;
-import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
+import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
-import com.huxin.communication.view.SpaceItemDecoration;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1441,6 +1443,124 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         return Kouweilist;
     }
 
+    private String getDuanTuData(ArrayList<AroundTravelEntity.ListBean> Salelist, int type) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (AroundTravelEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("depart_name", SaleEntity.getDepart_name());
+                    dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
+                    dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+                    dataObj.put("numberDays", String.valueOf(SaleEntity.getNumberDays()));
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("finalPrice", String.valueOf(SaleEntity.getReturnPrice()));
+                    dataObj.put("finalPriceChild", SaleEntity.getReturnPriceChild());
+                    dataObj.put("totalPrice", String.valueOf(SaleEntity.getTotalPrice()));
+                    dataObj.put("totalPriceChild", SaleEntity.getTotalPriceChild());
+                    dataObj.put("spotName", String.valueOf(SaleEntity.getSpotName()));
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("username", SaleEntity.getUsername());
+                    dataObj.put("TActivityId", SaleEntity.getTActivityId());
+                    dataObj.put("TAddressId", SaleEntity.getTAddressId());
+                    dataObj.put("TConsumeId", SaleEntity.getTConsumeId());
+                    dataObj.put("TOtherId", SaleEntity.getTOtherId());
+                    dataObj.put("TOverseasId", SaleEntity.getTOverseasId());
+                    dataObj.put("TStayId", SaleEntity.getTStayId());
+                    dataObj.put("TTrafficId", SaleEntity.getTTrafficId());
+                    dataObj.put("companyName", SaleEntity.getCompanyName());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 1);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private String getJingWaiData(ArrayList<ForeignTravelEntity.ListBean> Salelist, int type) {
+        String str = "";
+        try {
+            JSONObject jsonObject = new JSONObject();
+            JSONObject data = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            if (Salelist != null && Salelist.size() > 0) {
+                for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
+                    JSONObject dataObj = new JSONObject();
+                    dataObj.put("depart_name", SaleEntity.getDepart_name());
+                    dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
+                    dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
+                    dataObj.put("number_days", String.valueOf(SaleEntity.getNumber_days()));
+                    dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("return_price", String.valueOf(SaleEntity.getReturn_price()));
+                    dataObj.put("return_price_child", SaleEntity.getReturn_price_child());
+                    dataObj.put("total_price", String.valueOf(SaleEntity.getTotal_price()));
+                    dataObj.put("total_price_child", SaleEntity.getTotal_price_child());
+                    dataObj.put("spotName", String.valueOf(SaleEntity.getSpot_name()));
+                    dataObj.put("tagName", SaleEntity.getTagName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("username", SaleEntity.getUsername());
+                    dataObj.put("travel_title", SaleEntity.getTravel_title());
+                    jsonArray.put(dataObj);
+                }
+                data.put("list", jsonArray);
+                jsonObject.put("type", 2);
+                jsonObject.put("travelType", 3);
+                jsonObject.put("data", data);
+            }
+            str = jsonObject.toString();
+            KyLog.i("getData str = " + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private void zhuanFaDuanTu() {
+        String data = getDuanTuData(mCaiXianDuoXuanAdapter.getSelectedItem(), 1);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CaiXianActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaGuoNei() {
+        String data = getDuanTuData(mCaiXianDuoXuanAdapter.getSelectedItem(), 2);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CaiXianActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void zhuanFaJingWai() {
+        String data = getJingWaiData(mDuoXuanForeignAdapter.getSelectedItem(), 2);
+        KyLog.i("zhuanfa data = " + data);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        bundle.putString("from", "zhuanfa");
+        Intent intent = new Intent(CaiXianActivity.this, TuiJianActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
 
     private void setMoreData() {
         GridLayoutManager manager = new GridLayoutManager(this, 4);
@@ -1625,18 +1745,15 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 .subscribe(response -> {
                     KyLog.object(response + "");
                     cancelProgressDialog();
-//                    if (travelType == 1) {
-//                        zhuanFaDuanTu();
-//                    }
-//                    if (travelType == 2) {
-//                        zhuanFaGuoNei();
-//                    }
-//                    if (travelType == 3) {
-//                        zhuanFaJingWai();
-//                    }
-//                    if (travelType == 4) {
-//                        zhuanFaPiaoWu();
-//                    }
+                    if (travel_kind == 1) {
+                        zhuanFaDuanTu();
+                    }
+                    if (travel_kind == 2) {
+                        zhuanFaGuoNei();
+                    }
+                    if (travel_kind == 3) {
+                        zhuanFaJingWai();
+                    }
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
