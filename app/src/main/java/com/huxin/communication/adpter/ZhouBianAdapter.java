@@ -43,6 +43,12 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<ZhouBianAdapter.MyView
     private TableNameAdapter mAdapterTableName;
     private int type;
 
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOTER = 1;
+
+    public boolean isLoadMore = false;
+
+
 
     public ZhouBianAdapter(List<AroundTravelEntity.ListBean> list, Context mContext,int type) {
         this.list = list;

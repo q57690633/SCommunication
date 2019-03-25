@@ -1205,6 +1205,179 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         });
     }
 
+
+    /**
+     * 上传图片
+     *
+     * @param pathList
+     */
+    private void uploadDataImage(ArrayList<ImageItem> pathList) {
+
+        String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
+        String Generalize = mEditTextGeneralize.getText().toString().trim();
+        String TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+        String FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+        String ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+        String TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+        String finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+        String ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+        Traffic = PreferenceUtil.getString(Constanst.TAB_NMAE_TRAFFIC);
+        Address = PreferenceUtil.getString(Constanst.TAB_NMAE_ADDRESS);
+        Consume = PreferenceUtil.getString(Constanst.TAB_NMAE_CONS);
+        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+        Stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
+        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+        if (!TextUtils.isEmpty(pickupPrice)) {
+            if (pickupPrice.equals("有周边接送费")) {
+                pickupPrices = 1;
+            } else {
+                pickupPrices = 0;
+            }
+        } else {
+            Toast.makeText(this, "请选择有无接送费", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
+            stick = 2;
+        } else {
+            stick = 1;
+        }
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
+        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+
+            Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
+            Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        showProgressDialog();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_NAME));
+        map.put("depart_pro_name", PreferenceUtil.getString(Constanst.PROVINCE_NAME));
+        map.put("goals_nat_name", PreferenceUtil.getString(Constanst.NATION_NAME));
+        map.put("goals_name", PreferenceUtil.getString(Constanst.CITY_NATION_NAME));
+        map.put("spot_name", PreferenceUtil.getString(Constanst.SPOT_NATION_NAME));
+        map.put("stick", String.valueOf(stick));
+        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("line_or_throw", String.valueOf(caixian));
+        map.put("number_days", day);
+
+        map.put("total_price", TotalPrice);
+        map.put("final_price", FinalPrice);
+        map.put("return_price", ReturnPrice);
+        map.put("pickup_price", String.valueOf(pickupPrices));
+        map.put("total_price_child", TotalPriceChild);
+        map.put("final_price_child", finalPriceChild);
+
+        map.put("return_price_child", ReturnPriceChild);
+        if (!TextUtils.isEmpty(Address)) {
+            map.put("tAddressId", Address);
+        }
+        if (!TextUtils.isEmpty(Traffic)) {
+
+            map.put("tTrafficId", Traffic);
+        }
+        if (!TextUtils.isEmpty(Consume)) {
+
+            map.put("tConsumeId", Consume);
+        }
+        if (!TextUtils.isEmpty(Activity)) {
+
+            map.put("tActivityId", Activity);
+        }
+        if (!TextUtils.isEmpty(Stay)) {
+
+            map.put("tStayId", Stay);
+        }
+        if (!TextUtils.isEmpty(Other)) {
+
+            map.put("tOtherId", Other);
+        }
+        map.put("travel_title", TravelTitle);
+        map.put("generalize", Generalize);
+
+        map.put("stick_new", String.valueOf(news));
+        map.put("stick_low", String.valueOf(low));
+        map.put("stick_better", String.valueOf(better));
+        map.put("stick_throw", String.valueOf(shuaiwei));
+        map.put("stick_rate", String.valueOf(rate));
+        map.put("stick_return", String.valueOf(returns));
+        map.put("stick_hot", String.valueOf(hot));
+        map.put("stick_zeroC", String.valueOf(zeroC));
+        map.put("token", PreferenceUtil.getString(TOKEN));
+        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+        KyLog.object(map);
+
+
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueForeignRoute";
+
+        httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                super.onError(call, e, id);
+                KyLog.d(e + "");
+                Toast.makeText(OverseasReleaseActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                super.onResponse(response, id);
+                //返回图片的地址
+                KyLog.d(response);
+                getUseInfo();
+
+                Toast.makeText(OverseasReleaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(type)) {
+                    Intent intent = new Intent(OverseasReleaseActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    try {
+                        JSONObject res = new JSONObject();
+
+                        JSONArray array = new JSONArray();
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("type", 2);
+                        jsonObject.put("travelType", 3);
+                        JSONObject data = new JSONObject(response).getJSONObject("data");
+                        jsonObject.put("data", data);
+                        array.put(jsonObject);
+
+                        res.put("type", 2);
+                        res.put("arrData", array);
+                        String result = res.toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", result);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(android.app.Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
         SelectDialog dialog = new SelectDialog(this, R.style.transparentFrameWindowStyle, listener, names);
         if (!this.isFinishing()) {

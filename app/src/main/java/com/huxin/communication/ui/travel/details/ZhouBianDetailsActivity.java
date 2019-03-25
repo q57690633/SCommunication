@@ -239,17 +239,30 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        if (listBean.getIsCollect() == 0) {
-            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
-        } else {
-            isClick = false;
-            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+        if (type != 1) {
+            if (listBean.getIsCollect() == 0) {
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+            } else {
+                isClick = false;
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+
+            }
+            updateViewCount(1,String.valueOf(listBean.getId()));
+
+        }else {
+            if (headTravelEntivty.getIsCollect() == 0) {
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+            } else {
+                isClick = false;
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+
+            }
+            updateViewCount(1,String.valueOf(headTravelEntivty.getId()));
 
         }
         setData(listBean, headTravelEntivty);
         setOnBinner(listBean, headTravelEntivty);
         setTextView(listBean, headTravelEntivty, mRecyclerView);
-        updateViewCount(1,String.valueOf(listBean.getId()));
     }
 
 

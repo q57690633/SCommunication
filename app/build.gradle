@@ -73,6 +73,7 @@ dependencies {
 
 
     api 'com.tencent.imsdk:imsdk:4.2.2'
+
     // implementation 'com.tencent.imsdk:tuikit:0.0.1.198'
 
     compile 'com.lzy.widget:imagepicker:0.5.4'
@@ -87,5 +88,6 @@ dependencies {
     compile project(':pickdatetime')
 
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
 
 }

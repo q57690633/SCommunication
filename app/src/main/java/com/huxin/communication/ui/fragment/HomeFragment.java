@@ -141,6 +141,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
     private RecyclerView mRecyclerViewHead;
 
+    private ImageView mImageViewTongyetoutiao;
+
     /**
      * 滚动焦点图片
      **/
@@ -213,9 +215,36 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        KyLog.d("onStart");
+        if (PreferenceUtil.getInt("type") == 1) {
+            initData();
+        } else {
+            initDataTravel();
+            getProvinces();
+        }
+        TIMManager.getInstance().addMessageListener(this);
+        String userId = PreferenceUtil.getInt("uid") + "";
+        String userSig = PreferenceUtil.getString("usersig");
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                getConversationList();
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
+            }
+        });
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         autoLoop();//轮询
+
 
     }
 
@@ -250,27 +279,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void loadData() {
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
-        if (PreferenceUtil.getInt("type") == 1) {
-            initData();
-        } else {
-            initDataTravel();
-            getProvinces();
-        }
-        TIMManager.getInstance().addMessageListener(this);
-        String userId = PreferenceUtil.getInt("uid") + "";
-        String userSig = PreferenceUtil.getString("usersig");
-        TUIKit.login(userId, userSig, new IUIKitCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                getConversationList();
-            }
-
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
-            }
-        });
     }
+
 
     public void initViewHouse(View view) {
         mLinearLayoutmatching = (LinearLayout) view.findViewById(R.id.home_matching_line);
@@ -300,6 +310,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         mLinearLayoutPiaoWu = (LinearLayout) view.findViewById(R.id.travel_piaowu_line);
         mLinearLayoutZhouBain = (LinearLayout) view.findViewById(R.id.travel_zhoubian_line);
         mTextViewCaiXian = (TextView) view.findViewById(R.id.caixian_btn);
+        mImageViewTongyetoutiao = view.findViewById(R.id.tongyetoutiao);
 
         mLinearLayoutGuoNei.setOnClickListener(this);
         mLinearLayouJingWai.setOnClickListener(this);
@@ -472,6 +483,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 headTravelEntivty.setHeadUrl(aroundHeadBean.getHeadUrl());
                                 headTravelEntivty.setNumberDays(aroundHeadBean.getNumberDays());
                                 headTravelEntivty.setProductType(1);
+                                headTravelEntivty.setIsCollect(aroundHeadBean.getIsCollect());
+                                headTravelEntivty.setId(aroundHeadBean.getId());
+
+
                                 list.add(headTravelEntivty);
                             }
                         }
@@ -486,6 +501,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 headTravelEntivty.setNumber_days(foreignHeadBean.getNumber_days());
                                 headTravelEntivty.setHeadUrl(foreignHeadBean.getHeadUrl());
                                 headTravelEntivty.setReturn_price(foreignHeadBean.getReturn_price());
+                                headTravelEntivty.setIsCollect(foreignHeadBean.getIsCollect());
+                                headTravelEntivty.setId(foreignHeadBean.getId());
 
                                 headTravelEntivty.setProductType(2);
                                 list.add(headTravelEntivty);
@@ -502,6 +519,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 headTravelEntivty.setFinal_price(ticketHeadBean.getFinal_price());
                                 headTravelEntivty.setHeadUrl(ticketHeadBean.getHeadUrl());
                                 headTravelEntivty.setProductType(3);
+                                headTravelEntivty.setIsCollect(ticketHeadBean.getIsCollect());
+                                headTravelEntivty.setId(ticketHeadBean.getId());
+
                                 list.add(headTravelEntivty);
                             }
                         }
@@ -510,6 +530,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                         KyLog.object(list);
 
                         if (list.size() > 0) {
+                            mImageViewTongyetoutiao.setVisibility(View.GONE);
+                        }else {
+                            mImageViewTongyetoutiao.setVisibility(View.VISIBLE);
+                        }
                             final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
                             mHeadTravelAdapter = new HomeTravelAdapter(list, getContext());
@@ -529,7 +553,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                 }, 4000, 4000, TimeUnit.MILLISECONDS);
                             }
                         }
-                    }
+//                    }
 
 
                 }, throwable -> {

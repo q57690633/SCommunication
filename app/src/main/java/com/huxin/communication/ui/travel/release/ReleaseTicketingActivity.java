@@ -493,8 +493,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
             }
 
-            if (!TextUtils.isEmpty(listBean.getIssue_time())) {
-                mEditTextStartTime.setText(listBean.getIssue_time());
+            if (!TextUtils.isEmpty(listBean.getOpen_time())) {
+                String [] times = listBean.getOpen_time().split("~");
+                KyLog.d(times[times.length - 2] + " === " + times[times.length - 1]);
+                mEditTextStartTime.setText(times[times.length - 2]);
+                mEditTextEndStart.setText(times[times.length - 1]);
+
             }
 
             if (listBean.getLine_or_throw() == 0) {
@@ -1581,6 +1585,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
             map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
         }
+        map.put("id", String.valueOf(id));
+
         map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
 
         KyLog.object(map);

@@ -236,7 +236,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                     PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
                     mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,0);//2.代表解除静音
+                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,0);//0.代表解除静音
                     PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
                     isMessageAlert = true;
                     mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);

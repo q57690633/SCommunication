@@ -259,7 +259,16 @@ public class HomeTravelEntity {
         private String userPhone;
         private String username;
         private int view_count;
+        private int isCollect;
         private List<?> files;
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
+        }
 
         public String getTActivityId() {
             return TActivityId;
@@ -845,7 +854,17 @@ public class HomeTravelEntity {
         private String userCity;
         private String username;
         private int view_count;
+        private int isCollect;
+
         private List<TicketHeadBean> files;
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
+        }
 
         public String getCompanyName() {
             return companyName;
@@ -1398,6 +1417,15 @@ public class HomeTravelEntity {
         private String username;
         private int view_count;
         private List<?> files;
+        private int isCollect;
+
+        public int getIsCollect() {
+            return isCollect;
+        }
+
+        public void setIsCollect(int isCollect) {
+            this.isCollect = isCollect;
+        }
 
         public String getCompanyName() {
             return companyName;

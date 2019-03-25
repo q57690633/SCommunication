@@ -50,16 +50,18 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      */
     @Override
     public int getItemViewType(int position) {
-        KyLog.d(list.get(position % list.size()).getProductType() + "a");
+        if (list.size() > 0) {
+            KyLog.d(list.get(position % list.size()).getProductType() + "a");
 //        KyLog.d(list.get(position).getProductType() + "a");
 
-        if (position < list.size()) {
-            if (list.get(position % list.size()).getProductType() == 1) {
-                return TYPE_SELL;
-            } else if (list.get(position % list.size()).getProductType() == 2) {
-                return TYPE_RENT;
-            }else if (list.get(position % list.size()).getProductType() == 3) {
-                return TYPE_TICKET;
+            if (position < list.size()) {
+                if (list.get(position % list.size()).getProductType() == 1) {
+                    return TYPE_SELL;
+                } else if (list.get(position % list.size()).getProductType() == 2) {
+                    return TYPE_RENT;
+                } else if (list.get(position % list.size()).getProductType() == 3) {
+                    return TYPE_TICKET;
+                }
             }
         }
         return 1;
@@ -67,84 +69,131 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_SELL) {
-            View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
-            MyViewHoder hoderSell = new MyViewHoder(view);
-            hoderSell.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext,ZhouBianDetailsActivity.class);
-                    intent.putExtra("headlist", list.get(hoderSell.getAdapterPosition()));
-                    intent.putExtra("type",1);
-                    mContext.startActivity(intent);
-                }
-            });
-            return hoderSell;
-        }else if (viewType == TYPE_RENT) {
-            View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
-            MyJinWaiViewHoder hoderRent = new MyJinWaiViewHoder(view);
-            hoderRent.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext,JinWaiDetailsActivity.class);
-                    intent.putExtra("headlist", list.get(hoderRent.getAdapterPosition()));
-                    intent.putExtra("type",1);
-                    mContext.startActivity(intent);
-                }
-            });
-            return hoderRent;
-        } else if (viewType == TYPE_TICKET) {
-            View view = mInflater.inflate(R.layout.item_travel_ticket_recycelr, parent, false);
-            MyRentViewHoder hoderTicket = new MyRentViewHoder(view);
-            hoderTicket.mTextViewTicket.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext,TicketingDetailsActivity.class);
-                    intent.putExtra("headlist", list.get(hoderTicket.getAdapterPosition()));
-                    intent.putExtra("type",1);
-                    mContext.startActivity(intent);
-                }
-            });
-            return hoderTicket;
-        }
+            if (viewType == TYPE_SELL) {
+                View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
+                MyViewHoder hoderSell = new MyViewHoder(view);
+                hoderSell.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, ZhouBianDetailsActivity.class);
+                        if (list.size() > 0) {
+                            intent.putExtra("headlist", list.get(hoderSell.getAdapterPosition()));
+                        }
+                        intent.putExtra("type", 1);
+                        mContext.startActivity(intent);
+                    }
+                });
+                return hoderSell;
+            } else if (viewType == TYPE_RENT) {
+                View view = mInflater.inflate(R.layout.item_travel_xianlu_recycler, parent, false);
+                MyJinWaiViewHoder hoderRent = new MyJinWaiViewHoder(view);
+                hoderRent.mTextViewGuonei.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, JinWaiDetailsActivity.class);
+                        if (list.size() > 0) {
+                            intent.putExtra("headlist", list.get(hoderRent.getAdapterPosition()));
+                        }
+                        intent.putExtra("type", 1);
+                        mContext.startActivity(intent);
+                    }
+                });
+                return hoderRent;
+            } else if (viewType == TYPE_TICKET) {
+                View view = mInflater.inflate(R.layout.item_travel_ticket_recycelr, parent, false);
+                MyRentViewHoder hoderTicket = new MyRentViewHoder(view);
+                hoderTicket.mTextViewTicket.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(mContext, TicketingDetailsActivity.class);
+                        if (list.size() > 0) {
+                            intent.putExtra("headlist", list.get(hoderTicket.getAdapterPosition()));
+                        }
+                        intent.putExtra("type", 1);
+                        mContext.startActivity(intent);
+                    }
+                });
+                return hoderTicket;
+            }
         return null;
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof MyViewHoder) {
-            ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravelTitle());
-            ((MyViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
-            ((MyViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_city());
-            ((MyViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotalPrice()) + "元/人");
-            ((MyViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumberDays()) + "天");
-            ((MyViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays())+ "元/人");
-            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
-        }if (holder instanceof MyJinWaiViewHoder) {
-            KyLog.d(list.get(position % list.size()).getGoals_name());
-            ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravel_title());
-            ((MyJinWaiViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
-            ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_name());
-            ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotal_price()) + "元/人");
-            ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getReturn_price())+ "元/人");
+        if (list.size() > 0) {
+            if (holder instanceof MyViewHoder) {
+                ((MyViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravelTitle());
+                ((MyViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
+                ((MyViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_city());
+                ((MyViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotalPrice()) + "元/人");
+                ((MyViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumberDays()) + "天");
+                ((MyViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getNumberDays()) + "元/人");
+                if (TextUtils.isEmpty(list.get(position % list.size()).getHeadUrl())) {
+                    ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyViewHoder) holder).mImageViewPhoto);
+                }else {
+                    ((MyViewHoder) holder).mImageViewPhoto.setBackgroundResource(R.drawable.head2);
+                }
+                if (list.size() > 0){
+                    ((MyViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.VISIBLE);
+                }else {
+                    ((MyViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.GONE);
 
-            ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumber_days()) + "天");
-            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyJinWaiViewHoder) holder).mImageViewPhoto);
-        } else if (holder instanceof MyRentViewHoder) {
-            ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTicket_name());
-            ((MyRentViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getOriginal_price()) + "元/人");
-            ((MyRentViewHoder) holder).mTextViewAddress.setText(list.get(position % list.size()).getTicket_city_name());
-            ((MyRentViewHoder) holder).mTextViewReturnPrice.setText(String.valueOf("返佣：" + list.get(position % list.size()).getFinal_price()) + "元/人");
-            ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
+                }
+
+            }
+            if (holder instanceof MyJinWaiViewHoder) {
+                KyLog.d(list.get(position % list.size()).getGoals_name());
+                ((MyJinWaiViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTravel_title());
+                ((MyJinWaiViewHoder) holder).mTextViewchufadi.setText(list.get(position % list.size()).getDepart_name());
+                ((MyJinWaiViewHoder) holder).mTextViewmudidi.setText("至" + list.get(position % list.size()).getGoals_name());
+                ((MyJinWaiViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getTotal_price()) + "元/人");
+                ((MyJinWaiViewHoder) holder).mTextViewReturnPrice.setText("返佣：" + String.valueOf(list.get(position % list.size()).getReturn_price()) + "元/人");
+
+                ((MyJinWaiViewHoder) holder).mTextViewnNmdays.setText(String.valueOf(list.get(position % list.size()).getNumber_days()) + "天");
+
+                if (TextUtils.isEmpty(list.get(position % list.size()).getHeadUrl())) {
+                    ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyJinWaiViewHoder) holder).mImageViewPhoto);
+                }else {
+                    ((MyJinWaiViewHoder) holder).mImageViewPhoto.setBackgroundResource(R.drawable.head2);
+                }
+
+                if (list.size() > 0){
+                    ((MyJinWaiViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.VISIBLE);
+                }else {
+                    ((MyJinWaiViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.GONE);
+
+                }
+            } else if (holder instanceof MyRentViewHoder) {
+                ((MyRentViewHoder) holder).mTextViewTitles.setText(list.get(position % list.size()).getTicket_name());
+                ((MyRentViewHoder) holder).mTextViewTotalPrice.setText("成人：" + String.valueOf(list.get(position % list.size()).getOriginal_price()) + "元/人");
+                ((MyRentViewHoder) holder).mTextViewAddress.setText(list.get(position % list.size()).getTicket_city_name());
+                ((MyRentViewHoder) holder).mTextViewReturnPrice.setText(String.valueOf("返佣：" + list.get(position % list.size()).getFinal_price()) + "元/人");
 //            setTextView(list, position % list.size(), ((MyRentViewHoder) holder).mRecyclerView);
-        }
+                if (TextUtils.isEmpty(list.get(position % list.size()).getHeadUrl())) {
+                    ImageLoader.getInstance().displayImage(list.get(position % list.size()).getHeadUrl(), ((MyRentViewHoder) holder).mImageViewPhoto);
+                }else {
+                    ((MyRentViewHoder) holder).mImageViewPhoto.setBackgroundResource(R.drawable.head2);
+                }
+                if (list.size() > 0){
+                    ((MyRentViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.VISIBLE);
+                }else {
+                    ((MyRentViewHoder) holder).mImageViewTongyetoutiao.setVisibility(View.GONE);
 
+                }
+            }
+
+        }
     }
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        if (list.size()> 1) {
+            return Integer.MAX_VALUE;
+        }else if (list.size() == 1){
+            return 1;
+        }
+        return 0;
     }
 
     class MyViewHoder extends RecyclerView.ViewHolder {
@@ -157,6 +206,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewTitles;
         private TextView mTextViewReturnPrice;
         private LinearLayout mTextViewGuonei;
+        private ImageView mImageViewTongyetoutiao;
 
 
         public MyViewHoder(View itemView) {
@@ -169,6 +219,8 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
             mTextViewGuonei = itemView.findViewById(R.id.guonei);
+            mImageViewTongyetoutiao = itemView.findViewById(R.id.tongyetoutiao);
+
 
         }
     }
@@ -182,7 +234,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewnNmdays;
         private TextView mTextViewTitles;
         private LinearLayout mTextViewGuonei;
-
+        private ImageView mImageViewTongyetoutiao;
         private TextView mTextViewReturnPrice;
 
 
@@ -196,6 +248,8 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
             mTextViewGuonei = itemView.findViewById(R.id.guonei);
+            mImageViewTongyetoutiao = itemView.findViewById(R.id.tongyetoutiao);
+
 
 
         }
@@ -207,7 +261,7 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView mTextViewTotalPrice;
         private TextView mTextViewAddress;
         private TextView mTextViewTitles;
-
+        private ImageView mImageViewTongyetoutiao;
         private TextView mTextViewReturnPrice;
         private LinearLayout mTextViewTicket;
 
@@ -220,6 +274,8 @@ public class HomeTravelAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTextViewTotalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
             mTextViewReturnPrice = itemView.findViewById(R.id.returnPrice);
             mTextViewTicket = itemView.findViewById(R.id.ticket);
+            mImageViewTongyetoutiao = itemView.findViewById(R.id.tongyetoutiao);
+
 
         }
     }

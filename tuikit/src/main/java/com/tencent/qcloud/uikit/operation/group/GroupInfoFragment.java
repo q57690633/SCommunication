@@ -24,13 +24,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.tencent.imsdk.TIMCallBack;
+import com.tencent.imsdk.TIMConversation;
+import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMGroupManager;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.group.TIMGroupMemberResult;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.qcloud.uikit.PreferenceUtil;
 import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.adapter.GroupDeleteMemberAdapter;
@@ -82,6 +86,7 @@ public class GroupInfoFragment extends BaseFragment {
     private Button mQuitBtn;
     private TextView mCheckMoreTv;
     private TextView mGroupName;
+    private LinearLayout mLinearLayoutClear;
 
 
     private JSONArray groupMemberJSONArr = new JSONArray();
@@ -218,19 +223,74 @@ public class GroupInfoFragment extends BaseFragment {
         mSetTopCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    //置顶
+                    String str = PreferenceUtil.getString(getContext(),"top");
+                    try {
+                        JSONArray array = new JSONArray(str);
+                        array.put(str);
+                        PreferenceUtil.putString(getContext(),"top",array.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    //不置顶
+                    String str = PreferenceUtil.getString(getContext(),"top");
+                    try {
+                        JSONArray jsonArray = new JSONArray(str);
+                        for (int i = 0 ;i <jsonArray.length(); i++){
+                            if (groupId.equals(jsonArray.getString(i))){
+                                jsonArray.remove(i);
+                            }
+                            PreferenceUtil.putString(getContext(),"top",jsonArray.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
         });
         mMsgNoAlertCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    //置顶
+                    String str = PreferenceUtil.getString(getContext(),"jianyin");
+                    try {
+                        JSONArray array = new JSONArray(str);
+                        array.put(str);
+                        PreferenceUtil.putString(getContext(),"top",array.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    //不置顶
+                    String str = PreferenceUtil.getString(getContext(),"jingyin");
+                    try {
+                        JSONArray jsonArray = new JSONArray(str);
+                        for (int i = 0 ;i <jsonArray.length(); i++){
+                            if (groupId.equals(jsonArray.getString(i))){
+                                jsonArray.remove(i);
+                            }
+                            PreferenceUtil.putString(getContext(),"top",jsonArray.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
         });
         mClearRecordLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               boolean s =  TIMManagerExt.getInstance().deleteConversation(TIMConversationType.C2C, groupId);
+                if (s){
+                    Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mQuitBtn.setOnClickListener(new View.OnClickListener() {
@@ -250,6 +310,8 @@ public class GroupInfoFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override

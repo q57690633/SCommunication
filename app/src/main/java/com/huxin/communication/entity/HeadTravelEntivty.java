@@ -39,6 +39,7 @@ public class HeadTravelEntivty implements Parcelable {
     private String goals_pro;
     private String headUrl;
     private int issue_count;
+    private int isCollect;
     private String issue_time;
     private String keyWord;
     private int lineOrThrow;
@@ -126,6 +127,14 @@ public class HeadTravelEntivty implements Parcelable {
     private String ticket_theme_id;
     private int ticket_type;
     private int productType;
+
+    public int getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(int isCollect) {
+        this.isCollect = isCollect;
+    }
 
     public String getCarousel_detail() {
         return carousel_detail;
@@ -1100,6 +1109,7 @@ public class HeadTravelEntivty implements Parcelable {
         dest.writeString(this.goals_pro);
         dest.writeString(this.headUrl);
         dest.writeInt(this.issue_count);
+        dest.writeInt(this.isCollect);
         dest.writeString(this.issue_time);
         dest.writeString(this.keyWord);
         dest.writeInt(this.lineOrThrow);
@@ -1223,6 +1233,7 @@ public class HeadTravelEntivty implements Parcelable {
         this.goals_pro = in.readString();
         this.headUrl = in.readString();
         this.issue_count = in.readInt();
+        this.isCollect = in.readInt();
         this.issue_time = in.readString();
         this.keyWord = in.readString();
         this.lineOrThrow = in.readInt();

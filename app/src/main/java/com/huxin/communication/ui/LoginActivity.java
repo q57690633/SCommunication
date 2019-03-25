@@ -201,7 +201,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                                     @Override
                                     public void onError(int i, String s) {
-                                        Toast.makeText(LoginActivity.this, "聊天工具登录失败，错误码 " + i, Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "聊天工具登录失败，错误码 " + i, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, s + " 错误码 " + i, Toast.LENGTH_SHORT).show();
+
                                     }
 
                                     @Override
