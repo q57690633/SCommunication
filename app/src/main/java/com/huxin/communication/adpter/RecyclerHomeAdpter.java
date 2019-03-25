@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,16 @@ import com.huxin.communication.base.HomeFragmentMsgDBHelper;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.DateUtil;
+import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.utils.SQLiteUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sky.kylog.KyLog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,16 +51,8 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
 
     @Override
     public MyViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-//        if (PreferenceUtil.getInt("type") == 1) {
-            View view = mInflater.inflate(R.layout.recycler_home_item, parent, false);
-            hoder = new MyViewHoder(view);
-
-
-//        } else {
-//            View view = mInflater.inflate(R.layout.recycler_home_item_travel, parent, false);
-//            hoder = new MyViewHoder(view);
-//        }
+        View view = mInflater.inflate(R.layout.recycler_home_item, parent, false);
+        hoder = new MyViewHoder(view);
         return hoder;
     }
 

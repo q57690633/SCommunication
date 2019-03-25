@@ -225,24 +225,29 @@ public class GroupInfoFragment extends BaseFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     //置顶
-                    String str = PreferenceUtil.getString(getContext(),"top");
+                    String str = PreferenceUtil.getString(getContext(),"groupTop");
                     try {
-                        JSONArray array = new JSONArray(str);
-                        array.put(str);
-                        PreferenceUtil.putString(getContext(),"top",array.toString());
+                        JSONArray array;
+                        if(null == str) {
+                            array = new JSONArray();
+                        }else {
+                            array = new JSONArray(str);
+                        }
+                        array.put(groupId);
+                        PreferenceUtil.putString(getContext(),"groupTop",array.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }else {
                     //不置顶
-                    String str = PreferenceUtil.getString(getContext(),"top");
+                    String str = PreferenceUtil.getString(getContext(),"groupTop");
                     try {
                         JSONArray jsonArray = new JSONArray(str);
                         for (int i = 0 ;i <jsonArray.length(); i++){
                             if (groupId.equals(jsonArray.getString(i))){
                                 jsonArray.remove(i);
                             }
-                            PreferenceUtil.putString(getContext(),"top",jsonArray.toString());
+                            PreferenceUtil.putString(getContext(),"groupTop",jsonArray.toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

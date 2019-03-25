@@ -80,6 +80,9 @@ import com.tencent.imsdk.ext.message.TIMMessageExt;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -646,11 +649,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             }
         }
         if (dbList.size() > 0) {
+            List<GetMessageEntity> list = getList(dbList);
             LinearLayoutManager manager = new LinearLayoutManager(getContext());
-            mAdpter = new RecyclerHomeAdpter(dbList, getContext());
+            mAdpter = new RecyclerHomeAdpter(list, getContext());
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
 
@@ -1140,5 +1143,34 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         } else {
             util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
         }
+    }
+
+    private List<GetMessageEntity> getList(List<GetMessageEntity> list) {
+        List<GetMessageEntity> showList = new ArrayList<>();
+        try {
+            String spId = PreferenceUtil.getString("groupTop");
+            if(null == spId) {
+                return list;
+            }
+            JSONArray array = new JSONArray(spId);
+            for(int i = 0; i < array.length(); i++) {
+                String id = array.getString(i);
+                for(int j = 0; j < list.size(); j++) {
+                    if(id.equalsIgnoreCase(list.get(j).getId())) {
+                        showList.add(list.get(j));
+                        list.remove(j);
+                    }
+                }
+            }
+            for(int i = 0; i < list.size(); i++) {
+                showList.add(list.get(i));
+            }
+            if(showList.size() == 0) {
+                showList = list;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return showList;
     }
 }
