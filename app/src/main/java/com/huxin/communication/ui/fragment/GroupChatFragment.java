@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
@@ -75,12 +76,17 @@ public class GroupChatFragment extends BaseFragment implements MessageUnitClickL
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mBaseView = inflater.inflate(R.layout.chat_fragment_group, container, false);
         init();
-        if("tuijian".equalsIgnoreCase(from)) {
-            sendBusinessCard();
-        }
-        if("zhuanfa".equalsIgnoreCase(from)) {
-            sendZhuanFa();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if("tuijian".equalsIgnoreCase(from)) {
+                    sendBusinessCard();
+                }
+                if("zhuanfa".equalsIgnoreCase(from)) {
+                    sendZhuanFa();
+                }
+            }
+        }, 1000);
         return mBaseView;
     }
 
