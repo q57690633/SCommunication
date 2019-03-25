@@ -26,6 +26,16 @@ public class GetMessageEntity {
 
     private boolean isRead;
 
+    private String nickName;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public String getHead_url() {
         return head_url;
     }

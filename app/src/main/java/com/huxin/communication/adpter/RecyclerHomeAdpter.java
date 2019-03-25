@@ -62,6 +62,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         holder.time.setText(DateUtil.timeslashData(String.valueOf(list.get(position).getTimeStamp())));
         holder.num.setText(String.valueOf(list.get(position).getNum()));
         holder.msg.setText(String.valueOf(list.get(position).getMsg()));
+        holder.nickname.setText(list.get(position).getNickName());
         if (!TextUtils.isEmpty(list.get(position).getHead_url())){
             ImageLoader.getInstance().displayImage(list.get(position).getHead_url(),holder.image);
         }else {
@@ -72,7 +73,6 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             holder.numRl.setVisibility(View.GONE);
         }else {
             holder.numRl.setVisibility(View.VISIBLE);
-
         }
         hoder.Tm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +104,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         private ImageView image;
         private RelativeLayout numRl;
         private LinearLayout Tm;
+        private TextView nickname;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -113,7 +114,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             time = itemView.findViewById(R.id.time);
             numRl = itemView.findViewById(R.id.rl_num);
             Tm = itemView.findViewById(R.id.line_tm);
-
+            nickname = itemView.findViewById(R.id.nickname);
 
         }
     }

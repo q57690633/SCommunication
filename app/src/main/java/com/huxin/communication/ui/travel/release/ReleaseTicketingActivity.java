@@ -43,7 +43,6 @@ import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.sky.kylog.KyLog;
-import com.tencent.imsdk.session.IForceOfflineListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

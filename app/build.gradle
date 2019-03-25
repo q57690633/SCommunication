@@ -72,7 +72,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
 
 
-    api 'com.tencent.imsdk:imsdk:4.0.0.1'
+    api 'com.tencent.imsdk:imsdk:4.2.2'
     // implementation 'com.tencent.imsdk:tuikit:0.0.1.198'
 
     compile 'com.lzy.widget:imagepicker:0.5.4'

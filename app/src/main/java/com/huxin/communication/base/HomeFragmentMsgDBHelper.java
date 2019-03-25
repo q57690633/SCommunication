@@ -14,6 +14,7 @@ public class HomeFragmentMsgDBHelper extends SQLiteOpenHelper {
 
     public static final String CURRENTUID = "currentUid";
     public static final String UID = "uid";
+    public static final String NICKNAME = "nickName";
     public static final String MESSAGE = "message";
     public static final String TIME = "timeStamp";
     public static final String HEAD_URL = "headurl";
@@ -33,6 +34,7 @@ public class HomeFragmentMsgDBHelper extends SQLiteOpenHelper {
                 + "id integer primary key autoincrement,"
                 + UID + " varchar2(20) unique,"
                 + CURRENTUID + " varchar2(20),"
+                + NICKNAME + " varchar2(200),"
                 + MESSAGE + " varchar2(200),"
                 + TIME + " varchar2(140),"
                 + HEAD_URL + " varchar2(140),"

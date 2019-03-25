@@ -65,11 +65,15 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMTextElem;
+import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupDetailInfo;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.message.TIMConversationExt;
 import com.tencent.imsdk.ext.message.TIMManagerExt;
 import com.tencent.imsdk.ext.message.TIMMessageExt;
@@ -588,6 +592,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         String TYPE = HomeFragmentMsgDBHelper.TYPE;
         String UNREAD_NUM = HomeFragmentMsgDBHelper.UNREAD_NUM;
         String IS_READ = HomeFragmentMsgDBHelper.IS_READ;
+        String NICK_NAME = HomeFragmentMsgDBHelper.NICKNAME;
         SQLiteUtil util = new SQLiteUtil(getContext());
         String currentId = PreferenceUtil.getInt("uid") + "";
         Cursor cursor = util.query(TABLE_NAME, null);
@@ -596,7 +601,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             GetMessageEntity entity = new GetMessageEntity();
             String curId = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.CURRENTUID));
             if(currentId.equalsIgnoreCase(curId)) {
-                String uid, message, time, head_url, type, unread_num, isread;
+                String uid, message, time, head_url, type, unread_num, isread, nickname;
                 uid = cursor.getString(cursor.getColumnIndex(UID));
                 message = cursor.getString(cursor.getColumnIndex(MESSAGE));
                 time = cursor.getString(cursor.getColumnIndex(TIME));
@@ -604,6 +609,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 type = cursor.getString(cursor.getColumnIndex(TYPE));
                 unread_num = cursor.getString(cursor.getColumnIndex(UNREAD_NUM));
                 isread = cursor.getString(cursor.getColumnIndex(IS_READ));
+                nickname = cursor.getString(cursor.getColumnIndex(NICK_NAME));
                 entity.setId(uid);
                 entity.setMsg(message);
                 entity.setTimeStamp(Long.parseLong(time));
@@ -611,6 +617,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 entity.setType(type);
                 entity.setNum(Long.parseLong(unread_num));
                 entity.setRead(Boolean.getBoolean(isread));
+                entity.setNickName(nickname);
                 dbList.add(entity);
             }
         }
@@ -931,60 +938,58 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             if (elem.getType() == TIMElemType.Face) {
                                 text = getResources().getString(R.string.msg_face);
                             }
-                            String currentId = PreferenceUtil.getInt("uid") + "";
-                            String sender = message.getConversation().getPeer();
-                            String faceUrl = message.getSenderProfile().getFaceUrl();
+
+                            List<String> identifiersList = new ArrayList<>();
+                            String identifiers = message.getSenderProfile().getIdentifier();
+                            Log.i("MyTAG", "identifiers = " + identifiers);
+                            identifiersList.add(identifiers);
+                            TIMMessage finalMessage = message;
+                            String finalText = text;
                             TIMConversationType conversationType = message.getConversation().getType();
                             String type = conversationType.name();
-                            long timeStamp = message.timestamp();
-                            TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
-                            TIMConversationExt conExt = new TIMConversationExt(con);
-                            long count = conExt.getUnreadMessageNum();
-                            TIMMessageExt msgExt = new TIMMessageExt(message);
-                            boolean isRead = msgExt.isRead();
-                            GetMessageEntity entity = new GetMessageEntity();
-                            entity.setHead_url(faceUrl);
-                            entity.setId(sender);
-                            entity.setMsg(text);
-                            entity.setNum(count);
-                            entity.setTimeStamp(timeStamp);
-                            entity.setType(type);
-                            entity.setRead(isRead);
-                            list.add(entity);
-                            KyLog.d(list.size() + "");
-                            ContentValues values = new ContentValues();
-                            values.put(HomeFragmentMsgDBHelper.UID, sender);
-                            values.put(HomeFragmentMsgDBHelper.MESSAGE, text);
-                            values.put(HomeFragmentMsgDBHelper.TIME, timeStamp);
-                            values.put(HomeFragmentMsgDBHelper.HEAD_URL, faceUrl);
-                            values.put(HomeFragmentMsgDBHelper.TYPE, type);
-                            values.put(HomeFragmentMsgDBHelper.UNREAD_NUM, count);
-                            values.put(HomeFragmentMsgDBHelper.IS_READ, isRead + "");
-                            values.put(HomeFragmentMsgDBHelper.CURRENTUID, currentId);
-                            SQLiteUtil util = new SQLiteUtil(getContext());
-                            boolean isUpdate = false;
-                            boolean canUpdate = false;
-                            Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
-                            while (cursor.moveToNext()) {
-                                String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
-                                if (sender.equalsIgnoreCase(uid)) {
-                                    isUpdate = true;
-                                    long timeStampDB = Long.parseLong(cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.TIME)));
-                                    if(timeStamp > timeStampDB) {
-                                        canUpdate = true;
+                            if("c2c".equalsIgnoreCase(type)) {
+                                TIMFriendshipManager.getInstance().getUsersProfile(identifiersList, true, new TIMValueCallBack<List<TIMUserProfile>>() {
+                                    @Override
+                                    public void onError(int i, String s) {
+                                        Log.i("MyTAG", "getUsersProfile error code = " + i + " desc = " + s);
                                     }
-                                }
+
+                                    @Override
+                                    public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                                        TIMUserProfile profile = timUserProfiles.get(0);
+                                        Log.i("MyTAG", "profile.getNickName = " + profile.getNickName());
+                                        String nickname = profile.getNickName();
+                                        Log.i("MyTAG", "profile.getFaceUrl = " + profile.getFaceUrl());
+                                        String faceurl = profile.getFaceUrl();
+                                        updateDBWhenGetLocalMessage(finalMessage, finalText, nickname, faceurl, list, type);
+                                        GetMsgManager msgManager = GetMsgManager.instants();
+                                        msgManager.setList(null);
+                                    }
+                                });
+                            }else {
+                                String sender = message.getConversation().getPeer();
+                                List<String> groupInfoList = new ArrayList<>();
+                                groupInfoList.add(sender);
+                                TIMGroupManagerExt.getInstance().getGroupPublicInfo(groupInfoList, new TIMValueCallBack<List<TIMGroupDetailInfo>>() {
+                                    @Override
+                                    public void onError(int i, String s) {
+                                        Log.i("MyTAG", "getGroupPublicInfo error code = " + i + " desc = " + s);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(List<TIMGroupDetailInfo> timGroupDetailInfos) {
+                                        TIMGroupDetailInfo info = timGroupDetailInfos.get(0);
+                                        Log.i("MyTAG", "info.getGroupName = " + info.getGroupName());
+                                        String nickname = info.getGroupName();
+                                        String faceurl = info.getFaceUrl();
+                                        updateDBWhenGetLocalMessage(finalMessage, finalText, nickname, faceurl, list, type);
+                                        GetMsgManager msgManager = GetMsgManager.instants();
+                                        msgManager.setList(null);
+                                    }
+                                });
                             }
-                            if (isUpdate) {
-                                if(canUpdate) {
-                                    util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
-                                }
-                            } else {
-                                util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
-                            }
+
                         }
-                        GetMsgManager msgManager = GetMsgManager.instants();
-                        msgManager.setList(null);
                     }
                 });
     }
@@ -1053,6 +1058,63 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void cancel() {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
+        }
+    }
+
+    private void updateDBWhenGetLocalMessage(TIMMessage message, String text, String nickName, String faceurl, List<GetMessageEntity> list, String type) {
+        String currentId = PreferenceUtil.getInt("uid") + "";
+        String sender = message.getConversation().getPeer();
+        long timeStamp = message.timestamp();
+        TIMConversation con;
+        if("c2c".equalsIgnoreCase(type)) {
+            con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
+        }else {
+            con = TIMManager.getInstance().getConversation(TIMConversationType.Group, message.getConversation().getPeer());
+        }
+        TIMConversationExt conExt = new TIMConversationExt(con);
+        long count = conExt.getUnreadMessageNum();
+        TIMMessageExt msgExt = new TIMMessageExt(message);
+        boolean isRead = msgExt.isRead();
+        GetMessageEntity entity = new GetMessageEntity();
+        entity.setHead_url(faceurl);
+        entity.setId(sender);
+        entity.setMsg(text);
+        entity.setNum(count);
+        entity.setTimeStamp(timeStamp);
+        entity.setType(type);
+        entity.setRead(isRead);
+        list.add(entity);
+        KyLog.d(list.size() + "");
+        ContentValues values = new ContentValues();
+        values.put(HomeFragmentMsgDBHelper.UID, sender);
+        values.put(HomeFragmentMsgDBHelper.MESSAGE, text);
+        values.put(HomeFragmentMsgDBHelper.TIME, timeStamp);
+        values.put(HomeFragmentMsgDBHelper.HEAD_URL, faceurl);
+        values.put(HomeFragmentMsgDBHelper.TYPE, type);
+        values.put(HomeFragmentMsgDBHelper.UNREAD_NUM, count);
+        values.put(HomeFragmentMsgDBHelper.IS_READ, isRead + "");
+        values.put(HomeFragmentMsgDBHelper.CURRENTUID, currentId);
+        values.put(HomeFragmentMsgDBHelper.NICKNAME, nickName);
+        SQLiteUtil util = new SQLiteUtil(getContext());
+        boolean isUpdate = false;
+        boolean canUpdate = false;
+        Cursor cursor = util.query(HomeFragmentMsgDBHelper.TABLE_NAME, null);
+        while (cursor.moveToNext()) {
+            String uid = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.UID));
+            if (sender.equalsIgnoreCase(uid)) {
+                isUpdate = true;
+                long timeStampDB = Long.parseLong(cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.TIME)));
+                if(timeStamp >= timeStampDB) {
+                    canUpdate = true;
+                }
+            }
+        }
+        if (isUpdate) {
+            if(canUpdate) {
+                util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
+            }
+        } else {
+            util.insert(HomeFragmentMsgDBHelper.TABLE_NAME, values);
         }
     }
 }
