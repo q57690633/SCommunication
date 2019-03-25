@@ -1377,7 +1377,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d("release === " + e);
-                Toast.makeText(ReleaseZhouBoundaryActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseZhouBoundaryActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
                 cancelProgressDialog();
             }
 
@@ -1388,7 +1388,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 getUseInfo();
                 cancelProgressDialog();
                 KyLog.d("release == " + response);
-                Toast.makeText(ReleaseZhouBoundaryActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseZhouBoundaryActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
                     startActivity(intent);
             }

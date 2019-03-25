@@ -265,7 +265,7 @@ public class GroupInfoFragment extends BaseFragment {
                     try {
                         JSONArray array = new JSONArray(str);
                         array.put(str);
-                        PreferenceUtil.putString(getContext(),"top",array.toString());
+                        PreferenceUtil.putString(getContext(),"jianyin",array.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -278,7 +278,7 @@ public class GroupInfoFragment extends BaseFragment {
                             if (groupId.equals(jsonArray.getString(i))){
                                 jsonArray.remove(i);
                             }
-                            PreferenceUtil.putString(getContext(),"top",jsonArray.toString());
+                            PreferenceUtil.putString(getContext(),"jianyin",jsonArray.toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -494,10 +494,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             }
 
             if (!TextUtils.isEmpty(listBean.getOpen_time())) {
-                String [] times = listBean.getOpen_time().split("~");
+                String[] times = listBean.getOpen_time().split("~");
                 KyLog.d(times[times.length - 2] + " === " + times[times.length - 1]);
                 mEditTextStartTime.setText(times[times.length - 2]);
                 mEditTextEndStart.setText(times[times.length - 1]);
+                startTime = times[times.length - 2];
+                endTime = times[times.length - 1];
 
             }
 
@@ -1031,11 +1033,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 zeroC = 1;
                 break;
             case R.id.confirm:
-                    if (id == 0) {
-                        uploadImage(selImageList);
-                    }else {
-                        uploadDataImage(selImageList);
-                    }
+                if (id == 0) {
+                    uploadImage(selImageList);
+                } else {
+                    uploadDataImage(selImageList);
+                }
 
                 break;
 
@@ -1230,7 +1232,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             case R.id.other_confirm:
                 if (id == 0) {
                     uploadImage(selImageListOther);
-                }else {
+                } else {
                     uploadDataImage(selImageListOther);
                 }
                 break;
@@ -1370,7 +1372,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                     if (ticket_type == 1) {
                         selImageList.addAll(images);
                         adapter.setImages(selImageList);
-                    }else {
+                    } else {
                         selImageListOther.addAll(images);
                         adapterOther.setImages(selImageListOther);
                     }
@@ -1385,7 +1387,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                         selImageList.clear();
                         selImageList.addAll(images);
                         adapter.setImages(selImageList);
-                    }else {
+                    } else {
                         selImageListOther.clear();
                         selImageListOther.addAll(images);
                         adapterOther.setImages(selImageListOther);
@@ -1419,6 +1421,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
      * @param pathList
      */
     private void uploadDataImage(ArrayList<ImageItem> pathList) {
+        KyLog.d("uploadDataImage");
         if (ticket_type == 1) {
             TicketName = mEditTextTicketName.getText().toString().trim();
             FinalBoat = mEditTextFinalBoat.getText().toString().trim();
@@ -1444,14 +1447,158 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
         }
 
+//        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
+////
+////        if (TextUtils.isEmpty(listBean.getTicket_addr()) && TextUtils.isEmpty(listBean.getTicket_name())) {
+////            Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
+////            return;
+////        }
+////
+////        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
+////            Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
+////            return;
+////        }
+////
+////        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
+////        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+////
+////        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
+////            stick = 2;
+////        } else {
+////            stick = 1;
+////        }
+////        showProgressDialog();
+////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
+////        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+////
+////        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
+////        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
+////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
+////        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
+////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
+////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
+////
+////        Map<String, String> map = new HashMap<>();
+////        if (!TextUtils.isEmpty(listBean.getTicket_pro_name())) {
+////            map.put("ticket_pro_name", listBean.getTicket_pro_name());
+////        }
+////
+////        if (!TextUtils.isEmpty(listBean.getTicket_city_name())) {
+////            map.put("ticket_city_name", listBean.getTicket_city_name());
+////        }
+////        if (!TextUtils.isEmpty(listBean.getTicket_name())) {
+////            map.put("ticket_name", listBean.getTicket_name());
+////        }
+////
+////        if (!TextUtils.isEmpty(listBean.getTicket_addr())) {
+////            map.put("ticket_addr", listBean.getTicket_addr());
+////        }
+////
+////        map.put("ticket_type", String.valueOf(listBean.getTicket_type()));
+////        if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime))
+////            map.put("open_time", startTime + "~" + endTime);
+////        if (!TextUtils.isEmpty(originalprice)) {
+////
+////            map.put("original_price", originalprice);
+////        }
+////        if (!TextUtils.isEmpty(finalprice)) {
+////            map.put("final_price", finalprice);
+////
+////        }
+////        if (!TextUtils.isEmpty(FinalPriceChild)) {
+////            map.put("original_price_child", FinalPriceChild);
+////        }
+////
+////        if (!TextUtils.isEmpty(FinalPriceChild)) {
+////            map.put("final_price_child", FinalPriceChild);
+////        }
+////
+////        if (!TextUtils.isEmpty(OriginalPriceEvening)) {
+////            map.put("original_price_evening", OriginalPriceEvening);
+////        }
+////        if (!TextUtils.isEmpty(FinalPriceEvening)) {
+////
+////            map.put("final_price_evening", FinalPriceEvening);
+////        }
+////        if (!TextUtils.isEmpty(OriginalPriceParentChild)) {
+////
+////            map.put("original_price_parent_child", OriginalPriceParentChild);
+////        }
+////        if (!TextUtils.isEmpty(FinalPriceParentChild)) {
+////
+////            map.put("final_price_parent_child", FinalPriceParentChild);
+////        }
+////        if (!TextUtils.isEmpty(OriginalPriceFamily)) {
+////
+////            map.put("original_price_family", OriginalPriceFamily);
+////        }
+////
+////        if (!TextUtils.isEmpty(FinalPriceFamily)) {
+////
+////            map.put("final_price_family", FinalPriceFamily);
+////        }
+////
+////        if (!TextUtils.isEmpty(OriginalBoat)) {
+////
+////            map.put("original_boat", OriginalBoat);
+////        }
+////        if (!TextUtils.isEmpty(FinalBoat)) {
+////
+////            map.put("final_boat", FinalBoat);
+////        }
+////        if (!TextUtils.isEmpty(OriginalCar)) {
+////
+////            map.put("original_car", OriginalCar);
+////        }
+////        if (!TextUtils.isEmpty(FinalCar)) {
+////
+////            map.put("final_car", FinalCar);
+////        }
+////        map.put("ticket_theme_id", "");
+////        if (!TextUtils.isEmpty(Activity)) {
+////            map.put("ticket_activity_id", Activity);
+////        }
+////        if (!TextUtils.isEmpty(Other)) {
+////            map.put("ticket_other_id", Other);
+////        }
+////
+////        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
+////        map.put("stick", String.valueOf(listBean.getStick()));
+////        if (caixian != 0) {
+////            map.put("line_or_throw", String.valueOf(listBean.getLine_or_throw()));
+////        }
+////        map.put("stick_new", String.valueOf(listBean.getStick_new()));
+////        map.put("stick_low", String.valueOf(listBean.getStick_low()));
+////        map.put("stick_better", String.valueOf(listBean.getStick_better()));
+////        map.put("stick_throw", String.valueOf(listBean.getStick_throw()));
+////        map.put("stick_rate", String.valueOf(listBean.getStick_rate()));
+////        map.put("stick_return", String.valueOf(listBean.getStick_return()));
+////        map.put("stick_hot", String.valueOf(listBean.getStick_hot()));
+////        map.put("stick_zeroC", String.valueOf(listBean.getStick_zeroC()));
+////        map.put("token", PreferenceUtil.getString(TOKEN));
+////
+////        map.put("generalize", "");
+////        if (!TextUtils.isEmpty(OriginalPriceTotal)) {
+////
+////            map.put("original_price_total", OriginalPriceTotal);
+////        }
+////        if (!TextUtils.isEmpty(FinalPriceTotal)) {
+////
+////            map.put("final_price_total", FinalPriceTotal);
+////        }
+////        if (!TextUtils.isEmpty(listBean.getTicket_pro_code())) {
+////            map.put("ticket_pro_code", listBean.getTicket_pro_code());
+////        }
+
+
         String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
-        if (TextUtils.isEmpty(TicketAddr) && TextUtils.isEmpty(TicketName)) {
+        if (TextUtils.isEmpty(TicketAddr) || TextUtils.isEmpty(TicketName)) {
             Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
+        if (TextUtils.isEmpty(startTime) || TextUtils.isEmpty(endTime)) {
             Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -1492,13 +1639,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
 
         map.put("ticket_type", String.valueOf(ticket_type));
-        if (!TextUtils.isEmpty(startTime)&& !TextUtils.isEmpty(endTime))
-        map.put("open_time", startTime + "~" + endTime);
+        if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime))
+            map.put("open_time", startTime + "~" + endTime);
         if (!TextUtils.isEmpty(originalprice)) {
 
             map.put("original_price", originalprice);
         }
-        if (!TextUtils.isEmpty(finalprice)){
+        if (!TextUtils.isEmpty(finalprice)) {
             map.put("final_price", finalprice);
 
         }
@@ -1541,7 +1688,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
         if (!TextUtils.isEmpty(FinalBoat)) {
 
-            map.put("final_boat", FinalBoat);}
+            map.put("final_boat", FinalBoat);
+        }
         if (!TextUtils.isEmpty(OriginalCar)) {
 
             map.put("original_car", OriginalCar);
@@ -1585,12 +1733,14 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
             map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
         }
+
+
         map.put("id", String.valueOf(id));
 
-        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+//        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
 
         KyLog.object(map);
-        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/updatePersonageTicket";
 
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
@@ -1600,7 +1750,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 cancelProgressDialog();
                 super.onError(call, e, id);
                 KyLog.d(e + "");
-                Toast.makeText(ReleaseTicketingActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseTicketingActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -1611,35 +1761,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 KyLog.d(response);
                 //返回图片的地址
                 getUseInfo();
-                Toast.makeText(ReleaseTicketingActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                if (TextUtils.isEmpty(type)) {
-                    Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    try {
-                        JSONObject res = new JSONObject();
+                Toast.makeText(ReleaseTicketingActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
 
-                        JSONArray array = new JSONArray();
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("type", 2);
-                        jsonObject.put("travelType", 4);
-                        JSONObject data = new JSONObject(response).getJSONObject("data");
-                        jsonObject.put("data", data);
-                        array.put(jsonObject);
-
-                        res.put("type", 2);
-                        res.put("arrData", array);
-                        String result = res.toString();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("msg", result);
-                        Intent intent = getIntent();
-                        intent.putExtras(bundle);
-                        setResult(android.app.Activity.RESULT_OK, intent);
-                        finish();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         });
     }
@@ -1724,13 +1847,13 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
 
         map.put("ticket_type", String.valueOf(ticket_type));
-        if (!TextUtils.isEmpty(startTime)&& !TextUtils.isEmpty(endTime))
+        if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime))
             map.put("open_time", startTime + "~" + endTime);
         if (!TextUtils.isEmpty(originalprice)) {
 
             map.put("original_price", originalprice);
         }
-        if (!TextUtils.isEmpty(finalprice)){
+        if (!TextUtils.isEmpty(finalprice)) {
             map.put("final_price", finalprice);
 
         }
@@ -1773,7 +1896,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         }
         if (!TextUtils.isEmpty(FinalBoat)) {
 
-            map.put("final_boat", FinalBoat);}
+            map.put("final_boat", FinalBoat);
+        }
         if (!TextUtils.isEmpty(OriginalCar)) {
 
             map.put("original_car", OriginalCar);
@@ -1817,7 +1941,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE))) {
             map.put("ticket_pro_code", PreferenceUtil.getString(Constanst.TICKET_PROVINCE_CODE));
         }
-        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+//        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
 
         KyLog.object(map);
         String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueTicket";
@@ -1842,8 +1966,34 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 //返回图片的地址
                 getUseInfo();
                 Toast.makeText(ReleaseTicketingActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (TextUtils.isEmpty(type)) {
+                    Intent intent = new Intent(ReleaseTicketingActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    try {
+                        JSONObject res = new JSONObject();
+
+                        JSONArray array = new JSONArray();
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("type", 2);
+                        jsonObject.put("travelType", 4);
+                        JSONObject data = new JSONObject(response).getJSONObject("data");
+                        jsonObject.put("data", data);
+                        array.put(jsonObject);
+
+                        res.put("type", 2);
+                        res.put("arrData", array);
+                        String result = res.toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("msg", result);
+                        Intent intent = getIntent();
+                        intent.putExtras(bundle);
+                        setResult(android.app.Activity.RESULT_OK, intent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

@@ -174,7 +174,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     private ForeignTravelEntity.ListBean listBean;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +186,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         httpUtil = new HttpUtil();
 
         type = getIntent().getStringExtra("type");
-        id = getIntent().getIntExtra("id",0);
+        id = getIntent().getIntExtra("id", 0);
         listBean = getIntent().getParcelableExtra("list");
 
     }
@@ -196,7 +195,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     protected void initViews() {
         if (id == 0) {
             setToolbarCenterMode("发布境外游线路", MODE_BACK);
-        }else {
+        } else {
             setToolbarCenterMode("编辑境外游线路", MODE_BACK);
 
         }
@@ -279,7 +278,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         mRelativeLayoutStickZeroC = findViewById(R.id.rl_stick_zeroC);
 
 
-
         mImageViewShuaiWei.setOnClickListener(this);
         mImageViewShuaiWeiClick.setOnClickListener(this);
         mImageViewCaiXian.setOnClickListener(this);
@@ -352,6 +350,9 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             mTextViewFinalPriceChild.setText(String.valueOf(listBean.getFinal_price_child()));
             mTextViewReturnPriceChild.setText(String.valueOf(listBean.getReturn_price_child()));
             mTextViewDayType.setText(String.valueOf(listBean.getNumber_days()));
+            day = String.valueOf(listBean.getNumber_days());
+
+
             if (!TextUtils.isEmpty(listBean.getTravel_title())) {
                 mEditTextTravelTitle.setText(String.valueOf(listBean.getTravel_title()));
 
@@ -362,23 +363,30 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
             }
 
-            if (!TextUtils.isEmpty(listBean.getGoals_nat_name())) {
-                mTextViewMudiType.setText(listBean.getGoals_nat_name());
+            if (!TextUtils.isEmpty(listBean.getGoals_nat_name()) &&!TextUtils.isEmpty(listBean.getGoals_name()) ) {
+                mTextViewMudiType.setText(listBean.getGoals_nat_name() + listBean.getGoals_name());
+                PreferenceUtil.putString(Constanst.NATION_NAME,listBean.getGoals_nat_name());
+                PreferenceUtil.putString(Constanst.CITY_NATION_NAME,listBean.getGoals_name());
             }
 
-            if (!TextUtils.isEmpty(listBean.getDepart_name())) {
-                mTextViewOccupationType.setText(listBean.getDepart_name());
+            if (!TextUtils.isEmpty(listBean.getDepart_name()) && !TextUtils.isEmpty(listBean.getDepart_pro_name())) {
+                mTextViewOccupationType.setText(listBean.getDepart_name() + listBean.getDepart_pro_name());
+                PreferenceUtil.putString(Constanst.CITY_NAME,listBean.getDepart_name());
+                PreferenceUtil.putString(Constanst.PROVINCE_NAME,listBean.getDepart_pro_name());
+
             }
 
             if (!TextUtils.isEmpty(listBean.getSpot_name())) {
                 mTextViewHotType.setText(listBean.getSpot_name());
+                PreferenceUtil.putString(Constanst.SPOT_NATION_NAME,listBean.getSpot_name());
+
             }
 
             if (listBean.getLine_or_throw() == 0) {
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_normal);
                 caixian = 1;
-            }else {
+            } else {
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
                 caixian = 2;
@@ -535,10 +543,10 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 zeroC = 1;
             }
 
-            if (listBean.getPickup_price() == 0){
+            if (listBean.getPickup_price() == 0) {
                 mTextViewRelease1Type.setText("有周边接送费");
                 pickupPrice = "有周边接送费";
-            }else {
+            } else {
                 mTextViewRelease1Type.setText("无接送费");
                 pickupPrice = "无接送费";
 
@@ -718,7 +726,12 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.confirm:
 //                issueForeignRoute();
-                uploadImage(selImageList);
+
+                if (id == 0) {
+                    uploadImage(selImageList);
+                } else {
+                    uploadDataImage(selImageList);
+                }
                 break;
             case R.id.rl_travel_Occupation_type:
                 Intent intentOccupation = new Intent(this, ProvincesTravelActivity.class);
@@ -1079,10 +1092,10 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+        if (
+                TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.NATION_NAME))
+                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NATION_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
 
             Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
             return;
@@ -1149,7 +1162,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         map.put("stick_hot", String.valueOf(hot));
         map.put("stick_zeroC", String.valueOf(zeroC));
         map.put("token", PreferenceUtil.getString(TOKEN));
-        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+//        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
         KyLog.object(map);
 
 
@@ -1207,11 +1220,12 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
 
     /**
-     * 上传图片
+     * 更新图片
      *
      * @param pathList
      */
     private void uploadDataImage(ArrayList<ImageItem> pathList) {
+        KyLog.d("uploadDataImageJinWaiYou");
 
         String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
         String Generalize = mEditTextGeneralize.getText().toString().trim();
@@ -1252,14 +1266,15 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_CODE))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_ID)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NAME))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME))
-                || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME))) {
+        if (
+                TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))
+                        || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.NATION_NAME))
+                        || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NATION_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
 
             Toast.makeText(this, "请选择出发地或者目的地或景点", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
@@ -1322,11 +1337,13 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         map.put("stick_hot", String.valueOf(hot));
         map.put("stick_zeroC", String.valueOf(zeroC));
         map.put("token", PreferenceUtil.getString(TOKEN));
-        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
+        map.put("id", String.valueOf(id));
+
+//        map.put("user_idForCol", String.valueOf(PreferenceUtil.getInt(UID)));
         KyLog.object(map);
 
 
-        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/issueForeignRoute";
+        String url = "http://39.105.203.33/jlkf/mutual-trust/travel/updatePersonageForiegn";
 
         httpUtil.postFileRequest(url, map, pathList, new MyStringCallBack() {
 
@@ -1334,7 +1351,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d(e + "");
-                Toast.makeText(OverseasReleaseActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OverseasReleaseActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -1345,35 +1362,9 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 KyLog.d(response);
                 getUseInfo();
 
-                Toast.makeText(OverseasReleaseActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                if (TextUtils.isEmpty(type)) {
-                    Intent intent = new Intent(OverseasReleaseActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    try {
-                        JSONObject res = new JSONObject();
-
-                        JSONArray array = new JSONArray();
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("type", 2);
-                        jsonObject.put("travelType", 3);
-                        JSONObject data = new JSONObject(response).getJSONObject("data");
-                        jsonObject.put("data", data);
-                        array.put(jsonObject);
-
-                        res.put("type", 2);
-                        res.put("arrData", array);
-                        String result = res.toString();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("msg", result);
-                        Intent intent = getIntent();
-                        intent.putExtras(bundle);
-                        setResult(android.app.Activity.RESULT_OK, intent);
-                        finish();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+                Toast.makeText(OverseasReleaseActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OverseasReleaseActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -1423,7 +1414,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
             mRelativeLayoutStickZeroC.setEnabled(false);
             mRelativeLayoutStickZeroC.setFocusable(false);
-        }else {
+        } else {
             mRelativeLayoutStickBetter.setEnabled(true);
             mRelativeLayoutStickBetter.setFocusable(true);
 

@@ -1350,7 +1350,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             public void onError(Call call, Exception e, int id) {
                 super.onError(call, e, id);
                 KyLog.d("release === " + e);
-                Toast.makeText(ReleaseGuoNeiActivity.this, "发布失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseGuoNeiActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
                 cancelProgressDialog();
             }
 
@@ -1362,7 +1362,7 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
                 getUseInfo();
 
                 KyLog.d("release == " + response);
-                Toast.makeText(ReleaseGuoNeiActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReleaseGuoNeiActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ReleaseGuoNeiActivity.this, MainActivity.class);
                 startActivity(intent);
             }
