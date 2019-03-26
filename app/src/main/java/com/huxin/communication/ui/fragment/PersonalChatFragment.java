@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,8 +136,8 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         if(null != username) {
             chatTitleBar.mCenterTitle.setText(username);
         }
-        if("".equalsIgnoreCase(username)) {
-
+        if(TextUtils.isEmpty(username)) {
+            chatTitleBar.mCenterTitle.setText(getActivity().getBaseContext().getResources().getString(R.string.default_chat_name));
         }
         if("homefragment".equalsIgnoreCase(from)) {
             chatTitleBar.mCenterTitle.setText(getActivity().getBaseContext().getResources().getString(R.string.default_chat_name));
