@@ -112,7 +112,6 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     private ZhouBianDuoXuanAdapter mZhouBianDuoXuanAdapter;
     private ZhouBianAdapter mAdpter;
 
-    private List<String> list = new ArrayList<>();
     private int numberDays = 1;
 
     private EditText mEditTextSearch;
@@ -204,10 +203,13 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
     private TextView mTextViewCity;
     private TextView mTextViewMoren;
 
-    private SwipeRefreshView mSwipeRefreshView;
+//    private SwipeRefreshView mSwipeRefreshView;
 
-    private TextView mTextViewMoreData;
     private int page = 1;
+    private int mCurrentPage = 15;
+
+    private List<AroundTravelEntity.ListBean> list = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,7 +329,6 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
 //        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
 
-        mTextViewMoreData = findViewById(R.id.more_data);
 
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
@@ -386,11 +387,20 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        // 不能在onCreate中设置，这个表示当前是刷新状态，如果一进来就是刷新状态，SwipeRefreshLayout会屏蔽掉下拉事件
-        //swipeRefreshLayout.setRefreshing(true);
-
         // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
         // 设置下拉进度的背景颜色，默认就是白色的
+<<<<<<< Updated upstream
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
+=======
 //        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
 //        // 设置下拉进度的主题颜色
 //        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
@@ -401,6 +411,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 //        // 手动调用,通知系统去测量
 //        mSwipeRefreshView.measure(0, 0);
 //        mSwipeRefreshView.setRefreshing(true);
+>>>>>>> Stashed changes
 
     }
 
@@ -456,6 +467,7 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     private void initEvent() {
 
+<<<<<<< Updated upstream
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
         mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -474,16 +486,35 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 }, 2000);
             }
         });
-
-
-        // 设置下拉加载更多
-        mSwipeRefreshView.setOnLoadMoreListener(new SwipeRefreshView.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                KyLog.d("上拉加载");
-                loadMoreData();
-            }
-        });
+=======
+//        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+//        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        gettingAroundTravel("", "", "", productType, ""
+//                                , "", "", "", "", "",
+//                                "", String.valueOf(numberDays), "",
+//                                "1", "", "", null, String.valueOf(1), "");
+//
+//
+//                    }
+//                }, 2000);
+//            }
+//        });
+//
+//
+//        // 设置下拉加载更多
+//        mSwipeRefreshView.setOnLoadMoreListener(new SwipeRefreshView.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                KyLog.d("上拉加载");
+//                loadMoreData();
+//            }
+//        });
     }
 
     private void loadMoreData() {
@@ -501,9 +532,10 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                             Toast.makeText(ZhouBianActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                         });
                 // 加载完数据设置为不加载状态，将加载进度收起来
-                mSwipeRefreshView.setRecyclerLoading(false);
+//                mSwipeRefreshView.setRecyclerLoading(false);
             }
         }, 2000);
+>>>>>>> Stashed changes
     }
 
 
@@ -1311,66 +1343,57 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     private void setData(AroundTravelEntity entity) {
         if (entity.getList() != null && entity.getList().size() > 0) {
+            list.addAll(entity.getList());
             mRecyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager manager = new LinearLayoutManager(this);
             mAdpter = new ZhouBianAdapter(entity.getList(), this, 1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
-//            mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                    super.onScrollStateChanged(recyclerView, newState);
-//                    if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-//                            //mAdapter.getItemCount()通过适配器得到当前Item的数量
-//                            lastVisibleItem + 1 == mAdpter.getItemCount()) {
-////                        Toast.makeText(MainActivity.this, "正在加载...", Toast.LENGTH_SHORT).show();
-//                        mTextViewMoreData.setVisibility(View.VISIBLE);
-//                        mTextViewMoreData.setText("正在加载更多数据");
-//                        page++;
-//                        //和下拉刷新时类似
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                ApiModule.getInstance().gettingAroundTravel("", "", "",
-//                                        productType, "", "", "", "", "", "", "",
-//                                        String.valueOf(numberDays), "", String.valueOf(page), "", "", null, String.valueOf(1), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
-//                                        .subscribe(aroundTravelEntity -> {
-//                                            mAdpter.addMoreItem(aroundTravelEntity.getList());
-//                                            mTextViewMoreData.setText("加载完成");
-//                                            new Handler().postDelayed(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    mTextViewMoreData.setVisibility(View.GONE);
-//                                                }
-//                                            }, 2000);
-//                                        }, throwable -> {
-//                                            mSwipeRefreshLayout.setRefreshing(false);
-//                                            KyLog.d(throwable.toString());
-//                                            Toast.makeText(ZhouBianActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//                                        });
-//                            }
-//                        }, 2000);
-//                    }
-//                }
-//
-//                @Override
-//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                    super.onScrolled(recyclerView, dx, dy);
-//                    lastVisibleItem = manager.findLastVisibleItemPosition();
-//
-//                }
-//            });
-
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
-        } else
-
-        {
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    page = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
+        } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
         }
 
+    }
+
+    private void loadMore(ZhouBianAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                page++;
+                ApiModule.getInstance().gettingAroundTravel("", "", "",
+                        productType, "", "", "", "", "", "", "",
+                        String.valueOf(numberDays), "", String.valueOf(page), "", "", null, String.valueOf(1), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(aroundTravelEntity -> {
+
+                            if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                                list.addAll(aroundTravelEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (page * aroundTravelEntity.getList().size() == page * mCurrentPage) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+                                }
+
+                                adapter.setData(list);
+                            }
+
+                        }, throwable -> {
+
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(ZhouBianActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
     }
 
 
@@ -1387,6 +1410,11 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
+<<<<<<< Updated upstream
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+=======
                     cancelProgressDialog();
 //                    if (mSwipeRefreshView.isRefreshing()) {
 //                        mSwipeRefreshView.setRefreshing(false);
@@ -1394,10 +1422,8 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 //                    new Thread(new Runnable() {
 //                        @Override
 //                        public void run() {
+>>>>>>> Stashed changes
                     KyLog.d(aroundTravelEntity.getList().size() + "");
-//                            mSwipeRefreshView.setItemCount(15);
-//                        }
-//                    });
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);

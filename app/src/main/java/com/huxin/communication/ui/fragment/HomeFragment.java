@@ -650,11 +650,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
         if (dbList.size() > 0) {
             List<GetMessageEntity> list = getList(dbList);
+            List<String> Mutelist = getMuteList(dbList);
+
             LinearLayoutManager manager = new LinearLayoutManager(getContext());
-            mAdpter = new RecyclerHomeAdpter(list, getContext());
+            mAdpter = new RecyclerHomeAdpter(list, getContext(),Mutelist);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
         }
+
     }
 
     @Override
@@ -1168,6 +1171,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if(showList.size() == 0) {
                 showList = list;
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return showList;
+    }
+
+    private List<String> getMuteList(List<GetMessageEntity> list) {
+        List<String> showList = new ArrayList<>();
+        try {
+            String spId = PreferenceUtil.getString("mute");
+            if(null == spId) {
+                return null;
+            }
+            JSONArray array = new JSONArray(spId);
+            for(int i = 0; i < array.length(); i++) {
+                String id = array.getString(i);
+                showList.add(id);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

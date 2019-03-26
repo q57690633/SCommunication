@@ -39,13 +39,17 @@ import java.util.List;
 public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.MyViewHoder> {
 
     private List<GetMessageEntity> list;
+    private List<String> Mutelist;
+
     private Context mContext;
     private LayoutInflater mInflater;
     private MyViewHoder hoder;
 
-    public RecyclerHomeAdpter(List<GetMessageEntity> list, Context mContext) {
+    public RecyclerHomeAdpter(List<GetMessageEntity> list, Context mContext,List<String> Mutelist) {
         this.list = list;
         this.mContext = mContext;
+        this.Mutelist = Mutelist;
+
         mInflater = LayoutInflater.from(mContext);
     }
 
@@ -87,6 +91,16 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
                 mContext.startActivity(intent);
             }
         });
+        if (Mutelist != null && Mutelist.size() > 0) {
+            for (String str : Mutelist){
+                if (str.equalsIgnoreCase(list.get(position).getId())) {
+                    holder.muteImage.setVisibility(View.VISIBLE);
+                } else {
+                    holder.muteImage.setVisibility(View.GONE);
+                }
+            }
+
+        }
 
     }
 
@@ -104,6 +118,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         private RelativeLayout numRl;
         private LinearLayout Tm;
         private TextView nickname;
+        private ImageView muteImage;
 
         public MyViewHoder(View itemView) {
             super(itemView);
@@ -114,6 +129,8 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             numRl = itemView.findViewById(R.id.rl_num);
             Tm = itemView.findViewById(R.id.line_tm);
             nickname = itemView.findViewById(R.id.nickname);
+            muteImage = itemView.findViewById(R.id.mute_image);
+
 
         }
     }

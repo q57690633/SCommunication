@@ -198,30 +198,50 @@
             android:orientation="vertical">
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyler_domestic"
+            <com.huxin.communication.view.SwipeRefreshView
+                android:id="@+id/swipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:overScrollMode="never"
-                android:paddingLeft="11dp"
-                android:paddingRight="12dp"
-                android:layout_marginBottom="10dp"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_height="wrap_content">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyler_domestic_duoxuan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:overScrollMode="never"
-                android:paddingLeft="11dp"
-                android:paddingRight="12dp"
-                android:scrollbars="none"
-                android:layout_marginBottom="70dp"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyler_domestic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingLeft="11dp"
+                    android:paddingRight="12dp"
+                    android:scrollbars="none" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyler_domestic_duoxuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="70dp"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingLeft="11dp"
+                    android:paddingRight="12dp"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/more_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="上拉加载更多"
+                    android:textColor="@color/sell_font"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+
+            </com.huxin.communication.view.SwipeRefreshView>
+
 
             <TextView
                 android:layout_width="wrap_content"

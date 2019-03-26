@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -134,6 +135,51 @@ public class GroupInfoFragment extends BaseFragment {
         if (!TextUtils.isEmpty(name)) {
             mGroupName.setText(name);
         }
+
+        String groupTop = PreferenceUtil.getString(getContext(), "groupTop");
+        if (!TextUtils.isEmpty(groupTop)) {
+
+            if (!TextUtils.isEmpty(groupTop)) {
+                try {
+                    JSONArray jsonArray = new JSONArray(groupTop);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        KyLog.d(jsonArray.getString(i));
+                        if (jsonArray.getString(i).equalsIgnoreCase(groupId)) {
+                            mSetTopCheckBox.setChecked(true);
+                        } else {
+                            mSetTopCheckBox.setChecked(false);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            KyLog.d(groupId);
+        } else {
+            mSetTopCheckBox.setChecked(false);
+
+        }
+        String mute = PreferenceUtil.getString(getContext(), "mute");
+
+        if (!TextUtils.isEmpty(mute)) {
+            try {
+                JSONArray jsonArray = new JSONArray(mute);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    KyLog.d(jsonArray.getString(i));
+                    if (jsonArray.getString(i).equalsIgnoreCase(groupId)) {
+                        mMsgNoAlertCheckBox.setChecked(true);
+                    } else {
+                        mMsgNoAlertCheckBox.setChecked(false);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            KyLog.d(groupId);
+        } else {
+            mMsgNoAlertCheckBox.setChecked(false);
+
+        }
 //        initGroupMember(groupId);
     }
 
@@ -173,6 +219,8 @@ public class GroupInfoFragment extends BaseFragment {
                     @Override
                     public void call(JSONArray jsonArray) {
                         Log.i(TAG, "jsonArray = " + jsonArray.toString());
+                        groupMemberJSONArr = new JSONArray();
+                        memberList.clear();
                         groupMemberJSONArr = jsonArray;
                         ArrayList<String> list = new ArrayList<>();
                         try {
@@ -223,31 +271,31 @@ public class GroupInfoFragment extends BaseFragment {
         mSetTopCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     //置顶
-                    String str = PreferenceUtil.getString(getContext(),"groupTop");
+                    String str = PreferenceUtil.getString(getContext(), "groupTop");
                     try {
                         JSONArray array;
-                        if(null == str) {
+                        if (null == str) {
                             array = new JSONArray();
-                        }else {
+                        } else {
                             array = new JSONArray(str);
                         }
                         array.put(groupId);
-                        PreferenceUtil.putString(getContext(),"groupTop",array.toString());
+                        PreferenceUtil.putString(getContext(), "groupTop", array.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     //不置顶
-                    String str = PreferenceUtil.getString(getContext(),"groupTop");
+                    String str = PreferenceUtil.getString(getContext(), "groupTop");
                     try {
                         JSONArray jsonArray = new JSONArray(str);
-                        for (int i = 0 ;i <jsonArray.length(); i++){
-                            if (groupId.equals(jsonArray.getString(i))){
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            if (groupId.equals(jsonArray.getString(i))) {
                                 jsonArray.remove(i);
                             }
-                            PreferenceUtil.putString(getContext(),"groupTop",jsonArray.toString());
+                            PreferenceUtil.putString(getContext(), "groupTop", jsonArray.toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -259,41 +307,45 @@ public class GroupInfoFragment extends BaseFragment {
         mMsgNoAlertCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     //置顶
-                    String str = PreferenceUtil.getString(getContext(),"jianyin");
+                    String str = PreferenceUtil.getString(getContext(), "mute");
                     try {
-                        JSONArray array = new JSONArray(str);
-                        array.put(str);
-                        PreferenceUtil.putString(getContext(),"jianyin",array.toString());
+                        JSONArray array;
+                        if (null == str) {
+                            array = new JSONArray();
+                        } else {
+                            array = new JSONArray(str);
+                        }
+                        array.put(groupId);
+                        PreferenceUtil.putString(getContext(), "mute", array.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
                     //不置顶
-                    String str = PreferenceUtil.getString(getContext(),"jingyin");
+                    String str = PreferenceUtil.getString(getContext(), "mute");
                     try {
                         JSONArray jsonArray = new JSONArray(str);
-                        for (int i = 0 ;i <jsonArray.length(); i++){
-                            if (groupId.equals(jsonArray.getString(i))){
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            if (groupId.equals(jsonArray.getString(i))) {
                                 jsonArray.remove(i);
                             }
-                            PreferenceUtil.putString(getContext(),"jianyin",jsonArray.toString());
+                            PreferenceUtil.putString(getContext(), "mute", jsonArray.toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
         });
         mClearRecordLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               boolean s =  TIMManagerExt.getInstance().deleteConversation(TIMConversationType.C2C, groupId);
-                if (s){
+                boolean s = TIMManagerExt.getInstance().deleteConversation(TIMConversationType.C2C, groupId);
+                if (s) {
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -484,7 +536,6 @@ public class GroupInfoFragment extends BaseFragment {
                 Log.i(TAG, "getGroupInfo error code = " + code + " desc = " + desc);
             }
 
-            @SuppressLint("NewApi")
             @Override
             public void onSuccess(List<TIMGroupDetailInfo> infoList) { //参数中返回群组信息列表
                 for (TIMGroupDetailInfo info : infoList) {

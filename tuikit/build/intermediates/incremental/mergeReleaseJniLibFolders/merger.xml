@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/yangzanxiong/AndroidStudioProjects/SCommunication/tuikit/libs"><file name="imsdk-4.0.2.aar" path="/Users/yangzanxiong/AndroidStudioProjects/SCommunication/tuikit/libs/imsdk-4.0.2.aar"/></source></dataSet><dataSet config="release"><source path="/Users/yangzanxiong/AndroidStudioProjects/SCommunication/tuikit/src/release/jniLibs"/></dataSet></merger>

@@ -2,6 +2,8 @@ package com.huxin.communication.ui.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +43,7 @@ import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -102,7 +105,6 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     private RecylerViewDomesticAdpter mAdpter;
     private ZhouBianDuoXuanAdapter mZhouBianDuoXuanAdapter;
 
-    private List<String> list = new ArrayList<>();
 
     private EditText mEditTextSearch;
     private int numberDays = 1;
@@ -189,6 +191,15 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
     private TextView mTextViewChuFaBuXian;
     private TextView mTextViewCity;
     private TextView mTextViewMoren;
+
+
+
+    private SwipeRefreshView mSwipeRefreshView;
+
+    private int page = 1;
+    private int mCurrentPage = 15;
+
+    private List<AroundTravelEntity.ListBean> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,6 +314,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         mTextViewCity = findViewById(R.id.tv_city);
         mTextViewMoren = findViewById(R.id.moren);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
 
@@ -356,7 +370,18 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
 
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
     }
 
 
@@ -369,6 +394,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 , "", "", "", "", "",
                 "", "", "",
                 "1", "", "", "", String.valueOf(2), "");
+
+        initEvent();
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -405,6 +432,29 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             }
         });
     }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gettingAroundTravel("", "","", productType, ""
+                                , "", "", "", "", "",
+                                "", "", "",
+                                "1", "", "", "", String.valueOf(2), "");
+
+
+                    }
+                }, 2000);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -1220,12 +1270,52 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    page = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
 
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void loadMore(RecylerViewDomesticAdpter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                page++;
+                ApiModule.getInstance().gettingAroundTravel("", "", "",
+                        productType, "", "", "", "", "", "", "",
+                        "", "", String.valueOf(page), "", "", null, String.valueOf(2), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(aroundTravelEntity -> {
+
+                            if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                                list.addAll(aroundTravelEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (page * aroundTravelEntity.getList().size() == page * mCurrentPage) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+                                }
+
+                                adapter.setData(list);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                            }
+
+                        }, throwable -> {
+
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(DomesticActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
     }
 
     private void gettingAroundTravel(String depart_code, String goals_city, String goals_pro,
@@ -1236,20 +1326,23 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                                      String numberDays, String keyWord,
                                      String curPage, String minDay, String maxDay, String uid,
                                      String travel_kind, String lineOrThrows) {
-        showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
                     isClickQuYu = false;
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

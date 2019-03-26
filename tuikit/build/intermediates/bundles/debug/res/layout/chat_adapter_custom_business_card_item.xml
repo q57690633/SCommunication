@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/business_card">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <ImageView
+            android:id="@+id/headUrl_iv"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/headUrl_iv"
+            android:layout_alignTop="@+id/headUrl_iv"
+            android:layout_marginStart="8dp"
+            android:lines="1"
+            android:textSize="12sp"
+            android:textColor="@color/register_font"/>
+
+        <TextView
+            android:id="@+id/phone_tv"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/headUrl_iv"
+            android:layout_alignBottom="@+id/headUrl_iv"
+            android:layout_marginStart="8dp"
+            android:lines="1"
+            android:textSize="12sp"
+            android:textColor="@color/register_font"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
+        android:text="个人名片"
+        android:textSize="12sp"
+        android:textColor="@color/register_font"/>
+
+
+</LinearLayout>

@@ -129,22 +129,6 @@ public class SwipeRefreshView extends SwipeRefreshLayout {
 
         }
 
-        if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
-
-            if (mItemCount > 0) {
-                if (mRecyclerView.getAdapter().getItemCount() < mItemCount) {
-                    // 第一页未满，禁止下拉
-                    condition2 = false;
-                } else {
-                    condition2 = lastItemPosition == (mRecyclerView.getAdapter().getItemCount() - 1);
-                }
-            } else {
-                // 未设置数据长度，则默认第一页数据不满时也可以上拉
-                condition2 = lastItemPosition == (mRecyclerView.getAdapter().getItemCount() - 1);
-            }
-
-        }
-
         if (condition2) {
             Log.d(TAG, "------->  是最后一个条目");
         }
@@ -165,17 +149,17 @@ public class SwipeRefreshView extends SwipeRefreshLayout {
      */
     private void loadData() {
         System.out.println("加载数据...");
-//        if (mListener != null) {
-//            // 设置加载状态，让布局显示出来
-//            setLoading(true);
-//            mListener.onLoadMore();
-//        }
-        if (mRecyclerView != null) {
+        if (mListener != null) {
             // 设置加载状态，让布局显示出来
-            setRecyclerLoading(true);
+            setLoading(true);
             mListener.onLoadMore();
-
         }
+//        if (mRecyclerView != null) {
+//            // 设置加载状态，让布局显示出来
+//            setRecyclerLoading(true);
+//            mListener.onLoadMore();
+//
+//        }
 
     }
 
