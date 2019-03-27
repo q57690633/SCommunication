@@ -153,12 +153,6 @@ public class ZhouBianAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((MyViewHoder) holder).mTextViewReturnPriceChild.setText("返" + list.get(position).getReturnPriceChild() + "元");
             ((MyViewHoder) holder).mTextViewSpotName.setText(list.get(position).getTravelTitle());
             ((MyViewHoder) holder).mTextViewCount.setText("以浏览" + list.get(position).getView_count() + "次");
-//            try {
-////                ImageLoader.getInstance().displayImage(list.get(position).getPhoto_url(), ((MyViewHoder) holder).mImageViewPhoto);
-////                ImageLoader.getInstance().displayImage(list.get(position).getHeadUrl(), ((MyViewHoder) holder).mImageViewHeadUrl);
-////            }catch (Exception e){
-////
-////            }
             Glide.with(mContext).load(list.get(position)
                     .getPhoto_url())
                     .into(((MyViewHoder) holder).mImageViewPhoto);

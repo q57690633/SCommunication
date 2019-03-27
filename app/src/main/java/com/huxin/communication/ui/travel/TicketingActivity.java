@@ -178,8 +178,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     private SwipeRefreshView mSwipeRefreshView;
 
-    private int page = 1;
-    private int mCurrentPage = 15;
+    private int mCurrentPage = 1;
 
     private List<TicketInfoEntity.ListBean> list = new ArrayList<>();
 
@@ -1029,6 +1028,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 setEnabled(true);
@@ -1038,6 +1040,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.collect_btn:
                 addTravelCollect(3);
@@ -1102,7 +1107,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore(int currentPage) {
-                    page = currentPage;
+                    mCurrentPage = currentPage;
                     loadMore(mAdpter);
                 }
             });
@@ -1118,23 +1123,25 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                page++;
                 ApiModule.getInstance().getTicketInfo("", "",
                         "", "", "", "", "",
-                        "", String.valueOf(page), null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        "", String.valueOf(mCurrentPage), null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                         .subscribe(ticketInfoEntity -> {
-                            cancelProgressDialog();
 
                             if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0) {
                                 list.addAll(ticketInfoEntity.getList());
 //                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
-                                if (page * ticketInfoEntity.getList().size() == page * mCurrentPage) {
+                                if (ticketInfoEntity.getPageSize() == 15) {
                                     adapter.setCanLoadMore(true);
                                 } else {
                                     adapter.setCanLoadMore(false);
+
                                 }
 
                                 adapter.setData(list);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
                             }
 
 
@@ -1164,6 +1171,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                         KyLog.object(ticketInfoEntity);
                         setData(ticketInfoEntity);
                         setDuoXuanData(ticketInfoEntity);
+                        list.addAll(ticketInfoEntity.getList());
                     }
                     isClickQuYu = false;
 

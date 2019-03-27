@@ -196,8 +196,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
 
     private SwipeRefreshView mSwipeRefreshView;
 
-    private int page = 1;
-    private int mCurrentPage = 15;
+    private int mCurrentPage = 1;
 
     private List<AroundTravelEntity.ListBean> list = new ArrayList<>();
 
@@ -1183,6 +1182,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 setEnabled(true);
@@ -1192,6 +1194,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.collect_btn:
                 addTravelCollect(1);
@@ -1273,7 +1278,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
             mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore(int currentPage) {
-                    page = currentPage;
+                    mCurrentPage = currentPage;
                     loadMore(mAdpter);
                 }
             });
@@ -1289,16 +1294,17 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                page++;
+                KyLog.d(mCurrentPage + " == page");
                 ApiModule.getInstance().gettingAroundTravel("", "", "",
                         productType, "", "", "", "", "", "", "",
-                        "", "", String.valueOf(page), "", "", null, String.valueOf(2), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        "", "", String.valueOf(mCurrentPage), "", "", null, String.valueOf(2), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
                         .subscribe(aroundTravelEntity -> {
 
                             if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
                                 list.addAll(aroundTravelEntity.getList());
+                                KyLog.d(list.size() + "page");
 //                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
-                                if (page * aroundTravelEntity.getList().size() == page * mCurrentPage) {
+                                if (aroundTravelEntity.getPageSize() == 15) {
                                     adapter.setCanLoadMore(true);
                                 } else {
                                     adapter.setCanLoadMore(false);
@@ -1307,6 +1313,7 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                                 adapter.setData(list);
                             }else {
                                 adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
                             }
 
                         }, throwable -> {
@@ -1337,7 +1344,9 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
                     isClickQuYu = false;
-
+                    if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                        list.addAll(aroundTravelEntity.getList());
+                    }
                 }, throwable -> {
                     if (mSwipeRefreshView.isRefreshing()) {
                         mSwipeRefreshView.setRefreshing(false);

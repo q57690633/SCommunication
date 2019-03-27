@@ -2,7 +2,9 @@ package com.huxin.communication.ui.my.collect;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +41,10 @@ import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
+import com.huxin.communication.ui.travel.TopSelectionTravelActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 
 import org.json.JSONArray;
@@ -101,7 +105,6 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private TextView mTextViewPiaoWu;
     private TextView mTextViewCollect;
 
-    private List<String> list = new ArrayList<>();
 
 
     private RecyclerView mRecyclerViewZhuShu;
@@ -175,6 +178,14 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
     private TextView mTextViewChuFaDetermine;
     private TextView mTextViewChuFaBuXian;
     private TextView mTextViewCity;
+
+    private SwipeRefreshView mSwipeRefreshView;
+
+    private int mCurrentPage = 1;
+
+    private List<TicketInfoEntity.ListBean> list = new ArrayList<>();
+    private List<AroundTravelEntity.ListBean> listZhouBian = new ArrayList<>();
+    private List<ForeignTravelEntity.ListBean> lists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,6 +293,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         mTextViewChuFaBuXian = findViewById(R.id.chufa_buxian);
         mTextViewCity = findViewById(R.id.tv_city);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
 
@@ -335,13 +349,20 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-    }
+
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
+        initEvent();
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
             gettingAroundTravel("", "", "", productType, ""
@@ -393,6 +414,46 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             }
         });
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (travelType == 1 || travelType == 2) {
+                            gettingAroundTravel("", "", "", productType, ""
+                                    , "", "", "", "", "",
+                                    "", "", "",
+                                    "1", "", "", String.valueOf(travelType), "");
+                        } else if (travelType == 3) {
+                            gettingForeignTravel("", "", "", "", "", "", "", "",
+                                    "", "", "", "", "", "", "", "",
+                                    "1", "");
+                        } else {
+                            getTicketInfo("1", "", "", "",
+                                    "", "", String.valueOf(productType), "", "1");
+                        }
+
+
+                    }
+                }, 2000);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -1182,6 +1243,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 setEnabled(false);
                 break;
             case R.id.toolbar_quxiao:
@@ -1191,6 +1255,9 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 setEnabled(true);
                 break;
             case R.id.collect_btn:
@@ -1259,6 +1326,14 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             mRecyclerView.setLayoutManager(manager);
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
 
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
+
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
         } else {
             mRecyclerView.setVisibility(View.GONE);
@@ -1286,7 +1361,14 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this, 2);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+
+            mJinWaiAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadJinWaiMore(mJinWaiAdpter);
+                }
+            });
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1312,7 +1394,14 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
             mTicketAdapter = new TicketingAdapter(entity.getList(), this, 2);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+
+            mTicketAdapter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadTicketMore(mTicketAdapter);
+                }
+            });
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1320,6 +1409,108 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
         }
 
     }
+
+    private void loadMore(ZhouBianAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingAroundTravel("", "", "",
+                        productType, "", "", "", "", "", "", "",
+                        "", "", String.valueOf(mCurrentPage), "", "", String.valueOf(PreferenceUtil.getInt(UID)), String.valueOf(1), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(aroundTravelEntity -> {
+
+                            if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                                listZhouBian.addAll(aroundTravelEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (aroundTravelEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+                                }
+
+                                adapter.setData(listZhouBian);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }, throwable -> {
+
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(DataBaseTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+    private void loadTicketMore(TicketingAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().getTicketInfo("", "",
+                        "", "", "", "", "",
+                        "", String.valueOf(mCurrentPage), String.valueOf(PreferenceUtil.getInt(UID)), "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(ticketInfoEntity -> {
+
+                            if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0) {
+                                list.addAll(ticketInfoEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (ticketInfoEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+
+                                }
+
+                                adapter.setData(list);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(DataBaseTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+
+    private void loadJinWaiMore(JingWaiAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingForeignTravel("", "",
+                        "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", String.valueOf(mCurrentPage), String.valueOf(PreferenceUtil.getInt(UID)), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(foreignTravelEntity -> {
+                            KyLog.d(foreignTravelEntity.getPageSize() + "page");
+
+                            if (foreignTravelEntity.getPageSize() == 15) {
+                                adapter.setCanLoadMore(true);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                            }
+
+                            if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0) {
+                                lists.addAll(foreignTravelEntity.getList());
+                                adapter.setData(lists);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(DataBaseTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
 
     /**
      * 国内和周边
@@ -1332,19 +1523,25 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                                      String numberDays, String keyWord,
                                      String curPage, String minDay, String maxDay,
                                      String travel_kind, String lineOrThrows) {
-        showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)), travel_kind, lineOrThrows, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0){
+                        listZhouBian.addAll(aroundTravelEntity.getList());
+                    }
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1366,15 +1563,22 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                 "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
                     cancelProgressDialog();
-                    KyLog.object(foreignTravelEntity);
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0){
+                        lists.addAll(foreignTravelEntity.getList());
+                    }
                     if (foreignTravelEntity != null) {
                         setJinWaiData(foreignTravelEntity);
                         setJinWaiDuoXuanData(foreignTravelEntity);
                     }
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1388,12 +1592,16 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                                String ticket_activity_id, String ticket_other_id,
                                String sort_type,
                                String keyWord, String curPage) {
-        showProgressDialog();
         ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
                 keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)), "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0){
+                        list.addAll(ticketInfoEntity.getList());
+                    }
                     if (ticketInfoEntity != null) {
                         KyLog.object(ticketInfoEntity.getList());
                         setTicketData(ticketInfoEntity);
@@ -1401,8 +1609,10 @@ public class DataBaseTravelActivity extends BaseActivity implements View.OnClick
                     }
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

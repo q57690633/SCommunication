@@ -197,10 +197,10 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <!--<com.huxin.communication.view.SwipeRefreshView-->
-                <!--android:id="@+id/swipeRefreshLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+            <com.huxin.communication.view.SwipeRefreshView
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
                 <android.support.v7.widget.RecyclerView
@@ -213,8 +213,10 @@
                     android:paddingLeft="11dp"
                     android:paddingRight="12dp"
                     android:scrollbars="none" />
+            </com.huxin.communication.view.SwipeRefreshView>
 
-                <android.support.v7.widget.RecyclerView
+
+            <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyler_domestic_duoxuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -239,7 +241,6 @@
                     android:textSize="14sp"
                     android:visibility="gone"/>
 
-            <!--</com.huxin.communication.view.SwipeRefreshView>-->
 
         </LinearLayout>
 

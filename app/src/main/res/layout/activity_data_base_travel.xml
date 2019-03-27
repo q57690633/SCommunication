@@ -216,7 +216,10 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
-
+            <com.huxin.communication.view.SwipeRefreshView
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_domestic"
@@ -229,6 +232,8 @@
                 android:paddingRight="12dp"
                 android:scrollbars="none"
                 android:nestedScrollingEnabled="false"/>
+
+            </com.huxin.communication.view.SwipeRefreshView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_domestic_duoxuan"

@@ -2,6 +2,8 @@ package com.huxin.communication.ui.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,10 +44,12 @@ import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.entity.TicketStickEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.ProvincesTravelActivity;
+import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 
 import org.json.JSONArray;
@@ -111,7 +115,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     private TextView mTextViewCollect;
 
 
-    private List<String> list = new ArrayList<>();
 
 
     private RecyclerView mRecyclerViewZhuShu;
@@ -170,8 +173,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     private List<String> Kouweilist;
 
-
-
     private boolean isClickQuYu = false;
 
     private int travelType = 1;
@@ -186,6 +187,16 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     private TextView mTextViewChuFaBuXian;
     private TextView mTextViewCity;
     private TextView mTextViewMoren;
+
+    private SwipeRefreshView mSwipeRefreshView;
+
+    private int mCurrentPage = 1;
+
+    private List<TicketInfoEntity.ListBean> list = new ArrayList<>();
+    private List<AroundTravelEntity.ListBean> listZhouBian = new ArrayList<>();
+    private List<ForeignTravelEntity.ListBean> lists = new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,6 +304,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
         mTextViewMoren = findViewById(R.id.moren);
         mZhuanFa = findViewById(R.id.delete_collect);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
         mZhuanFa.setOnClickListener(this);
@@ -342,6 +356,21 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
+        initEvent();
+
         setEnabled(true);
         if (travelType == 1 || travelType == 2) {
             gettingAroundTravel("",  "", "",productType, ""
@@ -398,6 +427,37 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
     protected void onResume() {
         super.onResume();
 
+    }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (travelType == 1 || travelType == 2) {
+                            gettingAroundTravel("",  "", "",productType, ""
+                                    , "", "", "", "", "",
+                                    "", "", "",
+                                    "1", "", "", String.valueOf(travelType), "");
+                        } else if (travelType == 3) {
+                            gettingForeignTravel("", "", "", "", "", "", "", "" ,
+                                    "", "", "", "", "", "", "", "",
+                                    "1", "");
+                        } else {
+                            getTicketInfo("1", "", "", "",
+                                    "", "", "", "", "1");
+                        }
+
+
+                    }
+                }, 2000);
+            }
+        });
     }
 
     @Override
@@ -1191,6 +1251,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 setEnabled(true);
@@ -1200,6 +1263,9 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.collect_btn:
                 if (travelType == 1 || travelType  == 2){
@@ -1265,8 +1331,15 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mAdpter = new ZhouBianAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
 
         }else {
             mRecyclerView.setVisibility(View.GONE);
@@ -1280,7 +1353,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mJinWaiDuoXuanAdapter = new JinWaiDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mJinWaiDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1292,7 +1364,13 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mJinWaiAdpter = new JingWaiAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mJinWaiAdpter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mJinWaiAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadJinWaiMore(mJinWaiAdpter);
+                }
+            });
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1305,7 +1383,6 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mTicketingDuoXuanAdapter = new TicketingDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mTicketingDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
         }
     }
@@ -1317,13 +1394,123 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
             mTicketAdapter = new TicketingAdapter(entity.getList(), this,1);
             mRecyclerView.setAdapter(mTicketAdapter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mTicketAdapter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadTicketMore(mTicketAdapter);
+                }
+            });
         }else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
         }
 
     }
+
+
+
+    private void loadMore(ZhouBianAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingAroundTravel("", "", "",
+                        productType, "", "", "", "", "", "", "",
+                        "", "", String.valueOf(mCurrentPage), "", "", null, String.valueOf(1), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(aroundTravelEntity -> {
+
+                            if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                                listZhouBian.addAll(aroundTravelEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (aroundTravelEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+                                }
+
+                                adapter.setData(listZhouBian);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }, throwable -> {
+
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(TopSelectionTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+    private void loadTicketMore(TicketingAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().getTicketInfo("", "",
+                        "", "", "", "", "",
+                        "", String.valueOf(mCurrentPage), null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(ticketInfoEntity -> {
+
+                            if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0) {
+                                list.addAll(ticketInfoEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (ticketInfoEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+
+                                }
+
+                                adapter.setData(list);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(TopSelectionTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+
+    private void loadJinWaiMore(JingWaiAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingForeignTravel("", "",
+                        "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", String.valueOf(mCurrentPage), null, "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(foreignTravelEntity -> {
+                            KyLog.d(foreignTravelEntity.getPageSize() + "page");
+
+                            if (foreignTravelEntity.getPageSize() == 15) {
+                                adapter.setCanLoadMore(true);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                            }
+
+                            if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0) {
+                                lists.addAll(foreignTravelEntity.getList());
+                                adapter.setData(lists);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(TopSelectionTravelActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
 
     /**
      * 国内和周边
@@ -1336,13 +1523,17 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                                      String numberDays, String keyWord,
                                      String curPage, String minDay, String maxDay,
                                      String travel_kind, String lineOrThrows) {
-        showProgressDialog();
         ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
                 numberDays, keyWord, curPage, minDay, maxDay, String.valueOf(PreferenceUtil.getInt(UID)),
                 travel_kind, lineOrThrows,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0){
+                        listZhouBian.addAll(aroundTravelEntity.getList());
+                    }
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
@@ -1350,8 +1541,10 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1366,13 +1559,18 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                                       String minPri_maxPri, String number_days,
                                       String keyWord, String curPage,
                                       String line_or_throw) {
-        showProgressDialog();
+
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord,
                 curPage, String.valueOf(PreferenceUtil.getInt(UID)), line_or_throw,"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0){
+                        lists.addAll(foreignTravelEntity.getList());
+                    }
                     KyLog.object(foreignTravelEntity);
                     if (foreignTravelEntity != null) {
                         setJinWaiData(foreignTravelEntity);
@@ -1382,8 +1580,10 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1397,12 +1597,16 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
                                String ticket_activity_id, String ticket_other_id,
                                String sort_type,
                                String keyWord, String curPage) {
-        showProgressDialog();
         ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
                 keyWord, curPage, String.valueOf(PreferenceUtil.getInt(UID)),"0",String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0){
+                        list.addAll(ticketInfoEntity.getList());
+                    }
                     if (ticketInfoEntity != null) {
                         KyLog.object(ticketInfoEntity);
                         setTicketData(ticketInfoEntity);
@@ -1412,8 +1616,10 @@ public class TopSelectionTravelActivity extends BaseActivity implements View.OnC
 
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

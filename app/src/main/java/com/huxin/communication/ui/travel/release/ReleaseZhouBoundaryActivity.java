@@ -168,6 +168,15 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     private TextView mTextViewTopMessage;
 
+    private TableTravelTrafficAdapter mAdapterTableName;
+
+    private TableTravelActivityAdapter mAdapterAtivityTableName;
+
+    private TableTravelAddressListAdapter mAdapterAddressTableName;
+
+    private List<String> Tablist = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,7 +188,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     protected void initContentView() {
         setContentView(R.layout.activity_release_zhou_boundary);
         type = getIntent().getStringExtra("type");
-        id = getIntent().getIntExtra("id",0);
+        id = getIntent().getIntExtra("id", 0);
         listBean = getIntent().getParcelableExtra("list");
 
     }
@@ -188,7 +197,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     protected void initViews() {
         if (id == 0) {
             setToolbarCenterMode("发布周边游线路", MODE_BACK);
-        }else {
+        } else {
             setToolbarCenterMode("编辑周边游线路", MODE_BACK);
 
         }
@@ -308,9 +317,6 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     }
 
 
-
-
-
     @Override
     protected void loadData(Bundle savedInstanceState) {
         selectTravelTab();
@@ -332,11 +338,6 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     }
 
     private void setData() {
-        mTextViewMudiType = (TextView) findViewById(R.id.travel_mudi_type);
-        mTextViewHotType = (TextView) findViewById(R.id.travel_hot_type);
-        mTextViewDayType = (TextView) findViewById(R.id.travel_day_type);
-        mTextViewRelease1Type = (TextView) findViewById(R.id.release1_type);
-        mTextViewOccupationType = (TextView) findViewById(R.id.travel_Occupation_type);
         if (listBean != null) {
             mTextViewTotalPrice.setText(String.valueOf(listBean.getTotalPrice()));
             mTextViewFinalPrice.setText(String.valueOf(listBean.getFinalPrice()));
@@ -371,7 +372,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_selected);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_normal);
                 caixian = 1;
-            }else {
+            } else {
                 mImageViewShuaiWei.setBackgroundResource(R.drawable.icon_circle_normal);
                 mImageViewCaiXian.setBackgroundResource(R.drawable.icon_circle_selected);
                 caixian = 2;
@@ -528,14 +529,23 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 zeroC = 1;
             }
 
-            if (listBean.getPickupPrice() == 0){
+            if (listBean.getPickupPrice() == 0) {
                 mTextViewRelease1Type.setText("有周边接送费");
                 pickupPrice = "有周边接送费";
-            }else {
+            } else {
                 mTextViewRelease1Type.setText("无接送费");
                 pickupPrice = "无接送费";
 
             }
+            KyLog.d(listBean.getTagName() + "tab");
+
+            String tabNmae = listBean.getTagName();
+            String[] str = tabNmae.split(",");
+            for (int i = 0; i < str.length; i++) {
+                Tablist.add(str[i]);
+            }
+
+            KyLog.d(Tablist.size() + "tab");
         }
     }
 
@@ -718,10 +728,10 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
             case R.id.confirm:
 //                issueAroundRoute();
-                if (id == 0){
+                if (id == 0) {
                     uploadImage(selImageList);
-                }else {
-                    uploadDataImage(selImageList,id);
+                } else {
+                    uploadDataImage(selImageList, id);
                 }
 
                 break;
@@ -884,9 +894,12 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setActivityData(List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterAtivityTableName = new TableTravelActivityAdapter(list, this);
+            recyclerView.setAdapter(mAdapterAtivityTableName);
             recyclerView.setLayoutManager(manager);
+            if (list.size() > 0) {
+                mAdapterAtivityTableName.setTabList(Tablist);
+            }
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
     }
@@ -894,8 +907,8 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setAddressListData(List<TabTravelNameEntity.AddressListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelAddressListAdapter mAdapterTableName = new TableTravelAddressListAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+             mAdapterAddressTableName = new TableTravelAddressListAdapter(list, this);
+            recyclerView.setAdapter(mAdapterAddressTableName);
             recyclerView.setLayoutManager(manager);
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
         }
@@ -934,7 +947,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setTrafficData(List<TabTravelNameEntity.TrafficListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelTrafficAdapter mAdapterTableName = new TableTravelTrafficAdapter(list, this);
+            mAdapterTableName = new TableTravelTrafficAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
 //            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
@@ -1200,7 +1213,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
      *
      * @param pathList
      */
-    private void uploadDataImage(ArrayList<ImageItem> pathList,int id) {
+    private void uploadDataImage(ArrayList<ImageItem> pathList, int id) {
 
         String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
         String Generalize = mEditTextGeneralize.getText().toString().trim();
@@ -1266,27 +1279,27 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
-        if (TextUtils.isEmpty(listBean.getDepart_code())){
+        if (TextUtils.isEmpty(listBean.getDepart_code())) {
             map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
-        }else {
+        } else {
             map.put("depart_code", listBean.getDepart_code());
         }
-        if (TextUtils.isEmpty(listBean.getDepart_pro_code())){
+        if (TextUtils.isEmpty(listBean.getDepart_pro_code())) {
             map.put("depart_pro_code", PreferenceUtil.getString(Constanst.PROVINCE_CODE));
-        }else {
+        } else {
             map.put("depart_pro_code", listBean.getDepart_pro_code());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoalsId())){
+        if (TextUtils.isEmpty(listBean.getGoalsId())) {
             map.put("goalsId", PreferenceUtil.getString(Constanst.SPOT_ID));
 
-        }else {
+        } else {
             map.put("goalsId", listBean.getGoalsId());
         }
 
-        if (TextUtils.isEmpty(listBean.getSpotName())){
+        if (TextUtils.isEmpty(listBean.getSpotName())) {
             map.put("spotName", PreferenceUtil.getString(Constanst.SPOT_NAME));
-        }else {
+        } else {
             map.put("spotName", listBean.getSpotName());
         }
 
@@ -1337,30 +1350,30 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         map.put("stick_hot", String.valueOf(hot));
         map.put("stick_zeroC", String.valueOf(zeroC));
 
-        if (TextUtils.isEmpty(listBean.getGoals_city())){
+        if (TextUtils.isEmpty(listBean.getGoals_city())) {
             map.put("goals_city", PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
 
-        }else {
+        } else {
             map.put("goals_city", listBean.getGoals_city());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoals_pro())){
+        if (TextUtils.isEmpty(listBean.getGoals_pro())) {
             map.put("goals_pro", PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
 
-        }else {
+        } else {
             map.put("goals_pro", listBean.getGoals_pro());
         }
 
-        if (TextUtils.isEmpty(listBean.getGoals_city_code())){
+        if (TextUtils.isEmpty(listBean.getGoals_city_code())) {
             map.put("goals_city_code", PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
 
-        }else {
+        } else {
             map.put("goals_city_code", listBean.getGoals_city_code());
         }
 
-        if (TextUtils.isEmpty(listBean.getDepart_name())){
+        if (TextUtils.isEmpty(listBean.getDepart_name())) {
             map.put("depart_name", PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
-        }else {
+        } else {
             map.put("depart_name", listBean.getDepart_name());
         }
         map.put("id", String.valueOf(id));
@@ -1389,13 +1402,12 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 cancelProgressDialog();
                 KyLog.d("release == " + response);
                 Toast.makeText(ReleaseZhouBoundaryActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(ReleaseZhouBoundaryActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
     }
-
 
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
@@ -1420,7 +1432,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     }
 
 
-    private void SetEnabled(){
+    private void SetEnabled() {
         if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) <= 0) {
             mRelativeLayoutStickBetter.setEnabled(false);
             mRelativeLayoutStickBetter.setFocusable(false);
@@ -1445,7 +1457,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
             mRelativeLayoutStickZeroC.setEnabled(false);
             mRelativeLayoutStickZeroC.setFocusable(false);
-        }else {
+        } else {
             mRelativeLayoutStickBetter.setEnabled(true);
             mRelativeLayoutStickBetter.setFocusable(true);
 

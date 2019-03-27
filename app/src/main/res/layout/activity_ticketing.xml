@@ -198,6 +198,8 @@
 
                 android:scrollbars="none"
                 android:nestedScrollingEnabled="false"/>
+            </com.huxin.communication.view.SwipeRefreshView>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_ticket_duoxuan"
@@ -211,7 +213,6 @@
                 android:scrollbars="none"
                 android:visibility="gone"
                 android:nestedScrollingEnabled="false"/>
-            </com.huxin.communication.view.SwipeRefreshView>
 
 
             <TextView

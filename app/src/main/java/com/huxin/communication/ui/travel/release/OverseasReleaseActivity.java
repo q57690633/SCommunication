@@ -1266,8 +1266,7 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
         KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
-        if (
-                TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))
+        if (TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))
                         || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PROVINCE_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.NATION_NAME))
                         || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NATION_NAME)) || TextUtils.isEmpty(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME))) {
 
