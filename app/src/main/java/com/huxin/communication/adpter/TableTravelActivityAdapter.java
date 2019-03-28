@@ -24,10 +24,13 @@ import java.util.Set;
 
 public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravelActivityAdapter.MyViewHoder>{
     private List<TabTravelNameEntity.ActivityListBean> list;
+    private List<String> Tablist;
+
     private Context mContext;
     private LayoutInflater mInflater;
 
     private Set<String> setTab = new HashSet<>();
+
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
@@ -39,6 +42,11 @@ public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravel
         if (list == null) {
             throw new IllegalArgumentException("model Data must not be null");
         }
+    }
+
+    public void setTabList(List<String> list) {
+        this.Tablist = list;
+        notifyDataSetChanged();
     }
 
     //更新adpter的数据和选择状态
@@ -72,6 +80,7 @@ public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravel
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Tablist.clear();
                 if (isItemChecked(hoder.getAdapterPosition())) {
                     setItemChecked(hoder.getAdapterPosition(), false);
                 } else {
@@ -123,6 +132,16 @@ public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravel
         } else {
             holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
+        }
+
+        if (Tablist != null && Tablist.size() > 0) {
+            for (String tabNmae : Tablist) {
+                if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
+                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    setItemChecked(position, true);
+                }
+            }
         }
     }
 

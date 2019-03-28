@@ -84,7 +84,6 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        PreferenceUtil.putString(Constanst.CORP,"1");
         mTextViewBianJi.setVisibility(View.VISIBLE);
         mTextViewWanCheng.setVisibility(View.GONE);
         mEditTextcompanyName.setClickable(false);
@@ -97,6 +96,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
             mEditTextstoreName.setEnabled(true);
 
         } else {
+
             mLinearLayoutIndustryType.setOnClickListener(this);
             mEditTextstoreName.setClickable(false);
             mEditTextstoreName.setEnabled(false);

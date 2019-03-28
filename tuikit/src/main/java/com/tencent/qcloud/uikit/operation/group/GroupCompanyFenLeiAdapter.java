@@ -35,7 +35,6 @@ public class GroupCompanyFenLeiAdapter extends RecyclerView.Adapter<GroupCompany
         return new HeadImageViewHoder(inflater.inflate(R.layout.item_group_company_recycler, parent, false));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(HeadImageViewHoder holder, int position) {
         holder.company.setText(list.get(position).getCompanyName());

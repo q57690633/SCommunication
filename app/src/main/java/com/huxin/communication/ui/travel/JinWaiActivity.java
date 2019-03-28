@@ -2,6 +2,8 @@ package com.huxin.communication.ui.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +30,9 @@ import com.huxin.communication.adpter.ForeignCityAdapter;
 import com.huxin.communication.adpter.JinWaiDuoXuanAdapter;
 import com.huxin.communication.adpter.JingWaiAdapter;
 import com.huxin.communication.adpter.ProvincesTravelsAdapter;
+import com.huxin.communication.adpter.RecylerViewDomesticAdpter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
+import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.adpter.ZhouBianDuoXuanAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
@@ -42,6 +46,7 @@ import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -175,7 +180,11 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     private ImageView mImageViewMore;
     private ImageView mImageViewFangxin;
 
+    private SwipeRefreshView mSwipeRefreshView;
 
+    private int mCurrentPage = 1;
+
+    private List<ForeignTravelEntity.ListBean> lists = new ArrayList<>();
 
 
     @Override
@@ -285,6 +294,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         mImageViewMeasure = findViewById(R.id.mudidi);
         mImageViewMore = findViewById(R.id.image_more);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
+
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
 
@@ -334,6 +346,18 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
     }
 
     @Override
@@ -343,6 +367,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
         gettingForeignTravel("", "", "", "", "", "", "", "",
                 "", "", "", "", "", "", "", "",
                 "1", null, "");
+        initEvent();
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -376,6 +401,27 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             public void afterTextChanged(Editable editable) {
                 maxPrice = mEditTextMin.getText().toString().trim();
 
+            }
+        });
+    }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        gettingForeignTravel("", "", "", "", "", "", "", "",
+                                "", "", "", "", "", "", "", "",
+                                "1", null, "");
+
+
+                    }
+                }, 2000);
             }
         });
     }
@@ -989,6 +1035,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 setEnabled(true);
@@ -998,6 +1047,9 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.collect_btn:
                 addTravelCollect(2);
@@ -1061,13 +1113,53 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
-
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
         }
     }
+
+    private void loadMore(JingWaiAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingForeignTravel("", "",
+                        "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", String.valueOf(mCurrentPage), null, "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(foreignTravelEntity -> {
+                                KyLog.d(foreignTravelEntity.getPageSize() + "page");
+
+                            if (foreignTravelEntity.getPageSize() == 15) {
+                                adapter.setCanLoadMore(true);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                            }
+
+                            if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0) {
+                                lists.addAll(foreignTravelEntity.getList());
+                                adapter.setData(lists);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(JinWaiActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
 
     private void gettingForeignTravel(String depart_name, String min_days,
                                       String max_days, String goals_nat_name,
@@ -1079,23 +1171,26 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                                       String minPri_maxPri, String number_days,
                                       String keyWord, String curPage, String uid,
                                       String line_or_throw) {
-        showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
                 max_days, goals_nat_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
                 t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, line_or_throw, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.object(foreignTravelEntity);
                     if (foreignTravelEntity != null) {
                         setData(foreignTravelEntity);
                         setDuoXuanData(foreignTravelEntity);
+                        lists.addAll(foreignTravelEntity.getList());
                     }
                     isClickQuYu = false;
 
-
                 }, throwable -> {
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1470,13 +1565,13 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-    public void getForeignNation(int type){
+    public void getForeignNation(int type) {
         showProgressDialog();
         ApiModule.getInstance().getForeignNation().subscribe(foreignNationEntities -> {
             cancelProgressDialog();
             if (foreignNationEntities != null && foreignNationEntities.size() > 0) {
                 LinearLayoutManager manager = new LinearLayoutManager(this);
-                ForeginNationsAdapter  mAdapter = new ForeginNationsAdapter(foreignNationEntities, this);
+                ForeginNationsAdapter mAdapter = new ForeginNationsAdapter(foreignNationEntities, this);
                 mRecyclerViewAreaOne.setAdapter(mAdapter);
                 mRecyclerViewAreaOne.setLayoutManager(manager);
                 mAdapter.setOnItemClickListener(new ForeginNationsAdapter.OnItemClickListener() {
@@ -1491,7 +1586,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mRecyclerViewAreaTwo.setVisibility(View.GONE);
 
             }
-        },throwable -> {
+        }, throwable -> {
             KyLog.d(throwable.toString());
             cancelProgressDialog();
             Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1501,10 +1596,10 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
 
     public void getForeignCity(String provinceCode, int type) {
         KyLog.d(provinceCode);
-        ApiModule.getInstance().getForeignCity(provinceCode).subscribe(foreignCityEntities  -> {
+        ApiModule.getInstance().getForeignCity(provinceCode).subscribe(foreignCityEntities -> {
             if (foreignCityEntities != null && foreignCityEntities.size() > 0) {
                 LinearLayoutManager manager = new LinearLayoutManager(this);
-                CityForeginNationsAdapter mAdapter = new CityForeginNationsAdapter(foreignCityEntities, this,type);
+                CityForeginNationsAdapter mAdapter = new CityForeginNationsAdapter(foreignCityEntities, this, type);
                 mRecyclerViewAreaTwo.setAdapter(mAdapter);
                 mRecyclerViewAreaTwo.setLayoutManager(manager);
                 mAdapter.NotifyChanged();

@@ -2,6 +2,8 @@ package com.huxin.communication.ui.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.huxin.communication.adpter.TableTravelOtherAdapter;
 import com.huxin.communication.adpter.TableTravelOverseasAdapter;
 import com.huxin.communication.adpter.TicketingAdapter;
 import com.huxin.communication.adpter.TicketingDuoXuanAdapter;
+import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
@@ -43,6 +46,7 @@ import com.huxin.communication.ui.house.sell.SellActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.huxin.communication.view.SpaceItemDecoration;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -93,7 +97,6 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     private TicketingAdapter mAdpter;
     private TicketingDuoXuanAdapter mXuanAdapter;
-    private List<String> list = new ArrayList<>();
 
 
     private RecyclerView mRecyclerViewQiTa;
@@ -172,6 +175,12 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
     private TextView mTextViewMoren;
 
     private EditText mEditTextSearch;
+
+    private SwipeRefreshView mSwipeRefreshView;
+
+    private int mCurrentPage = 1;
+
+    private List<TicketInfoEntity.ListBean> list = new ArrayList<>();
 
 
     @Override
@@ -281,6 +290,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
         mEditTextSearch = findViewById(R.id.toolbar_editText_search);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
+
         mEditTextSearch.setOnEditorActionListener(this);
 
 
@@ -334,6 +346,19 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         mTextViewSpotTicket.setTextColor(getResources().getColor(R.color.white));
         mTextViewQiTaTicket.setBackgroundResource(R.drawable.biaoqian_radius_top);
         mTextViewQiTaTicket.setTextColor(getResources().getColor(R.color.register_font));
+
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
     }
 
 
@@ -343,6 +368,8 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
         setEnabled(true);
         getTicketInfo(String.valueOf(TicketType), "", "", "",
                 "", "", "", "", "1");
+        initEvent();
+
         mEditTextMax.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -376,6 +403,26 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             public void afterTextChanged(Editable editable) {
                 maxPrice = mEditTextMin.getText().toString().trim();
 
+            }
+        });
+    }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getTicketInfo(String.valueOf(TicketType), "", "", "",
+                                "", "", "", "", "1");
+
+
+                    }
+                }, 2000);
             }
         });
     }
@@ -981,6 +1028,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mRecyclerView.setVisibility(View.GONE);
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 setEnabled(true);
@@ -990,6 +1040,9 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.collect_btn:
                 addTravelCollect(3);
@@ -1051,7 +1104,13 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
             mRecyclerView.setLayoutManager(manager);
 //            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
-
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
@@ -1060,29 +1119,68 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void loadMore(TicketingAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().getTicketInfo("", "",
+                        "", "", "", "", "",
+                        "", String.valueOf(mCurrentPage), null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(ticketInfoEntity -> {
+
+                            if (ticketInfoEntity.getList() != null && ticketInfoEntity.getList().size() > 0) {
+                                list.addAll(ticketInfoEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (ticketInfoEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+
+                                }
+
+                                adapter.setData(list);
+                            }else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(TicketingActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+
 
     private void getTicketInfo(String ticket_type, String ticket_city_name,
                                String minPri_maxPri, String ticket_theme_id,
                                String ticket_activity_id, String ticket_other_id,
                                String sort_type,
                                String keyWord, String curPage) {
-        showProgressDialog();
         ApiModule.getInstance().getTicketInfo(ticket_type, ticket_city_name,
                 minPri_maxPri, ticket_theme_id, ticket_activity_id, ticket_other_id, sort_type,
                 keyWord, curPage, null, "0", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(ticketInfoEntity -> {
-                    cancelProgressDialog();
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     if (ticketInfoEntity != null) {
                         KyLog.object(ticketInfoEntity);
                         setData(ticketInfoEntity);
                         setDuoXuanData(ticketInfoEntity);
+                        list.addAll(ticketInfoEntity.getList());
                     }
                     isClickQuYu = false;
 
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

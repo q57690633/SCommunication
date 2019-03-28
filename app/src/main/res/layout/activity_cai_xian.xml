@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="9dp"
-            android:paddingTop="14dp">
+            android:paddingTop="14dp"
+            android:paddingBottom="9dp">
 
             <TextView
                 android:id="@+id/caixian"
@@ -55,8 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingBottom="9dp"
-            android:paddingTop="14dp">
+            android:paddingTop="14dp"
+            android:paddingBottom="9dp">
 
             <TextView
                 android:id="@+id/duantuyou"
@@ -97,8 +97,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="13dp"
-            android:paddingTop="13dp">
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp">
 
             <LinearLayout
                 android:id="@+id/chufadi_line"
@@ -234,42 +234,49 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyler_domestic"
+            <com.huxin.communication.view.SwipeRefreshView
+                android:id="@+id/swipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:overScrollMode="never"
-                android:paddingLeft="11dp"
-                android:paddingRight="12dp"
-                android:layout_marginBottom="10dp"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_height="wrap_content">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyler_domestic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:paddingLeft="11dp"
+                    android:paddingRight="12dp"
+                    android:scrollbars="none" />
+            </com.huxin.communication.view.SwipeRefreshView>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyler_domestic_duoxuan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="70dp"
                 android:background="@color/white"
+                android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:paddingLeft="5dp"
                 android:paddingRight="12dp"
-                android:layout_marginBottom="70dp"
                 android:scrollbars="none"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="没有更多数据了"
                 android:textColor="@color/sell_font"
                 android:textSize="14sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <include
@@ -301,14 +308,15 @@
             android:visibility="gone" />
 
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/btn_duoxuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
+        android:layout_alignParentBottom="true"
         android:paddingTop="9dp"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/collect_btn"

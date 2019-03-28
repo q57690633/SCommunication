@@ -181,6 +181,7 @@ public class StartActivity extends BaseActivity {
                     KyLog.d(position + "");
                     if (position == 2){
                         Intent intent = new Intent(StartActivity.this,LoginActivity.class);
+                        finish();
                         startActivity(intent);
                         finish();
                     }

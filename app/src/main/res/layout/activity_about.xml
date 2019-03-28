@@ -11,7 +11,7 @@
         android:layout_width="152dp"
         android:layout_height="152dp"
         android:layout_gravity="center"
-        android:background="@color/blue"
+        android:background="@drawable/logo1"
         android:layout_marginTop="79dp"/>
 
     <TextView

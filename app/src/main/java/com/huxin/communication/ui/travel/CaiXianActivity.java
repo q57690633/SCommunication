@@ -2,6 +2,8 @@ package com.huxin.communication.ui.travel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,16 +24,20 @@ import com.huxin.communication.adpter.CaiXianDuoXuanAdapter;
 import com.huxin.communication.adpter.CaiXianDuoXuanForeignAdapter;
 import com.huxin.communication.adpter.CaiXianForeignAdapter;
 import com.huxin.communication.adpter.CityTravelsAdapter;
+import com.huxin.communication.adpter.JingWaiAdapter;
 import com.huxin.communication.adpter.ProvincesTravelsAdapter;
 import com.huxin.communication.adpter.ShaiXuanTabNameAdapter;
+import com.huxin.communication.adpter.ZhouBianAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.AroundTravelEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
+import com.huxin.communication.entity.TicketInfoEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
 import com.huxin.communication.ui.my.tuijian.TuiJianActivity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.huxin.communication.view.SwipeRefreshView;
 import com.sky.kylog.KyLog;
 
 import org.json.JSONArray;
@@ -86,7 +92,6 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
     private CaiXianForeignAdapter mForeignAdapter;
     private CaiXianDuoXuanForeignAdapter mDuoXuanForeignAdapter;
-    private List<String> list = new ArrayList<>();
 
     private int lineOrThrow = 1;
 
@@ -162,6 +167,14 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
     private TextView mTextViewCollect;
     private TextView mTextViewDelete;
+
+    private SwipeRefreshView mSwipeRefreshView;
+
+    private int mCurrentPage = 1;
+
+    private List<TicketInfoEntity.ListBean> list = new ArrayList<>();
+    private List<AroundTravelEntity.ListBean> listZhouBian = new ArrayList<>();
+    private List<ForeignTravelEntity.ListBean> lists = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,10 +284,11 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
         mTextViewCollect = findViewById(R.id.collect_btn);
         mTextViewDelete = findViewById(R.id.delete_collect);
 
+        mSwipeRefreshView = findViewById(R.id.swipeRefreshLayout);
+
 
         mTextViewChuFaDetermine.setOnClickListener(this);
         mTextViewChuFaBuXian.setOnClickListener(this);
-
 
 
         mLinearLayoutMore.setOnClickListener(this);
@@ -325,16 +339,23 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-//        setData();
-//        setDuoXuanData();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        // 设置颜色属性的时候一定要注意是引用了资源文件还是直接设置16进制的颜色，因为都是int值容易搞混
+        // 设置下拉进度的背景颜色，默认就是白色的
+        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+
+
+        // 手动调用,通知系统去测量
+        mSwipeRefreshView.measure(0, 0);
+        mSwipeRefreshView.setRefreshing(true);
+        initEvent();
         setEnabled(true);
         if (lineOrThrow == 1) {
-            gettingAroundTravel("", "", "",productType, ""
+            gettingAroundTravel("", "", "", productType, ""
                     , "", "", "", "", "",
                     "", "", "",
                     "1", "", "", null, String.valueOf(travel_kind), String.valueOf(lineOrThrow));
@@ -377,6 +398,40 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             public void afterTextChanged(Editable editable) {
                 maxPrice = mEditTextMin.getText().toString().trim();
 
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void initEvent() {
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (lineOrThrow == 1) {
+                            gettingAroundTravel("", "", "", productType, ""
+                                    , "", "", "", "", "",
+                                    "", "", "",
+                                    "1", "", "", null, String.valueOf(travel_kind), String.valueOf(lineOrThrow));
+                        } else {
+                            gettingForeignTravel("", "", "", "", "", "", "", "",
+                                    "", "", "", "", "", "", "", "",
+                                    "1", null, String.valueOf(lineOrThrow));
+                        }
+
+
+                    }
+                }, 2000);
             }
         });
     }
@@ -541,7 +596,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 KyLog.d(xiaofei);
 
                 if (lineOrThrow == 1) {
-                    gettingAroundTravel("", "", "",productType, qita
+                    gettingAroundTravel("", "", "", productType, qita
                             , huodong, zhushu, didian, jiaotong, xiaofei,
                             "", "", "",
                             "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -557,7 +612,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 if (Integer.parseInt(minPrice) < 500) {
 
                     if (lineOrThrow == 1) {
-                        gettingAroundTravel("", "","", productType, ""
+                        gettingAroundTravel("", "", "", productType, ""
                                 , "", "", "", "", "",
                                 0 + "," + maxPrice, "", "",
                                 "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -571,7 +626,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 } else if (Integer.parseInt(minPrice) >= 500 && Integer.parseInt(minPrice) <= 7000) {
 
                     if (lineOrThrow == 1) {
-                        gettingAroundTravel("", "","", productType, ""
+                        gettingAroundTravel("", "", "", productType, ""
                                 , "", "", "", "", "",
                                 minPrice + "," + maxPrice, "", "",
                                 "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -582,7 +637,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                     }
                 } else if (Integer.parseInt(minPrice) > 7000) {
                     if (lineOrThrow == 1) {
-                        gettingAroundTravel("", "", "",productType, ""
+                        gettingAroundTravel("", "", "", productType, ""
                                 , "", "", "", "", "",
                                 minPrice + "," + 1000000, "", "",
                                 "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -597,7 +652,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             case R.id.sort_Determine:
                 updata();
                 if (lineOrThrow == 1) {
-                    gettingAroundTravel("", "","", productType, ""
+                    gettingAroundTravel("", "", "", productType, ""
                             , "", "", "", "", "",
                             "", "", "",
                             "1", "", "", "", String.valueOf(1), String.valueOf(lineOrThrow));
@@ -625,7 +680,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 } else if (!TextUtils.isEmpty(MuDi) && !TextUtils.isEmpty(MuDiProvince)) {
                     gettingAroundTravel("", MuDi, MuDiProvince, productType, ""
                             , "", "", "", "", "",
-                            "","", "",
+                            "", "", "",
                             "1", "", "", null, String.valueOf(1), "");
                 }
                 break;
@@ -1102,7 +1157,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewGuoWaiYou.setBackgroundResource(R.drawable.biaoqian_radius_top);
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 travel_kind = 1;
-                gettingAroundTravel("", "", "",productType, ""
+                gettingAroundTravel("", "", "", productType, ""
                         , "", "", "", "", "",
                         "", "1", "",
                         "1", "", "", null, String.valueOf(1), String.valueOf(lineOrThrow));
@@ -1118,7 +1173,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mTextViewGuoWaiYou.setTextColor(getResources().getColor(R.color.register_font));
                 travel_kind = 2;
 
-                gettingAroundTravel("", "","", productType, ""
+                gettingAroundTravel("", "", "", productType, ""
                         , "", "", "", "", "",
                         "", "2", "",
                         "1", "", "", "", String.valueOf(2), "");
@@ -1147,6 +1202,9 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mRelativeLayoutRL.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.VISIBLE);
                 setEnabled(false);
+
+                mSwipeRefreshView.setVisibility(View.GONE);
+
                 break;
             case R.id.toolbar_quxiao:
                 mTextViewQuXiao.setVisibility(View.GONE);
@@ -1156,6 +1214,9 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mRelativeLayoutDuoxuanBtn.setVisibility(View.GONE);
                 setEnabled(true);
+
+                mSwipeRefreshView.setVisibility(View.VISIBLE);
+
                 break;
 
             case R.id.collect_btn:
@@ -1200,13 +1261,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mCaiXianDuoXuanAdapter = new CaiXianDuoXuanAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mCaiXianDuoXuanAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
-        } else {
-
-            mRecyclerView.setVisibility(View.GONE);
-            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -1218,8 +1273,14 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mAdpter = new CaiXianAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
             mRelativeLayoutSearch.setVisibility(View.VISIBLE);
+            mAdpter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadMore(mAdpter);
+                }
+            });
 
         } else {
 
@@ -1237,12 +1298,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mDuoXuanForeignAdapter = new CaiXianDuoXuanForeignAdapter(entity.getList(), this);
             mRecyclerViewDuoXuan.setAdapter(mDuoXuanForeignAdapter);
             mRecyclerViewDuoXuan.setLayoutManager(manager);
-//            mRecyclerViewDuoXuan.addItemDecoration(new SpaceItemDecoration(0, 15));
             mTextViewGuanLi.setVisibility(View.VISIBLE);
-        } else {
-            mRecyclerView.setVisibility(View.GONE);
-            Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -1254,12 +1310,85 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             mForeignAdapter = new CaiXianForeignAdapter(entity.getList(), this);
             mRecyclerView.setAdapter(mForeignAdapter);
             mRecyclerView.setLayoutManager(manager);
-//            mRecyclerView.addItemDecoration(new SpaceItemDecoration(0, 30));
+            mForeignAdapter.setOnLoadMoreListener(new ZhouBianAdapter.OnLoadMoreListener() {
+                @Override
+                public void onLoadMore(int currentPage) {
+                    mCurrentPage = currentPage;
+                    loadJinWaiMore(mForeignAdapter);
+                }
+            });
         } else {
             mRecyclerView.setVisibility(View.GONE);
             Toast.makeText(this, "数据为空", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+
+    private void loadMore(CaiXianAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingAroundTravel("", "", "",
+                        productType, "", "", "", "", "", "", "",
+                        "", "", String.valueOf(mCurrentPage), "", "", null, String.valueOf(1), "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(aroundTravelEntity -> {
+
+                            if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                                listZhouBian.addAll(aroundTravelEntity.getList());
+//                                            if (page < Integer.parseInt(aroundTravelEntity.getCurPage())) {
+                                if (aroundTravelEntity.getPageSize() == 15) {
+                                    adapter.setCanLoadMore(true);
+                                } else {
+                                    adapter.setCanLoadMore(false);
+                                }
+
+                                adapter.setData(listZhouBian);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }, throwable -> {
+
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(CaiXianActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
+    }
+
+    private void loadJinWaiMore(CaiXianForeignAdapter adapter) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ApiModule.getInstance().gettingForeignTravel("", "",
+                        "", "", "", "", "", "", "",
+                        "", "", "", "", "", "", "", String.valueOf(mCurrentPage), null, "", "0", String.valueOf(PreferenceUtil.getInt(UID)))
+                        .subscribe(foreignTravelEntity -> {
+                            KyLog.d(foreignTravelEntity.getPageSize() + "page");
+
+                            if (foreignTravelEntity.getPageSize() == 15) {
+                                adapter.setCanLoadMore(true);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                            }
+
+                            if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0) {
+                                lists.addAll(foreignTravelEntity.getList());
+                                adapter.setData(lists);
+                            } else {
+                                adapter.setCanLoadMore(false);
+                                adapter.notifyDataSetChanged();
+                            }
+
+
+                        }, throwable -> {
+                            KyLog.d(throwable.toString());
+                            Toast.makeText(CaiXianActivity.this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }, 2000);
     }
 
     //国内
@@ -1271,19 +1400,26 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                                      String numberDays, String keyWord,
                                      String curPage, String minDay, String maxDay, String uid,
                                      String travel_kind, String lineOrThrows) {
-        showProgressDialog();
-        ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city,goals_pro,
+        ApiModule.getInstance().gettingAroundTravel(depart_code, goals_city, goals_pro,
                 sort_type, tOtherId, tActivityId, tStayId, tAddressId, tTrafficId, tConsumeId, minPri_maxPri,
-                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows,"",String.valueOf(PreferenceUtil.getInt(UID)))
+                numberDays, keyWord, curPage, minDay, maxDay, uid, travel_kind, lineOrThrows, "", String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(aroundTravelEntity -> {
-                    cancelProgressDialog();
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
                     setDuoXuanData(aroundTravelEntity);
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (aroundTravelEntity.getList() != null && aroundTravelEntity.getList().size() > 0) {
+                        listZhouBian.addAll(aroundTravelEntity.getList());
+                    }
+
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }
@@ -1299,21 +1435,27 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
                                       String minPri_maxPri, String number_days,
                                       String keyWord, String curPage, String uid,
                                       String line_or_throw) {
-        showProgressDialog();
         ApiModule.getInstance().gettingForeignTravel(depart_name, min_days,
                 max_days, spot_name, goals_name, t_activity_id, t_stay_id, t_other_id, t_address_id,
-                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid,"0", line_or_throw,String.valueOf(PreferenceUtil.getInt(UID)))
+                t_traffic_id, t_overseas_id, t_consume_id, sort_type, minPri_maxPri, number_days, keyWord, curPage, uid, "0", line_or_throw, String.valueOf(PreferenceUtil.getInt(UID)))
                 .subscribe(foreignTravelEntity -> {
-                    cancelProgressDialog();
                     KyLog.object(foreignTravelEntity);
                     if (foreignTravelEntity != null) {
                         setForeignData(foreignTravelEntity);
                         setForeignDuoXuanData(foreignTravelEntity);
                     }
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
+                    if (foreignTravelEntity.getList() != null && foreignTravelEntity.getList().size() > 0) {
+                        lists.addAll(foreignTravelEntity.getList());
+                    }
 
                 }, throwable -> {
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
-                    cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
     }

@@ -180,6 +180,11 @@
             android:background="@color/white"
             android:orientation="vertical">
 
+            <com.huxin.communication.view.SwipeRefreshView
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_ticket"
@@ -193,6 +198,8 @@
 
                 android:scrollbars="none"
                 android:nestedScrollingEnabled="false"/>
+            </com.huxin.communication.view.SwipeRefreshView>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_ticket_duoxuan"
@@ -206,6 +213,7 @@
                 android:scrollbars="none"
                 android:visibility="gone"
                 android:nestedScrollingEnabled="false"/>
+
 
             <TextView
                 android:layout_width="wrap_content"

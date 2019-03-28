@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="vertical"
     android:id="@+id/line_tm">
 
@@ -88,6 +87,17 @@
                     android:text="昨天"
                     android:textColor="@color/register_font"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_below="@id/time"
+                    android:id="@+id/mute_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:background="@drawable/icon_home_miandarao" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

@@ -142,6 +142,7 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
         }
         if(TextUtils.isEmpty(username)) {
             chatTitleBar.mCenterTitle.setText(getActivity().getBaseContext().getResources().getString(R.string.default_chat_name));
+
         }
         if("homefragment".equalsIgnoreCase(from)) {
             chatTitleBar.mCenterTitle.setText(getActivity().getBaseContext().getResources().getString(R.string.default_chat_name));
