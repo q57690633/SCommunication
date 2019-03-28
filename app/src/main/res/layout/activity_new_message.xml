@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
-    <include layout="@layout/widget_toobar"/>
+    <include layout="@layout/widget_toobar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,30 +17,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/register_font"
-            android:textSize="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="17dp"
             android:text="声音"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="17dp" />
+            android:textColor="@color/register_font"
+            android:textSize="16dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:scaleType="centerCrop"
+        <CheckBox
+            android:id="@+id/set_souce_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:background="@color/blue"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="11dp"/>
+            android:layout_marginEnd="8dp"
+            android:button="@null"
+            android:background="@drawable/switchbutton_drawable" />
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/login_line"
+        android:layout_marginLeft="11dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="11dp"
-        android:layout_marginLeft="11dp"/>
+        android:background="@color/login_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,29 +52,30 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/register_font"
-            android:textSize="16dp"
-            android:text="振动"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="17dp" />
+            android:layout_marginTop="17dp"
+            android:text="振动"
+            android:textColor="@color/register_font"
+            android:textSize="16dp" />
 
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:scaleType="centerCrop"
+        <CheckBox
+            android:id="@+id/set_top_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:background="@color/blue"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="11dp"/>
+            android:layout_marginEnd="8dp"
+            android:button="@null"
+            android:background="@drawable/switchbutton_drawable" />
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/login_line"
+        android:layout_marginLeft="11dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="11dp"
-        android:layout_marginLeft="11dp"/>
+        android:background="@color/login_line" />
 
 </LinearLayout>

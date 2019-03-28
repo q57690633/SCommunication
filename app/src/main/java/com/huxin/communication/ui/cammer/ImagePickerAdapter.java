@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.huxin.communication.R;
-import com.huxin.communication.ui.MainActivity;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 

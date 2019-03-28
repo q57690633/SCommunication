@@ -26,6 +26,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private TextView mTextViewExit;
     private TextView mTextViewData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +59,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void loadData(Bundle savedInstanceState) {
         try {
             KyLog.d(CleanDataUtils.getTotalCacheSize(this));
-            if (!TextUtils.isEmpty(CleanDataUtils.getTotalCacheSize(this))){
+            if (!TextUtils.isEmpty(CleanDataUtils.getTotalCacheSize(this))) {
                 mTextViewData.setText(CleanDataUtils.getTotalCacheSize(this));
-            }else {
+            } else {
                 mTextViewData.setText("0.00K");
             }
         } catch (Exception e) {
@@ -81,15 +82,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intentNewMessage);
                 break;
             case R.id.exit:
-               loginout();
+                loginout();
+                break;
             case R.id.clear_data:
                 try {
                     if (!TextUtils.isEmpty(CleanDataUtils.getTotalCacheSize(this))) {
                         CleanDataUtils.clearAllCache(this);
                         mTextViewData.setText(CleanDataUtils.getTotalCacheSize(this));
-                        if (TextUtils.isEmpty(CleanDataUtils.getTotalCacheSize(this))){
-                            Toast.makeText(this, "清除缓存成功", Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(this, "清除缓存成功", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -99,16 +99,17 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    public void loginout(){
+    public void loginout() {
         showProgressDialog();
         //登出
         TIMManager.getInstance().logout(new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-            cancelProgressDialog();
+                cancelProgressDialog();
                 //错误码 code 和错误描述 desc，可用于定位请求失败原因
                 //错误码 code 列表请参见错误码表
-                KyLog.d( "logout failed. code: " + code + " errmsg: " + desc);
+                KyLog.d("logout failed. code: " + code + " errmsg: " + desc);
+                Toast.makeText(SettingActivity.this, "logout failed. code: " + code + " errmsg: " + desc, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -118,7 +119,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 Intent intentExit = new Intent(SettingActivity.this, LoginActivity.class);
                 startActivity(intentExit);
                 finish();
-                PreferenceUtil.removeSp(TOKEN,Constanst.SP_NAME);
+                PreferenceUtil.removeSp(TOKEN, Constanst.SP_NAME);
                 Toast.makeText(SettingActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
             }
         });

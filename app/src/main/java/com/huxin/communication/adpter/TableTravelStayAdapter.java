@@ -32,6 +32,15 @@ public class TableTravelStayAdapter extends RecyclerView.Adapter<TableTravelStay
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
 
+    private List<String> Tablist;
+
+
+    public void setTabList(List<String> list) {
+        this.Tablist = list;
+        notifyDataSetChanged();
+    }
+
+
     public TableTravelStayAdapter(List<TabTravelNameEntity.StayListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
@@ -72,6 +81,7 @@ public class TableTravelStayAdapter extends RecyclerView.Adapter<TableTravelStay
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Tablist.clear();
                 if (isItemChecked(hoder.getAdapterPosition())) {
                     setItemChecked(hoder.getAdapterPosition(), false);
                 } else {
@@ -122,6 +132,17 @@ public class TableTravelStayAdapter extends RecyclerView.Adapter<TableTravelStay
         } else {
             holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
+        }
+
+        if (Tablist != null && Tablist.size() > 0) {
+            for (String tabNmae : Tablist) {
+                if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
+                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    setItemChecked(position, true);
+                    setTab.add(tabNmae);
+                }
+            }
         }
     }
 

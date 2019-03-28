@@ -173,6 +173,14 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     private int id = 0;
     private ForeignTravelEntity.ListBean listBean;
 
+    private TableTravelTrafficAdapter mAdapterTableName;
+    private TableTravelActivityAdapter mAdapterAtivityTableName;
+    private TableTravelAddressListAdapter mAdapterAddressTableName;
+    private TableTravelConsAdapter mAdapterConsTableName;
+    private  TableTravelOtherAdapter mAdapterOtherTableName;
+    private TableTravelStayAdapter mAdapterStayTableName;
+    private List<String> Tablist = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -551,9 +559,50 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
                 pickupPrice = "无接送费";
 
             }
+
+
+
+            if (!TextUtils.isEmpty(listBean.getT_other_id())) {
+                setTabData(listBean.getT_other_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_OTHER, listBean.getT_other_id());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getT_activity_id())) {
+                setTabData(listBean.getT_activity_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_ACTIVITY, listBean.getT_activity_id());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getT_address_id())) {
+                setTabData(listBean.getT_address_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_ADDRESS, listBean.getT_address_id());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getT_consume_id())) {
+                setTabData(listBean.getT_consume_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_CONS, listBean.getT_consume_id());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getT_stay_id())) {
+                setTabData(listBean.getT_stay_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_STAY, listBean.getT_stay_id());
+            }
+
+            if (!TextUtils.isEmpty(listBean.getT_traffic_id())) {
+                setTabData(listBean.getT_traffic_id());
+                PreferenceUtil.putString(Constanst.TAB_NMAE_TRAFFIC, listBean.getT_traffic_id());
+            }
+
         }
     }
 
+    public void setTabData(String tabName) {
+        String[] str = tabName.split(",");
+        for (int i = 0; i < str.length; i++) {
+            Tablist.add(str[i]);
+        }
+
+        KyLog.d(Tablist.size() + "tab");
+    }
 
     @Override
     public void onClick(View v) {
@@ -830,68 +879,6 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
         return Kouweilist;
     }
 
-    private void issueForeignRoute() {
-        String TravelTitle = mEditTextTravelTitle.getText().toString().trim();
-        String Generalize = mEditTextGeneralize.getText().toString().trim();
-        String TotalPrice = mTextViewTotalPrice.getText().toString().trim();
-        String FinalPrice = mTextViewFinalPrice.getText().toString().trim();
-        String ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
-        String TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
-        String finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
-        String ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
-
-        String activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
-        String address = PreferenceUtil.getString(Constanst.TAB_NMAE_ADDRESS);
-        String cons = PreferenceUtil.getString(Constanst.TAB_NMAE_CONS);
-        String other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
-        String stay = PreferenceUtil.getString(Constanst.TAB_NMAE_STAY);
-        String traffic = PreferenceUtil.getString(Constanst.TAB_NMAE_TRAFFIC);
-
-        if (pickupPrice.equals("有周边接送费")) {
-            pickupPrices = 1;
-        } else {
-            pickupPrices = 0;
-        }
-        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
-            stick = 2;
-        } else {
-            stick = 1;
-        }
-        showProgressDialog();
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_NAME));
-
-        KyLog.d(PreferenceUtil.getString(Constanst.NATION_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NATION_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NATION_NAME));
-
-
-//        if (TextUtils.isEmpty(VillageName) && TextUtils.isEmpty(Acreage) && TextUtils.isEmpty(totalPrice) && TextUtils.isEmpty(houseType)){
-//            Toast.makeText(this, "请填写必填信息", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
-
-        ApiModule.getInstance().issueForeignRoute(PreferenceUtil.getString(Constanst.CITY_NAME), PreferenceUtil.getString(Constanst.PROVINCE_NAME), PreferenceUtil.getString(Constanst.NATION_NAME),
-                PreferenceUtil.getString(Constanst.CITY_NATION_NAME), PreferenceUtil.getString(Constanst.SPOT_NATION_NAME), String.valueOf(stick), String.valueOf(caixian), day, TotalPrice, FinalPrice, ReturnPrice, String.valueOf(pickupPrices),
-                TotalPriceChild, finalPriceChild, ReturnPriceChild, address, traffic, cons,
-                activity, stay, other, TravelTitle, Generalize, null,
-                String.valueOf(news), String.valueOf(low), String.valueOf(better), String.valueOf(shuaiwei), String.valueOf(rate), String.valueOf(returns), String.valueOf(hot),
-                String.valueOf(zeroC), "")
-                .subscribe(response -> {
-
-                    cancelProgressDialog();
-//                    KyLog.d(response.getResultMsg());
-//                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, MainActivity.class);
-                    startActivity(intent);
-
-                }, throwable -> {
-                    KyLog.d(throwable.toString());
-                    cancelProgressDialog();
-                    Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                });
-    }
 
 
     private void selectTravelTab() {
@@ -919,60 +906,72 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
     private void setActivityData(List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterAtivityTableName = new TableTravelActivityAdapter(list, this);
+            recyclerView.setAdapter(mAdapterAtivityTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterAtivityTableName.setTabList(Tablist);
+            }
         }
     }
 
     private void setAddressListData(List<TabTravelNameEntity.AddressListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelAddressListAdapter mAdapterTableName = new TableTravelAddressListAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterAddressTableName = new TableTravelAddressListAdapter(list, this);
+            recyclerView.setAdapter(mAdapterAddressTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterAddressTableName.setTabList(Tablist);
+            }
         }
     }
 
     private void setConsData(List<TabTravelNameEntity.ConsListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelConsAdapter mAdapterTableName = new TableTravelConsAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterConsTableName = new TableTravelConsAdapter(list, this);
+            recyclerView.setAdapter(mAdapterConsTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterConsTableName.setTabList(Tablist);
+            }
         }
     }
 
     private void setOtherData(List<TabTravelNameEntity.OtherListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelOtherAdapter mAdapterTableName = new TableTravelOtherAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterOtherTableName = new TableTravelOtherAdapter(list, this);
+            recyclerView.setAdapter(mAdapterOtherTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterOtherTableName.setTabList(Tablist);
+            }
         }
     }
 
     private void setStayData(List<TabTravelNameEntity.StayListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelStayAdapter mAdapterTableName = new TableTravelStayAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterStayTableName = new TableTravelStayAdapter(list, this);
+            recyclerView.setAdapter(mAdapterStayTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterStayTableName.setTabList(Tablist);
+            }
         }
     }
 
     private void setTrafficData(List<TabTravelNameEntity.TrafficListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelTrafficAdapter mAdapterTableName = new TableTravelTrafficAdapter(list, this);
+            mAdapterTableName = new TableTravelTrafficAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);
-            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterTableName.setTabList(Tablist);
+            }
         }
     }
 

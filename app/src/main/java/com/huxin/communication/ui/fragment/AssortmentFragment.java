@@ -26,11 +26,15 @@ import com.huxin.communication.adpter.StickAdapter;
 import com.huxin.communication.base.BaseFragment;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.entity.FamousEntity;
+import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.house.phone.AddFriendActivity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -262,5 +266,53 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                 getContext().startActivity(intent);
                 break;
         }
+    }
+
+    private List<GetMessageEntity> getList(List<GetMessageEntity> list) {
+        List<GetMessageEntity> showList = new ArrayList<>();
+        try {
+            String spId = PreferenceUtil.getString("PersonTop");
+            if(null == spId) {
+                return list;
+            }
+            JSONArray array = new JSONArray(spId);
+            for(int i = 0; i < array.length(); i++) {
+                String id = array.getString(i);
+                for(int j = 0; j < list.size(); j++) {
+                    if(id.equalsIgnoreCase(list.get(j).getId())) {
+                        showList.add(list.get(j));
+                        list.remove(j);
+                    }
+                }
+            }
+            for(int i = 0; i < list.size(); i++) {
+                showList.add(list.get(i));
+            }
+            if(showList.size() == 0) {
+                showList = list;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return showList;
+    }
+
+    private List<String> getMuteList(List<GetMessageEntity> list) {
+        List<String> showList = new ArrayList<>();
+        try {
+            String spId = PreferenceUtil.getString("PersonMute");
+            if(null == spId) {
+                return null;
+            }
+            JSONArray array = new JSONArray(spId);
+            for(int i = 0; i < array.length(); i++) {
+                String id = array.getString(i);
+                showList.add(id);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return showList;
     }
 }

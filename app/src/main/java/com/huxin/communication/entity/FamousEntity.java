@@ -3,7 +3,7 @@ package com.huxin.communication.entity;
 import org.litepal.crud.DataSupport;
 
 /**
- * 名家实体类
+ *
  */
 public class FamousEntity extends DataSupport{
     private String image;

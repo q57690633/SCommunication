@@ -21,7 +21,12 @@ import com.aitangba.pickdatetime.bean.DateParams;
 import com.huxin.communication.R;
 import com.huxin.communication.adpter.ImagePickerTravelAdapter;
 import com.huxin.communication.adpter.TableTravelActivityAdapter;
+import com.huxin.communication.adpter.TableTravelAddressListAdapter;
+import com.huxin.communication.adpter.TableTravelConsAdapter;
+import com.huxin.communication.adpter.TableTravelOtherAdapter;
 import com.huxin.communication.adpter.TableTravelOverseasAdapter;
+import com.huxin.communication.adpter.TableTravelStayAdapter;
+import com.huxin.communication.adpter.TableTravelTrafficAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.ForeignTravelEntity;
@@ -140,6 +145,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
     private String Activity;
     private String Other;
+    private String Themes;
+
     private String type = null;
 
     private String endTime;
@@ -213,6 +220,10 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     private ImageView mImageViewShuaiWeiOther;
 
     private ImageView mImageViewCaiXianOther;
+
+    private TableTravelActivityAdapter mAdapterAtivityTableName;
+    private TableTravelOverseasAdapter mAdapterThemeTableName;
+    private List<String> Tablist = new ArrayList<>();
 
 
     @Override
@@ -432,7 +443,7 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        selectTravelTab(ticket_type);
+        selectTravelTab(2);
         if (ticket_type == 1) {
             mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
             mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
@@ -483,9 +494,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             mEditTextOriginalPriceTotal.setText(String.valueOf(listBean.getOriginal_price_total()));
 
 
-            if (!TextUtils.isEmpty(listBean.getTicket_addr())) {
-                mTextViewProvince.setText(String.valueOf(listBean.getTicket_addr()));
-
+            if (!TextUtils.isEmpty(listBean.getTicket_pro_name()) && !TextUtils.isEmpty(listBean.getTicket_city_name())) {
+                mTextViewProvince.setText(String.valueOf(listBean.getTicket_pro_name()));
+                mTextViewCity.setText(String.valueOf(listBean.getTicket_city_name()));
+                PreferenceUtil.putString(Constanst.TICKET_PROVINCE_NAME, listBean.getTicket_pro_name());
+                PreferenceUtil.putString(Constanst.TICKET_CITY_NAME, listBean.getTicket_city_name());
             }
 
             if (!TextUtils.isEmpty(listBean.getGeneralize())) {
@@ -666,6 +679,35 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             }
 
         }
+
+        KyLog.d(listBean.getTagName() + "tab");
+
+        String tabNmae = listBean.getTagName();
+        String[] str = tabNmae.split(",");
+        for (int i = 0; i < str.length; i++) {
+            Tablist.add(str[i]);
+        }
+
+        KyLog.d(Tablist.size() + "tab");
+
+        if (!TextUtils.isEmpty(listBean.getTicket_activity_id())) {
+            setTabData(listBean.getTicket_activity_id());
+            PreferenceUtil.putString(Constanst.TAB_NMAE_ACTIVITY, listBean.getTicket_activity_id());
+        }
+
+        if (!TextUtils.isEmpty(listBean.getTicket_theme_id())) {
+            setTabData(listBean.getTicket_theme_id());
+            PreferenceUtil.putString(Constanst.TICKET_OVERSEAS_NAME, listBean.getTicket_theme_id());
+        }
+    }
+
+    public void setTabData(String tabName) {
+        String[] str = tabName.split(",");
+        for (int i = 0; i < str.length; i++) {
+            Tablist.add(str[i]);
+        }
+
+        KyLog.d(Tablist.size() + "tab");
     }
 
 
@@ -854,7 +896,10 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 returns = 0;
                 zeroC = 1;
             }
-
+            if (!TextUtils.isEmpty(listBean.getTicket_theme_id())) {
+                setTabData(listBean.getTicket_theme_id());
+                PreferenceUtil.putString(Constanst.TICKET_OVERSEAS_NAME, listBean.getTicket_theme_id());
+            }
         }
     }
 
@@ -1281,15 +1326,9 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 .subscribe(tabTravelNameEntity -> {
                     KyLog.object(tabTravelNameEntity + "");
                     cancelProgressDialog();
-                    if (type == 1) {
                         setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
                         setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
-
-                    } else {
-                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewthemeOther);
-
-                    }
-
+                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
@@ -1299,22 +1338,27 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
 
     private void setActivityData(List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
-        if (list != null && list.size() > 0) {
+        if (list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelActivityAdapter mAdapterTableName = new TableTravelActivityAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterAtivityTableName = new TableTravelActivityAdapter(list, this);
+            recyclerView.setAdapter(mAdapterAtivityTableName);
             recyclerView.setLayoutManager(manager);
-//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterAtivityTableName.setTabList(Tablist);
+            }
         }
     }
+
 
     private void setThemeListData(List<TabTravelNameEntity.ThemeList> list, RecyclerView recyclerView) {
         if (list != null && list.size() > 0) {
             GridLayoutManager manager = new GridLayoutManager(this, 5);
-            TableTravelOverseasAdapter mAdapterTableName = new TableTravelOverseasAdapter(list, this);
-            recyclerView.setAdapter(mAdapterTableName);
+            mAdapterThemeTableName = new TableTravelOverseasAdapter(list, this);
+            recyclerView.setAdapter(mAdapterThemeTableName);
             recyclerView.setLayoutManager(manager);
-//            recyclerView.addItemDecoration(new SpaceItemDecoration(0, 15));
+            if (list.size() > 0) {
+                mAdapterThemeTableName.setTabList(Tablist);
+            }
         }
     }
 
@@ -1447,150 +1491,6 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
         }
 
-//        String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
-////
-////        if (TextUtils.isEmpty(listBean.getTicket_addr()) && TextUtils.isEmpty(listBean.getTicket_name())) {
-////            Toast.makeText(this, "请填写地址或景点名称", Toast.LENGTH_SHORT).show();
-////            return;
-////        }
-////
-////        if (TextUtils.isEmpty(startTime) && TextUtils.isEmpty(endTime)) {
-////            Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
-////            return;
-////        }
-////
-////        Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
-////        Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
-////
-////        if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
-////            stick = 2;
-////        } else {
-////            stick = 1;
-////        }
-////        showProgressDialog();
-////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
-////        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
-////
-////        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
-////        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
-////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
-////        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
-////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
-////        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
-////
-////        Map<String, String> map = new HashMap<>();
-////        if (!TextUtils.isEmpty(listBean.getTicket_pro_name())) {
-////            map.put("ticket_pro_name", listBean.getTicket_pro_name());
-////        }
-////
-////        if (!TextUtils.isEmpty(listBean.getTicket_city_name())) {
-////            map.put("ticket_city_name", listBean.getTicket_city_name());
-////        }
-////        if (!TextUtils.isEmpty(listBean.getTicket_name())) {
-////            map.put("ticket_name", listBean.getTicket_name());
-////        }
-////
-////        if (!TextUtils.isEmpty(listBean.getTicket_addr())) {
-////            map.put("ticket_addr", listBean.getTicket_addr());
-////        }
-////
-////        map.put("ticket_type", String.valueOf(listBean.getTicket_type()));
-////        if (!TextUtils.isEmpty(startTime) && !TextUtils.isEmpty(endTime))
-////            map.put("open_time", startTime + "~" + endTime);
-////        if (!TextUtils.isEmpty(originalprice)) {
-////
-////            map.put("original_price", originalprice);
-////        }
-////        if (!TextUtils.isEmpty(finalprice)) {
-////            map.put("final_price", finalprice);
-////
-////        }
-////        if (!TextUtils.isEmpty(FinalPriceChild)) {
-////            map.put("original_price_child", FinalPriceChild);
-////        }
-////
-////        if (!TextUtils.isEmpty(FinalPriceChild)) {
-////            map.put("final_price_child", FinalPriceChild);
-////        }
-////
-////        if (!TextUtils.isEmpty(OriginalPriceEvening)) {
-////            map.put("original_price_evening", OriginalPriceEvening);
-////        }
-////        if (!TextUtils.isEmpty(FinalPriceEvening)) {
-////
-////            map.put("final_price_evening", FinalPriceEvening);
-////        }
-////        if (!TextUtils.isEmpty(OriginalPriceParentChild)) {
-////
-////            map.put("original_price_parent_child", OriginalPriceParentChild);
-////        }
-////        if (!TextUtils.isEmpty(FinalPriceParentChild)) {
-////
-////            map.put("final_price_parent_child", FinalPriceParentChild);
-////        }
-////        if (!TextUtils.isEmpty(OriginalPriceFamily)) {
-////
-////            map.put("original_price_family", OriginalPriceFamily);
-////        }
-////
-////        if (!TextUtils.isEmpty(FinalPriceFamily)) {
-////
-////            map.put("final_price_family", FinalPriceFamily);
-////        }
-////
-////        if (!TextUtils.isEmpty(OriginalBoat)) {
-////
-////            map.put("original_boat", OriginalBoat);
-////        }
-////        if (!TextUtils.isEmpty(FinalBoat)) {
-////
-////            map.put("final_boat", FinalBoat);
-////        }
-////        if (!TextUtils.isEmpty(OriginalCar)) {
-////
-////            map.put("original_car", OriginalCar);
-////        }
-////        if (!TextUtils.isEmpty(FinalCar)) {
-////
-////            map.put("final_car", FinalCar);
-////        }
-////        map.put("ticket_theme_id", "");
-////        if (!TextUtils.isEmpty(Activity)) {
-////            map.put("ticket_activity_id", Activity);
-////        }
-////        if (!TextUtils.isEmpty(Other)) {
-////            map.put("ticket_other_id", Other);
-////        }
-////
-////        map.put("uid", String.valueOf(PreferenceUtil.getInt(UID)));
-////        map.put("stick", String.valueOf(listBean.getStick()));
-////        if (caixian != 0) {
-////            map.put("line_or_throw", String.valueOf(listBean.getLine_or_throw()));
-////        }
-////        map.put("stick_new", String.valueOf(listBean.getStick_new()));
-////        map.put("stick_low", String.valueOf(listBean.getStick_low()));
-////        map.put("stick_better", String.valueOf(listBean.getStick_better()));
-////        map.put("stick_throw", String.valueOf(listBean.getStick_throw()));
-////        map.put("stick_rate", String.valueOf(listBean.getStick_rate()));
-////        map.put("stick_return", String.valueOf(listBean.getStick_return()));
-////        map.put("stick_hot", String.valueOf(listBean.getStick_hot()));
-////        map.put("stick_zeroC", String.valueOf(listBean.getStick_zeroC()));
-////        map.put("token", PreferenceUtil.getString(TOKEN));
-////
-////        map.put("generalize", "");
-////        if (!TextUtils.isEmpty(OriginalPriceTotal)) {
-////
-////            map.put("original_price_total", OriginalPriceTotal);
-////        }
-////        if (!TextUtils.isEmpty(FinalPriceTotal)) {
-////
-////            map.put("final_price_total", FinalPriceTotal);
-////        }
-////        if (!TextUtils.isEmpty(listBean.getTicket_pro_code())) {
-////            map.put("ticket_pro_code", listBean.getTicket_pro_code());
-////        }
-
-
         String TicketAddr = PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME) + PreferenceUtil.getString(Constanst.TICKET_CITY_NAME);
 
         if (TextUtils.isEmpty(TicketAddr) || TextUtils.isEmpty(TicketName)) {
@@ -1605,6 +1505,8 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
         Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
         Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
+        Themes = PreferenceUtil.getString(Constanst.TICKET_OVERSEAS_NAME);
+
 
         if (news == 0 && low == 0 && better == 0 && shuaiwei == 0 && rate == 0 && returns == 0 && hot == 0 && zeroC == 0) {
             stick = 2;
@@ -1612,15 +1514,9 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             stick = 1;
         }
         showProgressDialog();
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_CODE));
+        KyLog.d(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+        KyLog.d(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
 
-        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_ID));
-        KyLog.d(PreferenceUtil.getString(Constanst.SPOT_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_TRAVEL_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.PROVINCE_MUDI_TRAVEL_NAME));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_MUDI_CODE));
-        KyLog.d(PreferenceUtil.getString(Constanst.CITY_TRAVEL_NAME));
 
         Map<String, String> map = new HashMap<>();
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))) {
@@ -1698,10 +1594,15 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
             map.put("final_car", FinalCar);
         }
-        map.put("ticket_theme_id", "");
+
+        if (!TextUtils.isEmpty(Themes)) {
+            map.put("ticket_theme_id", Themes);
+        }
+
         if (!TextUtils.isEmpty(Activity)) {
             map.put("ticket_activity_id", Activity);
         }
+
         if (!TextUtils.isEmpty(Other)) {
             map.put("ticket_other_id", Other);
         }

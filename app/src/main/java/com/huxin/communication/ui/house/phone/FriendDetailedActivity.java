@@ -31,6 +31,8 @@ import com.sky.kylog.KyLog;
 import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FriendDetailedActivity extends BaseActivity implements View.OnClickListener {
@@ -159,6 +161,58 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             isMessageAlert = false;
         }
 
+        String groupTop = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+        if (!TextUtils.isEmpty(groupTop)) {
+
+            if (!TextUtils.isEmpty(groupTop)) {
+                try {
+                    JSONArray jsonArray = new JSONArray(groupTop);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        KyLog.d(jsonArray.getString(i));
+                        if (jsonArray.getString(i).equalsIgnoreCase(String.valueOf(uid))) {
+                            mSetTopIv.setBackgroundResource(R.drawable.switch_open);
+                            isMessageAlert = false;
+                        } else {
+                            mSetTopIv.setBackgroundResource(R.drawable.switch_close);
+                            isMessageAlert = true;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            KyLog.d(uid + "");
+        } else {
+            mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
+            isMessageAlert = true;
+
+        }
+        String mute = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+
+        if (!TextUtils.isEmpty(mute)) {
+            try {
+                JSONArray jsonArray = new JSONArray(mute);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    KyLog.d(jsonArray.getString(i));
+                    if (jsonArray.getString(i).equalsIgnoreCase(String.valueOf(uid))) {
+                        mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
+                        isMessageAlert = false;
+                    } else {
+                        mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
+                        isMessageAlert = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            KyLog.d(uid + "");
+        } else {
+            mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
+            isMessageAlert = true;
+
+        }
+
+
         if (TextUtils.isEmpty(star)){
             isStarFriend = true;
             mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
@@ -232,12 +286,33 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             case R.id.message_alert_iv:
                 if (isMessageAlert) {
                     isMessageAlert = false;
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,1);//1.代表静音
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
+                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+                    try {
+                        JSONArray array;
+                        if (null == str) {
+                            array = new JSONArray();
+                        } else {
+                            array = new JSONArray(str);
+                        }
+                        array.put(uid);
+                        com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonMute", array.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_TYPE,0);//0.代表解除静音
-                    PreferenceUtil.putInt(Constanst.ISMESSAGEALERT_CODE,uid);
+                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+                    try {
+                        JSONArray jsonArray = new JSONArray(str);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            if (String.valueOf(uid).equals(jsonArray.getString(i))) {
+                                jsonArray.remove(i);
+                            }
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonMute", jsonArray.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     isMessageAlert = true;
                     mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
                 }
@@ -245,10 +320,33 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             case R.id.set_top_iv:
                 if (isSetTop) {
                     isSetTop = false;
-                    PreferenceUtil.putInt(Constanst.TOP_NAME,1);
+                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+                    try {
+                        JSONArray array;
+                        if (null == str) {
+                            array = new JSONArray();
+                        } else {
+                            array = new JSONArray(str);
+                        }
+                        array.put(uid);
+                        com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", array.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     mSetTopIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    PreferenceUtil.putInt(Constanst.TOP_NAME,0);
+                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+                    try {
+                        JSONArray jsonArray = new JSONArray(str);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            if (String.valueOf(uid).equals(jsonArray.getString(i))) {
+                                jsonArray.remove(i);
+                            }
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", jsonArray.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     isSetTop = true;
                     mSetTopIv.setBackgroundResource(R.drawable.switch_close);
                 }

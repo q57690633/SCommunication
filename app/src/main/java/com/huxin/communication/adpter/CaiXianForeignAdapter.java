@@ -175,9 +175,9 @@ public class CaiXianForeignAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         }else {
             if (isCanLoadMore) {
-                ((JingWaiAdapter.FooterViewHolder) holder).showLoading();
+                ((FooterViewHolder) holder).showLoading();
             } else {
-                ((JingWaiAdapter.FooterViewHolder) holder).showTextOnly("无更多数据");
+                ((FooterViewHolder) holder).showTextOnly("无更多数据");
             }
         }
 

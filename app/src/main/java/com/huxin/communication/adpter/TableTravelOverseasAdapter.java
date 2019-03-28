@@ -35,6 +35,14 @@ public class TableTravelOverseasAdapter extends RecyclerView.Adapter<TableTravel
     private Set<Integer> integers = new HashSet<>();
     private boolean isClicked = true;
 
+    private List<String> Tablist;
+
+
+    public void setTabList(List<String> list) {
+        this.Tablist = list;
+        notifyDataSetChanged();
+    }
+
     //更新adpter的数据和选择状态
     public void updateDataSet(ArrayList<TabTravelNameEntity.ThemeList> list) {
         this.list = list;
@@ -134,7 +142,17 @@ public class TableTravelOverseasAdapter extends RecyclerView.Adapter<TableTravel
 //            strings.remove(list.get(position));
         }
 
-        KyLog.d(strings.toString());
+
+        if (Tablist != null && Tablist.size() > 0) {
+            for (String tabNmae : Tablist) {
+                if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
+                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    setItemChecked(position, true);
+                    strings.add(tabNmae);
+                }
+            }
+        }
     }
 
     @Override

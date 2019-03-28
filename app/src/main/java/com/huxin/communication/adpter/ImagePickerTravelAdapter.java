@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.huxin.communication.R;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.lzy.imagepicker.ImagePicker;
@@ -90,7 +91,8 @@ public class ImagePickerTravelAdapter extends RecyclerView.Adapter<ImagePickerTr
                 iv_img.setImageResource(R.drawable.img_poster);
                 clickPosition = -1;
             } else {
-                ImagePicker.getInstance().getImageLoader().displayImage((Activity) mContext, item.path, iv_img, 0, 0);
+//                ImagePicker.getInstance().getImageLoader().displayImage((Activity) mContext, item.path, iv_img, 0, 0);
+                Glide.with(mContext).load(item.path).into((iv_img));
                 clickPosition = position;
             }
         }

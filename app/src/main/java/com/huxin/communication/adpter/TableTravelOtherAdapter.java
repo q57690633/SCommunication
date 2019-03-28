@@ -31,6 +31,14 @@ public class TableTravelOtherAdapter extends RecyclerView.Adapter<TableTravelOth
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
 
+    private List<String> Tablist;
+
+
+    public void setTabList(List<String> list) {
+        this.Tablist = list;
+        notifyDataSetChanged();
+    }
+
     public TableTravelOtherAdapter(List<TabTravelNameEntity.OtherListBean> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
@@ -71,6 +79,8 @@ public class TableTravelOtherAdapter extends RecyclerView.Adapter<TableTravelOth
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Tablist.clear();
+
                 if (isItemChecked(hoder.getAdapterPosition())) {
                     setItemChecked(hoder.getAdapterPosition(), false);
                 } else {
@@ -87,6 +97,8 @@ public class TableTravelOtherAdapter extends RecyclerView.Adapter<TableTravelOth
                     PreferenceUtil.putString(Constanst.TAB_NMAE_OTHER,userStr.substring(4,userStr.length() - 1).trim());
                 }
             }
+
+
         });
         return hoder;
     }
@@ -122,6 +134,17 @@ public class TableTravelOtherAdapter extends RecyclerView.Adapter<TableTravelOth
         } else {
             holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
+        }
+
+        if (Tablist != null && Tablist.size() > 0) {
+            for (String tabNmae : Tablist) {
+                if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
+                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    setItemChecked(position, true);
+                    setTab.add(tabNmae);
+                }
+            }
         }
     }
 

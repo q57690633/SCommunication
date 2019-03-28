@@ -15,6 +15,7 @@ import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,6 +33,14 @@ public class TableTravelAddressListAdapter extends RecyclerView.Adapter<TableTra
 
     private SparseBooleanArray mSelectedPositions = new SparseBooleanArray();
     private boolean mIsSelectable = false;
+
+    private List<String> Tablist = new ArrayList<>();
+
+
+    public void setTabList(List<String> list) {
+        this.Tablist = list;
+        notifyDataSetChanged();
+    }
 
     public TableTravelAddressListAdapter(List<TabTravelNameEntity.AddressListBean> list, Context mContext) {
         this.list = list;
@@ -73,6 +82,7 @@ public class TableTravelAddressListAdapter extends RecyclerView.Adapter<TableTra
         hoder.mLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Tablist.clear();
                 if (isItemChecked(hoder.getAdapterPosition())) {
                     setItemChecked(hoder.getAdapterPosition(), false);
                 } else {
@@ -116,15 +126,24 @@ public class TableTravelAddressListAdapter extends RecyclerView.Adapter<TableTra
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextView.setText(list.get(position).getTagName());
-
         if (isItemChecked(position)) {
             holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
-//            strings.add(list.get(position));
 
         } else {
             holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.sell_font));
+        }
+
+        if (Tablist != null && Tablist.size() > 0) {
+            for (String tabNmae : Tablist) {
+                if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
+                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    setItemChecked(position, true);
+                    setTab.add(tabNmae);
+                }
+            }
         }
     }
 

@@ -15,6 +15,7 @@ import com.huxin.communication.R;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.TabTravelNameEntity;
 import com.huxin.communication.utils.PreferenceUtil;
+import com.sky.kylog.KyLog;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -124,6 +125,8 @@ public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravel
     @Override
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextView.setText(list.get(position).getTagName());
+        KyLog.d(isItemChecked(position) + "tab");
+
         if (isItemChecked(position)) {
             holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
             holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
@@ -140,6 +143,7 @@ public class TableTravelActivityAdapter extends RecyclerView.Adapter<TableTravel
                     holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
                     holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
                     setItemChecked(position, true);
+                    setTab.add(tabNmae);
                 }
             }
         }
