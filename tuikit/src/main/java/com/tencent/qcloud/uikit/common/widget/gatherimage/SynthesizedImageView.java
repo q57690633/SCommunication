@@ -58,6 +58,10 @@ public class SynthesizedImageView extends ShadeImageView {
         teamHeadSynthesizer.setGap(imageGap);
     }
 
+    public void displayImage(String iamgeUrl) {
+        teamHeadSynthesizer.displayImage(iamgeUrl);
+    }
+
     public SynthesizedImageView displayImage(List<String> imageUrls) {
         teamHeadSynthesizer.getMultiImageData().setImageUrls(imageUrls);
         return this;

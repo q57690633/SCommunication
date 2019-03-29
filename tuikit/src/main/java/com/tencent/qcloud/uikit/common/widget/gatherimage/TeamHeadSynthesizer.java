@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.tencent.qcloud.uikit.R;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
 import com.tencent.qcloud.uikit.common.utils.MD5Utils;
 
@@ -84,6 +85,10 @@ public class TeamHeadSynthesizer implements Synthesizer {
 
     public void setGap(int mGap) {
         this.mGap = mGap;
+    }
+
+    public void displayImage(String imageUrl) {
+        Glide.with(mContext).load(imageUrl).placeholder(R.drawable.default_head).into(imageView);
     }
 
     /**

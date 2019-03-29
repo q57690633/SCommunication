@@ -76,6 +76,10 @@ public class ChatIconView extends RelativeLayout {
         mIconView.defaultImage(resId);
     }
 
+    public void displayImage(String imageUrl) {
+        mIconView.displayImage(imageUrl);
+    }
+
 
     public void setIconUrls(List<String> iconUrls) {
         mIconView.displayImage(iconUrls).load();
