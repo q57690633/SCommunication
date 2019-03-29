@@ -101,7 +101,13 @@
         <activity android:name=".ui.house.sell.SimilarDetailsActivity" />
         <activity android:name=".ui.house.MessageRemindActivity" />
         <activity android:name=".ui.InvitationActivity" />
-        <activity android:name=".ui.house.details.SellDetailsActivity" />
+        <activity android:name=".ui.house.details.SellDetailsActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.selldetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.travel.ZhouBianActivity" />
         <activity android:name=".ui.travel.JinWaiActivity" />
         <activity android:name=".ui.travel.TicketingActivity" />
