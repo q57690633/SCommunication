@@ -362,7 +362,7 @@ public abstract class ChatPanel extends LinearLayout implements IChatPanel {
 
             @Override
             public void onUserIconClick(View view, int position, MessageInfo messageInfo) {
-                UIUtils.toastLongMessage("头像点击");
+                //UIUtils.toastLongMessage("头像点击");
             }
         });
         mTitleBar.setLeftClick(new OnClickListener() {

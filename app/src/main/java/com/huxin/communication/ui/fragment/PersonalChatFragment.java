@@ -24,6 +24,10 @@ import com.huxin.communication.ui.house.sell.QiuGouActivity;
 import com.huxin.communication.ui.house.sell.QiuZuActivity;
 import com.huxin.communication.ui.house.sell.RentActivity;
 import com.huxin.communication.ui.house.sell.SellActivity;
+import com.huxin.communication.ui.my.collect.CollectionActivity;
+import com.huxin.communication.ui.my.collect.DataBaseActivity;
+import com.huxin.communication.ui.my.collect.DataBaseTravelActivity;
+import com.huxin.communication.ui.travel.CollectTravelActivity;
 import com.huxin.communication.ui.travel.details.DomesticDetailsActivity;
 import com.huxin.communication.ui.travel.details.JinWaiDetailsActivity;
 import com.huxin.communication.ui.travel.details.TicketingDetailsActivity;
@@ -308,8 +312,24 @@ public class PersonalChatFragment extends BaseFragment implements MessageUnitCli
                 new SendImageMessageUtil(this, chatPanel).openAlbum();
                 break;
             case R.drawable.tab_icon_database:
+                int type = PreferenceUtil.getInt("type");
+                if(type == 1) {
+                    Intent intentDB = new Intent(getActivity(), DataBaseActivity.class);
+                    startActivity(intentDB);
+                }else {
+                    Intent intentDB = new Intent(getActivity(), DataBaseTravelActivity.class);
+                    startActivity(intentDB);
+                }
                 break;
             case R.drawable.tab_icon_favorite:
+                int type1 = PreferenceUtil.getInt("type");
+                if(type1 == 1) {
+                    Intent intentDB = new Intent(getActivity(), CollectionActivity.class);
+                    startActivity(intentDB);
+                }else {
+                    Intent intentDB = new Intent(getActivity(), CollectTravelActivity.class);
+                    startActivity(intentDB);
+                }
                 break;
         }
     }
