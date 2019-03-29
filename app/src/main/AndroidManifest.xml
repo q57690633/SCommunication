@@ -94,7 +94,13 @@
         <activity android:name=".ui.house.sell.QiuZuActivity" />
         <activity android:name=".ui.house.TopSelectionActivity" />
         <activity android:name=".ui.my.collect.DataBaseActivity" />
-        <activity android:name=".ui.house.details.ChuZuDetailsActivity" />
+        <activity android:name=".ui.house.details.ChuZuDetailsActivity">
+            <intent-filter>
+                <action android:name="com.huxin.communication.chuzudetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.house.details.QiuGouDetailsActivity" />
         <activity android:name=".ui.house.details.QiuZuDetailsActivity" />
         <activity android:name=".ui.travel.details.TicketingDetailsActivity" />
