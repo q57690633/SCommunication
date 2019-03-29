@@ -42,6 +42,7 @@ import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
     private String userName = "";
+    private JSONObject jsonObject = new JSONObject();
 
 
     private ViewPagerAdapter mViewPagerAdapter;
@@ -135,6 +137,15 @@ public class ZhouBianDetailsActivity extends BaseActivity {
 
 
         listBean = getIntent().getParcelableExtra("list");
+        try {
+            String json = getIntent().getStringExtra("detail");
+            jsonObject = new JSONObject(json);
+            if(null == listBean && null != jsonObject) {
+                listBean = initAroundTravenBean(jsonObject);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         headTravelEntivty = getIntent().getParcelableExtra("headlist");
 
@@ -577,5 +588,44 @@ public class ZhouBianDetailsActivity extends BaseActivity {
                 });
     }
 
+
+    private AroundTravelEntity.ListBean initAroundTravenBean(JSONObject dataObj) throws JSONException {
+        AroundTravelEntity.ListBean bean = new AroundTravelEntity.ListBean();
+
+        String departName = dataObj.getString("depart_name");
+        String goalsCity = dataObj.getString("goals_city");
+        String totalPrice = dataObj.getString("totalPrice");
+        String returnPrice = dataObj.getString("finalPrice");
+        String totalPriceChild = dataObj.getString("totalPriceChild");
+        String returnPriceChild = dataObj.getString("finalPriceChild");
+        String tagName = dataObj.getString("tagName");
+        String numberDays = dataObj.getString("numberDays");
+        String photoUrl = dataObj.getString("photo_url");
+        String TActivityId = dataObj.getString("TActivityId");
+        String TAddressId = dataObj.getString("TAddressId");
+        String TConsumeId = dataObj.getString("TConsumeId");
+        String TOtherId = dataObj.getString("TOtherId");
+        String TOverseasId = dataObj.getString("TOverseasId");
+        String TStayId = dataObj.getString("TStayId");
+        String TTrafficId = dataObj.getString("TTrafficId");
+
+        bean.setDepart_name(departName);
+        bean.setGoals_city(goalsCity);
+        bean.setTotalPrice(Double.parseDouble(totalPrice));
+        bean.setReturnPrice(Double.parseDouble(returnPrice));
+        bean.setTotalPriceChild(Double.parseDouble(totalPriceChild));
+        bean.setReturnPriceChild(Double.parseDouble(returnPriceChild));
+        bean.setTagName(tagName);
+        bean.setNumberDays(Integer.parseInt(numberDays));
+        bean.setPhoto_url(photoUrl);
+        bean.setTActivityId(TActivityId);
+        bean.setTAddressId(TAddressId);
+        bean.setTConsumeId(TConsumeId);
+        bean.setTOtherId(TOtherId);
+        bean.setTOverseasId(TOverseasId);
+        bean.setTStayId(TStayId);
+        bean.setTTrafficId(TTrafficId);
+        return bean;
+    }
 
 }

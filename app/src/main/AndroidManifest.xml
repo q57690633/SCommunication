@@ -130,7 +130,13 @@
         <activity android:name=".ui.travel.JinWaiActivity" />
         <activity android:name=".ui.travel.TicketingActivity" />
         <activity android:name=".ui.travel.details.JinWaiDetailsActivity" />
-        <activity android:name=".ui.travel.details.ZhouBianDetailsActivity" />
+        <activity android:name=".ui.travel.details.ZhouBianDetailsActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.zhoubiandetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.travel.TopSelectionTravelActivity" />
         <activity android:name=".ui.travel.CaiXianActivity" />
         <activity android:name=".ui.travel.CollectTravelActivity" />

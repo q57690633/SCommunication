@@ -585,7 +585,13 @@ public class ChatAdapter extends IChatAdapter {
                             ChatCustomTitleAdapter titleAdapter = new ChatCustomTitleAdapter(mContext, title, self);
                             setAdapter(customHolder.travelTitleRv, titleAdapter, 4, 7, 7);
                             ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, tab, self);
-                            setAdapter(customHolder.travelHotPosRv, tabAdapter, 3, 7, 7);
+                            setAdapter(customHolder.travelHotPosRv, tabAdapter,3, 7, 7);
+                            customHolder.contentGroup.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    gotoGuoNeiDetail(dataObj.toString());
+                                }
+                            });
                         }
                     }
                     if (3 == travelType) {
@@ -1413,8 +1419,11 @@ public class ChatAdapter extends IChatAdapter {
         mContext.startActivity(intent);
     }
 
-    private void gotoGuoNeiDetail() {
-
+    private void gotoGuoNeiDetail(String dataObj) {
+        Intent intent = new Intent();
+        intent.putExtra("detail", dataObj);
+        intent.setAction("com.huxin.communication.zhoubiandetails");
+        mContext.startActivity(intent);
     }
 
     private void gotoZhouBianDetail() {

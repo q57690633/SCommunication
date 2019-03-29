@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Volumes/Code/Code/yzx/baihangtongye/SCommunication/tuikit/libs"><file name="imsdk-4.0.2.aar" path="/Volumes/Code/Code/yzx/baihangtongye/SCommunication/tuikit/libs/imsdk-4.0.2.aar"/></source></dataSet><dataSet config="debug"><source path="/Volumes/Code/Code/yzx/baihangtongye/SCommunication/tuikit/src/debug/jniLibs"/></dataSet></merger>
