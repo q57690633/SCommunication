@@ -442,6 +442,19 @@ public class ChatAdapter extends IChatAdapter {
                         String[] tab = tabName.split(",");
                         ChatCustomMsgAdapter adapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
                         setAdapter(customHolder.tabName_line, adapter,1, 12, 0);
+                        customHolder.contentGroup.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    String pid = arr.getJSONObject(0).getString("id");
+                                    if(!TextUtils.isEmpty(pid)) {
+                                        gotoQiuGouDetail(Integer.parseInt(pid));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }else if(jsonObject.getInt("houseType") == 4){
                         //求租
                         String villageName = jsonData.getString("villageName");
@@ -1348,8 +1361,11 @@ public class ChatAdapter extends IChatAdapter {
         mContext.startActivity(intent);
     }
 
-    private void gotoQiuGouDetail() {
-
+    private void gotoQiuGouDetail(int pid) {
+        Intent intent = new Intent();
+        intent.putExtra("pid", pid);
+        intent.setAction("com.huxin.communication.qiugoudetails");
+        mContext.startActivity(intent);
     }
 
     private void gotoQiuZuDetail() {

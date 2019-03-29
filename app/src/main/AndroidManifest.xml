@@ -101,7 +101,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.house.details.QiuGouDetailsActivity" />
+        <activity android:name=".ui.house.details.QiuGouDetailsActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.qiugoudetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.house.details.QiuZuDetailsActivity" />
         <activity android:name=".ui.travel.details.TicketingDetailsActivity" />
         <activity android:name=".ui.house.sell.SimilarDetailsActivity" />
