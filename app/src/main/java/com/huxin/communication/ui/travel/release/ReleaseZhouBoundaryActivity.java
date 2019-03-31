@@ -1,8 +1,13 @@
 package com.huxin.communication.ui.travel.release;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -38,6 +43,7 @@ import com.huxin.communication.ui.cammer.HttpUtil;
 import com.huxin.communication.ui.cammer.ImagePickerAdapter;
 import com.huxin.communication.ui.cammer.MyStringCallBack;
 import com.huxin.communication.ui.cammer.SelectDialog;
+import com.huxin.communication.utils.NumberUtils;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
@@ -48,7 +54,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -181,12 +195,12 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private List<String> Tablist = new ArrayList<>();
 
 
-    String TotalPrice;
-    String FinalPrice;
-    String ReturnPrice;
-    String TotalPriceChild;
-    String finalPriceChild;
-    String ReturnPriceChild;
+    private String TotalPrice;
+    private String FinalPrice;
+    private String ReturnPrice;
+    private String TotalPriceChild;
+    private String finalPriceChild;
+    private String ReturnPriceChild;
 
 
     @Override
@@ -332,8 +346,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
-
-
+        getUseInfo();
         selectTravelTab();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
@@ -344,7 +357,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
         mRecyclerViewAddPicture.setLayoutManager(new GridLayoutManager(this, 4));
         mRecyclerViewAddPicture.setHasFixedSize(true);
         mRecyclerViewAddPicture.setAdapter(adapter);
-        SetEnabled();
+//        SetEnabled();
 
         if (id != 0) {
             setData();
@@ -355,257 +368,335 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     }
 
-    private void setEditText(){
-        mTextViewTotalPrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private TextWatcher watcherTotal;
+    private TextWatcher watcherReturn;
+    private TextWatcher watcherFinal;
+    private TextWatcher watcherTotalChild;
+    private TextWatcher watcherReturnChild;
+    private TextWatcher watcherFinalChild;
 
+
+    private void setEditText() {
+        watcherTotal = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
+                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+                if (!TextUtils.isEmpty(TotalPrice) && NumberUtils.isNumeric(TotalPrice)) {
+                    if (!TextUtils.isEmpty(FinalPrice) && NumberUtils.isNumeric(FinalPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewReturnPrice.removeTextChangedListener(watcherReturn);
+                                mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
+                                mTextViewReturnPrice.addTextChangedListener(watcherReturn);
+                            }
+                        });
+                        ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
+                        KyLog.d(ReturnPrice);
 
+                    } else if (!TextUtils.isEmpty(ReturnPrice) && NumberUtils.isNumeric(ReturnPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewFinalPrice.removeTextChangedListener(watcherFinal);
+                                mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
+                                mTextViewFinalPrice.addTextChangedListener(watcherFinal);
+                            }
+                        });
+                        FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
+                        KyLog.d(FinalPrice);
+                    }
+                }
+            }
+        };
+        mTextViewTotalPrice.addTextChangedListener(watcherTotal);
+
+        watcherReturn = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+                if (!TextUtils.isEmpty(ReturnPrice) && NumberUtils.isNumeric(ReturnPrice)) {
+                    if (!TextUtils.isEmpty(FinalPrice) && NumberUtils.isNumeric(FinalPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewTotalPrice.removeTextChangedListener(watcherTotal);
+                                mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice)));
+                                mTextViewTotalPrice.addTextChangedListener(watcherTotal);
+
+                            }
+                        });
+                        TotalPrice = String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice));
+                        KyLog.d(TotalPrice);
+                    } else if (!TextUtils.isEmpty(TotalPrice) && NumberUtils.isNumeric(TotalPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewFinalPrice.removeTextChangedListener(watcherFinal);
+                                mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
+                                mTextViewFinalPrice.addTextChangedListener(watcherFinal);
+                            }
+                        });
+                        FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
+                        KyLog.d(FinalPrice);
+
+                    }
+                }
+            }
+        };
+        mTextViewReturnPrice.addTextChangedListener(watcherReturn);
+
+        watcherFinal = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 TotalPrice = mTextViewTotalPrice.getText().toString().trim();
                 FinalPrice = mTextViewFinalPrice.getText().toString().trim();
                 ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
 
-                if (!TextUtils.isEmpty(FinalPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
-                        }
-                    });
-                    ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
-                    KyLog.d(ReturnPrice);
+                if (!TextUtils.isEmpty(FinalPrice) && NumberUtils.isNumeric(FinalPrice)) {
+                    if (!TextUtils.isEmpty(ReturnPrice) && NumberUtils.isNumeric(ReturnPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewTotalPrice.removeTextChangedListener(watcherTotal);
+                                mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice)));
+                                mTextViewTotalPrice.addTextChangedListener(watcherTotal);
 
-                }else if (!TextUtils.isEmpty(ReturnPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
-                        }
-                    });
-                    FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
-                    KyLog.d(FinalPrice);
+                            }
+                        });
+                        TotalPrice = String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice));
+                        KyLog.d(TotalPrice);
+                    } else if (!TextUtils.isEmpty(TotalPrice) && NumberUtils.isNumeric(TotalPrice)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewReturnPrice.removeTextChangedListener(watcherReturn);
+                                mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
+                                mTextViewReturnPrice.addTextChangedListener(watcherReturn);
+
+                            }
+                        });
+                        ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
+                        KyLog.d(ReturnPrice);
+
+                    }
                 }
-
             }
-        });
+        };
+        mTextViewFinalPrice.addTextChangedListener(watcherFinal);
 
-        mTextViewReturnPrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+        watcherTotalChild = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
-                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
-                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
-
-                if (!TextUtils.isEmpty(TotalPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
-                        }
-                    });
-                    FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
-                    KyLog.d(FinalPrice);
-
-                }else if (!TextUtils.isEmpty(FinalPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice)));
-                        }
-                    });
-                    TotalPrice = String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice));
-                    KyLog.d(TotalPrice);
-                }
-
-            }
-        });
-
-        mTextViewFinalPrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
-                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
-                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
-
-
-                if (!TextUtils.isEmpty(TotalPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
-                        }
-                    });
-                    ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
-                    KyLog.d(ReturnPrice);
-
-                }else if (!TextUtils.isEmpty(ReturnPrice)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice)));
-                        }
-                    });
-                    TotalPrice = String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice));
-                    KyLog.d(TotalPrice);
-                }
-
-
-            }
-        });
-
-        mTextViewTotalPriceChild.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
                 TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
                 finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
                 ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
 
+                if (!TextUtils.isEmpty(TotalPriceChild) && NumberUtils.isNumeric(TotalPriceChild)) {
+                    if (!TextUtils.isEmpty(finalPriceChild) && NumberUtils.isNumeric(finalPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewReturnPriceChild.removeTextChangedListener(watcherReturn);
+                                mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
+                                mTextViewReturnPriceChild.addTextChangedListener(watcherReturn);
 
-                if (!TextUtils.isEmpty(finalPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
-                        }
-                    });
-                    ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
-                    KyLog.d(ReturnPriceChild);
+                            }
+                        });
+                        ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
+                        KyLog.d(ReturnPriceChild);
 
-                }else if (!TextUtils.isEmpty(ReturnPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
-                        }
-                    });
-                    finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
-                    KyLog.d(finalPriceChild);
+                    } else if (!TextUtils.isEmpty(ReturnPriceChild) && NumberUtils.isNumeric(ReturnPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewFinalPriceChild.removeTextChangedListener(watcherFinalChild);
+                                mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
+                                mTextViewFinalPriceChild.addTextChangedListener(watcherFinalChild);
+
+                            }
+                        });
+                        finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
+                        KyLog.d(finalPriceChild);
+                    }
                 }
             }
-        });
+        };
+        mTextViewTotalPriceChild.addTextChangedListener(watcherTotalChild);
 
-        mTextViewReturnPriceChild.addTextChangedListener(new TextWatcher() {
+        watcherReturnChild = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
                 TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
                 finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
                 ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
 
+                if (!TextUtils.isEmpty(ReturnPriceChild) && NumberUtils.isNumeric(ReturnPriceChild)) {
+                    if (!TextUtils.isEmpty(finalPriceChild) && NumberUtils.isNumeric(finalPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewTotalPriceChild.removeTextChangedListener(watcherTotalChild);
+                                mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
+                                mTextViewTotalPriceChild.addTextChangedListener(watcherTotalChild);
 
-                if (!TextUtils.isEmpty(finalPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
-                        }
-                    });
-                    TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
-                    KyLog.d(TotalPriceChild);
+                            }
+                        });
+                        TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
+                        KyLog.d(TotalPriceChild);
 
-                }else if (!TextUtils.isEmpty(TotalPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
-                        }
-                    });
-                    finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
-                    KyLog.d(finalPriceChild);
+                    } else if (!TextUtils.isEmpty(TotalPriceChild) && NumberUtils.isNumeric(TotalPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewTotalPriceChild.removeTextChangedListener(watcherFinalChild);
+                                mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
+                                mTextViewTotalPriceChild.addTextChangedListener(watcherFinalChild);
+
+                            }
+                        });
+                        finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
+                        KyLog.d(finalPriceChild);
+                    }
                 }
             }
-        });
+        };
+        mTextViewReturnPriceChild.addTextChangedListener(watcherReturnChild);
 
-        mTextViewFinalPriceChild.addTextChangedListener(new TextWatcher() {
+
+        watcherFinalChild = new TextWatcher() {
+            private String mBefore;// 用于记录变化前的文字
+            private int mCursor;// 用于记录变化时光标的位置
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mBefore = s.toString();
+                mCursor = start;
+                KyLog.d("beforeTextChanged: " + s + ", " + mCursor);
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                KyLog.d("onTextChanged: " + s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
                 finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
                 ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
 
+                if (!TextUtils.isEmpty(finalPriceChild) && NumberUtils.isNumeric(finalPriceChild)) {
+                    if (!TextUtils.isEmpty(ReturnPriceChild) && NumberUtils.isNumeric(ReturnPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewTotalPriceChild.removeTextChangedListener(watcherTotalChild);
+                                mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
+                                mTextViewTotalPriceChild.addTextChangedListener(watcherTotalChild);
 
-                if (!TextUtils.isEmpty(ReturnPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
-                        }
-                    });
-                    TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
-                    KyLog.d(TotalPriceChild);
+                            }
+                        });
+                        TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
+                        KyLog.d(TotalPriceChild);
 
-                }else if (!TextUtils.isEmpty(TotalPriceChild)){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
-                        }
-                    });
-                    ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
-                    KyLog.d(ReturnPriceChild);
+                    } else if (!TextUtils.isEmpty(TotalPriceChild) && NumberUtils.isNumeric(TotalPriceChild)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mTextViewReturnPriceChild.removeTextChangedListener(watcherReturnChild);
+                                mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
+                                mTextViewReturnPriceChild.addTextChangedListener(watcherReturnChild);
+
+                            }
+                        });
+                        ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
+                        KyLog.d(ReturnPriceChild);
+                    }
                 }
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        };
+        mTextViewFinalPriceChild.addTextChangedListener(watcherFinalChild);
     }
-
 
 
     private void setData() {
@@ -866,9 +957,19 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 //                if (!file.exists() || !file.isDirectory()) {
 //                    file.mkdirs();
 //                }
-//                ImageItem imageItem = new ImageItem();
-//                imageItem.path = str[i];
-//                selImageList.add(imageItem);
+//                int finalI = i;
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            saveFile(loadRmoteImage(str[finalI]), Environment.getExternalStorageDirectory().getPath() + "image" + finalI + ".png");
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                }).start();
 //            }
 //            adapter.setImages(selImageList);
 //            KyLog.d(selImageList.size() + "tab");
@@ -911,156 +1012,194 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
                 caixian = 1;
                 break;
             case R.id.rl_stick_better:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
-                better = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
+                    better = 1;
 
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rl_stick_hot:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 1;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 1;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
             case R.id.rl_stick_new:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 1;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 1;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_low:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 1;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 1;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_throw:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 1;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 1;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_rate:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 1;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 1;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_return:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 1;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 1;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_zeroC:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 1;
+                } else {
+                    Toast.makeText(this, "当前置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.confirm:
@@ -1786,4 +1925,61 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             mRelativeLayoutStickZeroC.setFocusable(true);
         }
     }
+
+    /**
+     * @param imgUrl 远程图片文件的URL
+     *               <p>
+     *               下载远程图片
+     */
+    private Bitmap loadRmoteImage(String imgUrl) {
+        KyLog.d("loadRmoteImage == ");
+        Bitmap bitmap = null;
+        URL url = null;
+        try {
+            url = new URL(imgUrl);
+            InputStream is = null;
+            BufferedInputStream bis = null;
+            try {
+                is = url.openConnection().getInputStream();
+                bis = new BufferedInputStream(is);
+                bitmap = BitmapFactory.decodeStream(bis);
+                KyLog.d(bitmap + " === loadRmoteImage");
+                return bitmap;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
+//        image.setImageBitmap(bitmap);
+    }
+
+    private  String SAVE_PIC_PATH = Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)
+            ? Environment.getExternalStorageDirectory().getAbsolutePath() : "/mnt/sdcard";//
+
+    private  String SAVE_REAL_PATH = SAVE_PIC_PATH + "/good/savePic";//保存的确
+
+    /**
+     * 保存位图到本地
+     *
+     * @return void
+     */
+    //保存方法
+    private void saveFile(Bitmap bm, String fileName) throws IOException {
+        String subForder = SAVE_REAL_PATH;
+        File foder = new File(subForder);
+        if (!foder.exists()) foder.mkdirs();
+
+        File myCaptureFile = new File(subForder, fileName);
+        KyLog.e("lgq","图片保持。。。。wwww。。。。"+myCaptureFile);
+//        ends = myCaptureFile.getPath();
+        if (!myCaptureFile.exists()) myCaptureFile.createNewFile();
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        bos.flush();
+        bos.close();
+    }
+
+
 }

@@ -190,6 +190,8 @@
             android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
+            android:textColorHint="@color/red_setting"
+
             android:paddingTop="10dp"
             android:paddingRight="8dp"
             android:paddingBottom="10dp"
@@ -209,6 +211,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:textColorHint="@color/red_setting"
+
             android:background="@drawable/biaoqian_radius"
             android:hint="原价"
             android:paddingLeft="8dp"

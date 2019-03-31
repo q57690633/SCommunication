@@ -184,6 +184,8 @@
             android:paddingRight="8dp"
             android:paddingTop="10dp"
             android:hint="结算价"
+            android:textColorHint="@color/red_setting"
+
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
 
@@ -199,6 +201,8 @@
             android:id="@+id/other_original_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/red_setting"
+
             android:layout_marginLeft="30dp"
             android:background="@color/login_forget_password_code_fort"
             android:paddingBottom="10dp"
@@ -285,7 +289,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="置顶信息剩余5条"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
     </LinearLayout>

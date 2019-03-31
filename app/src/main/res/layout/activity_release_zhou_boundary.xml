@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="热门景点"
-                        android:textColor="@color/login_walling_fort"
+                        android:textColor="@color/red_setting"
                         android:textSize="14dp" />
 
                     <ImageView
@@ -177,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/login_forget_password_code_fort"
                     android:hint="直客价"
+                    android:textColorHint="@color/red_setting"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
                     android:paddingRight="8dp"
@@ -199,6 +200,7 @@
                     android:layout_marginLeft="13dp"
                     android:background="@color/login_forget_password_code_fort"
                     android:hint="结算价"
+                    android:textColorHint="@color/red_setting"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
                     android:paddingRight="8dp"
@@ -219,13 +221,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
+                    android:textColorHint="@color/red_setting"
+
                     android:background="@color/login_forget_password_code_fort"
                     android:hint="返佣"
                     android:paddingLeft="8dp"
                     android:paddingTop="10dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="10dp"
-                    android:textColor="@color/red_setting"
+                    android:textColor="@color/login_walling_fort"
                     android:textSize="14dp" />
 
                 <TextView

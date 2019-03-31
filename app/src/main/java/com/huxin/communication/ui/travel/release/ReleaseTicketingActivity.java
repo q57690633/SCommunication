@@ -443,22 +443,29 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        getUseInfo();
         selectTravelTab(2);
         if (ticket_type == 1) {
             mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
-            mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
-            mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))
+                    && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+                mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+                mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+            }
         } else {
             mTextViewTopMessageOther.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
-            mTextViewProvinceOther.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
-            mTextViewCityOther.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+            if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))
+                    && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+                mTextViewProvinceOther.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+                mTextViewCityOther.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+            }
         }
-        if (ticket_type == 1) {
-            SetEnabled();
-        } else {
-            SetOtherEnabled();
-
-        }
+//        if (ticket_type == 1) {
+//            SetEnabled();
+//        } else {
+//            SetOtherEnabled();
+//
+//        }
 
         if (id != 0) {
             if (ticket_type == 1) {
@@ -915,6 +922,12 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mTextViewOther.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSpot.setTextColor(getResources().getColor(R.color.white_ticketing));
                 ticket_type = 1;
+                mTextViewTopMessage.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))
+                        && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+                    mTextViewProvince.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+                    mTextViewCity.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+                }
                 break;
             case R.id.other_tv:
                 mLinearLayoutOther.setVisibility(View.VISIBLE);
@@ -924,158 +937,202 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 mTextViewOther.setTextColor(getResources().getColor(R.color.white_ticketing));
                 mTextViewSpot.setTextColor(getResources().getColor(R.color.register_font));
                 ticket_type = 2;
+                mTextViewTopMessageOther.setText("置顶信息剩余" + String.valueOf(PreferenceUtil.getInt(Constanst.TOP_ZHIDING)) + "条");
+                if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME))
+                        && !TextUtils.isEmpty(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME))) {
+                    mTextViewProvinceOther.setText(PreferenceUtil.getString(Constanst.TICKET_PROVINCE_NAME));
+                    mTextViewCityOther.setText(PreferenceUtil.getString(Constanst.TICKET_CITY_NAME));
+                }
                 break;
             case R.id.rl_stick_better:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
-                better = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
 
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_selected);
+                    better = 1;
+
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rl_stick_hot:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 1;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 1;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
             case R.id.rl_stick_new:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 1;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 1;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_low:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 1;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 1;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_throw:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 1;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 1;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_rate:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 1;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 1;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_return:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 1;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 1;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.rl_stick_zeroC:
-                mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+                    mImageViewStickNew.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHot.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrow.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRate.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturn.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroC.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickBetter.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 1;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.confirm:
                 if (id == 0) {
@@ -1123,156 +1180,196 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
 
 
             case R.id.other_rl_stick_better:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                better = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
 
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    better = 1;
+
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.other_rl_stick_hot:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 1;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 1;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
             case R.id.other_rl_stick_new:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 1;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 1;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.other_rl_stick_low:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 1;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 1;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.other_rl_stick_throw:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 1;
-                rate = 0;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 1;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.other_rl_stick_rate:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 1;
-                returns = 0;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 1;
+                    returns = 0;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.other_rl_stick_return:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 1;
-                zeroC = 0;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 1;
+                    zeroC = 0;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.other_rl_stick_zeroC:
-                mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_selected);
-                mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
-                better = 0;
-                news = 0;
-                low = 0;
-                hot = 0;
-                shuaiwei = 0;
-                rate = 0;
-                returns = 0;
-                zeroC = 1;
+                if (PreferenceUtil.getInt(Constanst.TOP_ZHIDING) > 0) {
+
+                    mImageViewStickNewOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickLowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickHotOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickThrowOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickRateOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickReturnOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    mImageViewStickZeroCOther.setBackgroundResource(R.drawable.icon_circle_selected);
+                    mImageViewStickBetterOther.setBackgroundResource(R.drawable.icon_circle_normal);
+                    better = 0;
+                    news = 0;
+                    low = 0;
+                    hot = 0;
+                    shuaiwei = 0;
+                    rate = 0;
+                    returns = 0;
+                    zeroC = 1;
+                } else {
+                    Toast.makeText(this, "置顶条数不够，请立即充值", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.other_confirm:
                 if (id == 0) {
@@ -1326,9 +1423,9 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
                 .subscribe(tabTravelNameEntity -> {
                     KyLog.object(tabTravelNameEntity + "");
                     cancelProgressDialog();
-                        setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
-                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
-                        setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
+                    setActivityData(tabTravelNameEntity.getActivityList(), mRecyclerViewActivity);
+                    setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
+                    setThemeListData(tabTravelNameEntity.getThemeLists(), mRecyclerViewtheme);
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
