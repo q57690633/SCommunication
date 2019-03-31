@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -179,6 +181,14 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private List<String> Tablist = new ArrayList<>();
 
 
+    String TotalPrice;
+    String FinalPrice;
+    String ReturnPrice;
+    String TotalPriceChild;
+    String finalPriceChild;
+    String ReturnPriceChild;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,6 +331,9 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
+
+
+
         selectTravelTab();
         httpUtil = new HttpUtil();
         selImageList = new ArrayList<>();
@@ -337,7 +350,263 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             setData();
         }
 
+        setEditText();
+
+
     }
+
+    private void setEditText(){
+        mTextViewTotalPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+
+                if (!TextUtils.isEmpty(FinalPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
+                        }
+                    });
+                    ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
+                    KyLog.d(ReturnPrice);
+
+                }else if (!TextUtils.isEmpty(ReturnPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
+                        }
+                    });
+                    FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
+                    KyLog.d(FinalPrice);
+                }
+
+            }
+        });
+
+        mTextViewReturnPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+
+                if (!TextUtils.isEmpty(TotalPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewFinalPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice)));
+                        }
+                    });
+                    FinalPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(ReturnPrice));
+                    KyLog.d(FinalPrice);
+
+                }else if (!TextUtils.isEmpty(FinalPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice)));
+                        }
+                    });
+                    TotalPrice = String.valueOf(Integer.parseInt(FinalPrice) + Integer.parseInt(ReturnPrice));
+                    KyLog.d(TotalPrice);
+                }
+
+            }
+        });
+
+        mTextViewFinalPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TotalPrice = mTextViewTotalPrice.getText().toString().trim();
+                FinalPrice = mTextViewFinalPrice.getText().toString().trim();
+                ReturnPrice = mTextViewReturnPrice.getText().toString().trim();
+
+
+                if (!TextUtils.isEmpty(TotalPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewReturnPrice.setText(String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice)));
+                        }
+                    });
+                    ReturnPrice = String.valueOf(Integer.parseInt(TotalPrice) - Integer.parseInt(FinalPrice));
+                    KyLog.d(ReturnPrice);
+
+                }else if (!TextUtils.isEmpty(ReturnPrice)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewTotalPrice.setText(String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice)));
+                        }
+                    });
+                    TotalPrice = String.valueOf(Integer.parseInt(ReturnPrice) + Integer.parseInt(FinalPrice));
+                    KyLog.d(TotalPrice);
+                }
+
+
+            }
+        });
+
+        mTextViewTotalPriceChild.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+                finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+                ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+
+
+                if (!TextUtils.isEmpty(finalPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
+                        }
+                    });
+                    ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
+                    KyLog.d(ReturnPriceChild);
+
+                }else if (!TextUtils.isEmpty(ReturnPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
+                        }
+                    });
+                    finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
+                    KyLog.d(finalPriceChild);
+                }
+            }
+        });
+
+        mTextViewReturnPriceChild.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+                finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+                ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+
+
+                if (!TextUtils.isEmpty(finalPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
+                        }
+                    });
+                    TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
+                    KyLog.d(TotalPriceChild);
+
+                }else if (!TextUtils.isEmpty(TotalPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewFinalPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild)));
+                        }
+                    });
+                    finalPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(ReturnPriceChild));
+                    KyLog.d(finalPriceChild);
+                }
+            }
+        });
+
+        mTextViewFinalPriceChild.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                TotalPriceChild = mTextViewTotalPriceChild.getText().toString().trim();
+                finalPriceChild = mTextViewFinalPriceChild.getText().toString().trim();
+                ReturnPriceChild = mTextViewReturnPriceChild.getText().toString().trim();
+
+
+                if (!TextUtils.isEmpty(ReturnPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewTotalPriceChild.setText(String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild)));
+                        }
+                    });
+                    TotalPriceChild = String.valueOf(Integer.parseInt(ReturnPriceChild) + Integer.parseInt(finalPriceChild));
+                    KyLog.d(TotalPriceChild);
+
+                }else if (!TextUtils.isEmpty(TotalPriceChild)){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTextViewReturnPriceChild.setText(String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild)));
+                        }
+                    });
+                    ReturnPriceChild = String.valueOf(Integer.parseInt(TotalPriceChild) - Integer.parseInt(finalPriceChild));
+                    KyLog.d(ReturnPriceChild);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+
 
     private void setData() {
 
@@ -1107,6 +1376,11 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
             return;
         }
 
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         KyLog.d(low + "");
         KyLog.d(rate + "");
@@ -1289,6 +1563,11 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
 
         if (TextUtils.isEmpty(day) && TextUtils.isEmpty(TotalPrice) && TextUtils.isEmpty(ReturnPrice) && TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
             return;
         }
 

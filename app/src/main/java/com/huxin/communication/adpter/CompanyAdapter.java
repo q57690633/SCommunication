@@ -31,6 +31,8 @@ import static com.huxin.communication.ui.fragment.AssortmentFragment.UID_TAG;
 public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyViewHoder> {
 
     private List<AddressBookEntity.CompanyBean> mList;
+    private List<String> Mutelist;
+
     private Activity mActivity;
     private LayoutInflater mInflater;
 
@@ -62,6 +64,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
                 intent.putExtra(STAR_FRIEND_TAG, starFriend);
                 intent.putExtra(UID_TAG, uid);
                 intent.putExtra(IMAGE_TAG, image);
+                intent.putExtra("companyFriend","company");
+
 
                 mActivity.startActivity(intent);
             }

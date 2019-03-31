@@ -99,8 +99,7 @@
             android:id="@+id/stick_rl"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@color/bg_person"
-            android:visibility="gone">
+            android:background="@color/bg_person">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,6 +117,21 @@
             android:layout_margin="10dp"
             android:overScrollMode="never"
             android:scrollbars="none" />
+        <RelativeLayout
+            android:id="@+id/friend_rl"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/bg_person">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="普通好友"
+                android:textColor="@color/login_line"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

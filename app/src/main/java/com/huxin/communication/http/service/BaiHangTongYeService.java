@@ -20,6 +20,7 @@ import com.huxin.communication.entity.ForeignStickEntity;
 import com.huxin.communication.entity.ForeignTraveAroundEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.ForgetPasswordEntity;
+import com.huxin.communication.entity.FriendUserInfoEntity;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InformationDetailEntity;
@@ -1103,7 +1104,7 @@ public interface BaiHangTongYeService {
      */
     @FormUrlEncoded
     @POST("user/getUserInfo")
-    Observable<Response<LoginEntity>> getUserInfo(@Field("token") String token, @Field("uid") String uid);
+    Observable<Response<FriendUserInfoEntity>> getUserInfo(@Field("token") String token, @Field("uid") String uid);
 
 
     /**

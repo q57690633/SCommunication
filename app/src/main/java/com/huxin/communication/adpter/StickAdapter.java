@@ -64,8 +64,7 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
                 intent.putExtra(STAR_FRIEND_TAG, starFriend);
                 intent.putExtra(UID_TAG, uid);
                 intent.putExtra(IMAGE_TAG, headUrl);
-                intent.putExtra("starFriend","star");
-                KyLog.d("starFriend");
+                intent.putExtra("star","star");
                 mActivity.startActivity(intent);
             }
         });

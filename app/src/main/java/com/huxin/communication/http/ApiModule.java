@@ -24,6 +24,7 @@ import com.huxin.communication.entity.ForeignStickEntity;
 import com.huxin.communication.entity.ForeignTraveAroundEntity;
 import com.huxin.communication.entity.ForeignTravelEntity;
 import com.huxin.communication.entity.ForgetPasswordEntity;
+import com.huxin.communication.entity.FriendUserInfoEntity;
 import com.huxin.communication.entity.HomeEntity;
 import com.huxin.communication.entity.HomeTravelEntity;
 import com.huxin.communication.entity.InformationDetailEntity;
@@ -1431,7 +1432,7 @@ public class ApiModule {
      *
      * @return
      */
-    public Observable<LoginEntity> getUserInfo(String uid) {
+    public Observable<FriendUserInfoEntity> getUserInfo(String uid) {
         return ApiFactory.getFactory().BaiHangTongYeService().getUserInfo(PreferenceUtil.getString(TOKEN), uid)
                 .subscribeOn(Schedulers.io())
                 .map(new HttpResultFunc<>())

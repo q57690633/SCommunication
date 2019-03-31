@@ -87,7 +87,7 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.image = (ImageView) view.findViewById(R.id.image);
-        setinte(viewHolder.tvLetter, position, mContent);
+//        setinte(viewHolder.tvLetter, position, mContent);
         viewHolder.tvTitle.setText(list.get(position).getName());
         viewHolder.tvPhone.setText(list.get(position).getPhone());
 

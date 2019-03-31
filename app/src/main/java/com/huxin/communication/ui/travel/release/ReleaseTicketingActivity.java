@@ -1503,6 +1503,11 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             return;
         }
 
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
         Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
         Themes = PreferenceUtil.getString(Constanst.TICKET_OVERSEAS_NAME);
@@ -1711,7 +1716,10 @@ public class ReleaseTicketingActivity extends BaseActivity implements View.OnCli
             Toast.makeText(this, "请选择时间", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Activity = PreferenceUtil.getString(Constanst.TAB_NMAE_ACTIVITY);
         Other = PreferenceUtil.getString(Constanst.TAB_NMAE_OTHER);
 

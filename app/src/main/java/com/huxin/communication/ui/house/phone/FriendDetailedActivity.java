@@ -44,6 +44,9 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private String starFriend;
     private String imageUrl;
     private String star;
+    private String company;
+    private String friend;
+
 
     private int uid;
 
@@ -61,6 +64,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     private TextView mIndustryTv;
     private TextView mPhoneTv;
     private TextView mConfirmTv;
+    private TextView mDelete;
     private ImageView mMessageAlertIv;
     private ImageView mSetTopIv;
     private ImageView mStarFriendIv;
@@ -70,29 +74,20 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        name = intent.getStringExtra(AssortmentFragment.NAME_TAG);
-        address = intent.getStringExtra(AssortmentFragment.ADDRESS_TAG);
-        industry = intent.getStringExtra(AssortmentFragment.INDUSTRY_TAG);
-        phone = intent.getStringExtra(AssortmentFragment.PHONE_TAG);
-        starFriend = intent.getStringExtra(AssortmentFragment.STAR_FRIEND_TAG);
-        imageUrl = intent.getStringExtra(AssortmentFragment.IMAGE_TAG);
-        uid = intent.getIntExtra(AssortmentFragment.UID_TAG, 0);
 
-        mNameTv.setText(name);
-        mAddressTv.setText(address);
-        mIndustryTv.setText(industry);
-        mPhoneTv.setText(getResources().getString(R.string.phone) + phone);
 
-        if (!TextUtils.isEmpty(imageUrl)) {
-            ImageLoader.getInstance().displayImage(imageUrl, mImageViewHead);
-        } else {
-            mImageViewHead.setBackgroundResource(R.drawable.head2);
-        }
     }
 
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_friend_detailed);
+        name = getIntent().getStringExtra(AssortmentFragment.NAME_TAG);
+        address = getIntent().getStringExtra(AssortmentFragment.ADDRESS_TAG);
+        industry = getIntent().getStringExtra(AssortmentFragment.INDUSTRY_TAG);
+        phone = getIntent().getStringExtra(AssortmentFragment.PHONE_TAG);
+        starFriend = getIntent().getStringExtra(AssortmentFragment.STAR_FRIEND_TAG);
+        imageUrl = getIntent().getStringExtra(AssortmentFragment.IMAGE_TAG);
+        uid = getIntent().getIntExtra(AssortmentFragment.UID_TAG, 0);
 
     }
 
@@ -112,6 +107,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mMessageAlertIv = (ImageView) findViewById(R.id.message_alert_iv);
         mSetTopIv = (ImageView) findViewById(R.id.set_top_iv);
         mStarFriendIv = (ImageView) findViewById(R.id.star_friend_iv);
+        mDelete = findViewById(R.id.delete_phone);
 
         mRelativeLayoutHistory.setOnClickListener(this);
         mRelativeLayoutTuiJian.setOnClickListener(this);
@@ -120,48 +116,40 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
         mStarFriendIv.setOnClickListener(this);
         mSetTopIv.setOnClickListener(this);
         mMessageAlertIv.setOnClickListener(this);
-        if (!TextUtils.isEmpty(imageUrl)) {
-            ImageLoader.getInstance().displayImage(imageUrl, mImageViewHead);
-        } else {
-            mImageViewHead.setBackgroundResource(R.drawable.head2);
-        }
+        mDelete.setOnClickListener(this);
 
-        findViewById(R.id.delete_phone).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteFriend(String.valueOf(uid));
-            }
-        });
+
     }
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
 
+        getUseInfo(String.valueOf(uid));
+
         KyLog.d(PreferenceUtil.getInt(Constanst.ISMESSAGEALERT_TYPE) + "== star");
         KyLog.d(PreferenceUtil.getInt(Constanst.TOP_NAME) + " == star");
-        star = getIntent().getStringExtra("starFriend");
+        star = getIntent().getStringExtra("star");
+        company = getIntent().getStringExtra("companyFriend");
+        friend = getIntent().getStringExtra("Friend");
+
 
         KyLog.d(star + "== star");
+        KyLog.d(company + "== star");
+        KyLog.d(friend + "== star");
+
+        String groupTop = null;
+        if (!TextUtils.isEmpty(star)) {
+            groupTop = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonStarTop");
+
+        } else if (!TextUtils.isEmpty(company)) {
+            groupTop = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonCompanyTop");
 
 
+        } else if (!TextUtils.isEmpty(friend)) {
+            groupTop = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
 
-        if (PreferenceUtil.getInt(Constanst.ISMESSAGEALERT_TYPE) == 1){
-            mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
-            isMessageAlert = true;
-        }else {
-            mMessageAlertIv.setBackgroundResource(R.drawable.switch_close);
-            isMessageAlert = false;
         }
 
-        if (PreferenceUtil.getInt(Constanst.TOP_NAME) == 1){
-            mSetTopIv.setBackgroundResource(R.drawable.switch_open);
-            isMessageAlert = true;
-        }else {
-            mSetTopIv.setBackgroundResource(R.drawable.switch_close);
-            isMessageAlert = false;
-        }
-
-        String groupTop = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
         if (!TextUtils.isEmpty(groupTop)) {
 
             if (!TextUtils.isEmpty(groupTop)) {
@@ -187,7 +175,8 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             isMessageAlert = true;
 
         }
-        String mute = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+        String mute = null;
+        mute = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "mute");
 
         if (!TextUtils.isEmpty(mute)) {
             try {
@@ -212,18 +201,21 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
 
         }
 
+        if (!TextUtils.isEmpty(star)) {
+            if (star.equalsIgnoreCase("star")) {
+                isStarFriend = false;
+                mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
+                mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
 
-        if (TextUtils.isEmpty(star)){
+            } else {
+                isStarFriend = true;
+                mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
+                mRelativeLayoutStarFriend.setVisibility(View.GONE);
+            }
+        } else {
             isStarFriend = true;
             mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
             mRelativeLayoutStarFriend.setVisibility(View.GONE);
-
-        }else {
-            isStarFriend = false;
-            mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
-            mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
-
-
         }
 
     }
@@ -286,7 +278,9 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             case R.id.message_alert_iv:
                 if (isMessageAlert) {
                     isMessageAlert = false;
-                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+                    String str = null;
+                    str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "mute");
+
                     try {
                         JSONArray array;
                         if (null == str) {
@@ -295,20 +289,24 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                             array = new JSONArray(str);
                         }
                         array.put(uid);
-                        com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonMute", array.toString());
+                        com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "mute", array.toString());
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     mMessageAlertIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonMute");
+                    String str = null;
+
+                    str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "mute");
+
                     try {
                         JSONArray jsonArray = new JSONArray(str);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             if (String.valueOf(uid).equals(jsonArray.getString(i))) {
                                 jsonArray.remove(i);
                             }
-                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonMute", jsonArray.toString());
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "mute", jsonArray.toString());
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -320,7 +318,20 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             case R.id.set_top_iv:
                 if (isSetTop) {
                     isSetTop = false;
-                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+                    String str = null;
+
+                    if (!TextUtils.isEmpty(star)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonStarTop");
+
+                    } else if (!TextUtils.isEmpty(company)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonCompanyTop");
+
+
+                    } else if (!TextUtils.isEmpty(friend)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+
+                    }
+
                     try {
                         JSONArray array;
                         if (null == str) {
@@ -329,20 +340,53 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
                             array = new JSONArray(str);
                         }
                         array.put(uid);
-                        com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", array.toString());
+                        if (!TextUtils.isEmpty(star)) {
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonStarTop", array.toString());
+
+                        } else if (!TextUtils.isEmpty(company)) {
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonCompanyTop", array.toString());
+
+                        } else if (!TextUtils.isEmpty(friend)) {
+                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", array.toString());
+
+
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     mSetTopIv.setBackgroundResource(R.drawable.switch_open);
                 } else {
-                    String str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+
+                    String str = null;
+
+                    if (!TextUtils.isEmpty(star)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonStarTop");
+
+                    } else if (!TextUtils.isEmpty(company)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonCompanyTop");
+
+
+                    } else if (!TextUtils.isEmpty(friend)) {
+                        str = com.tencent.qcloud.uikit.PreferenceUtil.getString(this, "PersonTop");
+
+                    }
                     try {
                         JSONArray jsonArray = new JSONArray(str);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             if (String.valueOf(uid).equals(jsonArray.getString(i))) {
                                 jsonArray.remove(i);
                             }
-                            com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", jsonArray.toString());
+                            if (!TextUtils.isEmpty(star)) {
+                                com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonStarTop", jsonArray.toString());
+
+                            } else if (!TextUtils.isEmpty(company)) {
+                                com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonCompanyTop", jsonArray.toString());
+
+                            } else if (!TextUtils.isEmpty(friend)) {
+                                com.tencent.qcloud.uikit.PreferenceUtil.putString(this, "PersonTop", jsonArray.toString());
+
+
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -354,15 +398,19 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             case R.id.star_friend_iv:
                 if (isStarFriend) {
                     isStarFriend = false;
-                    addStarFriend(String.valueOf(uid),"1");
+                    addStarFriend(String.valueOf(uid), "1");
                     mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
                     mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
                 } else {
                     isStarFriend = true;
-                    addStarFriend(String.valueOf(uid),"0");
+                    addStarFriend(String.valueOf(uid), "0");
                     mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
                     mRelativeLayoutStarFriend.setVisibility(View.GONE);
                 }
+                break;
+
+            case R.id.delete_phone:
+                deleteFriend(String.valueOf(uid));
                 break;
         }
     }
@@ -374,7 +422,7 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
             jsonObject.put("phone", phone);
             jsonObject.put("uid", uid);
             jsonObject.put("username", name);
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return jsonObject.toString();
@@ -382,9 +430,9 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
 
 
     private void addStarFriend(String friendId, String type) {
-        ApiModule.getInstance().addStarFriend(friendId,type)
+        ApiModule.getInstance().addStarFriend(friendId, type)
                 .subscribe(response -> {
-                        Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, response.getResultMsg(), Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
@@ -393,13 +441,50 @@ public class FriendDetailedActivity extends BaseActivity implements View.OnClick
     }
 
     private void deleteFriend(String friendId) {
-        ApiModule.getInstance().deleteFriend(String.valueOf(PreferenceUtil.getInt(UID)),friendId)
+        ApiModule.getInstance().deleteFriend(String.valueOf(PreferenceUtil.getInt(UID)), friendId)
                 .subscribe(response -> {
                     Toast.makeText(this, "删除成功", Toast.LENGTH_SHORT).show();
                 }, throwable -> {
                     KyLog.d(throwable.toString());
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void getUseInfo(String id) {
+        ApiModule.getInstance().getUserInfo(id)
+                .subscribe(loginEntity -> {
+                    KyLog.object(loginEntity.getStickNumber());
+                    mNameTv.setText(loginEntity.getUsername());
+                    mAddressTv.setText(loginEntity.getCompanyName());
+                    mIndustryTv.setText(loginEntity.getIndustryType());
+                    mPhoneTv.setText(getResources().getString(R.string.phone) + loginEntity.getPhone());
+
+                    if (!TextUtils.isEmpty(loginEntity.getHeadUrl())) {
+                        ImageLoader.getInstance().displayImage(loginEntity.getHeadUrl(), mImageViewHead);
+                    } else {
+                        mImageViewHead.setBackgroundResource(R.drawable.head2);
+                    }
+
+                    if (loginEntity.getIsFriend() == 0) {
+                        mDelete.setVisibility(View.GONE);
+                    } else if (loginEntity.getIsFriend() == 1) {
+                        mDelete.setVisibility(View.VISIBLE);
+
+                    }
+
+//                    if (loginEntity.getIsStarFriend() == 0) {
+//                        isStarFriend = true;
+//                        mStarFriendIv.setBackgroundResource(R.drawable.switch_close);
+//                        mRelativeLayoutStarFriend.setVisibility(View.GONE);
+//                    } else if (loginEntity.getIsStarFriend() == 1) {
+//                        isStarFriend = false;
+//                        mStarFriendIv.setBackgroundResource(R.drawable.switch_open);
+//                        mRelativeLayoutStarFriend.setVisibility(View.VISIBLE);
+//                    }
+                }, throwable -> {
+//                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    KyLog.d(throwable.getMessage());
                 });
     }
 }

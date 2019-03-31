@@ -1105,6 +1105,11 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
             return;
         }
 
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         showProgressDialog();
 
         Map<String, String> map = new HashMap<>();
@@ -1276,6 +1281,11 @@ public class OverseasReleaseActivity extends BaseActivity implements View.OnClic
 
         if (TextUtils.isEmpty(day) || TextUtils.isEmpty(TotalPrice) || TextUtils.isEmpty(ReturnPrice) || TextUtils.isEmpty(FinalPrice)) {
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
             return;
         }
 

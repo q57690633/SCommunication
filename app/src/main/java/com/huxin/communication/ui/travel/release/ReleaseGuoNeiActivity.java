@@ -1085,7 +1085,10 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String, String> map = new HashMap<>();
         map.put("depart_code", PreferenceUtil.getString(Constanst.CITY_CODE));
@@ -1256,7 +1259,10 @@ public class ReleaseGuoNeiActivity extends BaseActivity implements View.OnClickL
             Toast.makeText(this, "请选择天数或填写成人价格", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (pathList == null && pathList.size() <= 0) {
+            Toast.makeText(this, "请上传图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         KyLog.d(low + "");
         KyLog.d(rate + "");
