@@ -546,6 +546,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
             JSONArray jsonArray = new JSONArray();
             JSONObject dataObj = new JSONObject();
             dataObj.put("id", SaleEntity.getId());
+            dataObj.put("uid", SaleEntity.getUid());
             dataObj.put("depart_name", SaleEntity.getDepart_name());
             dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
             dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
@@ -609,6 +610,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
         String companyName = dataObj.getString("companyName");
         String generalize = dataObj.getString("generalize");
         int id = dataObj.getInt("id");
+        int uid = dataObj.getInt("uid");
 
         bean.setDepart_name(depart_name);
         bean.setGoals_name(goalsCity);
@@ -619,7 +621,8 @@ public class JinWaiDetailsActivity extends BaseActivity {
         bean.setTagName(tagName);
         bean.setNumber_days(Integer.parseInt(numberDays));
         bean.setPhoto_url(photoUrl);
-        bean.setUid(id);
+        bean.setId(id);
+        bean.setUid(uid);
         bean.setTravel_title(travel_title);
         bean.setHeadUrl(headUrl);
         bean.setUserPhone(userPhone);

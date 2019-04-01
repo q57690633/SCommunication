@@ -41,6 +41,7 @@ import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class TicketingDetailsActivity extends BaseActivity {
     private TextView mTextViewCompanyName;
     private TextView mTextViewPriceEveing;
     private String userName;
+    private JSONObject jsonObject = new JSONObject();
 
     private RecyclerView mRecyclerView;
 
@@ -140,7 +142,17 @@ public class TicketingDetailsActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
         listBean = getIntent().getParcelableExtra("list");
-
+        try {
+            String json = getIntent().getStringExtra("detail");
+            if(!TextUtils.isEmpty(json)) {
+                jsonObject = new JSONObject(json);
+                if(null == listBean && null != jsonObject) {
+                    listBean = initTicketInfoBean(jsonObject);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         headTravelEntivty = getIntent().getParcelableExtra("headlist");
 
         type = getIntent().getIntExtra("type", 0);
@@ -550,6 +562,22 @@ public class TicketingDetailsActivity extends BaseActivity {
             dataObj.put("original_price", SaleEntity.getOriginal_price());
             dataObj.put("tagName", SaleEntity.getTagName());
             dataObj.put("photo_url", SaleEntity.getPhoto_url());
+            dataObj.put("headUrl", SaleEntity.getHeadUrl());
+            dataObj.put("final_price", SaleEntity.getFinal_price());
+            dataObj.put("final_price_child", SaleEntity.getFinal_price_child());
+            dataObj.put("final_price_evening", SaleEntity.getFinal_price_evening());
+            dataObj.put("final_price_family", SaleEntity.getFinal_price_family());
+            dataObj.put("final_price_parent_child", SaleEntity.getFinal_price_parent_child());
+            dataObj.put("final_price_total", SaleEntity.getFinal_price_total());
+            dataObj.put("id", SaleEntity.getId());
+            dataObj.put("open_time", SaleEntity.getOpen_time());
+            dataObj.put("companyName", SaleEntity.getCompanyName());
+            dataObj.put("userCity", SaleEntity.getUserCity());
+            dataObj.put("userPhone", SaleEntity.getUserPhone());
+            dataObj.put("uid", SaleEntity.getUid());
+            dataObj.put("issue_count", SaleEntity.getIssue_count());
+            dataObj.put("generalize", SaleEntity.getGeneralize());
+            dataObj.put("username", SaleEntity.getUsername());
             jsonArray.put(dataObj);
             data.put("list", jsonArray);
             jsonObject.put("type", 2);
@@ -574,5 +602,52 @@ public class TicketingDetailsActivity extends BaseActivity {
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private TicketInfoEntity.ListBean initTicketInfoBean(JSONObject dataObj) throws JSONException {
+        TicketInfoEntity.ListBean bean = new TicketInfoEntity.ListBean();
+
+        String ticketName = dataObj.getString("ticket_name");
+        String ticketAddr = dataObj.getString("ticket_addr");
+        String originalPrice = dataObj.getString("original_price");
+        String tagName = dataObj.getString("tagName");
+        String photoUrl = dataObj.getString("photo_url");
+        String headUrl = dataObj.getString("headUrl");
+        String final_price = dataObj.getString("final_price");
+        String final_price_child = dataObj.getString("final_price_child");
+        String final_price_evening = dataObj.getString("final_price_evening");
+        String final_price_family = dataObj.getString("final_price_family");
+        String final_price_parent_child = dataObj.getString("final_price_parent_child");
+        String final_price_total = dataObj.getString("final_price_total");
+        String open_time = dataObj.getString("open_time");
+        String companyName = dataObj.getString("companyName");
+        String userCity = dataObj.getString("userCity");
+        String userPhone = dataObj.getString("userPhone");
+        String issue_count = dataObj.getString("issue_count");
+        String generalize = dataObj.getString("generalize");
+        String username = dataObj.getString("username");
+        int uid = dataObj.getInt("uid");
+
+        bean.setTicket_name(ticketName);
+        bean.setTicket_addr(ticketAddr);
+        bean.setOriginal_price(Double.parseDouble(originalPrice));
+        bean.setTagName(tagName);
+        bean.setPhoto_url(photoUrl);
+        bean.setHeadUrl(headUrl);
+        bean.setFinal_price(Double.parseDouble(final_price));
+        bean.setFinal_price_child(Double.parseDouble(final_price_child));
+        bean.setFinal_price_evening(Double.parseDouble(final_price_evening));
+        bean.setFinal_price_family(Double.parseDouble(final_price_family));
+        bean.setFinal_price_parent_child(Double.parseDouble(final_price_parent_child));
+        bean.setFinal_price_total(Double.parseDouble(final_price_total));
+        bean.setOpen_time(open_time);
+        bean.setCompanyName(companyName);
+        bean.setUserCity(userCity);
+        bean.setUserPhone(userPhone);
+        bean.setIssue_count(Integer.parseInt(issue_count));
+        bean.setGeneralize(generalize);
+        bean.setUsername(username);
+        bean.setUid(uid);
+        return bean;
     }
 }

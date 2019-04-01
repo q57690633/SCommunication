@@ -1476,6 +1476,7 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
                     JSONObject dataObj = new JSONObject();
                     dataObj.put("id", SaleEntity.getId());
+                    dataObj.put("uid", SaleEntity.getUid());
                     dataObj.put("depart_name", SaleEntity.getDepart_name());
                     dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
                     dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
