@@ -143,6 +143,7 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
             if (peer.equalsIgnoreCase(uid)) {
                 ContentValues values = new ContentValues();
                 values.put("isread", "true");
+                values.put("num", "0");
                 util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{uid});
             }
         }
