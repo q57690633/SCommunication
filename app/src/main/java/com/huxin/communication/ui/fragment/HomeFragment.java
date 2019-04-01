@@ -973,7 +973,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             String identifiers = message.getSenderProfile().getIdentifier();
                             Log.i("MyTAG", "identifiers = " + identifiers);
                             int uid = PreferenceUtil.getInt("uid");
-                            if(uid == Integer.parseInt(identifiers)) {
+                            if(!TextUtils.isEmpty(identifiers) && uid == Integer.parseInt(identifiers)) {
                                 return;
                             }
                             identifiersList.add(identifiers);

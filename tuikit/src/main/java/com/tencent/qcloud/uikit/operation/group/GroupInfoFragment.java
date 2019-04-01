@@ -229,15 +229,21 @@ public class GroupInfoFragment extends BaseFragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 MemberHeadUrlEntity entity = new MemberHeadUrlEntity();
+
                                 entity.setCompanyName(object.getString("companyName"));
-                                ArrayList<String> headurllist = new ArrayList<>();
                                 JSONArray data = object.getJSONArray("data");
+
+                                ArrayList<MemberHeadUrlEntity.DataBean> dataBeanArrayList = new ArrayList<>();
                                 for (int j = 0; j < data.length(); j++) {
+                                    MemberHeadUrlEntity.DataBean dataBean = new MemberHeadUrlEntity.DataBean();
                                     String headUrl = data.getJSONObject(j).getString("headUrl");
-                                    headurllist.add(headUrl);
+                                    int uid = data.getJSONObject(j).getInt("uid");
+                                    dataBean.setHeadUrl(headUrl);
+                                    dataBean.setUid(uid);
                                     list.add(headUrl);
+                                    dataBeanArrayList.add(dataBean);
                                 }
-                                entity.setHeadUrl(headurllist);
+                                entity.setData(dataBeanArrayList);
                                 memberList.add(entity);
                             }
                             headUrlList = list;
@@ -348,6 +354,7 @@ public class GroupInfoFragment extends BaseFragment {
                 if (s) {
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                     deleteGroupInfoInDB(groupId);
+                    gotoMainActivity();
                 } else {
                     Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                 }
@@ -365,7 +372,7 @@ public class GroupInfoFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), GroupMoreMemberActivity.class);
 //                String data = listToString(headUrlList);
                 Log.d("GroupInfoFragment", memberList.size() + "== data");
-                intent.putParcelableArrayListExtra("data", memberList);
+               // intent.putParcelableArrayListExtra("data", memberList);
 //                intent.putExtra("data",data);
                 startActivity(intent);
             }
@@ -422,11 +429,7 @@ public class GroupInfoFragment extends BaseFragment {
             public void onSuccess() {
                 Toast.makeText(getActivity(), (R.string.exit_group), Toast.LENGTH_SHORT).show();
                 deleteGroupInfoInDB(groupId);
-                Intent intent = new Intent();
-                intent.setAction("com.huxin.communication.main");
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                gotoMainActivity();
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
@@ -573,6 +576,14 @@ public class GroupInfoFragment extends BaseFragment {
             }
         }
         return sb.toString();
+    }
+
+    private void gotoMainActivity() {
+        Intent intent = new Intent();
+        intent.setAction("com.huxin.communication.main");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private void deleteGroupInfoInDB(String groupId) {

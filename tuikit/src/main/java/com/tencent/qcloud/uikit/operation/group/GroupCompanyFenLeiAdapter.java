@@ -37,15 +37,15 @@ public class GroupCompanyFenLeiAdapter extends RecyclerView.Adapter<GroupCompany
 
     @Override
     public void onBindViewHolder(HeadImageViewHoder holder, int position) {
-        holder.company.setText(list.get(position).getCompanyName());
-//        String image = listToString(list.get(position).getHeadUrl());
-        KyLog.object(list.get(position).getHeadUrl().size());
-//        KyLog.d("data == "+ image);
-        if (list.get(position).getHeadUrl() != null && list.get(position).getHeadUrl().size() > 0){
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 5);
-            holder.recycler.setLayoutManager(gridLayoutManager);
-            holder.recycler.setAdapter(new GroupInfoMemberAdapter(mContext,  list.get(position).getHeadUrl()));
-        }
+//        holder.company.setText(list.get(position).getCompanyName());
+////        String image = listToString(list.get(position).getHeadUrl());
+//        KyLog.object(list.get(position).getHeadUrl().size());
+////        KyLog.d("data == "+ image);
+//        if (list.get(position).getHeadUrl() != null && list.get(position).getHeadUrl().size() > 0){
+//            GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 5);
+//            holder.recycler.setLayoutManager(gridLayoutManager);
+//            holder.recycler.setAdapter(new GroupInfoMemberAdapter(mContext,  list.get(position).getHeadUrl()));
+//        }
     }
 
     @Override

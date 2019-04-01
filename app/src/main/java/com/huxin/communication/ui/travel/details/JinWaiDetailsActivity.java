@@ -39,6 +39,7 @@ import com.tencent.qcloud.uikit.TUIKit;
 import com.tencent.qcloud.uikit.common.IUIKitCallBack;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
     private TextView mTextViewUsername;
     private TextView mTextViewCompanyName;
     private String userName = "";
+    private JSONObject jsonObject = new JSONObject();
 
     private ViewPagerAdapter mViewPagerAdapter;
 
@@ -134,6 +136,17 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
 
         listBean = getIntent().getParcelableExtra("list");
+        try {
+            String json = getIntent().getStringExtra("detail");
+            if(!TextUtils.isEmpty(json)) {
+                jsonObject = new JSONObject(json);
+                if(null == listBean && null != jsonObject) {
+                    listBean = initForeignTravelBean(jsonObject);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         headTravelEntivty = getIntent().getParcelableExtra("headlist");
 
@@ -234,17 +247,19 @@ public class JinWaiDetailsActivity extends BaseActivity {
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        if (listBean.getIsCollect() == 0) {
-            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
-        } else {
-            isClick = false;
-            mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+        if (listBean != null) {
+            if (listBean.getIsCollect() == 0) {
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+            } else {
+                isClick = false;
+                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
 
+            }
+            setData(listBean, headTravelEntivty);
+            setOnBinner(listBean, headTravelEntivty);
+            setTextView(listBean, mRecyclerView, headTravelEntivty);
+            updateViewCount(2, String.valueOf(listBean.getId()));
         }
-        setData(listBean, headTravelEntivty);
-        setOnBinner(listBean, headTravelEntivty);
-        setTextView(listBean, mRecyclerView, headTravelEntivty);
-        updateViewCount(2,String.valueOf(listBean.getId()));
     }
 
 //    private void gettingForeignTravel() {
@@ -533,6 +548,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
             JSONArray jsonArray = new JSONArray();
             JSONObject dataObj = new JSONObject();
             dataObj.put("id", SaleEntity.getId());
+            dataObj.put("uid", SaleEntity.getUid());
             dataObj.put("depart_name", SaleEntity.getDepart_name());
             dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
             dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
@@ -547,6 +563,10 @@ public class JinWaiDetailsActivity extends BaseActivity {
             dataObj.put("userCity", SaleEntity.getUserCity());
             dataObj.put("username", SaleEntity.getUsername());
             dataObj.put("travel_title", SaleEntity.getTravel_title());
+            dataObj.put("userPhone", SaleEntity.getUserPhone());
+            dataObj.put("username", SaleEntity.getUsername());
+            dataObj.put("companyName", SaleEntity.getCompanyName());
+            dataObj.put("generalize", SaleEntity.getGeneralize());
             jsonArray.put(dataObj);
             data.put("list", jsonArray);
             jsonObject.put("type", 2);
@@ -571,6 +591,47 @@ public class JinWaiDetailsActivity extends BaseActivity {
                     cancelProgressDialog();
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private ForeignTravelEntity.ListBean initForeignTravelBean(JSONObject dataObj) throws JSONException {
+        ForeignTravelEntity.ListBean bean = new ForeignTravelEntity.ListBean();
+
+        String depart_name = dataObj.getString("depart_name");
+        String goalsCity = dataObj.getString("goals_name");
+        String totalPrice = dataObj.getString("total_price");
+        String returnPrice = dataObj.getString("final_price");
+        String totalPriceChild = dataObj.getString("total_price_child");
+        String returnPriceChild = dataObj.getString("final_price_child");
+        String tagName = dataObj.getString("tagName");
+        String numberDays = dataObj.getString("number_days");
+        String photoUrl = dataObj.getString("photo_url");
+        String travel_title = dataObj.getString("travel_title");
+        String headUrl = dataObj.getString("headUrl");
+        String userPhone = dataObj.getString("userPhone");
+        String username = dataObj.getString("username");
+        String companyName = dataObj.getString("companyName");
+        String generalize = dataObj.getString("generalize");
+        int id = dataObj.getInt("id");
+        int uid = dataObj.getInt("uid");
+
+        bean.setDepart_name(depart_name);
+        bean.setGoals_name(goalsCity);
+        bean.setTotal_price(Double.parseDouble(totalPrice));
+        bean.setReturn_price(Double.parseDouble(returnPrice));
+        bean.setTotal_price_child(Double.parseDouble(totalPriceChild));
+        bean.setReturn_price_child(Double.parseDouble(returnPriceChild));
+        bean.setTagName(tagName);
+        bean.setNumber_days(Integer.parseInt(numberDays));
+        bean.setPhoto_url(photoUrl);
+        bean.setId(id);
+        bean.setUid(uid);
+        bean.setTravel_title(travel_title);
+        bean.setHeadUrl(headUrl);
+        bean.setUserPhone(userPhone);
+        bean.setUsername(username);
+        bean.setCompanyName(companyName);
+        bean.setGeneralize(generalize);
+        return bean;
     }
 
 }

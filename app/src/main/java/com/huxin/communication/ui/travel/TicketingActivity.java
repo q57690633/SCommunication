@@ -1322,6 +1322,22 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                     dataObj.put("original_price", SaleEntity.getOriginal_price());
                     dataObj.put("tagName", SaleEntity.getTagName());
                     dataObj.put("photo_url", SaleEntity.getPhoto_url());
+                    dataObj.put("headUrl", SaleEntity.getHeadUrl());
+                    dataObj.put("final_price", SaleEntity.getFinal_price());
+                    dataObj.put("final_price_child", SaleEntity.getFinal_price_child());
+                    dataObj.put("final_price_evening", SaleEntity.getFinal_price_evening());
+                    dataObj.put("final_price_family", SaleEntity.getFinal_price_family());
+                    dataObj.put("final_price_parent_child", SaleEntity.getFinal_price_parent_child());
+                    dataObj.put("final_price_total", SaleEntity.getFinal_price_total());
+                    dataObj.put("id", SaleEntity.getId());
+                    dataObj.put("open_time", SaleEntity.getOpen_time());
+                    dataObj.put("companyName", SaleEntity.getCompanyName());
+                    dataObj.put("userCity", SaleEntity.getUserCity());
+                    dataObj.put("userPhone", SaleEntity.getUserPhone());
+                    dataObj.put("uid", SaleEntity.getUid());
+                    dataObj.put("issue_count", SaleEntity.getIssue_count());
+                    dataObj.put("generalize", SaleEntity.getGeneralize());
+                    dataObj.put("username", SaleEntity.getUsername());
                     jsonArray.put(dataObj);
                 }
                 data.put("list", jsonArray);

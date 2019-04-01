@@ -633,7 +633,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         bean.setTOverseasId(TOverseasId);
         bean.setTStayId(TStayId);
         bean.setTTrafficId(TTrafficId);
-        bean.setId(id);
+        bean.setUid(id);
         return bean;
     }
 

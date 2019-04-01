@@ -603,9 +603,9 @@ public class ChatAdapter extends IChatAdapter {
                             String departName = dataObj.getString("depart_name");
                             String goalsCity = dataObj.getString("goals_name");
                             String totalPrice = dataObj.getString("total_price");
-                            String returnPrice = dataObj.getString("return_price");
+                            String returnPrice = dataObj.getString("final_price");
                             String totalPriceChild = dataObj.getString("total_price_child");
-                            String returnPriceChild = dataObj.getString("return_price_child");
+                            String returnPriceChild = dataObj.getString("final_price_child");
                             String tagName = dataObj.getString("tagName");
                             String numberDays = dataObj.getString("number_days");
                             String photoUrl = dataObj.getString("photo_url");//

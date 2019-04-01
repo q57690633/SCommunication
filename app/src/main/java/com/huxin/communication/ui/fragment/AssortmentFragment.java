@@ -226,6 +226,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     if (AddressBookEntity.getStarList() != null && AddressBookEntity.getStarList().size() > 0) {
                         KyLog.object(AddressBookEntity.getStarList());
                         List<AddressBookEntity.StarListBean> list = getStarList(AddressBookEntity.getStarList());
+                        KyLog.object(list);
 //                        List<String> Mutelist = getStarMuteList(AddressBookEntity.getStarList());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
                         mStickAdapter = new StickAdapter(list, getActivity());
@@ -289,7 +290,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
             for (int i = 0; i < array.length(); i++) {
                 String id = array.getString(i);
                 for (int j = 0; j < list.size(); j++) {
-                    if (id.equalsIgnoreCase(String.valueOf(list.get(j).getId()))) {
+                    if (id.equalsIgnoreCase(String.valueOf(list.get(j).getUid()))) {
                         showList.add(list.get(j));
                         list.remove(j);
                     }
@@ -348,7 +349,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
             for (int i = 0; i < array.length(); i++) {
                 String id = array.getString(i);
                 for (int j = 0; j < list.size(); j++) {
-                    if (id.equalsIgnoreCase(String.valueOf(list.get(j).getId()))) {
+                    if (id.equalsIgnoreCase(String.valueOf(list.get(j).getUid()))) {
                         showList.add(list.get(j));
                         list.remove(j);
                     }
