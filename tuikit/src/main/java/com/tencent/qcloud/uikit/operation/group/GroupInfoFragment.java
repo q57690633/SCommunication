@@ -44,6 +44,8 @@ import com.tencent.qcloud.uikit.business.chat.group.view.GroupDeleteMemberActivi
 import com.tencent.qcloud.uikit.business.chat.view.itemdecoration.GridSpacingItemDecoration;
 import com.tencent.qcloud.uikit.common.BaseFragment;
 import com.tencent.qcloud.uikit.common.UIKitConstants;
+import com.tencent.qcloud.uikit.database.HomeFragmentMsgDBHelper;
+import com.tencent.qcloud.uikit.database.SQLiteUtil;
 import com.tencent.qcloud.uikit.entity.MemberHeadUrlEntity;
 import com.tencent.qcloud.uikit.http.NetWorkService;
 
@@ -345,6 +347,7 @@ public class GroupInfoFragment extends BaseFragment {
                 boolean s = TIMManagerExt.getInstance().deleteConversationAndLocalMsgs(TIMConversationType.Group, groupId);
                 if (s) {
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
+                    deleteGroupInfoInDB(groupId);
                 } else {
                     Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                 }
@@ -418,6 +421,7 @@ public class GroupInfoFragment extends BaseFragment {
             @Override
             public void onSuccess() {
                 Toast.makeText(getActivity(), (R.string.exit_group), Toast.LENGTH_SHORT).show();
+                deleteGroupInfoInDB(groupId);
                 Intent intent = new Intent();
                 intent.setAction("com.huxin.communication.main");
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -569,6 +573,11 @@ public class GroupInfoFragment extends BaseFragment {
             }
         }
         return sb.toString();
+    }
+
+    private void deleteGroupInfoInDB(String groupId) {
+        SQLiteUtil util = new SQLiteUtil(getContext());
+        util.delete(HomeFragmentMsgDBHelper.TABLE_NAME, "uid = ?", new String[]{groupId});
     }
 
     @Override
