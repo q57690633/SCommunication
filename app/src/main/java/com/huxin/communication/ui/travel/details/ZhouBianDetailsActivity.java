@@ -139,9 +139,11 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         listBean = getIntent().getParcelableExtra("list");
         try {
             String json = getIntent().getStringExtra("detail");
-            jsonObject = new JSONObject(json);
-            if(null == listBean && null != jsonObject) {
-                listBean = initAroundTravenBean(jsonObject);
+            if(!TextUtils.isEmpty(json)) {
+                jsonObject = new JSONObject(json);
+                if(null == listBean && null != jsonObject) {
+                    listBean = initAroundTravenBean(jsonObject);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -627,7 +629,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         bean.setTOverseasId(TOverseasId);
         bean.setTStayId(TStayId);
         bean.setTTrafficId(TTrafficId);
-        bean.setId(id);
+        bean.setUid(id);
         return bean;
     }
 
