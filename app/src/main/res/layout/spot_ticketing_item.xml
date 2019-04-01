@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <EditText
@@ -37,9 +37,9 @@
             android:id="@+id/rl_travel_ticket_province"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:background="@drawable/biaoqian_radius"
-            android:gravity="center"
-            android:layout_marginTop="14dp">
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/travel_ticket_province"
@@ -53,8 +53,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="13dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_triangle" />
@@ -64,10 +64,10 @@
             android:id="@+id/rl_travel_ticket_city"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/biaoqian_radius"
-            android:gravity="center"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="14dp"
-            android:layout_marginLeft="30dp">
+            android:background="@drawable/biaoqian_radius"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/travel_ticket_city"
@@ -81,8 +81,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="13dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_triangle" />
@@ -190,12 +190,12 @@
             android:background="@drawable/biaoqian_radius"
             android:hint="结算价"
             android:paddingLeft="8dp"
-            android:textColorHint="@color/red_setting"
-
             android:paddingTop="10dp"
+
             android:paddingRight="8dp"
             android:paddingBottom="10dp"
             android:textColor="@color/login_walling_fort"
+            android:textColorHint="@color/red_setting"
             android:textSize="14dp" />
 
         <TextView
@@ -211,15 +211,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:textColorHint="@color/red_setting"
-
             android:background="@drawable/biaoqian_radius"
+
             android:hint="原价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
             android:paddingRight="8dp"
             android:paddingBottom="10dp"
             android:textColor="@color/login_walling_fort"
+            android:textColorHint="@color/red_setting"
             android:textSize="14dp" />
 
         <TextView
@@ -562,11 +562,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/biaoqian_radius"
+            android:hint="结算价"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
             android:paddingRight="8dp"
             android:paddingBottom="10dp"
-            android:hint="结算价"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
 
@@ -720,14 +720,22 @@
             android:textColor="@color/register_font"
             android:textSize="14dp" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/ticket_shuaiWei"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/drawable_danxuan"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/lineOrThrow_shuaiWei_click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:background="@drawable/icon_circle_normal" />
-
+            android:src="@drawable/icon_circle_selected"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -737,15 +745,22 @@
             android:textColor="@color/register_font"
             android:textSize="14dp" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/lineOrThrow_shuaiWei"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/drawable_danxuan"
+            android:button="@null" />
+
+        <ImageView
+            android:id="@+id/lineOrThrow_caixian_click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:scaleType="centerCrop"
-            android:background="@drawable/icon_circle_normal" />
-
-
+            android:src="@drawable/icon_circle_selected"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -768,6 +783,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:text="置顶信息剩余5条"
             android:textColor="@color/login_walling_fort"
             android:textSize="14dp" />
     </LinearLayout>
@@ -785,23 +801,24 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/stick_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_alignParentRight="true"
-                android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal" />
-
 
             <ImageView
                 android:id="@+id/rl_stick_new"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:background="@drawable/shangxin" />
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/sign_shangxin"
+                android:scaleType="centerCrop" />
+
+            <CheckBox
+                android:id="@+id/stick_new"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -811,16 +828,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/stick_low"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_alignParentRight="true"
-
-                android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
@@ -828,8 +835,18 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/tejia" />
+                android:src="@drawable/sign_tejia" />
+
+            <CheckBox
+                android:id="@+id/stick_low"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -839,16 +856,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/stick_better"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_alignParentRight="true"
-
-                android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
@@ -856,8 +863,18 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/jingpin" />
+                android:src="@drawable/sign_jingpin" />
+
+            <CheckBox
+                android:id="@+id/stick_better"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -869,24 +886,24 @@
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/stick_throw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:layout_alignParentRight="true"
-
-                android:background="@drawable/icon_circle_normal" />
-
 
             <ImageView
                 android:id="@+id/rl_stick_throw"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/shuaiwei" />
+                android:src="@drawable/sign_shuaiwei" />
+
+            <CheckBox
+                android:id="@+id/stick_throw"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -906,25 +923,24 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/stick_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:layout_alignParentRight="true"
-
-                android:background="@drawable/icon_circle_normal" />
-
 
             <ImageView
                 android:id="@+id/rl_stick_rate"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/xingjiabi"
-                />
+                android:src="@drawable/sign_xingjiabi" />
+
+            <CheckBox
+                android:id="@+id/stick_rate"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -933,16 +949,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/stick_return"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:layout_alignParentRight="true"
-
-                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
@@ -950,9 +956,18 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/gaofanyong"
-                />
+                android:src="@drawable/sign_gaofanyong" />
+
+            <CheckBox
+                android:id="@+id/stick_return"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -962,16 +977,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/stick_hot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_alignParentRight="true"
-
-                android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal" />
 
 
             <ImageView
@@ -979,8 +984,18 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/hot" />
+                android:src="@drawable/sign_hot" />
+
+            <CheckBox
+                android:id="@+id/stick_hot"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
 
@@ -992,24 +1007,24 @@
             android:layout_marginLeft="17dp"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/stick_zeroC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-
-                android:layout_marginLeft="12dp"
-                android:scaleType="centerCrop"
-                android:background="@drawable/icon_circle_normal" />
-
 
             <ImageView
                 android:id="@+id/rl_stick_zeroC"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/zifei" />
+                android:src="@drawable/sign_ziwei" />
+
+            <CheckBox
+                android:id="@+id/stick_zeroC"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/drawable_danxuan"
+                android:button="@null" />
+
 
         </RelativeLayout>
     </LinearLayout>

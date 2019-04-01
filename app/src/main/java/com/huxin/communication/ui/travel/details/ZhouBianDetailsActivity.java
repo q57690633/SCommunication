@@ -134,14 +134,14 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_tableName);
 
 
-
-
         listBean = getIntent().getParcelableExtra("list");
         try {
             String json = getIntent().getStringExtra("detail");
-            jsonObject = new JSONObject(json);
-            if(null == listBean && null != jsonObject) {
-                listBean = initAroundTravenBean(jsonObject);
+            if (!TextUtils.isEmpty(json)) {
+                jsonObject = new JSONObject(json);
+                if (null == listBean && null != jsonObject) {
+                    listBean = initAroundTravenBean(jsonObject);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -227,18 +227,18 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             public void onClick(View view) {
                 if (isClick) {
                     if (type != 1) {
-                        addTravelCollect(1,String.valueOf(listBean.getId()));
-                    }else {
-                        addTravelCollect(1,String.valueOf(headTravelEntivty.getId()));
+                        addTravelCollect(1, String.valueOf(listBean.getId()));
+                    } else {
+                        addTravelCollect(1, String.valueOf(headTravelEntivty.getId()));
 
                     }
                     isClick = false;
                     mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
                 } else {
                     if (type != 1) {
-                        deleteTravelCollect(1,String.valueOf(listBean.getId()));
-                    }else {
-                        deleteTravelCollect(1,String.valueOf(headTravelEntivty.getId()));
+                        deleteTravelCollect(1, String.valueOf(listBean.getId()));
+                    } else {
+                        deleteTravelCollect(1, String.valueOf(headTravelEntivty.getId()));
 
                     }
                     isClick = true;
@@ -251,29 +251,35 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     @Override
     protected void loadData(Bundle savedInstanceState) {
         if (type != 1) {
-            if (listBean.getIsCollect() == 0) {
-                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
-            } else {
-                isClick = false;
-                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+            if (listBean != null) {
+                if (listBean.getIsCollect() == 0) {
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+                } else {
+                    isClick = false;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
 
+                }
+                updateViewCount(1, String.valueOf(listBean.getId()));
             }
-            updateViewCount(1,String.valueOf(listBean.getId()));
 
-        }else {
-            if (headTravelEntivty.getIsCollect() == 0) {
-                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
-            } else {
-                isClick = false;
-                mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
+        } else {
+            if (headTravelEntivty != null) {
+                if (headTravelEntivty.getIsCollect() == 0) {
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang);
+                } else {
+                    isClick = false;
+                    mImageViewCollect.setBackgroundResource(R.drawable.nav_icon_shoucang_click);
 
+                }
+                updateViewCount(1, String.valueOf(headTravelEntivty.getId()));
             }
-            updateViewCount(1,String.valueOf(headTravelEntivty.getId()));
 
         }
-        setData(listBean, headTravelEntivty);
-        setOnBinner(listBean, headTravelEntivty);
-        setTextView(listBean, headTravelEntivty, mRecyclerView);
+        if (listBean != null) {
+            setData(listBean, headTravelEntivty);
+            setOnBinner(listBean, headTravelEntivty);
+            setTextView(listBean, headTravelEntivty, mRecyclerView);
+        }
     }
 
 
@@ -492,7 +498,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     }
 
 
-    private void addTravelCollect(int travelType,String id) {
+    private void addTravelCollect(int travelType, String id) {
         showProgressDialog();
         ApiModule.getInstance().addTravelCollect(id, travelType)
                 .subscribe(response -> {
@@ -507,7 +513,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
     }
 
 
-    private void deleteTravelCollect(int travelType,String id) {
+    private void deleteTravelCollect(int travelType, String id) {
         showProgressDialog();
         ApiModule.getInstance().deleteCollectTravel(id, String.valueOf(travelType))
                 .subscribe(response -> {
@@ -576,7 +582,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         return str;
     }
 
-    private void updateViewCount(int travelType,String id) {
+    private void updateViewCount(int travelType, String id) {
         showProgressDialog();
         ApiModule.getInstance().updateViewCount(id, String.valueOf(travelType))
                 .subscribe(response -> {

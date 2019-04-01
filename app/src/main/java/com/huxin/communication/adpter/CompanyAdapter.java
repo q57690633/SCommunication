@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.ui.house.phone.FriendDetailedActivity;
@@ -79,7 +80,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
         KyLog.d(mList.get(position).getStoreName());
         holder.tvTitle.setText(mList.get(position).getStoreName());
         holder.tvPhone.setText(mList.get(position).getPhone());
-        ImageLoader.getInstance().displayImage(mList.get(position).getHeadUrl(), holder.image);
+        Glide.with(mActivity).load(mList.get(position).getHeadUrl()).into(holder.image);
+
 //        holder.mTextViewPhone.setText(mList.get(position).getPhone());
 
 

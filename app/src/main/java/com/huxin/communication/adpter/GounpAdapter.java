@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.AddressBookEntity;
 import com.huxin.communication.ui.TIMChatActivity;
@@ -71,7 +72,7 @@ public class GounpAdapter extends RecyclerView.Adapter<GounpAdapter.BodyViewHode
         KyLog.d(mList.get(position).getFlockName());
         holder.mTextViewName.setText(mList.get(position).getFlockName());
         ImageLoader.getInstance().displayImage(mList.get(position).getUrl(),holder.image);
-//        holder.mTextViewPhone.setText(mList.get(position).getPhone());
+       Glide.with(mActivity).load(mList.get(position).getUrl()).into(holder.image);
 
 
     }

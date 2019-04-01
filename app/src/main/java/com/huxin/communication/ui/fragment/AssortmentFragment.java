@@ -340,6 +340,7 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
         List<AddressBookEntity.StarListBean> showList = new ArrayList<>();
         try {
             String spId = PreferenceUtil.getString("PersonStarTop");
+            KyLog.d(spId);
             if (null == spId) {
                 return list;
             }

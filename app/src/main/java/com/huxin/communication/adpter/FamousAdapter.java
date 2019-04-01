@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huxin.communication.R;
 import com.huxin.communication.entity.FamousEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -93,7 +94,8 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
 
 
         if (TextUtils.isEmpty(list.get(position).getImage())){
-            ImageLoader.getInstance().displayImage(list.get(position).getImage(),viewHolder.image);
+            Glide.with(mContext).load(list.get(position).getImage()).into(viewHolder.image);
+
         }else {
             viewHolder.image.setBackgroundResource(R.drawable.head2);
         }

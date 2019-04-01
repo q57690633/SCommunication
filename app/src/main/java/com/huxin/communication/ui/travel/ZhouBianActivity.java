@@ -398,6 +398,22 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
         // 手动调用,通知系统去测量
         mSwipeRefreshView.measure(0, 0);
         mSwipeRefreshView.setRefreshing(true);
+//        mSwipeRefreshView.setProgressBackgroundColorSchemeResource(android.R.color.white);
+//        // 设置下拉进度的主题颜色
+//        mSwipeRefreshView.setColorSchemeResources(R.color.colorAccent,
+//                android.R.color.holo_blue_bright, R.color.colorPrimaryDark,
+//                android.R.color.holo_orange_dark, android.R.color.holo_red_dark, android.R.color.holo_purple);
+//
+//
+//        // 手动调用,通知系统去测量
+//        mSwipeRefreshView.measure(0, 0);
+//        mSwipeRefreshView.setRefreshing(true);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setEnabled(true);
         gettingAroundTravel("", "", "", productType, ""
                 , "", "", "", "", "",
@@ -443,14 +459,6 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-
-
-    }
-
 
     private void initEvent() {
 
@@ -472,7 +480,36 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                 }, 2000);
             }
         });
+//        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+//        mSwipeRefreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        gettingAroundTravel("", "", "", productType, ""
+//                                , "", "", "", "", "",
+//                                "", String.valueOf(numberDays), "",
+//                                "1", "", "", null, String.valueOf(1), "");
+//
+//
+//                    }
+//                }, 2000);
+//            }
+//        });
+//
+//
+//        // 设置下拉加载更多
+//        mSwipeRefreshView.setOnLoadMoreListener(new SwipeRefreshView.OnLoadMoreListener() {
+//            @Override
+//            public void onLoadMore() {
+//                KyLog.d("上拉加载");
+//                loadMoreData();
+//            }
+//        });
     }
+
 
     @Override
     public void onClick(View v) {
@@ -1354,12 +1391,6 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                     if (mSwipeRefreshView.isRefreshing()) {
                         mSwipeRefreshView.setRefreshing(false);
                     }
-//                    if (mSwipeRefreshView.isRefreshing()) {
-//                        mSwipeRefreshView.setRefreshing(false);
-//                    }
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
                     KyLog.d(aroundTravelEntity.getList().size() + "");
                     KyLog.object(aroundTravelEntity);
                     setData(aroundTravelEntity);
@@ -1370,9 +1401,9 @@ public class ZhouBianActivity extends BaseActivity implements View.OnClickListen
                     }
 
                 }, throwable -> {
-//                    if (mSwipeRefreshView.isRefreshing()) {
-//                        mSwipeRefreshView.setRefreshing(false);
-//                    }
+                    if (mSwipeRefreshView.isRefreshing()) {
+                        mSwipeRefreshView.setRefreshing(false);
+                    }
                     KyLog.d(throwable.toString());
                     Toast.makeText(this, throwable.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 });

@@ -521,13 +521,13 @@
                     android:textColor="@color/register_font"
                     android:textSize="14dp" />
 
-                <ImageView
+                <CheckBox
                     android:id="@+id/lineOrThrow_shuaiWei"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:background="@drawable/drawable_danxuan" />
 
                 <ImageView
                     android:id="@+id/lineOrThrow_shuaiWei_click"
@@ -546,13 +546,13 @@
                     android:textColor="@color/register_font"
                     android:textSize="14dp" />
 
-                <ImageView
+                <CheckBox
                     android:id="@+id/lineOrThrow_caixian"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_circle_normal" />
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    android:background="@drawable/drawable_danxuan"/>
 
                 <ImageView
                     android:id="@+id/lineOrThrow_caixian_click"
@@ -602,13 +602,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_new"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -620,6 +613,15 @@
                         android:background="@drawable/sign_shangxin"
                         android:scaleType="centerCrop" />
 
+                    <CheckBox
+                        android:id="@+id/stick_new"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan"  />
+
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -629,13 +631,6 @@
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_low"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -647,6 +642,15 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_tejia" />
 
+                    <CheckBox
+                        android:id="@+id/stick_low"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan"  />
+
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -656,13 +660,6 @@
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_better"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -673,6 +670,14 @@
                         android:layout_marginLeft="12dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_jingpin" />
+                    <CheckBox
+                        android:id="@+id/stick_better"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan" />
+
 
                 </RelativeLayout>
 
@@ -684,13 +689,6 @@
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_throw"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -701,6 +699,14 @@
                         android:layout_marginLeft="12dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_shuaiwei" />
+                    <CheckBox
+                        android:id="@+id/stick_throw"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan" />
+
 
                 </RelativeLayout>
 
@@ -720,14 +726,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
-
 
                     <ImageView
                         android:id="@+id/rl_stick_rate"
@@ -737,6 +735,15 @@
                         android:layout_marginLeft="12dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_xingjiabi" />
+                    <CheckBox
+                        android:id="@+id/stick_rate"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan"  />
+
+
 
                 </RelativeLayout>
 
@@ -745,14 +752,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/stick_return"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -764,6 +763,15 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_gaofanyong" />
 
+                    <CheckBox
+                        android:id="@+id/stick_return"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan" />
+
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -772,14 +780,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
-
-                    <ImageView
-                        android:id="@+id/stick_hot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -791,6 +791,16 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_hot" />
 
+                    <CheckBox
+                        android:id="@+id/stick_hot"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan"  />
+
+
+
                 </RelativeLayout>
 
 
@@ -801,13 +811,6 @@
                     android:layout_marginLeft="17dp"
                     android:layout_weight="1">
 
-                    <ImageView
-                        android:id="@+id/stick_zeroC"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:background="@drawable/icon_circle_normal"
-                        android:scaleType="centerCrop" />
 
 
                     <ImageView
@@ -818,6 +821,15 @@
                         android:layout_marginLeft="12dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sign_ziwei" />
+
+                    <CheckBox
+                        android:id="@+id/stick_zeroC"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:button="@null"
+                        android:background="@drawable/drawable_danxuan"  />
+
 
                 </RelativeLayout>
             </LinearLayout>
