@@ -342,7 +342,7 @@ public class GroupInfoFragment extends BaseFragment {
         mClearRecordLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean s = TIMManagerExt.getInstance().deleteConversation(TIMConversationType.C2C, groupId);
+                boolean s = TIMManagerExt.getInstance().deleteConversationAndLocalMsgs(TIMConversationType.Group, groupId);
                 if (s) {
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                 } else {
