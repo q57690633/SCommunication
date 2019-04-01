@@ -3,17 +3,21 @@ package com.tencent.qcloud.uikit.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MemberHeadUrlEntity implements Parcelable {
+public class MemberHeadUrlEntity/* implements Parcelable*/ {
+
+
     /**
      * companyName : 北京极联互动科技有限公司
-     * headUrl : ["http://39.105.203.33/upload/1552671345862/1552671345862_72.png","http://39.105.203.33/upload/1551080711471/1551080711471_954.jpg"]
+     * data : [{"headUrl":"http://39.105.203.33/upload/1552671345862/1552671345862_72.png","uid":70},{"headUrl":"http://39.105.203.33/upload/1551080711471/1551080711471_954.jpg","uid":114},{"headUrl":"http://39.105.203.33/upload/1553449868222/1553449868222_441.png","uid":182}]
      */
 
     private String companyName;
-    private ArrayList<String> headUrl;
+    private List<DataBean> data;
+
+    public MemberHeadUrlEntity() {
+    }
 
     public String getCompanyName() {
         return companyName;
@@ -23,42 +27,37 @@ public class MemberHeadUrlEntity implements Parcelable {
         this.companyName = companyName;
     }
 
-    public ArrayList<String> getHeadUrl() {
-        return headUrl;
+    public List<DataBean> getData() {
+        return data;
     }
 
-    public void setHeadUrl(ArrayList<String> headUrl) {
-        this.headUrl = headUrl;
+    public void setData(List<DataBean> data) {
+        this.data = data;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    public static class DataBean {
+        /**
+         * headUrl : http://39.105.203.33/upload/1552671345862/1552671345862_72.png
+         * uid : 70
+         */
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.companyName);
-        dest.writeStringList(this.headUrl);
-    }
+        private String headUrl;
+        private int uid;
 
-    public MemberHeadUrlEntity() {
-    }
-
-    protected MemberHeadUrlEntity(Parcel in) {
-        this.companyName = in.readString();
-        this.headUrl = in.createStringArrayList();
-    }
-
-    public static final Parcelable.Creator<MemberHeadUrlEntity> CREATOR = new Parcelable.Creator<MemberHeadUrlEntity>() {
-        @Override
-        public MemberHeadUrlEntity createFromParcel(Parcel source) {
-            return new MemberHeadUrlEntity(source);
+        public String getHeadUrl() {
+            return headUrl;
         }
 
-        @Override
-        public MemberHeadUrlEntity[] newArray(int size) {
-            return new MemberHeadUrlEntity[size];
+        public void setHeadUrl(String headUrl) {
+            this.headUrl = headUrl;
         }
-    };
+
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
+        }
+    }
 }

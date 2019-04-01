@@ -229,15 +229,21 @@ public class GroupInfoFragment extends BaseFragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 MemberHeadUrlEntity entity = new MemberHeadUrlEntity();
+
                                 entity.setCompanyName(object.getString("companyName"));
-                                ArrayList<String> headurllist = new ArrayList<>();
                                 JSONArray data = object.getJSONArray("data");
+
+                                ArrayList<MemberHeadUrlEntity.DataBean> dataBeanArrayList = new ArrayList<>();
                                 for (int j = 0; j < data.length(); j++) {
+                                    MemberHeadUrlEntity.DataBean dataBean = new MemberHeadUrlEntity.DataBean();
                                     String headUrl = data.getJSONObject(j).getString("headUrl");
-                                    headurllist.add(headUrl);
+                                    int uid = data.getJSONObject(j).getInt("uid");
+                                    dataBean.setHeadUrl(headUrl);
+                                    dataBean.setUid(uid);
                                     list.add(headUrl);
+                                    dataBeanArrayList.add(dataBean);
                                 }
-                                entity.setHeadUrl(headurllist);
+                                entity.setData(dataBeanArrayList);
                                 memberList.add(entity);
                             }
                             headUrlList = list;
@@ -366,7 +372,7 @@ public class GroupInfoFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), GroupMoreMemberActivity.class);
 //                String data = listToString(headUrlList);
                 Log.d("GroupInfoFragment", memberList.size() + "== data");
-                intent.putParcelableArrayListExtra("data", memberList);
+               // intent.putParcelableArrayListExtra("data", memberList);
 //                intent.putExtra("data",data);
                 startActivity(intent);
             }

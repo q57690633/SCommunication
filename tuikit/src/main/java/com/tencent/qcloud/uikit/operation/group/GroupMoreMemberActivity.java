@@ -38,7 +38,7 @@ public class GroupMoreMemberActivity extends AppCompatActivity implements GroupD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_more_member2);
-        list = getIntent().getParcelableArrayListExtra("data");
+        //list = getIntent().getParcelableArrayListExtra("data");
 
         initData();
     }
