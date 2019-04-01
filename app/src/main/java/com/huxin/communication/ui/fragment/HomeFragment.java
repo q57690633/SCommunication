@@ -972,6 +972,10 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             List<String> identifiersList = new ArrayList<>();
                             String identifiers = message.getSenderProfile().getIdentifier();
                             Log.i("MyTAG", "identifiers = " + identifiers);
+                            int uid = PreferenceUtil.getInt("uid");
+                            if(uid == Integer.parseInt(identifiers)) {
+                                return;
+                            }
                             identifiersList.add(identifiers);
                             TIMMessage finalMessage = message;
                             String finalText = text;
