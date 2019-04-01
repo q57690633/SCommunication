@@ -348,6 +348,7 @@ public class GroupInfoFragment extends BaseFragment {
                 if (s) {
                     Toast.makeText(getContext(), "删除成功", Toast.LENGTH_SHORT).show();
                     deleteGroupInfoInDB(groupId);
+                    gotoMainActivity();
                 } else {
                     Toast.makeText(getContext(), "删除失败", Toast.LENGTH_SHORT).show();
                 }
@@ -422,11 +423,7 @@ public class GroupInfoFragment extends BaseFragment {
             public void onSuccess() {
                 Toast.makeText(getActivity(), (R.string.exit_group), Toast.LENGTH_SHORT).show();
                 deleteGroupInfoInDB(groupId);
-                Intent intent = new Intent();
-                intent.setAction("com.huxin.communication.main");
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                gotoMainActivity();
             }
         };
         TIMGroupManager.getInstance().quitGroup(groupId, cb);
@@ -573,6 +570,14 @@ public class GroupInfoFragment extends BaseFragment {
             }
         }
         return sb.toString();
+    }
+
+    private void gotoMainActivity() {
+        Intent intent = new Intent();
+        intent.setAction("com.huxin.communication.main");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     private void deleteGroupInfoInDB(String groupId) {
