@@ -114,7 +114,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.travel.details.TicketingDetailsActivity" />
+        <activity android:name=".ui.travel.details.TicketingDetailsActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.ticketingdetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.house.sell.SimilarDetailsActivity" />
         <activity android:name=".ui.house.MessageRemindActivity" />
         <activity android:name=".ui.InvitationActivity" />
@@ -128,7 +134,13 @@
         <activity android:name=".ui.travel.ZhouBianActivity" />
         <activity android:name=".ui.travel.JinWaiActivity" />
         <activity android:name=".ui.travel.TicketingActivity" />
-        <activity android:name=".ui.travel.details.JinWaiDetailsActivity" />
+        <activity android:name=".ui.travel.details.JinWaiDetailsActivity" >
+            <intent-filter>
+                <action android:name="com.huxin.communication.jingwaidetails" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.travel.details.ZhouBianDetailsActivity" >
             <intent-filter>
                 <action android:name="com.huxin.communication.zhoubiandetails" />

@@ -562,6 +562,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
             dataObj.put("TStayId", SaleEntity.getTStayId());
             dataObj.put("TTrafficId", SaleEntity.getTTrafficId());
             dataObj.put("companyName", SaleEntity.getCompanyName());
+            dataObj.put("id", SaleEntity.getId());
             jsonArray.put(dataObj);
             data.put("list", jsonArray);
             jsonObject.put("type", 2);
@@ -608,6 +609,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         String TOverseasId = dataObj.getString("TOverseasId");
         String TStayId = dataObj.getString("TStayId");
         String TTrafficId = dataObj.getString("TTrafficId");
+        int id = dataObj.getInt("id");
 
         bean.setDepart_name(departName);
         bean.setGoals_city(goalsCity);
@@ -625,6 +627,7 @@ public class ZhouBianDetailsActivity extends BaseActivity {
         bean.setTOverseasId(TOverseasId);
         bean.setTStayId(TStayId);
         bean.setTTrafficId(TTrafficId);
+        bean.setId(id);
         return bean;
     }
 

@@ -633,6 +633,12 @@ public class ChatAdapter extends IChatAdapter {
                             setAdapter(customHolder.travelTitleRv, titleAdapter, 4, 7, 7);
                             ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, tab, self);
                             setAdapter(customHolder.travelHotPosRv, tabAdapter, 3, 7, 7);
+                            customHolder.contentGroup.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    gotoJingWaiDetail(dataObj.toString());
+                                }
+                            });
                         }
                     }
                     if (4 == travelType) {
@@ -657,6 +663,12 @@ public class ChatAdapter extends IChatAdapter {
                             Glide.with(mContext).load(dataObj.getString("photo_url")).placeholder(R.drawable.default_head).into(customHolder.ticketImageAddr);
                             ChatCustomMsgAdapter tabAdapter = new ChatCustomMsgAdapter(mContext, getStrArr(tab), self);
                             setAdapter(customHolder.ticketTabRv, tabAdapter, 2, 12, 5);
+                            customHolder.contentGroup.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    gotoTickingDetail(dataObj.toString());
+                                }
+                            });
                         }
                     }
                 } catch (JSONException e) {
@@ -1426,16 +1438,25 @@ public class ChatAdapter extends IChatAdapter {
         mContext.startActivity(intent);
     }
 
-    private void gotoZhouBianDetail() {
-
+    private void gotoZhouBianDetail(String dataObj) {
+        Intent intent = new Intent();
+        intent.putExtra("detail", dataObj);
+        intent.setAction("com.huxin.communication.zhoubiandetails");
+        mContext.startActivity(intent);
     }
 
-    private void gotoJingWaiDetail() {
-
+    private void gotoJingWaiDetail(String dataObj) {
+        Intent intent = new Intent();
+        intent.putExtra("detail", dataObj);
+        intent.setAction("com.huxin.communication.jingwaidetails");
+        mContext.startActivity(intent);
     }
 
-    private void gotoTickingDetail() {
-
+    private void gotoTickingDetail(String dataObj) {
+        Intent intent = new Intent();
+        intent.putExtra("detail", dataObj);
+        intent.setAction("com.huxin.communication.ticketingdetails");
+        mContext.startActivity(intent);
     }
 
     private void gotoBussinessCardDetail() {

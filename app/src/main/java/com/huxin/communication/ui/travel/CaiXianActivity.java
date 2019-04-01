@@ -1594,6 +1594,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             if (Salelist != null && Salelist.size() > 0) {
                 for (AroundTravelEntity.ListBean SaleEntity : Salelist) {
                     JSONObject dataObj = new JSONObject();
+                    dataObj.put("id", SaleEntity.getId());
                     dataObj.put("depart_name", SaleEntity.getDepart_name());
                     dataObj.put("goals_city", String.valueOf(SaleEntity.getGoals_city()));
                     dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
@@ -1639,6 +1640,7 @@ public class CaiXianActivity extends BaseActivity implements View.OnClickListene
             if (Salelist != null && Salelist.size() > 0) {
                 for (ForeignTravelEntity.ListBean SaleEntity : Salelist) {
                     JSONObject dataObj = new JSONObject();
+                    dataObj.put("id", SaleEntity.getId());
                     dataObj.put("depart_name", SaleEntity.getDepart_name());
                     dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
                     dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));

@@ -532,6 +532,7 @@ public class JinWaiDetailsActivity extends BaseActivity {
             JSONObject data = new JSONObject();
             JSONArray jsonArray = new JSONArray();
             JSONObject dataObj = new JSONObject();
+            dataObj.put("id", SaleEntity.getId());
             dataObj.put("depart_name", SaleEntity.getDepart_name());
             dataObj.put("goals_name", SaleEntity.getGoals_nat_name());
             dataObj.put("headUrl", String.valueOf(SaleEntity.getHeadUrl()));
