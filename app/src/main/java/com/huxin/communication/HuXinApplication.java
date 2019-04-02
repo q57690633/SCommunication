@@ -18,6 +18,8 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushListener;
+import com.tencent.imsdk.TIMOfflinePushNotification;
 import com.tencent.imsdk.TIMSdkConfig;
 import com.tencent.qcloud.uikit.BaseUIKitConfigs;
 import com.tencent.qcloud.uikit.TUIKit;
@@ -87,6 +89,17 @@ public class HuXinApplication extends MultiDexApplication {
         TIMManager.getInstance().init(getApplicationContext(), TIMConfig);
         TUIKit.init(this, Constanst.TIMSDKAPPID, BaseUIKitConfigs.getDefaultConfigs());
         KyLog.d("TIM SDK init end");
+
+        // 设置离线推送监听器
+        TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
+            @Override
+            public void handleNotification(TIMOfflinePushNotification notification) {
+                KyLog.d("MyApplication", "recv offline push");
+
+                // 这里的 doNotify 是 ImSDK 内置的通知栏提醒，应用也可以选择自己利用回调参数 notification 来构造自己的通知栏提醒
+                notification.doNotify(getApplicationContext(), R.drawable.ic_launcher);
+            }
+        });
 
     }
 

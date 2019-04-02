@@ -227,6 +227,15 @@ public class AddressBookEntity {
         private String token;
         private int uid;
         private String username;
+        private  int phoneState;
+
+        public int getPhoneState() {
+            return phoneState;
+        }
+
+        public void setPhoneState(int phoneState) {
+            this.phoneState = phoneState;
+        }
 
         public String getAdvice1() {
             return advice1;
@@ -573,6 +582,15 @@ public class AddressBookEntity {
         private String token;
         private int uid;
         private String username;
+        private  int phoneState;
+
+        public int getPhoneState() {
+            return phoneState;
+        }
+
+        public void setPhoneState(int phoneState) {
+            this.phoneState = phoneState;
+        }
 
         public String getAdvice1() {
             return advice1;
@@ -919,6 +937,15 @@ public class AddressBookEntity {
         private String token;
         private int uid;
         private String username;
+        private  int phoneState;
+
+        public int getPhoneState() {
+            return phoneState;
+        }
+
+        public void setPhoneState(int phoneState) {
+            this.phoneState = phoneState;
+        }
 
         public String getAdvice1() {
             return advice1;

@@ -437,6 +437,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle_pre);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
@@ -453,6 +454,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle_pre);
@@ -466,6 +468,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
@@ -505,7 +508,7 @@ public class TicketingActivity extends BaseActivity implements View.OnClickListe
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
 //                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle_pre);
-                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle_pre);
 
                 isClickQuYu = true;
                 if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_CODE))) {

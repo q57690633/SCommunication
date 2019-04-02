@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.huxin.communication.R;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
+import com.huxin.communication.entity.FriendUserInfoEntity;
+import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.TIMChatActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,6 +37,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
     private Uri uri;
 
     private ImageView mImageView;
+    private FriendUserInfoEntity friendUserInfoEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,8 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.PHONE))) {
             mTextViewPhone.setText(PreferenceUtil.getString(Constanst.PHONE));
         }
+
+        getUseInfo();
     }
 
     @Override
@@ -92,6 +97,7 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.rl_work_message:
                 Intent intentWork = new Intent(this, WorkMessageActivity.class);
+                intentWork.putExtra("message",friendUserInfoEntity);
                 startActivity(intentWork);
 
                 break;
@@ -136,5 +142,19 @@ public class MyInformationActivity extends BaseActivity implements View.OnClickL
 //                }
 
 //    }
+
+    private void getUseInfo() {
+        ApiModule.getInstance().getUserInfo(String.valueOf(PreferenceUtil.getInt(UID)))
+                .subscribe(friendUserInfoEntity -> {
+                    KyLog.object(friendUserInfoEntity);
+                    if (friendUserInfoEntity != null){
+                        this.friendUserInfoEntity = friendUserInfoEntity;
+                    }
+
+                }, throwable -> {
+//                    Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    KyLog.d(throwable.getMessage());
+                });
+    }
 
 }

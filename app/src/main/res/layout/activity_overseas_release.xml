@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="热门景点"
-                        android:textColor="@color/red_setting"
+                        android:textColor="@color/login_walling_fort"
                         android:textSize="14dp" />
 
                     <ImageView

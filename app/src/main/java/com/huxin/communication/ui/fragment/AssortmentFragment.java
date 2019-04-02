@@ -211,11 +211,8 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     }
 
                     List<com.huxin.communication.entity.AddressBookEntity.CompanyBean> beanList = AddressBookEntity.getCompany();
-
                     if (beanList != null && beanList.size() > 0) {
                         List<AddressBookEntity.CompanyBean> list = getCompanyList(beanList);
-//                        List<String> Mutelist = getCompanyMuteList(beanList);
-
                         KyLog.object(AddressBookEntity.getCompany());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
                         mCompanyAdapter = new CompanyAdapter(list, getActivity());
@@ -227,17 +224,11 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                         KyLog.object(AddressBookEntity.getStarList());
                         List<AddressBookEntity.StarListBean> list = getStarList(AddressBookEntity.getStarList());
                         KyLog.object(list);
-//                        List<String> Mutelist = getStarMuteList(AddressBookEntity.getStarList());
                         LinearLayoutManager manager = new LinearLayoutManager(getContext());
                         mStickAdapter = new StickAdapter(list, getActivity());
                         mRecyclerViewStick.setAdapter(mStickAdapter);
                         mRecyclerViewStick.setLayoutManager(manager);
-//                        mRelativeLayoutStick.setVisibility(View.VISIBLE);
-                    } else {
-//                        mRelativeLayoutStick.setVisibility(View.GONE);
-
                     }
-
                     if (AddressBookEntity.getFriendList() != null) {
                         KyLog.object(AddressBookEntity.getFriendList());
                         for (AddressBookEntity.FriendListBean friendListBean : AddressBookEntity.getFriendList()) {
@@ -248,6 +239,12 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                             famousEntity2.setIndustryType(friendListBean.getIndustryType());
                             famousEntity2.setStarFriend(friendListBean.getStarFriend());
                             famousEntity2.setId(friendListBean.getUid());
+                            famousEntity2.setCompany(friendListBean.getCompanyName());
+                            famousEntity2.setCorp(friendListBean.getCOrP());
+                            famousEntity2.setPositions(friendListBean.getPositions());
+                            famousEntity2.setPhoneState(friendListBean.getPhoneState());
+
+
                             famousEntity2.setType(1);
                             list.add(famousEntity2);
                         }
@@ -257,7 +254,6 @@ public class AssortmentFragment extends BaseFragment implements View.OnClickList
                     KyLog.object(list);
                     if (list.size() > 0) {
                         lists = getFriendList(list);
-//                        List<String> Mutelist = getFriendMuteList(list);
                         mAdapter = new FamousAdapter(getContext(), lists);
                         mListView.setAdapter(mAdapter);
                     }

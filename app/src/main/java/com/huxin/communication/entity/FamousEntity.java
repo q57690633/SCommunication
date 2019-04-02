@@ -16,8 +16,45 @@ public class FamousEntity extends DataSupport{
     private String phone;
     private String industryType;
     private String starFriend;
+    private String company;
+    private String positions;
+    private int corp;
+
 
     private int type;
+    private  int phoneState;
+
+    public int getPhoneState() {
+        return phoneState;
+    }
+
+    public void setPhoneState(int phoneState) {
+        this.phoneState = phoneState;
+    }
+
+    public String getPositions() {
+        return positions;
+    }
+
+    public void setPositions(String positions) {
+        this.positions = positions;
+    }
+
+    public int getCorp() {
+        return corp;
+    }
+
+    public void setCorp(int corp) {
+        this.corp = corp;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
     public String getGroupId() {
         return groupId;

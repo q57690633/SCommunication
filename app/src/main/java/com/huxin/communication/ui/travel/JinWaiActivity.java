@@ -436,7 +436,14 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRecyclerView.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
                 setMoreData();
                 setDetleTabData();
                 break;
@@ -447,7 +454,14 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRecyclerView.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
                 break;
             case R.id.sort:
                 mLinearLayoutSorts.setVisibility(View.VISIBLE);
@@ -456,7 +470,14 @@ public class JinWaiActivity extends BaseActivity implements View.OnClickListener
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRecyclerView.setVisibility(View.GONE);
+                mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewSort.setBackgroundResource(R.drawable.icon_triangle_pre);
+                mImageViewMeasure.setBackgroundResource(R.drawable.icon_triangle2);
+                mImageViewFangxin.setBackgroundResource(R.drawable.icon_triangle2);
                 break;
             case R.id.chufadi_line:
                 getForeignNation(1);

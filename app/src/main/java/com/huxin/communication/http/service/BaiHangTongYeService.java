@@ -125,7 +125,7 @@ public interface BaiHangTongYeService {
     @FormUrlEncoded
     @POST("user/updateUserInformation")
     Observable<Response<UpdateUserInformationEntity>> updateUserInformation(@Field("username") String username, @Field("area") String area,
-                                                                            @Field("storeName") String storeName, @Field("position") String position,
+                                                                            @Field("storeName") String storeName, @Field("positions") String position,
                                                                             @Field("industryType") String industryType, @Field("uid") String uid,
                                                                             @Field("token") String token, @Field("companyName") String companyName);
 

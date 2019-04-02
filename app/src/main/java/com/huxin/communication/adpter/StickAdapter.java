@@ -3,6 +3,7 @@ package com.huxin.communication.adpter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
                 intent.putExtra(STAR_FRIEND_TAG, starFriend);
                 intent.putExtra(UID_TAG, uid);
                 intent.putExtra(IMAGE_TAG, headUrl);
-                intent.putExtra("star","star");
+                intent.putExtra("star", "star");
                 mActivity.startActivity(intent);
             }
         });
@@ -74,13 +75,40 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
 
     @Override
     public void onBindViewHolder(BodyViewHoder holder, int position) {
-//        holder.mTextViewAddress.setText(mList.get(position).getAddress());
-        KyLog.d(mList.get(position).getStoreName());
-        holder.tvTitle.setText(mList.get(position).getStoreName());
-        holder.tvPhone.setText(mList.get(position).getPhone());
-        Glide.with(mActivity).load(mList.get(position).getHeadUrl()).into(holder.image);
+        if (!TextUtils.isEmpty(mList.get(position).getStoreName())) {
+            KyLog.d(mList.get(position).getStoreName());
+            if (mList.get(position).getCOrP() == 1) {
+                holder.tvTitle.setText(mList.get(position).getUsername() + "·" + mList.get(position).getPositions());
+                holder.company.setText(mList.get(position).getCompanyName());
+            } else {
+                holder.tvTitle.setText(mList.get(position).getUsername() + "·" + mList.get(position).getIndustryType());
+            }
+        } else {
+            if (mList.get(position).getCOrP() == 1) {
+                holder.tvTitle.setText("同业用户·" + mList.get(position).getPositions());
+                holder.company.setText(mList.get(position).getCompanyName());
+                holder.company.setVisibility(View.VISIBLE);
 
-//        holder.mTextViewPhone.setText(mList.get(position).getPhone());
+            } else {
+                holder.tvTitle.setText("同业用户·" + mList.get(position).getIndustryType());
+                holder.company.setVisibility(View.GONE);
+
+
+            }
+        }
+        holder.tvPhone.setText(mList.get(position).getPhone());
+        if (!TextUtils.isEmpty(mList.get(position).getHeadUrl())) {
+            Glide.with(mActivity).load(mList.get(position).getHeadUrl()).into(holder.image);
+        } else {
+            holder.image.setBackgroundResource(R.drawable.head2);
+        }
+
+        if (mList.get(position).getPhoneState() == 1) {
+            holder.tvPhone.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvPhone.setVisibility(View.GONE);
+
+        }
     }
 
     @Override
@@ -96,6 +124,7 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
         private ImageView image;
         private LinearLayout tvLl;
         private TextView tvPhone;
+        private TextView company;
 
 
         public BodyViewHoder(View itemView) {
@@ -105,6 +134,8 @@ public class StickAdapter extends RecyclerView.Adapter<StickAdapter.BodyViewHode
             tvPhone = (TextView) itemView.findViewById(R.id.tel);
             mLinearLayout = (LinearLayout) itemView.findViewById(R.id.rl_stick);
             image = itemView.findViewById(R.id.image);
+            company = itemView.findViewById(R.id.name_famous_ai);
+
 
         }
     }

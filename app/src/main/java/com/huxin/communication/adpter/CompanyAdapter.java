@@ -3,6 +3,7 @@ package com.huxin.communication.adpter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
                 intent.putExtra(STAR_FRIEND_TAG, starFriend);
                 intent.putExtra(UID_TAG, uid);
                 intent.putExtra(IMAGE_TAG, image);
-                intent.putExtra("companyFriend","company");
+                intent.putExtra("companyFriend", "company");
 
 
                 mActivity.startActivity(intent);
@@ -76,14 +77,40 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
 
     @Override
     public void onBindViewHolder(BodyViewHoder holder, int position) {
-//        holder.mTextViewAddress.setText(mList.get(position).getAddress());
-        KyLog.d(mList.get(position).getStoreName());
-        holder.tvTitle.setText(mList.get(position).getStoreName());
+        if (!TextUtils.isEmpty(mList.get(position).getUsername())) {
+            holder.tvTitle.setText(mList.get(position).getUsername());
+        } else {
+            holder.tvTitle.setText("同业用户");
+
+        }
         holder.tvPhone.setText(mList.get(position).getPhone());
-        Glide.with(mActivity).load(mList.get(position).getHeadUrl()).into(holder.image);
 
-//        holder.mTextViewPhone.setText(mList.get(position).getPhone());
+        if (mList.get(position).getCOrP() == 1) {
+            holder.zhiwei.setText("·" + mList.get(position).getPositions());
+            holder.company.setText(mList.get(position).getCompanyName());
+            holder.company.setVisibility(View.VISIBLE);
 
+        } else {
+            holder.zhiwei.setText("·" + mList.get(position).getIndustryType());
+            holder.company.setVisibility(View.GONE);
+
+
+        }
+
+
+        if (!TextUtils.isEmpty(mList.get(position).getHeadUrl())) {
+            Glide.with(mActivity).load(mList.get(position).getHeadUrl()).into(holder.image);
+
+        } else {
+            holder.image.setBackgroundResource(R.drawable.head2);
+        }
+
+        if (mList.get(position).getPhoneState()== 1){
+            holder.tvPhone.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvPhone.setVisibility(View.GONE);
+
+        }
 
     }
 
@@ -100,6 +127,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
         private ImageView image;
         private TextView tvPhone;
         private LinearLayout mRelativeLayout;
+        private TextView company;
+        private TextView zhiwei;
 
 
         public BodyViewHoder(View itemView) {
@@ -109,7 +138,8 @@ public class CompanyAdapter extends RecyclerView.Adapter<CompanyAdapter.BodyView
             mLinearLayout = (LinearLayout) itemView.findViewById(R.id.rl_stick);
             image = itemView.findViewById(R.id.image);
             mRelativeLayout = itemView.findViewById(R.id.tel_ll);
-
+            company = itemView.findViewById(R.id.name_famous_ai);
+            zhiwei = itemView.findViewById(R.id.name_zhiwei_famous);
 
 
         }

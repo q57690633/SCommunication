@@ -83,21 +83,48 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
             viewHolder.tvLl = (LinearLayout) view.findViewById(R.id.tel_ll);
             viewHolder.tvPhone = (TextView) view.findViewById(R.id.tel);
+            viewHolder.zhiwei = (TextView) view.findViewById(R.id.name_zhiwei_famous);
+            viewHolder.company = (TextView) view.findViewById(R.id.name_famous_ai);
+
+
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.image = (ImageView) view.findViewById(R.id.image);
-//        setinte(viewHolder.tvLetter, position, mContent);
-        viewHolder.tvTitle.setText(list.get(position).getName());
+
+        if (!TextUtils.isEmpty(list.get(position).getName())) {
+            viewHolder.tvTitle.setText(list.get(position).getName());
+        } else {
+            viewHolder.tvTitle.setText("同业用户");
+
+        }
         viewHolder.tvPhone.setText(list.get(position).getPhone());
 
+        if (list.get(position).getCorp() == 1) {
+            viewHolder.zhiwei.setText("·" + list.get(position).getPositions());
+            viewHolder.company.setVisibility(View.VISIBLE);
+            viewHolder.company.setText(list.get(position).getCompany());
+        } else {
+            viewHolder.zhiwei.setText("·" + list.get(position).getIndustryType());
 
-        if (TextUtils.isEmpty(list.get(position).getImage())){
+            viewHolder.company.setVisibility(View.GONE);
+
+        }
+
+
+        if (!TextUtils.isEmpty(list.get(position).getImage())) {
             Glide.with(mContext).load(list.get(position).getImage()).into(viewHolder.image);
 
-        }else {
+        } else {
             viewHolder.image.setBackgroundResource(R.drawable.head2);
+        }
+
+        if (list.get(position).getPhoneState() == 1 ){
+            viewHolder.tvPhone.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.tvPhone.setVisibility(View.GONE);
+
         }
 
         viewHolder.tvLl.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +149,9 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         ImageView image;
         LinearLayout tvLl;
         TextView tvPhone;
+        TextView zhiwei;
+        TextView company;
+
     }
 
     public int getSectionForPosition(int position) {
@@ -156,13 +186,13 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
 
     /**
      * 添加列表项
+     *
      * @param item
      */
     public void addItem(FamousEntity item) {
         list.add(item);
         setTopNum();
     }
-
 
 
     private void setTopNum() {
@@ -176,7 +206,7 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
         ints = new int[s.size()];
         for (int i = 0; i < s.size(); i++) {
             for (int j = 0; j < list.size(); j++) {
-                if(list.get(j).getFirstLetter() != null) {
+                if (list.get(j).getFirstLetter() != null) {
                     if (list.get(j).getFirstLetter().equals(s.get(i))) {
                         ints[i] = j;
                         break;
@@ -185,11 +215,12 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             }
         }
     }
+
     private void setinte(TextView dot, int position, FamousEntity entity) {
         for (int num : ints) {
             if (position == num) {
                 dot.setVisibility(View.VISIBLE);
-                if(entity.getFirstLetter() != null) {
+                if (entity.getFirstLetter() != null) {
                     dot.setText(entity.getFirstLetter().toUpperCase());
                 }
 
@@ -199,4 +230,5 @@ public class FamousAdapter extends BaseAdapter implements SectionIndexer {
             }
         }
     }
+
 }

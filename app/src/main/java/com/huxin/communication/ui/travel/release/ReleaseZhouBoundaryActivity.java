@@ -1630,7 +1630,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setActivityData
             (List<TabTravelNameEntity.ActivityListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterAtivityTableName = new TableTravelActivityAdapter(list, this);
             recyclerView.setAdapter(mAdapterAtivityTableName);
             recyclerView.setLayoutManager(manager);
@@ -1643,7 +1643,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setAddressListData
             (List<TabTravelNameEntity.AddressListBean> list, RecyclerView recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterAddressTableName = new TableTravelAddressListAdapter(list, this);
             recyclerView.setAdapter(mAdapterAddressTableName);
             recyclerView.setLayoutManager(manager);
@@ -1656,7 +1656,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setConsData(List<TabTravelNameEntity.ConsListBean> list, RecyclerView
             recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterConsTableName = new TableTravelConsAdapter(list, this);
             recyclerView.setAdapter(mAdapterConsTableName);
             recyclerView.setLayoutManager(manager);
@@ -1669,7 +1669,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setOtherData(List<TabTravelNameEntity.OtherListBean> list, RecyclerView
             recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterOtherTableName = new TableTravelOtherAdapter(list, this);
             recyclerView.setAdapter(mAdapterOtherTableName);
             recyclerView.setLayoutManager(manager);
@@ -1682,7 +1682,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setStayData(List<TabTravelNameEntity.StayListBean> list, RecyclerView
             recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterStayTableName = new TableTravelStayAdapter(list, this);
             recyclerView.setAdapter(mAdapterStayTableName);
             recyclerView.setLayoutManager(manager);
@@ -1695,7 +1695,7 @@ public class ReleaseZhouBoundaryActivity extends BaseActivity implements View.On
     private void setTrafficData(List<TabTravelNameEntity.TrafficListBean> list, RecyclerView
             recyclerView) {
         if (list.size() > 0) {
-            GridLayoutManager manager = new GridLayoutManager(this, 5);
+            GridLayoutManager manager = new GridLayoutManager(this, 4);
             mAdapterTableName = new TableTravelTrafficAdapter(list, this);
             recyclerView.setAdapter(mAdapterTableName);
             recyclerView.setLayoutManager(manager);

@@ -41,6 +41,7 @@ import com.huxin.communication.entity.ProvinceEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.GetMessageListener;
 import com.huxin.communication.ui.InvitationActivity;
+import com.huxin.communication.ui.LoginActivity;
 import com.huxin.communication.ui.house.MessageRemindActivity;
 import com.huxin.communication.ui.house.TopSelectionActivity;
 import com.huxin.communication.ui.house.match.MatchActivity;
@@ -221,26 +222,18 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void onStart() {
         super.onStart();
         KyLog.d("onStart");
-        if (PreferenceUtil.getInt("type") == 1) {
-            initData();
-        } else {
-            initDataTravel();
-            getProvinces();
-        }
-        TIMManager.getInstance().addMessageListener(this);
-        String userId = PreferenceUtil.getInt("uid") + "";
-        String userSig = PreferenceUtil.getString("usersig");
-        TUIKit.login(userId, userSig, new IUIKitCallBack() {
-            @Override
-            public void onSuccess(Object data) {
-                getConversationList();
+        if (isLogin()) {
+            if (PreferenceUtil.getInt("type") == 1) {
+                initData();
+            } else {
+                initDataTravel();
+                getProvinces();
             }
 
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
-            }
-        });
+        } else {
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -282,6 +275,20 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void loadData() {
         mGetMsgManager = GetMsgManager.instants();
         mGetMsgManager.setmMessageListener(this);
+        TIMManager.getInstance().addMessageListener(this);
+        String userId = PreferenceUtil.getInt("uid") + "";
+        String userSig = PreferenceUtil.getString("usersig");
+        TUIKit.login(userId, userSig, new IUIKitCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                getConversationList();
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                KyLog.d("errCode = " + errCode + " errMsg = " + errMsg);
+            }
+        });
     }
 
 
@@ -534,28 +541,28 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                         if (list.size() > 0) {
                             mImageViewTongyetoutiao.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             mImageViewTongyetoutiao.setVisibility(View.VISIBLE);
                         }
-                            final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                        final SmoothLinearLayoutManager layoutManager = new SmoothLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-                            mHeadTravelAdapter = new HomeTravelAdapter(list, getContext());
-                            mRecyclerViewHead.setAdapter(mHeadTravelAdapter);
-                            mRecyclerViewHead.setHasFixedSize(true);
-                            mRecyclerViewHead.setLayoutManager(layoutManager);
+                        mHeadTravelAdapter = new HomeTravelAdapter(list, getContext());
+                        mRecyclerViewHead.setAdapter(mHeadTravelAdapter);
+                        mRecyclerViewHead.setHasFixedSize(true);
+                        mRecyclerViewHead.setLayoutManager(layoutManager);
 
-                            PagerSnapHelper snapHelper = new PagerSnapHelper();
-                            snapHelper.attachToRecyclerView(mRecyclerViewHead);
-                            if (list.size() > 1) {
-                                ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-                                scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
-                                    }
-                                }, 4000, 4000, TimeUnit.MILLISECONDS);
-                            }
+                        PagerSnapHelper snapHelper = new PagerSnapHelper();
+                        snapHelper.attachToRecyclerView(mRecyclerViewHead);
+                        if (list.size() > 1) {
+                            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+                            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mRecyclerViewHead.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition() + 1);
+                                }
+                            }, 4000, 4000, TimeUnit.MILLISECONDS);
                         }
+                    }
 //                    }
 
 
@@ -627,7 +634,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         while (cursor.moveToNext()) {
             GetMessageEntity entity = new GetMessageEntity();
             String curId = cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.CURRENTUID));
-            if(currentId.equalsIgnoreCase(curId)) {
+            if (currentId.equalsIgnoreCase(curId)) {
                 String uid, message, time, head_url, type, unread_num, isread, nickname;
                 uid = cursor.getString(cursor.getColumnIndex(UID));
                 message = cursor.getString(cursor.getColumnIndex(MESSAGE));
@@ -653,7 +660,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             List<String> Mutelist = getMuteList(dbList);
 
             LinearLayoutManager manager = new LinearLayoutManager(getContext());
-            mAdpter = new RecyclerHomeAdpter(list, getContext(),Mutelist);
+            mAdpter = new RecyclerHomeAdpter(list, getContext(), Mutelist);
             mRecyclerView.setAdapter(mAdpter);
             mRecyclerView.setLayoutManager(manager);
         }
@@ -973,7 +980,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             String identifiers = message.getSenderProfile().getIdentifier();
                             Log.i("MyTAG", "identifiers = " + identifiers);
                             int uid = PreferenceUtil.getInt("uid");
-                            if(!TextUtils.isEmpty(identifiers) && uid == Integer.parseInt(identifiers)) {
+                            if (!TextUtils.isEmpty(identifiers) && uid == Integer.parseInt(identifiers)) {
                                 return;
                             }
                             identifiersList.add(identifiers);
@@ -981,7 +988,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                             String finalText = text;
                             TIMConversationType conversationType = message.getConversation().getType();
                             String type = conversationType.name();
-                            if("c2c".equalsIgnoreCase(type)) {
+                            if ("c2c".equalsIgnoreCase(type)) {
                                 TIMFriendshipManager.getInstance().getUsersProfile(identifiersList, true, new TIMValueCallBack<List<TIMUserProfile>>() {
                                     @Override
                                     public void onError(int i, String s) {
@@ -1000,7 +1007,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                                         msgManager.setList(null);
                                     }
                                 });
-                            }else {
+                            } else {
                                 String sender = message.getConversation().getPeer();
                                 List<String> groupInfoList = new ArrayList<>();
                                 groupInfoList.add(sender);
@@ -1100,9 +1107,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         String sender = message.getConversation().getPeer();
         long timeStamp = message.timestamp();
         TIMConversation con;
-        if("c2c".equalsIgnoreCase(type)) {
+        if ("c2c".equalsIgnoreCase(type)) {
             con = TIMManager.getInstance().getConversation(TIMConversationType.C2C, message.getConversation().getPeer());
-        }else {
+        } else {
             con = TIMManager.getInstance().getConversation(TIMConversationType.Group, message.getConversation().getPeer());
         }
         TIMConversationExt conExt = new TIMConversationExt(con);
@@ -1138,13 +1145,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             if (sender.equalsIgnoreCase(uid)) {
                 isUpdate = true;
                 long timeStampDB = Long.parseLong(cursor.getString(cursor.getColumnIndex(HomeFragmentMsgDBHelper.TIME)));
-                if(timeStamp >= timeStampDB) {
+                if (timeStamp >= timeStampDB) {
                     canUpdate = true;
                 }
             }
         }
         if (isUpdate) {
-            if(canUpdate) {
+            if (canUpdate) {
                 util.update(HomeFragmentMsgDBHelper.TABLE_NAME, values, "uid = ?", new String[]{sender});
             }
         } else {
@@ -1156,23 +1163,23 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         List<GetMessageEntity> showList = new ArrayList<>();
         try {
             String spId = PreferenceUtil.getString("groupTop");
-            if(null == spId) {
+            if (null == spId) {
                 return list;
             }
             JSONArray array = new JSONArray(spId);
-            for(int i = 0; i < array.length(); i++) {
+            for (int i = 0; i < array.length(); i++) {
                 String id = array.getString(i);
-                for(int j = 0; j < list.size(); j++) {
-                    if(id.equalsIgnoreCase(list.get(j).getId())) {
+                for (int j = 0; j < list.size(); j++) {
+                    if (id.equalsIgnoreCase(list.get(j).getId())) {
                         showList.add(list.get(j));
                         list.remove(j);
                     }
                 }
             }
-            for(int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 showList.add(list.get(i));
             }
-            if(showList.size() == 0) {
+            if (showList.size() == 0) {
                 showList = list;
             }
         } catch (JSONException e) {
@@ -1185,11 +1192,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         List<String> showList = new ArrayList<>();
         try {
             String spId = PreferenceUtil.getString("mute");
-            if(null == spId) {
+            if (null == spId) {
                 return null;
             }
             JSONArray array = new JSONArray(spId);
-            for(int i = 0; i < array.length(); i++) {
+            for (int i = 0; i < array.length(); i++) {
                 String id = array.getString(i);
                 showList.add(id);
             }
@@ -1198,5 +1205,15 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
             e.printStackTrace();
         }
         return showList;
+    }
+
+
+    public boolean isLogin() {
+        String name = TIMManager.getInstance().getLoginUser();
+        KyLog.d(name + " == home");
+        if (!TextUtils.isEmpty(name)) {
+            return true;
+        }
+        return false;
     }
 }

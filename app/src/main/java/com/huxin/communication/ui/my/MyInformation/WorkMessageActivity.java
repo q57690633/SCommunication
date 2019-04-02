@@ -15,6 +15,7 @@ import com.huxin.communication.ReleaseTabAdapter;
 import com.huxin.communication.base.BaseActivity;
 import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.custom.ReleaseDialog;
+import com.huxin.communication.entity.FriendUserInfoEntity;
 import com.huxin.communication.entity.MyPopVlaues;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.ui.house.release.ReleaseActivity;
@@ -48,6 +49,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     private String positions;
     private String industryType;
+    private FriendUserInfoEntity userInfoEntity;
 
 
     @Override
@@ -59,6 +61,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initContentView() {
         setContentView(R.layout.activity_work_message);
+        userInfoEntity = getIntent().getParcelableExtra("message");
     }
 
     @Override
@@ -84,12 +87,14 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-        mTextViewBianJi.setVisibility(View.VISIBLE);
-        mTextViewWanCheng.setVisibility(View.GONE);
+//        mTextViewBianJi.setVisibility(View.VISIBLE);
+        mTextViewWanCheng.setVisibility(View.VISIBLE);
         mEditTextcompanyName.setClickable(false);
         mEditTextcompanyName.setEnabled(false);
+        if (userInfoEntity != null){
+            setData(userInfoEntity);
 
-        setData();
+        }
         if (PreferenceUtil.getString(Constanst.CORP).equals("1")) {
             mLinearLayoutPositions.setOnClickListener(this);
             mEditTextstoreName.setClickable(true);
@@ -103,6 +108,7 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
         }
     }
+
 
     @Override
     public void onClick(View view) {
@@ -138,8 +144,8 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.toolbar_bianji:
-                mTextViewWanCheng.setVisibility(View.VISIBLE);
-                mTextViewBianJi.setVisibility(View.GONE);
+//                mTextViewWanCheng.setVisibility(View.VISIBLE);
+//                mTextViewBianJi.setVisibility(View.GONE);
                 isClicked = false;
 
 
@@ -209,26 +215,30 @@ public class WorkMessageActivity extends BaseActivity implements View.OnClickLis
         return Kouweilist;
     }
 
-    private void setData() {
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.USER_NAME))) {
-            mEditTextUserName.setText(PreferenceUtil.getString(Constanst.USER_NAME));
+    private void setData(FriendUserInfoEntity entity) {
+        if (!TextUtils.isEmpty(entity.getUsername())) {
+            mEditTextUserName.setText(entity.getUsername());
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY_CODE))) {
-            mEditTextcompanyCode.setText(PreferenceUtil.getString(Constanst.COMPANY_CODE));
+        if (!TextUtils.isEmpty(entity.getLicenseCode())) {
+            mEditTextcompanyCode.setText(String.valueOf(entity.getLicenseCode()));
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.COMPANY))) {
-            mEditTextcompanyName.setText(PreferenceUtil.getString(Constanst.COMPANY));
+        if (!TextUtils.isEmpty(entity.getCompanyName())) {
+            mEditTextcompanyName.setText(entity.getCompanyName());
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.POSITION))) {
-            mTextViewPositions.setText(PreferenceUtil.getString(Constanst.POSITION));
-            positions = PreferenceUtil.getString(Constanst.POSITION);
+        if (!TextUtils.isEmpty(entity.getPositions())) {
+            mTextViewPositions.setText(entity.getPositions());
+            positions = entity.getPositions();
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.INDUSTRYTYPE))) {
-            mTextViewIndustryType.setText(PreferenceUtil.getString(Constanst.INDUSTRYTYPE));
-            industryType = PreferenceUtil.getString(Constanst.INDUSTRYTYPE);
+        if (!TextUtils.isEmpty(entity.getIndustryType())) {
+            mTextViewIndustryType.setText(entity.getIndustryType());
+            industryType = entity.getIndustryType();
         }
-        if (!TextUtils.isEmpty(PreferenceUtil.getString(Constanst.CITY_NAME))) {
-            mEditTextArea.setText(PreferenceUtil.getString(Constanst.CITY_NAME));
+        if (!TextUtils.isEmpty(entity.getCity())) {
+            mEditTextArea.setText(entity.getCity());
+        }
+
+        if (!TextUtils.isEmpty(entity.getStoreName())){
+            mEditTextstoreName.setText(entity.getStoreName());
         }
     }
 

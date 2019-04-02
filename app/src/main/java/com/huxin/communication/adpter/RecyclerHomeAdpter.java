@@ -65,7 +65,10 @@ public class RecyclerHomeAdpter extends RecyclerView.Adapter<RecyclerHomeAdpter.
         holder.time.setText(DateUtil.timeslashData(String.valueOf(list.get(position).getTimeStamp())));
         holder.num.setText(String.valueOf(list.get(position).getNum()));
         holder.msg.setText(String.valueOf(list.get(position).getMsg()));
-        holder.nickname.setText(list.get(position).getNickName());
+
+        if (!TextUtils.isEmpty(list.get(position).getNickName())){
+
+        }
         if (!TextUtils.isEmpty(list.get(position).getHead_url())){
             ImageLoader.getInstance().displayImage(list.get(position).getHead_url(),holder.image);
         }else {

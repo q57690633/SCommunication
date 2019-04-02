@@ -1,6 +1,9 @@
 package com.huxin.communication.entity;
 
-public class FriendUserInfoEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class FriendUserInfoEntity implements Parcelable {
 
 
     /**
@@ -50,7 +53,7 @@ public class FriendUserInfoEntity {
     private int time;
     private String province;
     private String city;
-    private Object county;
+    private String county;
     private String area;
     private String companyName;
     private String licenseCode;
@@ -58,7 +61,7 @@ public class FriendUserInfoEntity {
     private String industryType;
     private String invitationCode;
     private String storeName;
-    private Object advice;
+    private String advice;
     private String cOrP;
     private String secondAuthCode;
     private String headUrl;
@@ -167,11 +170,11 @@ public class FriendUserInfoEntity {
         this.city = city;
     }
 
-    public Object getCounty() {
+    public String getCounty() {
         return county;
     }
 
-    public void setCounty(Object county) {
+    public void setCounty(String county) {
         this.county = county;
     }
 
@@ -231,11 +234,11 @@ public class FriendUserInfoEntity {
         this.storeName = storeName;
     }
 
-    public Object getAdvice() {
+    public String getAdvice() {
         return advice;
     }
 
-    public void setAdvice(Object advice) {
+    public void setAdvice(String advice) {
         this.advice = advice;
     }
 
@@ -326,4 +329,95 @@ public class FriendUserInfoEntity {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.uid);
+        dest.writeString(this.username);
+        dest.writeString(this.password);
+        dest.writeString(this.phone);
+        dest.writeInt(this.authCode);
+        dest.writeInt(this.registerType);
+        dest.writeString(this.secondPhone);
+        dest.writeInt(this.phoneState);
+        dest.writeString(this.token);
+        dest.writeInt(this.time);
+        dest.writeString(this.province);
+        dest.writeString(this.city);
+        dest.writeString(this.county);
+        dest.writeString(this.area);
+        dest.writeString(this.companyName);
+        dest.writeString(this.licenseCode);
+        dest.writeString(this.positions);
+        dest.writeString(this.industryType);
+        dest.writeString(this.invitationCode);
+        dest.writeString(this.storeName);
+        dest.writeString(this.advice);
+        dest.writeString(this.cOrP);
+        dest.writeString(this.secondAuthCode);
+        dest.writeString(this.headUrl);
+        dest.writeInt(this.stickNumber);
+        dest.writeString(this.matchingMonth);
+        dest.writeString(this.usersig);
+        dest.writeInt(this.isShowVip);
+        dest.writeString(this.star_friend);
+        dest.writeInt(this.isFriend);
+        dest.writeInt(this.isStarFriend);
+        dest.writeString(this.identifier);
+    }
+
+    public FriendUserInfoEntity() {
+    }
+
+    protected FriendUserInfoEntity(Parcel in) {
+        this.uid = in.readInt();
+        this.username = in.readString();
+        this.password = in.readString();
+        this.phone = in.readString();
+        this.authCode = in.readInt();
+        this.registerType = in.readInt();
+        this.secondPhone = in.readString();
+        this.phoneState = in.readInt();
+        this.token = in.readString();
+        this.time = in.readInt();
+        this.province = in.readString();
+        this.city = in.readString();
+        this.county = in.readString();
+        this.area = in.readString();
+        this.companyName = in.readString();
+        this.licenseCode = in.readString();
+        this.positions = in.readString();
+        this.industryType = in.readString();
+        this.invitationCode = in.readString();
+        this.storeName = in.readString();
+        this.advice = in.readString();
+        this.cOrP = in.readString();
+        this.secondAuthCode = in.readString();
+        this.headUrl = in.readString();
+        this.stickNumber = in.readInt();
+        this.matchingMonth = in.readString();
+        this.usersig = in.readString();
+        this.isShowVip = in.readInt();
+        this.star_friend = in.readString();
+        this.isFriend = in.readInt();
+        this.isStarFriend = in.readInt();
+        this.identifier = in.readString();
+    }
+
+    public static final Parcelable.Creator<FriendUserInfoEntity> CREATOR = new Parcelable.Creator<FriendUserInfoEntity>() {
+        @Override
+        public FriendUserInfoEntity createFromParcel(Parcel source) {
+            return new FriendUserInfoEntity(source);
+        }
+
+        @Override
+        public FriendUserInfoEntity[] newArray(int size) {
+            return new FriendUserInfoEntity[size];
+        }
+    };
 }

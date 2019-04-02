@@ -465,6 +465,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.blue));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
@@ -480,6 +482,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
@@ -495,6 +499,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle_pre);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);
@@ -511,6 +517,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.blue));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle_pre);
@@ -525,6 +533,8 @@ public class DomesticActivity extends BaseActivity implements View.OnClickListen
                 mTextViewPrice.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewMore.setTextColor(getResources().getColor(R.color.register_font));
                 mTextViewSort.setTextColor(getResources().getColor(R.color.blue));
+                mTextViewMuDi.setTextColor(getResources().getColor(R.color.register_font));
+                mTextViewChufa.setTextColor(getResources().getColor(R.color.register_font));
                 mRelativeLayoutRL.setVisibility(View.GONE);
                 mImageViewMore.setBackgroundResource(R.drawable.icon_triangle2);
                 mImageViewPrice.setBackgroundResource(R.drawable.icon_triangle2);

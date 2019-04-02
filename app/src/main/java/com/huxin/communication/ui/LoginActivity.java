@@ -17,6 +17,7 @@ import com.huxin.communication.controls.Constanst;
 import com.huxin.communication.entity.GetMessageEntity;
 import com.huxin.communication.http.ApiModule;
 import com.huxin.communication.listener.GetMessageListener;
+import com.huxin.communication.ui.my.setting.SettingActivity;
 import com.huxin.communication.utils.PreferenceUtil;
 import com.sky.kylog.KyLog;
 import com.tencent.imsdk.TIMCallBack;
@@ -49,6 +50,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        loginout();
     }
 
     @Override
@@ -82,7 +84,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void loadData(Bundle savedInstanceState) {
-
 
 
     }
@@ -129,74 +130,74 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         PreferenceUtil.putString("usersig", loginEntity.getUsersig());
                         PreferenceUtil.putString("identifier", loginEntity.getIdentifier());
                         PreferenceUtil.putString(Constanst.CITY_NAME, loginEntity.getCity());
-                        PreferenceUtil.putString(Constanst.CORP,loginEntity.getCOrP());
+                        PreferenceUtil.putString(Constanst.CORP, loginEntity.getCOrP());
                         PreferenceUtil.putString(Constanst.DISTRICT_NAME, loginEntity.getArea());
                         if (!TextUtils.isEmpty(loginEntity.getProvince())) {
                             PreferenceUtil.putString(Constanst.PROVINCE_NAME, loginEntity.getProvince());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.PROVINCE_NAME, "");
 
                         }
                         //PreferenceUtil.putString(Constanst.TOP_ZHIDING, String.valueOf(loginEntity.getStickNumber()));
-                        if ( !TextUtils.isEmpty(loginEntity.getUsername())){
+                        if (!TextUtils.isEmpty(loginEntity.getUsername())) {
                             PreferenceUtil.putString(Constanst.USER_NAME, loginEntity.getUsername());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.USER_NAME, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getPhone())){
+                        if (!TextUtils.isEmpty(loginEntity.getPhone())) {
                             PreferenceUtil.putString(Constanst.PHONE, loginEntity.getPhone());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.PHONE, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getSecondPhone())){
+                        if (!TextUtils.isEmpty(loginEntity.getSecondPhone())) {
                             PreferenceUtil.putString(Constanst.SECOND_PHONE, loginEntity.getSecondPhone());
-                        }else {
-                            PreferenceUtil.putString(Constanst.SECOND_PHONE,"");
+                        } else {
+                            PreferenceUtil.putString(Constanst.SECOND_PHONE, "");
 
                         }
-                        if ( !TextUtils.isEmpty(loginEntity.getHeadUrl())){
+                        if (!TextUtils.isEmpty(loginEntity.getHeadUrl())) {
                             PreferenceUtil.putString(Constanst.IMAGE_URL, loginEntity.getHeadUrl());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.IMAGE_URL, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getCompanyName())){
+                        if (!TextUtils.isEmpty(loginEntity.getCompanyName())) {
                             PreferenceUtil.putString(Constanst.COMPANY, loginEntity.getCompanyName());
-                        }else {
-                            PreferenceUtil.putString(Constanst.COMPANY,"");
+                        } else {
+                            PreferenceUtil.putString(Constanst.COMPANY, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getLicenseCode())){
+                        if (!TextUtils.isEmpty(loginEntity.getLicenseCode())) {
                             PreferenceUtil.putString(Constanst.COMPANY_CODE, loginEntity.getLicenseCode());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.COMPANY_CODE, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getStoreName())){
+                        if (!TextUtils.isEmpty(loginEntity.getStoreName())) {
                             PreferenceUtil.putString(Constanst.STORE_NAME, loginEntity.getStoreName());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.STORE_NAME, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getPositions())){
+                        if (!TextUtils.isEmpty(loginEntity.getPositions())) {
                             PreferenceUtil.putString(Constanst.POSITION, loginEntity.getPositions());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.POSITION, "");
                         }
 
-                        if ( !TextUtils.isEmpty(loginEntity.getIndustryType())){
+                        if (!TextUtils.isEmpty(loginEntity.getIndustryType())) {
                             PreferenceUtil.putString(Constanst.INDUSTRYTYPE, loginEntity.getIndustryType());
-                        }else {
+                        } else {
                             PreferenceUtil.putString(Constanst.INDUSTRYTYPE, "");
                         }
 
-                            PreferenceUtil.putInt(Constanst.TOP_ZHIDING, loginEntity.getStickNumber());
+                        PreferenceUtil.putInt(Constanst.TOP_ZHIDING, loginEntity.getStickNumber());
 
 
                         new Thread(new Runnable() {
-                            
+
                             public void run() {
                                 TIMManager.getInstance().login(loginEntity.getIdentifier(), loginEntity.getUsersig(), new TIMCallBack() {
                                     @Override
@@ -279,6 +280,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 GetMsgManager msgManager = GetMsgManager.instants();
                 msgManager.setList(list);
                 return true;
+            }
+        });
+    }
+
+    public static void loginout() {
+        //登出
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                KyLog.d("logout failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                //登出成功
+//                PreferenceUtil.removeSp(TOKEN, Constanst.SP_NAME);
+                KyLog.d("success");
+
             }
         });
     }

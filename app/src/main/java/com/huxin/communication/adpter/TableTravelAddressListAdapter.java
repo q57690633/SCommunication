@@ -127,8 +127,8 @@ public class TableTravelAddressListAdapter extends RecyclerView.Adapter<TableTra
     public void onBindViewHolder(MyViewHoder holder, int position) {
         holder.mTextView.setText(list.get(position).getTagName());
         if (isItemChecked(position)) {
-            holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
-            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+            holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+            holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.white));
 
         } else {
             holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius);
@@ -138,8 +138,8 @@ public class TableTravelAddressListAdapter extends RecyclerView.Adapter<TableTra
         if (Tablist != null && Tablist.size() > 0) {
             for (String tabNmae : Tablist) {
                 if (list.get(position).getTagName().equalsIgnoreCase(tabNmae)) {
-                    holder.mTextView.setBackgroundResource(R.drawable.shuaixuan_radius_blue);
-                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.blue));
+                    holder.mTextView.setBackgroundResource(R.drawable.biaoqian_radius_blue);
+                    holder.mTextView.setTextColor(mContext.getResources().getColor(R.color.white));
                     setItemChecked(position, true);
                     setTab.add(tabNmae);
                 }
